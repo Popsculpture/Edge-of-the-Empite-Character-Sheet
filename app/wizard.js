@@ -23,6 +23,10 @@ const Wizard = (() => {
 
   let state = defaultState();
 
+  // UI-only filter state for the species step (persists across re-renders)
+  let _spBook       = '';
+  let _spArchetypes = new Set();
+
   function saveState() {
     try { localStorage.setItem('sw_char_v1', JSON.stringify(state)); } catch(e) {}
   }
@@ -58,6 +62,47 @@ const Wizard = (() => {
       mechanic: 'Morality',
     },
   };
+
+  // ── Archetypes ────────────────────────────────────────────────────────────
+  const ARCHETYPES = [
+    { key: 'balanced',  label: 'Jack of All Trades',      abbr: '' },
+    { key: 'brawn',     label: 'Strong & Burly',          abbr: 'BR' },
+    { key: 'agility',   label: 'Dexterous & Swift',       abbr: 'AG' },
+    { key: 'intellect', label: 'Knowledgeable & Bright',  abbr: 'INT' },
+    { key: 'cunning',   label: 'Clever & Underhanded',    abbr: 'CUN' },
+    { key: 'willpower', label: 'Confident & Stubborn',    abbr: 'WIL' },
+    { key: 'presence',  label: 'Inspiring & In-Touch',    abbr: 'PR' },
+  ];
+
+  function getArchetype(sp) {
+    const vals = Engine.CHAR_STATS.map(st => sp[st] || 0);
+    const max = Math.max(...vals), min = Math.min(...vals);
+    if (max - min <= 1) return 'balanced';
+    for (let i = 0; i < Engine.CHAR_STATS.length; i++) {
+      if (vals[i] === max) return Engine.CHAR_STATS[i];
+    }
+    return 'balanced';
+  }
+
+  function sourceBookName(raw) {
+    const s = raw.replace(/\s*\(Page[^)]*\)/g, '').trim();
+    const core = s.match(/Star Wars (.+?) Roleplaying Game: Core Rulebook/);
+    if (core) return core[1] + ' Core Rulebook';
+    const colon = s.indexOf(':');
+    return colon > 0 ? s.slice(0, colon).trim() : s;
+  }
+
+  function getAllBooks() {
+    const seen = new Set();
+    const books = [];
+    for (const sp of SW.species) {
+      for (const src of (sp.sources || [])) {
+        const name = sourceBookName(src);
+        if (!seen.has(name)) { seen.add(name); books.push(name); }
+      }
+    }
+    return books.sort();
+  }
 
   // ── Steps ──────────────────────────────────────────────────────────────────
   const STEPS = [
@@ -196,19 +241,44 @@ const Wizard = (() => {
   // ── Step: Species ─────────────────────────────────────────────────────────
   function renderSpecies() {
     const c = $('#step-content');
+    const bookOptions = getAllBooks().map(b =>
+      `<option value="${b}"${_spBook === b ? ' selected' : ''}>${b}</option>`
+    ).join('');
+    const archPills = ARCHETYPES.map(a =>
+      `<button class="arch-pill${_spArchetypes.has(a.key) ? ' active' : ''}" data-arch="${a.key}">
+        ${a.label}${a.abbr ? ` <span class="arch-abbr">[${a.abbr}]</span>` : ''}
+      </button>`
+    ).join('');
+
     c.innerHTML = `
       <div class="step-header"><h2>Choose Your Species</h2>
         <p>Your species determines your starting characteristics, XP, and special abilities.</p></div>
       <div class="filter-bar">
-        <input type="search" id="sp-search" placeholder="Search species...">
+        <input type="search" id="sp-search" placeholder="Search species..." value="${($('#sp-search') || {value:''}).value || ''}">
+        <select id="sp-book">
+          <option value="">All Books</option>
+          ${bookOptions}
+        </select>
       </div>
+      <div class="arch-pills" id="sp-arch">${archPills}</div>
       <div class="species-grid" id="sp-grid"></div>`;
 
-    function draw(filter) {
+    function draw() {
       const grid = $('#sp-grid');
+      const search = ($('#sp-search').value || '').toLowerCase();
       grid.innerHTML = '';
-      const list = SW.species.filter(s => !filter || s.name.toLowerCase().includes(filter.toLowerCase()));
-      if (!list.length) { grid.innerHTML = '<div class="empty-state">No species found.</div>'; return; }
+
+      const list = SW.species.filter(sp => {
+        if (search && !sp.name.toLowerCase().includes(search)) return false;
+        if (_spBook) {
+          const spBooks = (sp.sources || []).map(sourceBookName);
+          if (!spBooks.includes(_spBook)) return false;
+        }
+        if (_spArchetypes.size > 0 && !_spArchetypes.has(getArchetype(sp))) return false;
+        return true;
+      });
+
+      if (!list.length) { grid.innerHTML = '<div class="empty-state">No species match these filters.</div>'; return; }
 
       for (const sp of list) {
         const sel = state.speciesKey === sp.key;
@@ -240,15 +310,25 @@ const Wizard = (() => {
             };
           }
           saveState();
-          draw($('#sp-search').value);
+          draw();
           renderNav(); renderHeaderXp();
         });
         grid.appendChild(card);
       }
     }
 
-    draw('');
-    $('#sp-search').addEventListener('input', e => draw(e.target.value));
+    draw();
+    $('#sp-search').addEventListener('input', draw);
+    $('#sp-book').addEventListener('change', e => { _spBook = e.target.value; draw(); });
+    $('#sp-arch').addEventListener('click', e => {
+      const pill = e.target.closest('[data-arch]');
+      if (!pill) return;
+      const key = pill.dataset.arch;
+      if (_spArchetypes.has(key)) _spArchetypes.delete(key);
+      else _spArchetypes.add(key);
+      pill.classList.toggle('active', _spArchetypes.has(key));
+      draw();
+    });
   }
 
   // ── Step: Career ──────────────────────────────────────────────────────────
