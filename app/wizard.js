@@ -378,13 +378,13 @@ const Wizard = (() => {
     }
     if (type === 'talent') {
       const tal = SW.talents.find(t => t.name.toLowerCase() === name.toLowerCase());
-      const curated = TALENT_DESCS[name] || '';
-      const ref = (!curated && tal && tal.description) ? tal.description : '';
       const meta = tal ? `${tal.activation} &bull; ${tal.ranked ? 'Ranked' : 'Not Ranked'}` : '';
+      const desc = tal ? tal.description || '' : '';
+      const isPageRef = desc.toLowerCase().startsWith('please see page');
       return `<div class="tt-title">${name}</div>
               ${meta ? `<div class="tt-meta">${meta}</div>` : ''}
-              ${curated ? `<div class="tt-body">${curated}</div>` : ''}
-              ${ref ? `<div class="tt-body tt-ref">${ref}</div>` : ''}`;
+              ${desc && !isPageRef ? `<div class="tt-body">${desc}</div>` : ''}
+              ${desc && isPageRef ? `<div class="tt-body tt-ref">${desc}</div>` : ''}`;
     }
     if (type === 'ability') {
       const sp = SW.species.find(s => s.key === spKey);
