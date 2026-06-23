@@ -1,0 +1,3852 @@
+[
+  {
+    "key": "ADV",
+    "name": "Adversary",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, or page 142 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "ANAT",
+    "name": "Anatomy Lessons",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, or page 142 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "ALLTERDRIV",
+    "name": "All-Terrain Driver",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Age of Rebellion Core Rulebook, or page 34 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "ARM",
+    "name": "Armor Master",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, page 142 of the Age of Rebellion Core Rulebook, or page 37 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "ARMIMP",
+    "name": "Armor Master (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, page 143 of the Age of Rebellion Core Rulebook, or page 37 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "BACT",
+    "name": "Bacta Specialist",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, or page 143 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "BADM",
+    "name": "Bad Motivator",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, or page 143 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "BAL",
+    "name": "Balance",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, or page 143 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "BAR",
+    "name": "Barrage",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, or page 34 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "BASICTRAIN",
+    "name": "Basic Combat Training",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 143 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "BLA",
+    "name": "Black Market Contacts",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook for details."
+  },
+  {
+    "key": "BLO",
+    "name": "Blooded",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, page 143 of the Age of Rebellion Core Rulebook, or page 32 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "BLOIMP",
+    "name": "Blooded (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "BOD",
+    "name": "Body Guard",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, page 143 of the Age of Rebellion Core Rulebook, or page 140 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "BOUGHT",
+    "name": "Bought Info",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 143 of the Age of Rebellion Core Rulebook, or page 34 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "BRA",
+    "name": "Brace",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, page 143 of the Age of Rebellion Core Rulebook, or page 37 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "BRAIMP",
+    "name": "Brace (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 38 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "BRASUP",
+    "name": "Brace (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 38 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "BRI",
+    "name": "Brilliant Evasion",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 132 of the Edge of the Empire Core Rulebook, or page 144 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "BYP",
+    "name": "Bypass Security",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 133 of the Edge of the Empire Core Rulebook, or page 144 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "CAREPLAN",
+    "name": "Careful Planning",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 144 of the Age of Rebellion Core Rulebook, or page 38 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "CLEVERSOLN",
+    "name": "Clever Solution",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 144 of the Age of Rebellion Core Rulebook, page 32 of the Fly Casual Sourcebook, or page 30 of the Endless Vigil Sourcebook, for details."
+  },
+  {
+    "key": "COD",
+    "name": "Codebreaker",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 133 of the Edge of the Empire Core Rulebook, page 144 of the Age of Rebellion Core Rulebook, or page 140 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "COM",
+    "name": "Command",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 133 of the Edge of the Empire Core Rulebook, page 144 of the Age of Rebellion Core Rulebook, or page 140 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "COMMPRES",
+    "name": "Commanding Presence",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 144 of the Age of Rebellion Core Rulebook, page 140 of the Force and Destiny Core Rulebook, or page 38 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "CONF",
+    "name": "Confidence",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 133 of the Edge of the Empire Core Rulebook, page 144 of the Age of Rebellion Core Rulebook, or page 141 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "CONT",
+    "name": "Contraption",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 133 of the Edge of the Empire Core Rulebook, page 144 of the Age of Rebellion Core Rulebook, or page 38 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "CONV",
+    "name": "Convincing Demeanor",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 133 of the Edge of the Empire Core Rulebook, or page 145 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "COORDASS",
+    "name": "Coordinated Assault",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 145 of the Age of Rebellion Core Rulebook, or page 38 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "CREATKILL",
+    "name": "Creative Killer",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "CRIPV",
+    "name": "Crippling Blow",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 133 of the Edge of the Empire Core Rulebook, page 145 of the Age of Rebellion Core Rulebook, or page 141 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "DEAD",
+    "name": "Dead to Rights",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, or page 145 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "DEADIMP",
+    "name": "Dead to Rights (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, or page 145 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "DEADACC",
+    "name": "Deadly Accuracy",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, page 145 of the Age of Rebellion Core Rulebook, or page 39 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "DEPSHOT",
+    "name": "Debilitating Shot",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 145 of the Age of Rebellion Core Rulebook, or page 34 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "DEDI",
+    "name": "Dedication",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, page 145 of the Age of Rebellion Core Rulebook, or page 141 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "DEFDRI",
+    "name": "Defensive Driving",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, or page 145 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "DEFSLI",
+    "name": "Defensive Slicing",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, page 145 of the Age of Rebellion Core Rulebook, or page 141 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "DEFSLIIMP",
+    "name": "Defensive Slicing (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, or page 145 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "DEFSTA",
+    "name": "Defensive Stance",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 134 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 141 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "DISOR",
+    "name": "Disorient",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 39 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "DODGE",
+    "name": "Dodge",
+    "ranked": true,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 142 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "DURA",
+    "name": "Durable",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 142 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "DYNFIRE",
+    "name": "Dynamic Fire",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 146 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "ENDUR",
+    "name": "Enduring",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 100 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "EXHPORT",
+    "name": "Exhaust Port",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 146 of the Age of Rebellion Core Rulebook, or page 142 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "EXTRACK",
+    "name": "Expert Tracker",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 142 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "FAMSUNS",
+    "name": "Familiar Suns",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, or page 146 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "FERSTR",
+    "name": "Feral Strength",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, or page 146 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "FLDCOMM",
+    "name": "Field Commander",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 101 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "FLDCOMMIMP",
+    "name": "Field Commander (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 146 of the Age of Rebellion Core Rulebook, or page 143 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "FINETUN",
+    "name": "Fine Tuning",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 147 of the Age of Rebellion Core Rulebook, or page 143 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "FIRECON",
+    "name": "Fire Control",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 147 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "FORAG",
+    "name": "Forager",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 147 of the Age of Rebellion Core Rulebook, or page 143 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "FORCEWILL",
+    "name": "Force of Will",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 147 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "FORCERAT",
+    "name": "Force Rating",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 147 of the Age of Rebellion Core Rulebook, or page 143 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "FORMONME",
+    "name": "Form On Me",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 147 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "FRENZ",
+    "name": "Frenzied Attack",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, or page 147 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "FULLSTOP",
+    "name": "Full Stop",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 147 of the Age of Rebellion Core Rulebook, or page 30 of the Enter the Unknown Sourcebook, for details."
+  },
+  {
+    "key": "FULLTH",
+    "name": "Full Throttle",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 135 of the Edge of the Empire Core Rulebook, page 147 of the Age of Rebellion Core Rulebook, or page 143 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "FULLTHIMP",
+    "name": "Full Throttle (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 30 of the Endless Vigil Sourcebook, for details."
+  },
+  {
+    "key": "FULLTHSUP",
+    "name": "Full Throttle (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 31 of the Endless Vigil Sourcebook, for details."
+  },
+  {
+    "key": "GALMAP",
+    "name": "Galaxy Mapper",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 144 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "GEARHD",
+    "name": "Gearhead",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, or page 148 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "GREASE",
+    "name": "Greased Palms",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 148 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "GRIT",
+    "name": "Grit",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 144 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "HARDHD",
+    "name": "Hard Headed",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 30 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "HARDHDIMP",
+    "name": "Hard Headed (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 30 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "HEIGHT",
+    "name": "Heightened Awareness",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 136 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 145 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "HERO",
+    "name": "Heroic Fortitude",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 148 of the Age of Rebellion Core Rulebook, or page 145 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "HIDD",
+    "name": "Hidden Storage",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, or page 148 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "HOLDTOG",
+    "name": "Hold Together",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, or page 149 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "HUNT",
+    "name": "Hunter",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, or page 145 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "INCITE",
+    "name": "Incite Rebellion",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 149 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "INDIS",
+    "name": "Indistinguishable",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 149 of the Age of Rebellion Core Rulebook, or page 145 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "INSIGHT",
+    "name": "Insight",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, or page 149 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "INSPRHET",
+    "name": "Inspiring Rhetoric",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 149 of the Age of Rebellion Core Rulebook, or page 32 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "INSPRHETIMP",
+    "name": "Inspiring Rhetoric (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 149 of the Age of Rebellion Core Rulebook, or page 32 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "INSPRHETSUP",
+    "name": "Inspiring Rhetoric (Supreme)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, or page 149 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "INTENSFOC",
+    "name": "Intense Focus",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 28 of the Disciples of Harmony Sourcebook, for details."
+  },
+  {
+    "key": "INTENSPRE",
+    "name": "Intense Presence",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 145 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "INTIM",
+    "name": "Intimidating",
+    "ranked": true,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 145 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "INVENT",
+    "name": "Inventor",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 137 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 146 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "INVIG",
+    "name": "Invigorate",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 150 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "ITSNOTTHATBAD",
+    "name": "It's Not that Bad",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 150 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "JUMP",
+    "name": "Jump Up",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 146 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "JURY",
+    "name": "Jury Rigged",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 40 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "KILL",
+    "name": "Kill With Kindness",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 146 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "KNOCK",
+    "name": "Knockdown",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, or page 150 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "KNOWSOM",
+    "name": "Know Somebody",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 146 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "KNOWSPEC",
+    "name": "Knowledge Specialization",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 150 of the Age of Rebellion Core Rulebook, or page 146 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "KNOWSCH",
+    "name": "Known Schematic",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 151 of the Age of Rebellion Core Rulebook, or page 40 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "LETSRIDE",
+    "name": "Let's Ride",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 151 of the Age of Rebellion Core Rulebook, or page 40 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "LETHALBL",
+    "name": "Lethal Blows",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 151 of the Age of Rebellion Core Rulebook, page 30 of the Savage Spirits Sourcebook, or page 31 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "MASDOC",
+    "name": "Master Doctor",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, or page 151 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "MASDRIV",
+    "name": "Master Driver",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 151 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "MASGREN",
+    "name": "Master Grenadier",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 151 of the Age of Rebellion Core Rulebook, or page 32 of the Dangerous Covenants Sourcebook, for details."
+  },
+  {
+    "key": "MASLEAD",
+    "name": "Master Leader",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 151 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "MASMERC",
+    "name": "Master Merchant",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, or page 151 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "MASSHAD",
+    "name": "Master of Shadows",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 151 of the Age of Rebellion Core Rulebook, or page 146 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "MASPIL",
+    "name": "Master Pilot",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 138 of the Edge of the Empire Core Rulebook, page 151 of the Age of Rebellion Core Rulebook, or page 40 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "MASSLIC",
+    "name": "Master Slicer",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 151 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "MASSTAR",
+    "name": "Master Starhopper",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 151 of the Age of Rebellion Core Rulebook, or page 31 of the Savage Spirits Sourcebook, for details."
+  },
+  {
+    "key": "MENTFOR",
+    "name": "Mental Fortress",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 151 of the Age of Rebellion Core Rulebook, or page 147 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "NATBRAW",
+    "name": "Natural Brawler",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 153 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "NATCHARM",
+    "name": "Natural Charmer",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 153 of the Age of Rebellion Core Rulebook, or page 147 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "NATDOC",
+    "name": "Natural Doctor",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 153 of the Age of Rebellion Core Rulebook, or page 148 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "NATDRIV",
+    "name": "Natural Driver",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 153 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "NATENF",
+    "name": "Natural Enforcer",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 153 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "NATHUN",
+    "name": "Natural Hunter",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 153 of the Age of Rebellion Core Rulebook, or page 105 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "NATLEAD",
+    "name": "Natural Leader",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 153 of the Age of Rebellion Core Rulebook, page 148 of the Force and Destiny Core Rulebook, or page 40 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "NATMAR",
+    "name": "Natural Marksman",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 153 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "NATNEG",
+    "name": "Natural Negotiator",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 153 of the Age of Rebellion Core Rulebook, or page 148 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "NATOUT",
+    "name": "Natural Outdoorsman",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 153 of the Age of Rebellion Core Rulebook, or page 148 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "NATPIL",
+    "name": "Natural Pilot",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 153 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "NATPRO",
+    "name": "Natural Programmer",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 153 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "NATROG",
+    "name": "Natural Rogue",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 153 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "NATSCH",
+    "name": "Natural Scholar",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, or page 153 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "NATTIN",
+    "name": "Natural Tinkerer",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 153 of the Age of Rebellion Core Rulebook, or page 148 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "NOBFOOL",
+    "name": "Nobody's Fool",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 139 of the Edge of the Empire Core Rulebook, page 153 of the Age of Rebellion Core Rulebook, or page 148 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "OUTDOOR",
+    "name": "Outdoorsman",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, page 154 of the Age of Rebellion Core Rulebook, or page 149 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "OVEREM",
+    "name": "Overwhelm Emotions",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook for details."
+  },
+  {
+    "key": "OVERDEF",
+    "name": "Overwhelm Defenses",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 154 of the Age of Rebellion Core Rulebook, or page 35 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "PHYSTRAIN",
+    "name": "Physical Training",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 154 of the Age of Rebellion Core Rulebook, page 30 of the Disciples of Harmony Sourcebook, or page 41 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "PLAUSDEN",
+    "name": "Plausible Deniability",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, page 154 of the Age of Rebellion Core Rulebook, or page 149 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "POINTBL",
+    "name": "Point Blank",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, or page 154 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "PWRBLST",
+    "name": "Powerful Blast",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 154 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "PRECAIM",
+    "name": "Precise Aim",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, or page 31 of the Savage Spirits Sourcebook, for details."
+  },
+  {
+    "key": "PRESPNT",
+    "name": "Pressure Point",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, or page 31 of the Cyphers and Masks Sourceboos, for details."
+  },
+  {
+    "key": "QUICKDR",
+    "name": "Quick Draw",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, page 154 of the Age of Rebellion Core Rulebook, or page 149 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "QUICKFIX",
+    "name": "Quick Fix",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 154 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "QUICKST",
+    "name": "Quick Strike",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, page 154 of the Age of Rebellion Core Rulebook, or page 150 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "RAPREA",
+    "name": "Rapid Reaction",
+    "ranked": true,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, page 154 of the Age of Rebellion Core Rulebook, or page 150 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "RAPREC",
+    "name": "Rapid Recovery",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, page 154 of the Age of Rebellion Core Rulebook, or page 150 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "REDUNSYS",
+    "name": "Redundant Systems",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, or page 154 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "RESEARCH",
+    "name": "Researcher",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Edge of the Empire Core Rulebook, page 154 of the Age of Rebellion Core Rulebook, or page 150 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "RESOLVE",
+    "name": "Resolve",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 155 of the Age of Rebellion Core Rulebook, or page 33 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "RESPSCHOL",
+    "name": "Respected Scholar",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, or page 155 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SCATH",
+    "name": "Scathing Tirade",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 155 of the Age of Rebellion Core Rulebook, or page 33 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "SCATHIMP",
+    "name": "Scathing Tirade (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, or page 155 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SCATHSUP",
+    "name": "Scathing Tirade (Supreme)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, or page 155 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SECWIND",
+    "name": "Second Wind",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 155 of the Age of Rebellion Core Rulebook, or page 151 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SELDETON",
+    "name": "Selective Detonation",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 155 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "SENSDANG",
+    "name": "Sense Danger",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 155 of the Age of Rebellion Core Rulebook, or page 151 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SENSDEMO",
+    "name": "Sense Emotions",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 151 of the Force and Destiny Core Rulebook, or page 42 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "SHORTCUT",
+    "name": "Shortcut",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 155 of the Age of Rebellion Core Rulebook, page 31 of the Savage Spirits Sourcebook, or page 31 of the Endless Vigil Sourcebook, for details."
+  },
+  {
+    "key": "SIDESTEP",
+    "name": "Side Step",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 156 of the Age of Rebellion Core Rulebook, or page 151 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SITAWARE",
+    "name": "Situational Awareness",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 156 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "SIXSENSE",
+    "name": "Sixth Sense",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 156 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SKILLJOCK",
+    "name": "Skilled Jockey",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 156 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SKILLSLIC",
+    "name": "Skilled Slicer",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, or page 156 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SLEIGHTMIND",
+    "name": "Sleight of Mind",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 156 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SMOOTHTALK",
+    "name": "Smooth Talker",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, page 156 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SNIPSHOT",
+    "name": "Sniper Shot",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 142 of the Edge of the Empire Core Rulebook, or page 156 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SOFTSP",
+    "name": "Soft Spot",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, page 156 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SOLREP",
+    "name": "Solid Repairs",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, page 156 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SOUNDINV",
+    "name": "Sound Investments",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 156 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "SPARECL",
+    "name": "Spare Clip",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SPKBIN",
+    "name": "Speaks Binary",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, page 157 of the Age of Rebellion Core Rulebook, or page 35 of the Special Modificaitons Sourcebook, for details."
+  },
+  {
+    "key": "STALK",
+    "name": "Stalker",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "STNERV",
+    "name": "Steely Nerves",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, page 157 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "STIMAP",
+    "name": "Stim Application",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, page 157 of the Age of Rebellion Core Rulebook, or page 33 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "STIMAPIMP",
+    "name": "Stim Application (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, page 157 of the Age of Rebellion Core Rulebook, or page 33 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "STIMAPSUP",
+    "name": "Stim Application (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 143 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "STIMSPEC",
+    "name": "Stimpack Specialization",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 157 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "STRSMART",
+    "name": "Street Smarts",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, page 157 of the Age of Rebellion Core Rulebook, or page 152 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "STRGEN",
+    "name": "Stroke of Genius",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "STRONG",
+    "name": "Strong Arm",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "STUNBL",
+    "name": "Stunning Blow",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "STUNBLIMP",
+    "name": "Stunning Blow (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SUPREF",
+    "name": "Superior Reflexes",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, or page 157 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "SURG",
+    "name": "Surgeon",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "SWIFT",
+    "name": "Swift",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "TACTTRAIN",
+    "name": "Tactical Combat Training",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 158 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "TARGBL",
+    "name": "Targeted Blow",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 144 of the Edge of the Empire Core Rulebook, or page 158 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "TECHAPT",
+    "name": "Technical Aptitude",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "TIME2GO",
+    "name": "Time to Go",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 158 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "TIME2GOIMP",
+    "name": "Time to Go (Improved)",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 158 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "TINK",
+    "name": "Tinkerer",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 43 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "TOUCH",
+    "name": "Touch of Fate",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "TOUGH",
+    "name": "Toughened",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "TRICK",
+    "name": "Tricky Target",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "TRUEAIM",
+    "name": "True Aim",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, or page 158 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "UNCANREAC",
+    "name": "Uncanny Reactions",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "UNCANSENS",
+    "name": "Uncanny Senses",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 158 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "UNSTOP",
+    "name": "Unstoppable",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 159 of the Age of Rebellion Core Rulebook, or page 31 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "UTIL",
+    "name": "Utility Belt",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 159 of the Age of Rebellion Core Rulebook, or page 43 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "UTINNI",
+    "name": "Utinni!",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, or page 43 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "VEHTRAIN",
+    "name": "Vehicle Combat Training",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 159 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "WELLROUND",
+    "name": "Well Rounded",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, page 159 of the Age of Rebellion Core Rulebook, or page 153 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "WELLTRAV",
+    "name": "Well Traveled",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 159 of the Age of Rebellion Core Rulebook, or page 30 of the Disciples of Harmony Sourcebook, for details."
+  },
+  {
+    "key": "WHEEL",
+    "name": "Wheel and Deal",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Edge of the Empire Core Rulebook, or page 159 of the Age of Rebellion Core Rulebook, for details."
+  },
+  {
+    "key": "WORKLIKECHARM",
+    "name": "Works Like A Charm",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 159 of the Age of Rebellion Core Rulebook for details."
+  },
+  {
+    "key": "PIN",
+    "name": "Pin",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of Enter the Unknown for details."
+  },
+  {
+    "key": "MUSEUMWORTHY",
+    "name": "Museum Worthy",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of Enter the Unknown for details."
+  },
+  {
+    "key": "BRNGITDWN",
+    "name": "Bring It Down",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of Enter the Unknown for details."
+  },
+  {
+    "key": "HUNTERQUARRY",
+    "name": "Hunter's Quarry",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of Enter the Unknown, or page 30 of Savage Spirits, for details."
+  },
+  {
+    "key": "HUNTQIMP",
+    "name": "Hunter's Quarry (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of Enter the Unknown, or page 30 of Savage Spirits, for details."
+  },
+  {
+    "key": "BURLY",
+    "name": "Burly",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Dangerous Covenants Sourcebook, or page 34 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "FEARSOME",
+    "name": "Fearsome",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook, or page 32 of Dangerous Covenants, for details."
+  },
+  {
+    "key": "HEAVYHITTER",
+    "name": "Heavy Hitter",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Dangerous Covenants Sourcebook, or page 35 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "HEROICRES",
+    "name": "Heroic Resilience",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Dangerous Covenants Sourcebook, or page 35 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "IMPDET",
+    "name": "Improvised Detonation",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Dangerous Covenants Sourcebook, or page 30 of the Fully Operational Sourcebook, for details."
+  },
+  {
+    "key": "IMPDETIMP",
+    "name": "Improvised Detonation (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of Dangerous Covenants for details."
+  },
+  {
+    "key": "LOOM",
+    "name": "Loom",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of Dangerous Covenants for details."
+  },
+  {
+    "key": "RAINDEATH",
+    "name": "Rain of Death",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 32 of the Dangerous Covenants Sourcebook, or page 35 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "STEADYNERVES",
+    "name": "Steady Nerves",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 33 of Dangerous Covenants for details."
+  },
+  {
+    "key": "TALKTALK",
+    "name": "Talk the Talk",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of Dangerous Covenants, or page 31 of the Endless Vigil Sourcebook, for details."
+  },
+  {
+    "key": "WALKWALK",
+    "name": "Walk the Walk",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of Dangerous Covenants for details."
+  },
+  {
+    "key": "IDEALIST",
+    "name": "Idealist",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 62 of the Jewel of Yavin adventure for details."
+  },
+  {
+    "key": "AAO",
+    "name": "Against All Odds",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 138 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "ANIMALBOND",
+    "name": "Animal Bond",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 138 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "ANIMALBONDIMP",
+    "name": "Animal Bond (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "ANIMALEMP",
+    "name": "Animal Empathy",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 139 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "ATARU",
+    "name": "Ataru Technique",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 139 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "BODIMP",
+    "name": "Body Guard (Improved)",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 140 of the Force and Destiny Core Rulebook, or page 34 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "BODSUP",
+    "name": "Body Guard (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 34 of the Forged in Battle Sourcebook for details."
+  },
+  {
+    "key": "CALMAURA",
+    "name": "Calming Aura",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 140 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "CALMAURAIMP",
+    "name": "Calming Aura (Improved)",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 140 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "CENTBEING",
+    "name": "Center of Being",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 140 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "CENTBEINGIMP",
+    "name": "Center of Being (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 140 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "CIRCLESHELTER",
+    "name": "Circle of Shelter",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 140 of the Force and Destiny Core Rulebook, or page 38 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "COMPTECH",
+    "name": "Comprehend Technology",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 141 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "CONDITIONED",
+    "name": "Conditioned",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Force and Destiny Core Rulebook, or page 34 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "CONTPLAN",
+    "name": "Contingency Plan",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook or page 141 of the Force and Destiny Core Rulebook, for details."
+  },
+  {
+    "key": "COUNTERST",
+    "name": "Counterstrike",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "DEFCIRCLE",
+    "name": "Defensive Circle",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 141 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "DEFTRAIN",
+    "name": "Defensive Training",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 141 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "DISRUPSTRIKE",
+    "name": "Disruptive Strike",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "DJEMSODEFL",
+    "name": "Djem So Deflection",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "DRAWCLOSER",
+    "name": "Draw Closer",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "DUELTRAIN",
+    "name": "Duelist's Training",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "ENHLEAD",
+    "name": "Enhanced Leader",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "FALLAVAL",
+    "name": "Falling Avalanche",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "FEINT",
+    "name": "Feint",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 142 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "FORCEASSAULT",
+    "name": "Force Assault",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 143 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "FORCEPROT",
+    "name": "Force Protection",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 143 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "FOREWARN",
+    "name": "Forewarning",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 143 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "HAWKSWOOP",
+    "name": "Hawk Bat Swoop",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 144 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "HEALTRANCE",
+    "name": "Healing Trance",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 144 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "HEALTRANCEIMP",
+    "name": "Healing Trance (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 144 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "IMBUEITEM",
+    "name": "Imbue Item",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 145 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "INTUITEVA",
+    "name": "Intuitive Evasion",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 145 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "INTUITIMP",
+    "name": "Intuitive Improvements",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "INTUITSHOT",
+    "name": "Intuitive Shot",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "INTUITSTRIKE",
+    "name": "Intuitive Strike",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 145 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "KEENEYED",
+    "name": "Keen Eyed",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 146 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "KNOWPOW",
+    "name": "Knowledge is Power",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 103 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "KNOWHEAL",
+    "name": "Knowledgeable Healing",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 146 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "MAKFIN",
+    "name": "Makashi Finish",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 146 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "MAKFLOUR",
+    "name": "Makashi Flourish",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 146 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "MAKTECH",
+    "name": "Makashi Technique",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 146 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "MASTART",
+    "name": "Master Artisan",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 146 of the Force and Destiny Core Rulebook, or page 31 of the Fully Operational Sourcebook, for details."
+  },
+  {
+    "key": "MENTBOND",
+    "name": "Mental Bond",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 147 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "MENTTOOLS",
+    "name": "Mental Tools",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 147 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "MULTOPP",
+    "name": "Multiple Opponents",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 147 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "NATBLADE",
+    "name": "Natural Blademaster",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 147 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "NATMYSTIC",
+    "name": "Natural Mystic",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 148 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "NIMTECH",
+    "name": "Niman Technique",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 148 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "NOWYOUSEE",
+    "name": "Now You See Me",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 148 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "ONEUNI",
+    "name": "One With The Universe",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 149 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "PARRY",
+    "name": "Parry",
+    "ranked": true,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 149 of the Force and Destiny Core Rulebook, page 35 of the No Disintegrations Sourcebook, or page 41 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "PARRYIMP",
+    "name": "Parry (Improved)",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 149 of the Force and Destiny Core Rulebook, or page 41 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "PARRYSUP",
+    "name": "Parry (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 149 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "PHYSICIAN",
+    "name": "Physician",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 149 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "PREEMAVOID",
+    "name": "Preemptive Avoidance",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 149 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "PREYWEAK",
+    "name": "Prey on the Weak",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 149 of the Force and Destiny Core Rulebook, page 35 of the Forged in Battle Sourcebook, or page 41 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "QUICKMOVE",
+    "name": "Quick Movement",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 150 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "REFLECT",
+    "name": "Reflect",
+    "ranked": true,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 150 of the Force and Destiny Core Rulebook, or page 42 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "REFLECTIMP",
+    "name": "Reflect (Improved)",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 150 of the Force and Destiny Core Rulebook, or page 42 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "REFLECTSUP",
+    "name": "Reflect (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 150 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "RESDISARM",
+    "name": "Resist Disarm",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SABERSW",
+    "name": "Saber Swarm",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SABERTHROW",
+    "name": "Saber Throw",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook, or page 42 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "SARSWEEP",
+    "name": "Sarlacc Sweep",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SENSEADV",
+    "name": "Sense Advantage",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SHAREPAIN",
+    "name": "Share Pain",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SHIENTECH",
+    "name": "Shien Technique",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SHROUD",
+    "name": "Shroud",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 151 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SLIPMIND",
+    "name": "Slippery Minded",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 152 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SORESUTECH",
+    "name": "Soresu Technique",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 152 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "STRATFORM",
+    "name": "Strategic Form",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 152 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "SUMDJEM",
+    "name": "Sum Djem",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 152 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "TERRIFY",
+    "name": "Terrify",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 153 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "TERRIFYIMP",
+    "name": "Terrify (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 153 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "FORCEALLY",
+    "name": "The Force Is My Ally",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 153 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "UNITYASSAULT",
+    "name": "Unity Assault",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 153 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "VALFACT",
+    "name": "Valuable Facts",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook, page 153 of the Force and Destiny Core Rulebook, or page 43 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "BADCOP",
+    "name": "Bad Cop",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Far Horizons Sourcebook, or page 30 of the Cyphers and Masks Sourcebook, for details."
+  },
+  {
+    "key": "BIGGESTFAN",
+    "name": "Biggest Fan",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Far Horizons Sourcebook for details."
+  },
+  {
+    "key": "CONGENIAL",
+    "name": "Congenial",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Far Horizons Sourcebook, page 32 of the Fly Casual Sourcebook, page 28 of the Disciples of Harmony Sourcebook, or page 32 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "COORDODGE",
+    "name": "Coordination Dodge",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Far Horizons Sourcebook, or page 34 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "DISBEH",
+    "name": "Distracting Behavior",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 32 of the Far Horizons Sourcebook for details."
+  },
+  {
+    "key": "DISBEHIMP",
+    "name": "Distracting Behavior (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Far Horizons Sourcebook for details."
+  },
+  {
+    "key": "DECEPTAUNT",
+    "name": "Deceptive Taunt",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Far Horizons Sourcebook for details."
+  },
+  {
+    "key": "GOODCOP",
+    "name": "Good Cop",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Far Horizons Sourcebook, page 34 of the No Disintegrations Sourcebook, or page 30 of the Cyphers and Masks Sourcebook, for details."
+  },
+  {
+    "key": "NATATHL",
+    "name": "Natural Athlete",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Far Horizons Sourcebook, or page 31 of the Cyphers and Masks Sourcebook, for details."
+  },
+  {
+    "key": "NATMERCH",
+    "name": "Natural Merchant",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Far Horizons Sourcebook for details."
+  },
+  {
+    "key": "THROWCRED",
+    "name": "Throwing Credits",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Far Horizons Sourcebook for details."
+  },
+  {
+    "key": "UNRELSKEP",
+    "name": "Unrelenting Skeptic",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Far Horizons Sourcebook, or page 31 of the Endless Vigil Sourcebook, for details."
+  },
+  {
+    "key": "UNRELSKEPIMP",
+    "name": "Unrelenting Skeptic (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Far Horizons Sourcebook for details."
+  },
+  {
+    "key": "BEASTWRANG",
+    "name": "Beast Wrangler",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "BOLSTARMOR",
+    "name": "Bolstered Armor",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "CORSEND",
+    "name": "Corellian Sendoff",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "CORSENDIMP",
+    "name": "Corellian Sendoff (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "CUSTCOOL",
+    "name": "Customized Cooling Unit",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "EXHANDLER",
+    "name": "Expert Handler",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "FANCPAINT",
+    "name": "Fancy Paint Job",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook, or page 34 of the Special Modifications Sourcebook, for details."
+  },
+  {
+    "key": "FORTVAC",
+    "name": "Fortified Vacuum Seal",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "HIGHGTRAIN",
+    "name": "High-G Training",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Stay on Target Sourcebook, or page 39 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "KOITURN",
+    "name": "Koiogran Turn",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 32 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "LARGEPROJ",
+    "name": "Larger Project",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Stay on Target Sourcebook, or page 34 of the Special Modifications Sourcebook, for details."
+  },
+  {
+    "key": "NOTTODAY",
+    "name": "Not Today",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "OVERAMMO",
+    "name": "Overstocked Ammo",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "REINFRAME",
+    "name": "Reinforced Frame",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "SHOWBOAT",
+    "name": "Showboat",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "SIGVEH",
+    "name": "Signature Vehicle",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Stay on Target Sourcebook, or page 35 of the Special Modificaitons Sourcebook, for details."
+  },
+  {
+    "key": "SOOTHTONE",
+    "name": "Soothing Tone",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 33 of the Stay on Target Sourcebook, or page 31 of Savage Spirits, for details."
+  },
+  {
+    "key": "SPUR",
+    "name": "Spur",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "SPURIMP",
+    "name": "Spur (Improved)",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "SPURSUP",
+    "name": "Spur (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "TUNEDTHRUST",
+    "name": "Tuned Maneuvering Thrusters",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Stay on Target Sourcebook for details."
+  },
+  {
+    "key": "CALLEM",
+    "name": "Call 'Em",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "DISARMSMILE",
+    "name": "Disarming Smile",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 32 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "DONTSHOOT",
+    "name": "Don't Shoot!",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "DOUBLEORNOTHING",
+    "name": "Double or Nothing",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "DOUBLEORNOTHINGIMP",
+    "name": "Double or Nothing (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "DOUBLEORNOTHINGSUP",
+    "name": "Double or Nothing (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 32 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "FORTFAVORBOLD",
+    "name": "Fortune Favors the Bold",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "GUNSBLAZING",
+    "name": "Guns Blazing",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "JUSTKID",
+    "name": "Just Kidding!",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "QUICKDRIMP",
+    "name": "Quick Draw (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "SECCHANCE",
+    "name": "Second Chances",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see  page 33 of the Stay on Target Sourcebook, or page 33 of the Fly Casual Sourcebook, for details."
+  },
+  {
+    "key": "SORRYMESS",
+    "name": "Sorry About the Mess",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Fly Casual Sourcebook, or page 43 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "SPITFIRE",
+    "name": "Spitfire",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "UPANTE",
+    "name": "Up the Ante",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "WORKLIKECHARM",
+    "name": "Works Like a Charm",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Fly Casual Sourcebook for details."
+  },
+  {
+    "key": "BADPRESS",
+    "name": "Bad Press",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "BLACKMAIL",
+    "name": "Blackmail",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 32 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "CUTQUEST",
+    "name": "Cutting Question",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "DISCREDIT",
+    "name": "Discredit",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "ENCCOMM",
+    "name": "Encoded Communique",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "ENCWORD",
+    "name": "Encouraging Words",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook, or page 28 of the Disciples of Harmony Sourcebook, for details."
+  },
+  {
+    "key": "INKNOW",
+    "name": "In The Know",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "INKNOWIMP",
+    "name": "In The Know (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "INFORM",
+    "name": "Informant",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Desperate Allies Sourcebook, or page 34 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "INTERJECT",
+    "name": "Interjection",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "KNOWALL",
+    "name": "Know-It-All",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "PLAUSDENIMP",
+    "name": "Plausible Deniability (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "POSSPIN",
+    "name": "Positive Spin",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "POSSPINIMP",
+    "name": "Positive Spin (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "RESEARCHIMP",
+    "name": "Researcher (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "SUPPEVI",
+    "name": "Supporting Evidence",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "THORASS",
+    "name": "Thorough Assessment",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook for details."
+  },
+  {
+    "key": "TWISTWORD",
+    "name": "Twisted Words",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 34 of the Desperate Allies Sourcebook, or page 33 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "DRIVEBACK",
+    "name": "Drive Back",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 419 of the Force and Destiny Core Rulebook for details."
+  },
+  {
+    "key": "ARMSUP",
+    "name": "Armor Master (Supreme)",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 30 of the Keeping the Peace Sourcebook for details."
+  },
+  {
+    "key": "BALEGAZE",
+    "name": "Baleful Gaze",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 30 of the Keeping the Peace Sourcebook for details."
+  },
+  {
+    "key": "BLINDSPOT",
+    "name": "Blind Spot",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Keeping the Peace Sourcebook, or page 34 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "GRAPPLE",
+    "name": "Grapple",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 30 of the Keeping the Peace Sourcebook, or page 34 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "NOESC",
+    "name": "No Escape",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Keeping the Peace Sourcebook for details."
+  },
+  {
+    "key": "OVERBAL",
+    "name": "Overbalance",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Keeping the Peace Sourcebook, or page 35 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "PRECSTR",
+    "name": "Precision Strike",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 31 of the Keeping the Peace Sourcebook, or page 35 of the No Disintegrations Sourcebook, or page 31 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "PRIMEPOS",
+    "name": "Prime Positions",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Keeping the Peace Sourcebook, page 35 of the Forged in Battle Sourcebook, or page 41 of the Rise of the Separatists Sourcebook, for details."
+  },
+  {
+    "key": "PRESSHOT",
+    "name": "Prescient Shot",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Keeping the Peace Sourcebook for details."
+  },
+  {
+    "key": "PROPAIM",
+    "name": "Prophetic Aim",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Keeping the Peace Sourcebook for details."
+  },
+  {
+    "key": "REINITEM",
+    "name": "Reinforce Item",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 31 of the Keeping the Peace Sourcebook for details."
+  },
+  {
+    "key": "SUPPRFIRE",
+    "name": "Suppressing Fire",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Keeping the Peace Sourcebook, page 35 of the Forged in Battle Sourcebook, or page 43 of the Rise of the Separatist Sourcebook, for details."
+  },
+  {
+    "key": "CALMCOMM",
+    "name": "Calm Commander",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 33 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "CLEVCOMM",
+    "name": "Clever Commander",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 33 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "COMMPRESIMP",
+    "name": "Commanding Presence (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "See page 33 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "CONFIMP",
+    "name": "Confidence (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 33 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "MASINST",
+    "name": "Master Instructor",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "See page 33 of the Lead by Example Sourcebook, or page 29 of the Disciples of Harmony Sourcebook, for details."
+  },
+  {
+    "key": "MASSTRAT",
+    "name": "Master Strategist",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "See page 33 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "NATINST",
+    "name": "Natural Instructor",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "See page 33 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "READANY",
+    "name": "Ready for Anything",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "See page 34 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "READANYIMP",
+    "name": "Ready for Anything (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 34 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "THATHOWDONE",
+    "name": "That's How It's Done",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "See page 34 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "WELLREAD",
+    "name": "Well Read",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 34 of the Lead by Example Sourcebook for details."
+  },
+  {
+    "key": "CUSTLOAD",
+    "name": "Custom Loadout",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 34 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "CYBERNETICIST",
+    "name": "Cyberneticist",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "See page 34 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "DEFTMAKER",
+    "name": "Deft Maker",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "See page 34 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "ENGREDUN",
+    "name": "Engineered Redundancies",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 34 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "EYEDET",
+    "name": "Eye for Detail",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "See page 34 of the Special Modifications Sourcebook, or page 30 of the Fully Operational Sourcebook, for details.."
+  },
+  {
+    "key": "ENERGTRANS",
+    "name": "Energy Transfer",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "See page 34 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "MACHMEND",
+    "name": "Machine Mender",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "See page 34 of the Special Modifications Sourcebook, or page 31 of the Fully Operational Sourcebook, for details."
+  },
+  {
+    "key": "MOREMACH",
+    "name": "More Machine Than Man",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "See page 34 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "OVERCHARGE",
+    "name": "Overcharge",
+    "ranked": false,
+    "activation": "Action",
+    "description": "See page 35 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "OVERCHARGEIMP",
+    "name": "Overcharge (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 35 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "OVERCHARGESUP",
+    "name": "Supreme Overcharge",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 35 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "REROUTEPROC",
+    "name": "Reroute Processors",
+    "ranked": false,
+    "activation": "Action",
+    "description": "See page 35 of the Special Modifications Sourcebook, or page 31 of the Fully Operational Sourcebook, for details."
+  },
+  {
+    "key": "RESOURCEREFIT",
+    "name": "Resourceful Refit",
+    "ranked": false,
+    "activation": "Action",
+    "description": "See page 35 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "SPKBINIMP",
+    "name": "Speaks Binary (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 35 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "SPKBINSUP",
+    "name": "Speaks Binary (Supreme)",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "See page 35 of the Special Modifications Sourcebook for details."
+  },
+  {
+    "key": "DEATHBLOW",
+    "name": "Deathblow",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "ESSENKILL",
+    "name": "Essential Kill",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "FORCECONN",
+    "name": "Force Connection",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "HARASS",
+    "name": "Harass",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "See page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "HOLNAV",
+    "name": "Holistic Navigation",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "See page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "INTUITNAV",
+    "name": "Intuitive Navigation",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "MARKDEATH",
+    "name": "Marked for Death",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "See page 30 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "MENACE",
+    "name": "Menace",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "See page 31 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "MINDMAT",
+    "name": "Mind Over Matter",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "See page 31 of the Savage Spirits Sourcebook, page 35 of the No Disintegrations Sourcebook, or page 33 of the Unlimited Power Sourcebook, for details."
+  },
+  {
+    "key": "ONENAT",
+    "name": "One with Nature",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 31 of the Savage Spirits Sourcebook, or page 35 of the Forged in Battle Sourcebook, for details."
+  },
+  {
+    "key": "PLANMAP",
+    "name": "Planet Mapper",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "See page 31 of the Savage Spirits Sourcebook, or page 35 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "SHORTCUTIMP",
+    "name": "Shortcut (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "See page 31 of the Savage Spirits Sourcebook, page 31 of the Endless Vigil Sourcebook, or page 36 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "STUDPLOT",
+    "name": "Studious Plotting",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "See page 31 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "SURVFIT",
+    "name": "Survival of the Fittest",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "See page 31 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "TERRKILL",
+    "name": "Terrifying Kill",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "See page 31 of the Savage Spirits Sourcebook for details."
+  },
+  {
+    "key": "AMBUSH",
+    "name": "Ambush",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "See page 34 of the Forged in Battle Sourcebook for details."
+  },
+  {
+    "key": "CUNNSNARE",
+    "name": "Cunning Snare",
+    "ranked": false,
+    "activation": "Action",
+    "description": "See page 34 of the Forged in Battle Sourcebook for details."
+  },
+  {
+    "key": "MOVTARGET",
+    "name": "Moving Target",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "See page 35 of the Forged in Battle Sourcebook for details."
+  },
+  {
+    "key": "SEIZEINIT",
+    "name": "Seize the Initiative",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "See page 35 of the Forged in Battle Sourcebook for details."
+  },
+  {
+    "key": "MOUNTDOMEST",
+    "name": "Domesticable",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Downgrade the difficulty of checks to train this mount by 1 per rank."
+  },
+  {
+    "key": "MOUNTTRAINED",
+    "name": "Trained Mount",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Add [BO] per rank to a rider's Survival checks while mounted on this mount."
+  },
+  {
+    "key": "MOUNTBURDEN",
+    "name": "Beast of Burden",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Add 1 per rank to the mount's encumbrance threshold."
+  },
+  {
+    "key": "MOUNTSTUBBORN",
+    "name": "Stubborn",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Upgrade the difficulty of checks to train this mount by 1 per rank."
+  },
+  {
+    "key": "MOUNTDOMESTED",
+    "name": "Domesticated",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Difficulty for training this beast is not upgraded."
+  },
+  {
+    "key": "MOUNTFLY",
+    "name": "Flyer",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "This mount can fly.  When on the ground, it's Speed is reduced to 1."
+  },
+  {
+    "key": "BETTERLUCK",
+    "name": "Better Luck Next Time",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "CONSTVIGIL",
+    "name": "Constant Vigilance",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "FEARSHAD",
+    "name": "Fear the Shadows",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "FREERUN",
+    "name": "Freerunning",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Endless Vigil Sourcebook, and page 30 of the Cyphers and Masks Sourcebook, for details."
+  },
+  {
+    "key": "FREERUNIMP",
+    "name": "Freerunning (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "IMPOSFALL",
+    "name": "Impossible Fall",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 31 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "RECSCENE",
+    "name": "Reconstruct the Scene",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Endless Vigil Sourcebook, or page 36 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "SABERTHROWIMP",
+    "name": "Saber Throw (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "SENSESCENE",
+    "name": "Sense the Scene",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "STRSMARTIMP",
+    "name": "Street Smarts (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Endless Vigil Sourcebook, or page 36 of the No Disintegrations Sourcebook, for details."
+  },
+  {
+    "key": "SUPHUMAN",
+    "name": "Superhuman Reflexes",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 31 of the Endless Vigil Sourcebook for details."
+  },
+  {
+    "key": "HARDBOILED",
+    "name": "Hard-Boiled",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 34 of the No Disintegrations Sourcebook for details."
+  },
+  {
+    "key": "HINDERSHOT",
+    "name": "Hindering Shot",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 34 of the No Disintegrations Sourcebook for details."
+  },
+  {
+    "key": "IRONBODY",
+    "name": "Iron Body",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 34 of the No Disintegrations Sourcebook, or page 31 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "MARTIALGRACE",
+    "name": "Martial Grace",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 35 of the No Disintegrations Sourcebook, or page 31 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "OFFDRIVE",
+    "name": "Offensive Driving",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 35 of the No Disintegrations Sourcebook for details."
+  },
+  {
+    "key": "PRECSTRIMP",
+    "name": "Precision Strike (Improved)",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 35 of the No Disintegrations Sourcebook, or page 31 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "PRECSTRSUP",
+    "name": "Precision Strike (Supreme)",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 36 of the No Disintegrations Sourcebook for details."
+  },
+  {
+    "key": "UNARMPARRY",
+    "name": "Unarmed Parry",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 36 of the No Disintegrations Sourcebook, or page 31 of the Knights of Fate Sourcebook, for details."
+  },
+  {
+    "key": "AGGRNEG",
+    "name": "Aggressive Negotiations",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 28 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "CRUCPOINT",
+    "name": "Crucial Point",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 28 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "EMPTYSOUL",
+    "name": "Empty Soul",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 28 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "GOWITHOUT",
+    "name": "Go Without",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 28 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "IRONSOUL",
+    "name": "Iron Soul",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 28 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "MEDTRANCE",
+    "name": "Meditative Trance",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 29 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "MINDBLEED",
+    "name": "Mind Bleed",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 29 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "NOWMAST",
+    "name": "Now the Master",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 29 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "ONCELEARN",
+    "name": "Once A Learner",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 29 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "SAVVYNEG",
+    "name": "Savvy Negotiator",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "SAVVYNEGIMP",
+    "name": "Savvy Negotiator (Improved)",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "SKILLEDTEACH",
+    "name": "Skilled Teacher",
+    "ranked": true,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 30 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "SUNDERIMP",
+    "name": "Sunder (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "WISEWAR",
+    "name": "Wise Warrior",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "WISEWARIMP",
+    "name": "Wise Warrior (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Disciples of Harmony Sourcebook for details."
+  },
+  {
+    "key": "COMBATPROG",
+    "name": "Combat Programming",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "CONSTSPEC",
+    "name": "Construction Specialist",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "CREATDES",
+    "name": "Creative Design",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "DESPREP",
+    "name": "Desperate Repairs",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "DESFLAW",
+    "name": "Design Flaw",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "DOCKEXP",
+    "name": "Dockyard Expertise",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 30 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "IMPDEF",
+    "name": "Improvised Defenses",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "IMPPOS",
+    "name": "Improvised Position",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "MASTDEMO",
+    "name": "Master Demolitionist",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "PUSHSPEC",
+    "name": "Push the Specs",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "REPPATCHSPEC",
+    "name": "Repair Patch Specialization",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "SMARTHAND",
+    "name": "Smart Handling",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "WEAKFOUND",
+    "name": "Weak Foundation",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Fully Operational Sourcebook for details."
+  },
+  {
+    "key": "ALCARTS",
+    "name": "Alchemical Arts",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "CHANAG",
+    "name": "Channel Agony",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 32 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "FONTPOW",
+    "name": "Font of Power",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "IDING",
+    "name": "Identify Ingredients",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 32 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "IMPCONC",
+    "name": "Improvised Concoction",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 32 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "OVERWAURA",
+    "name": "Overwhelming Aura",
+    "ranked": true,
+    "activation": "Maneuver",
+    "description": "Please see page 33 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "OVERWAURAIMP",
+    "name": "Overwhelming Aura (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "POWDARK",
+    "name": "Power of Darkness",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 33 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "SECRETLORE",
+    "name": "Secret Lore",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 33 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "TRANSMOG",
+    "name": "Transmogrify",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 33 of the Unlimited Power Sourcebook for details."
+  },
+  {
+    "key": "ACKLAYSCST",
+    "name": "Acklay's Scything Strike",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "DODGEIMP",
+    "name": "Dodge (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "EMBHATE",
+    "name": "Embrace Your Hate",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "FARSTRIKE",
+    "name": "Far Strike",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 30 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "HEADBUTT",
+    "name": "Headbutt",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "INDWILL",
+    "name": "Indomitable Will",
+    "ranked": false,
+    "activation": "Maneuver",
+    "description": "Please see page 30 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "INNERPEACE",
+    "name": "Inner Peace",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 31 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "JUYOSAV",
+    "name": "Juyo Savagery",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "POWPAIN",
+    "name": "Power From Pain",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 31 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "SAPITHSUND",
+    "name": "Sapith Sundering",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 31 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "TOUGHIMP",
+    "name": "Toughened (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 31 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "VAAPADCONT",
+    "name": "Vaapad Control",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 31 of the Knights of Fate Sourcebook for details."
+  },
+  {
+    "key": "ASTEPAHEAD",
+    "name": "A Step Ahead",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "ANALYZEDATA",
+    "name": "Analyze Data",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "ANALYZEDATA",
+    "name": "Analyze Data",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "CUNNPERSON",
+    "name": "Cunning Persona",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "EXHAUSTQUEST",
+    "name": "Exhaustive Questioning",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "HIDDIMP",
+    "name": "Hidden Storage (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "INCITEDIST",
+    "name": "Incite Distraction",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "INDISIMP",
+    "name": "Indistinguishable (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "INSIDEKNOW",
+    "name": "Inside Knowledge",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 30 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "INSIDEPERSON",
+    "name": "Inside Person",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "KNOWWEAK",
+    "name": "Know Their Weakness",
+    "ranked": true,
+    "activation": "Action",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "KNOWWEAKIMP",
+    "name": "Know Their Weakness (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "LOSETHEM",
+    "name": "Lose Them",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "MADEYOUTALK",
+    "name": "Made You Talk",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "PILOTTRAIN",
+    "name": "Pilot Training",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "RESISTQUEST",
+    "name": "Resist Questioning",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "RESISTQUESTIMP",
+    "name": "Resist Questioning (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 31 of the Cyhers and Masks Sourcebook for details."
+  },
+  {
+    "key": "ADAPT",
+    "name": "Adaptable",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "ANTREAS",
+    "name": "Another's Treasure",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "ASSAULTDR",
+    "name": "Assault Drop",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "BACKROOM",
+    "name": "Backroom Deal",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "BARREL",
+    "name": "Barrel Roll",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "BARRELIMP",
+    "name": "Barrel Roll (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "BARRELSUP",
+    "name": "Barrel Roll (Supreme)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "BEGLUCK",
+    "name": "Beginner's Luck",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 37 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "CLANKILL",
+    "name": "Clanker Killer",
+    "ranked": true,
+    "activation": "Incidental",
+    "description": "Please see page 38 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "CONCOPT",
+    "name": "Consider our Options",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 38 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "CONCOPTIMP",
+    "name": "Consider our Options (Improved)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 38 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "EXCEEDSPEC",
+    "name": "Exceed Specifications",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "EXCEEDSPECIMP",
+    "name": "Exceed Specifications (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "EXCEEDSPECSUP",
+    "name": "Exceed Specifications (Supreme)",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "FIRESUP",
+    "name": "Fire Support",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "FIREREADY",
+    "name": "Fire When Ready",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "FIRSTBRO",
+    "name": "First Among Brothers",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "FORREP",
+    "name": "For the Republic!",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "GUARDREP",
+    "name": "Guardian of the Republic",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "HYPASSAULT",
+    "name": "Hyperspace Assault",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 39 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "LATTHINK",
+    "name": "Lateral Thinking",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "LEARNOPP",
+    "name": "Learning Opportunity",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "LEVER",
+    "name": "Leverage",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "MISSCRIT",
+    "name": "Mission Critical",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "NATOP",
+    "name": "Natural Operator",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "NATTROOP",
+    "name": "Natural Trooper",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "ONETRASH",
+    "name": "One Person's Trash",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "ONORDER",
+    "name": "On My Order",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 40 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "ORDSAT",
+    "name": "Ordnance Saturation",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 41 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "OUTMAN",
+    "name": "Outmaneuver",
+    "ranked": false,
+    "activation": "Action",
+    "description": "Please see page 41 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "RAVAGE",
+    "name": "Ravage",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 41 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "RENFORM",
+    "name": "Renegade Form",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "RESPDEL",
+    "name": "Respected Delegate",
+    "ranked": true,
+    "activation": "Passive",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "SCRAPEM",
+    "name": "Scrap 'Em!",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "SCRAPEMIMP",
+    "name": "Scrap 'Em! (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "SECRETFORCE",
+    "name": "Secrets of the Force",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "SIDEBYSIDE",
+    "name": "Side by Side",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "SINFLAT",
+    "name": "Sincerest Flattery",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "SOMEPROVE",
+    "name": "Something to Prove",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 42 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "TACTADV",
+    "name": "Tactical Advance",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 43 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "TACTADVIMP",
+    "name": "Tactical Advance (Improved)",
+    "ranked": false,
+    "activation": "Incidental (Out of Turn)",
+    "description": "Please see page 43 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "TEMPLETR",
+    "name": "Temple Training",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 43 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "TRANSERR",
+    "name": "Translation Error",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 43 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "UTILIMP",
+    "name": "Utility Belt (Improved)",
+    "ranked": false,
+    "activation": "Passive",
+    "description": "Please see page 43 of the Rise of the Separatists Sourcebook for details."
+  },
+  {
+    "key": "WILLFORCE",
+    "name": "Will of the Force",
+    "ranked": false,
+    "activation": "Incidental",
+    "description": "Please see page 43 of the Rise of the Separatists Sourcebook for details."
+  }
+]

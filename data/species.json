@@ -1,0 +1,2730 @@
+[
+  {
+    "key": "abednedo",
+    "name": "Abednedo",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Abednedo begin with one rank in Education. They still may not train this skill above rank 2 at character creation.",
+      "Tunneler Ancestors: Abednedo may remove one setback die due to darkness."
+    ],
+    "sources": [
+      "Fires of Resistance: An Unofficial Era Sourcebook (Page 2)"
+    ]
+  },
+  {
+    "key": "aki_aki",
+    "name": "Aki-Aki",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 1,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Aki-Aki begin with one rank in Coordination or Negotiation. They still may not train this skill above rank 2 at character creation. They also start the game with one rank in the Kill With Kindness talent.",
+      "Vibration sensitivity: Once per encounter as a maneuver, Aki-Aki can stop to sense the relative location of anything moving within medium range."
+    ],
+    "sources": [
+      "Fires of Resistance: An Unofficial Era Sourcebook (Page 2-4)"
+    ]
+  },
+  {
+    "key": "aleena",
+    "name": "Aleena",
+    "brawn": 1,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Aleena begin the game with one rank in Coordination. They still may not train Coordination above rank 2 during character creation. Aleena are smaller than average and count as silhouette 0.",
+      "Sturdy Frame: Aleena begin the game with one rank in the Durable talent."
+    ],
+    "sources": [
+      "Nexus of Power: A Sourcebook of Worlds Strong in the Force (Page 98)"
+    ]
+  },
+  {
+    "key": "anx",
+    "name": "Anx",
+    "brawn": 3,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 13,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 85,
+    "special_abilities": [
+      "Special Abilities: Anx begin the game with one rank in the Kill with Kindness talent.",
+      "Anatomical Knowledge: Anx have an innate grasp of how bodies are put together and are able to intuit the anatomical vulnerabilities of almost any species. Anx gain one rank of the Lethal Blows talent.",
+      "Mood Indicator: If an Anx's head-crest is not covered, the character upgrades the difficulty of Deception checks once."
+    ],
+    "sources": [
+      "Savage Spirits: A Sourcebook for Seekers (Page 18-19)"
+    ]
+  },
+  {
+    "key": "aqualish",
+    "name": "Aqualish",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 1,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: All Aqualish are capable of breathing underwater. In addition, they begin the game with one rank in Brawl. Characters cannot train Brawl above rank 2 during character creation.",
+      "Sub-Species Options: A player choosing to play an Aqualish character must choose one of the following sub-species. No matter which sub-species is chosen, no skills may be trained above rank 2 during character creation.",
+      "Aquala: Aquala begin the game with one rank in Resilience. Furthermore, Aquala may remove a setback die imposed due to any cold or wet conditions.",
+      "Ualaq: Ualaq begin the game with one rank in Survival or one rank in Perception. Furthermore, Ualaq may remove a setback die imposed due to dark conditions, but suffer a setback die to Perception checks in brightly lit environments.",
+      "Quara: Quara begin the game with one rank in Athletics or one rank in Coercion. Furthermore, Quara may remove a setback die when attempting to track anything through a natural environment."
+    ],
+    "sources": [
+      "Dangerous Covenants: A Sourcebook for Hired Guns (Page 19-20)"
+    ]
+  },
+  {
+    "key": "arcona",
+    "name": "Arcona",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Arcona begin the game with one rank in Vigilance. They still may not train Vigilance above rank 2 during character creation. When making skill checks, Arcona may remove a setback die imposed due to arid or hot environmental conditions.",
+      "Mood Readers: Arcona add an advantage result to any Charm or Negotiation checks they make."
+    ],
+    "sources": [
+      "Far Horizons: A Sourcebook for Colonists (Page 19-20)"
+    ]
+  },
+  {
+    "key": "arkanian",
+    "name": "Arkanian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Arkanians begin the game with one rank in Medicine. They still cannot train Medicine above rank 2 during character creation.",
+      "Dark Vision: When making skill checks, Arkanians remove up to two setback dice due to darkness."
+    ],
+    "sources": [
+      "Disciples of Harmony: A Sourcebook for Consulars (Page 16-17)"
+    ]
+  },
+  {
+    "key": "balosar",
+    "name": "Balosar",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Balosars begin the game with one free ranks of Streetwise. They still may not train Streetwise above rank 2 during character creation.",
+      "Antennapalps: Balosars add two automatic advantage results to Vigilance checks they make."
+    ],
+    "sources": [
+      "Cyphers and Masks: A Sourcebook for Spies (Page 19-20)"
+    ]
+  },
+  {
+    "key": "bardottan",
+    "name": "Bardottan",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 105,
+    "special_abilities": [
+      "Special Abilities: Bardottans begin the game with one rank in Knowledge (Lore). They still may not train Knowledge (Lore) above rank 2 during character creation."
+    ],
+    "sources": [
+      "Nexus of Power: A Sourcebook of Worlds Strong in the Force (Page 98-100)"
+    ]
+  },
+  {
+    "key": "besalisk",
+    "name": "Besalisk",
+    "brawn": 3,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 7,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 85,
+    "special_abilities": [
+      "Special Abilities: Besalisks begin the game with one rank in Resilience. They still may not train Resilience above rank 2 during character creation.",
+      "Additional Limbs: Besalisks have multiple sets of arms. As a result, they gain an additional free maneuver per turn, though still may not perform more than two maneuvers per turn."
+    ],
+    "sources": [
+      "Special Modifications: A Sourcebook for Technicians (Page 20-21)"
+    ]
+  },
+  {
+    "key": "bith",
+    "name": "Bith",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Bith begin the game with one rank in Perception. They still may not train Perception above rank 2 during character creation.",
+      "Sensitive Hearing: Bith add a boost die whenever they make a hearing-base Perception check. When Bith suffer strain due to loud noises (such as from sonic weapons), they suffer twice the amount of strain. Wearing ear protection negates both effects of this ability."
+    ],
+    "sources": [
+      "Fully Operational: A Sourcebook for Engineers (Page 18-19)"
+    ]
+  },
+  {
+    "key": "bothan",
+    "name": "Bothan",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Bothans begin the game with one rank in Streetwise. They still may not train Streetwise above rank 2 during character creation. They also start with one rank in the Convincing Demeanor talent."
+    ],
+    "sources": [
+      "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 51-52)"
+    ]
+  },
+  {
+    "key": "caamasi",
+    "name": "Caamasi",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Caamasi begin the game with one rank in either Charm or Discipline. They still may not train Charm or Discipline above rank 2 during character creation.",
+      "Memnii: Caamasi often imprint significant events in their life as unfading memories called memnii. Once per game session, a Caamasi may form a new memnis that encompasses one scene or encounter. At any time, a Caamasi may perfectly recall any memnis that [they] have formed or witnessed, or share it with another Caamasi or a Force-sensitive character."
+    ],
+    "sources": [
+      "Desperate Allies: A Sourcebook for Diplomats (Page 19-20)"
+    ]
+  },
+  {
+    "key": "caarite",
+    "name": "Caarite",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Caarites begin the game with one rank in Negotiation or Streetwise. They still may not train  Negotiation or Streetwise above rank 2 during character creation. Caarites are smaller than average and count as silhouette 0.",
+      "Sauna Life: When making skill checks, Caarites may remove a setback die imposed due to hot environmental conditions. However, inexperience with cooler temperatures mean that any cold environment imposes a setback die to the character’s checks. With their GM’s approval a player with a Caarite character may spend 5 XP during creation to remove this disadvantage from their character."
+    ],
+    "sources": [
+      "The Living Force: A Sourcebook for the Cularin System (Page 85)"
+    ]
+  },
+  {
+    "key": "cerean",
+    "name": "Cerean",
+    "brawn": 2,
+    "agility": 1,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 13,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Cereans begin the game with one rank in Vigilance. They still may not train Vigilance above rank 2 during character creation.",
+      "Binary Processing: Cereans treat all Knowledge skills as career skills."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 54-55)"
+    ]
+  },
+  {
+    "key": "chadra_fan",
+    "name": "Chadra-Fan",
+    "brawn": 1,
+    "agility": 3,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Chadra-Fan are smaller than average and count as silhouette 0. Chadra-Fan begin the game with one rank in Mechanics. They still may not train Mechanics above rank 2 during character creation.",
+      "Acute Senses: Chadra-Fan hearing, vision, and olfactory senses are all far superior to most humanoids. They remove up to two setback dice from their Perception checks."
+    ],
+    "sources": [
+      "Stay on Target: A Sourcebook for Aces (Page 20-22)"
+    ]
+  },
+  {
+    "key": "chagrian",
+    "name": "Chagrian",
+    "brawn": 2,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Chagrians begin the game with one rank in Resilience. They still may not train Resilience above rank 2 during character creation.",
+      "Amphibious: Chagrians can breathe underwater without penalty and never suffer movement penalties for traveling through water.",
+      "Knowledge Specialization: Chagrians start with one rank in the Knowledge Specialization talent."
+    ],
+    "sources": [
+      "Lead by Example: A Sourcebook for Commanders (Page 19-20)"
+    ]
+  },
+  {
+    "key": "chevin",
+    "name": "Chevin",
+    "brawn": 3,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 80,
+    "special_abilities": [
+      "Special Abilities: Chevin begin the game with one rank in Negotiation. They still may not train Negotiation above rank 2 during character creation.",
+      "Advanced Olfaction: Though it originally developed to track prey, a Chevin's keen sense of smell can be valuable in many situations. Add a boost die to Perception checks involving the sense of smell.",
+      "Thick Hide: A Chevin's hide is thick and tough enough to absorb some damage, so they start the game with one rank in the Durable talent."
+    ],
+    "sources": [
+      "Far Horizons: A Sourcebook for Colonists (Page 21-22)"
+    ]
+  },
+  {
+    "key": "chiss",
+    "name": "Chiss",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Chiss begin the game with one rank in Cool. They still may not train Cool above rank 2 during character creation.",
+      "Infravision: Chiss have adapted to be able to see in both the infrared and normal visual spectra. This enables Chiss characters to remove up to a setback die added to checks by lighting conditions."
+    ],
+    "sources": [
+      "Enter the Unknown: A Sourcebook for Explorers (Page 20-21)"
+    ]
+  },
+  {
+    "key": "clawdite",
+    "name": "Clawdite",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Clawdites begin the game with one rank in Resilience. They still may not train Resilience above rank 2 during character creation.",
+      "Changeling: As an action, a Clawdite may suffer 3 strain and make an Average difficulty Resilience check. If the Clawdite succeeds, [they] change [their] appearance to match that of a silhouette 1 character whom [they] have observed before. An observing character must make opposed Perception vs Deception check to detect that something is amiss with the impersonated character's likeness. As always, the GM can add a boost die or setback die for situational effects that might affect the check, such as a boost die if the Clawdite's garb does not match expectations or a setback die if the Clawdite has studied the impersonated individual's mannerisms closely."
+    ],
+    "sources": [
+      "No Disintegrations: A Sourcebook for Bounty Hunters (Page 20-22)"
+    ]
+  },
+  {
+    "key": "clone",
+    "name": "Clone",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Clones start the game with one rank in Knowledge (Warfare) and one rank in Resilience. They still may not train these skills above rank 2 during character creation.",
+      "Kamino Training: Clones start with one rank in the Physical Training talent."
+    ],
+    "sources": [
+      "Collapse of the Republic: An Era Sourcebook (Page 11-12)"
+    ]
+  },
+  {
+    "key": "corellian_human",
+    "name": "Corellian Human",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Special Abilities: Corellians begin the game with one rank in Piloting (Planetary) or Piloting (Space). Because Corellians are naturally exceptional pilots and grow up handling swoops, airspeeders, and spacecraft from a young age, they may train Piloting up to rank 3 during character creation."
+    ],
+    "sources": [
+      "Suns of Fortune: A Sourcebook for the Corellian Sector (Page 93-94)"
+    ]
+  },
+  {
+    "key": "cosian",
+    "name": "Cosian",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Cosians begin the game with one rank in Knowledge (Lore). They still cannot train Knowledge (Lore) above rank 2 during character creation.",
+      "Strong Backed: All Cosians have an encumbrance threshold of 10 + Brawn."
+    ],
+    "sources": [
+      "Disciples of Harmony: A Sourcebook for Consulars (Page 18-19)"
+    ]
+  },
+  {
+    "key": "dashade",
+    "name": "Dashade",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 75,
+    "special_abilities": [
+      "Special Abilities: Dashade begin the game with one rank in Athletics or Resilience. They still may not train Athletics or Resilience above rank 2 during character creation.",
+      "Force Resistance: Upgrade the difficulty of Force power skill checks targeting a Dashade once.",
+      "Dissipating Hide: Dashade remove a setback die imposed due to hot or radioactive environments. They add two setback dice to any checks made to detect them with thermal sensors."
+    ],
+    "sources": [
+      "The Old Republic: An Era Sourcebook (Page 6)"
+    ]
+  },
+  {
+    "key": "dathomirian",
+    "name": "Dathomirian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Dathomirians begin the game with one rank in Coercion and one rank in Survival. They still may not train these skills above rank 2 during character creation.",
+      "Harsh Upbringing: Dathomirians begin the game with one rank of the Outdoorsman talent."
+    ],
+    "sources": [
+      "Collapse of the Republic: An Era Sourcebook (Page 12-13)"
+    ]
+  },
+  {
+    "key": "devaronian",
+    "name": "Devaronian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Devaronians begin the game with one rank in Survival or Deception. They still may not train Survival or Deception  above rank 2 during character creation.",
+      "Resilient Metabolism: Devaronian physiology is naturally hardy and resistant to toxins. Members of the species add an automatic success result to all Resilience checks they make."
+    ],
+    "sources": [
+      "No Disintegrations: A Sourcebook for Bounty Hunters (Page 23-24)"
+    ]
+  },
+  {
+    "key": "dowutin",
+    "name": "Dowutin",
+    "brawn": 3,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 15,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 85,
+    "special_abilities": [
+      "Special Abilities: Dowutins begin the game with one rank in Resilience. They still may not train Resilience above rank 2 during character creation.",
+      "Large: Dowutins have a silhouette of 1 or 2, chosen at character creation.",
+      "Immovable: Dowutins who suffer the immobilized condition, are knocked prone, or otherwise moved against their will may, as an out-of-turn incidental, suffer 3 strain to avoid the effect. Dowutins who are silhouette 2 suffer only 1 strain to use this ability."
+    ],
+    "sources": [
+      "Knights of Fate: A Sourcebook for Warriors(Page 18-19)"
+    ]
+  },
+  {
+    "key": "drabatan",
+    "name": "Drabatan",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Drabatans begin the game with one rank in either Charm or Leadership. They still may not train either skill above rank 2 during character creation.",
+      "Big Noise: When making a Leadership or Coercion check, Drabatans can spend two advantage results to affect one additional character not originally targeted by the check or affect targets at one range band further than normal."
+    ],
+    "sources": [
+      "Dawn of Rebellion: An Era Sourcebook (Page 92-93)"
+    ]
+  },
+  {
+    "key": "drall",
+    "name": "Drall",
+    "brawn": 1,
+    "agility": 1,
+    "intellect": 4,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Drall begin the game with one rank in Knowledge (Education). They still may not train Knowledge (Education) above rank 2 during character creation. Drall have a mind for problems and solutions. In addition to using [their] skill or characteristic rating, a Drall adds a boost die to the dice pool when providing skilled assistance."
+    ],
+    "sources": [
+      "Suns of Fortune: A Sourcebook for the Corellian Sector (Page 90-91)"
+    ]
+  },
+  {
+    "key": "dressellian",
+    "name": "Dressellian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Special Abilities: Dressellians begin the game with one rank in Survival. They still may not train Survival above rank 2 during character creation.",
+      "Primitive: Dressellians upgrade the difficulty of any checks involving advanced technology. this counts as any technology not available on the Dressellian's home planet, though individual pieces of technology they become familiar with over an extended period of time can become exempt from this at the GM's discretion. Dressellians can spend 10 XP at character creation to remove this penalty permanently."
+    ],
+    "sources": [
+      "Stay on Target: A Sourcebook for Aces (Page 22-23)"
+    ]
+  },
+  {
+    "key": "droid",
+    "name": "Droid",
+    "brawn": 1,
+    "agility": 1,
+    "intellect": 1,
+    "cunning": 1,
+    "willpower": 1,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 175,
+    "special_abilities": [
+      "Special Abilities: Droids do not need to eat, sleep, or breathe, and are unaffected by toxins and poisons. Droids have a cybernetic implant cap of 6 instead of their Brawn rating. In addition, after selecting a career, a droid Player Character may train one rank each in six of the eight career skills (instead of the usual four). After selecting a specialization, a droid may train one rank each in three of the four specialization skills (instead of the usual two).",
+      "Inorganic: Since droids are inorganic, they do not gain the benefits of recovering with a bacta tank, a stimpack, or Medicine skill checks. Droids do recover naturally by resting, as their systems attempt self-repairs. If self-repair is not adequately effective, a droid needs to be tended to with a Mechanics check, using the same difficulties and results as Medicine checks for organic beings. Emergency repair patches can be used to repair damage, just like stimpacks can be used on organic beings. Due to their resilient metallic construction, droids start the game with one rank in the Enduring talent.",
+      "Mechanical Being: Droids cannot become Force-sensitive nor acquire a Force rating by any means. Droids cannot use Force powers and also cannot be affected by mind-altering Force powers."
+    ],
+    "sources": [
+      "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 53-54)"
+    ]
+  },
+  {
+    "key": "dug",
+    "name": "Dug",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Dugs begin the game with one rank in Brawl. They still may not train Brawl above rank 2 during character creation.",
+      "Born to Ride: Whether it be atop dangerous beasts or screaming repulsorcraft, Dugs are particularly adept riders. They begin the game with one rank of the Defensive Driving talent."
+    ],
+    "sources": [
+      "Special Modifications: A Sourcebook for Technicians (Page 22-24)"
+    ]
+  },
+  {
+    "key": "duros",
+    "name": "Duros",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Duros begin the game with one rank in Piloting (Space). They still may not train Piloting (Space) above rank 2 during character creation.",
+      "Intuitive Navigation: Duros may add an advantage result to all Astrogation checks they make."
+    ],
+    "sources": [
+      "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 55)"
+    ]
+  },
+  {
+    "key": "echani",
+    "name": "Echani",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Echani begin the game with one rank in Brawl or Melee. They still may not train Brawl or Melee above rank 2 during character creation.",
+      "Communication by Combat: Echani may spend two advantage results from a Brawl, Melee or Lightsaber check to discover their targets motivation or gain insight into their emotional state."
+    ],
+    "sources": [
+      "The Old Republic: An Era Sourcebook (Page 7)"
+    ]
+  },
+  {
+    "key": "elom",
+    "name": "Elom",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Eloms begin the game with one rank in Resilience. They still may not train Resilience above rank 2 during character creation.",
+      "Digging Claws: Before using a maneuver to move, an Elom may spend a maneuver to dig, allowing the Elom to use that move maneuver to travel through loose soil or similar terrain. At the Game Master's discretion, this excavation can result in a low, narrow tunnel that others can use."
+    ],
+    "sources": [
+      "Forged in Battle: A Sourcebook for Soldiers (Page 18-21)"
+    ]
+  },
+  {
+    "key": "elomin",
+    "name": "Elomin",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 105,
+    "special_abilities": [
+      "Special Abilities: Elomin begin the game with one rank in Charm and one rank in Knowledge (Education). They still may not train Charm or Knowledge (Education) above rank 2 during character creation."
+    ],
+    "sources": [
+      "Forged in Battle: A Sourcebook for Soldiers (Page 18-21)"
+    ]
+  },
+  {
+    "key": "evereni",
+    "name": "Evereni",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Evereni begin the game with one rank in either Deception or Skulduggery. They still may not train Deception or Skulduggery above rank 2 during character creation.",
+      "Distrustful: Evereni add a setback die to all Charm checks they make. Other characters add a setback die to all Social checks they make when targeting Evereni."
+    ],
+    "sources": [
+      "For Light and Life: An Era Sourcebook (Page 14-16)"
+    ]
+  },
+  {
+    "key": "ewok",
+    "name": "Ewok",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 120,
+    "special_abilities": [
+      "Special Abilities: Ewoks are usually smaller than average and count as silhouette 0. They begin the game with one rank in either Stealth or Survival. They still may not train either skill above rank 2 during character creation.",
+      "Acute Senses: Ewoks add a boost die to Perception and Vigilance checks.",
+      "Low-Tech Users: Ewoks upgrade the difficulty of any checks involving advanced technology not available on their home planet once. If an Ewok uses a particular piece of technology for an extended period of time, they make become familiar with it and may be exempt from this rule when using that piece of technology (at the GM's discretion). In addition, with their GM's approval a player with an Ewok character may spend 10 XP to remove this disadvantage from their character."
+    ],
+    "sources": [
+      "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 119)"
+    ]
+  },
+  {
+    "key": "falleen",
+    "name": "Falleen",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Falleen begin the game with one rank in Charm. They still may not train Charm above rank 2 during character creation.",
+      "Beguiling Pheromones: By emitting, pheromones and altering their skin color, Falleen can affect emotional states of other sentients. Once per check as an incidental, a Falleen may suffer 2 strain to upgrade the ability of a Charm, Deception, or Negotiation check against a living sentient being within short range once. This ability has no effect on targets wearing breath masks or without respiratory systems."
+    ],
+    "sources": [
+      "Fly Casual: A Sourcebook for Smugglers (Page 18-20)"
+    ]
+  },
+  {
+    "key": "filordi",
+    "name": "Filordi",
+    "brawn": 3,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 75,
+    "special_abilities": [
+      "Special Abilities: Filordi begin the game with one rank in Perception or Vigilance. They still may not train Perception or Vigilance above rank 2 during character creation.",
+      "Additional Limbs: Filord have six limbs: two legs and four arms. As a result, they gain an additional free maneuver per turn, although they still may not perform more than two maneuvers per turn.",
+      "Pincer Feet: When a Filordi makes Brawl checks to deal damage to an opponent, they deal +1 damage and have a Critical Rating of 3."
+    ],
+    "sources": [
+      "The Living Force: A Sourcebook for the Cularin System (Page 86)"
+    ]
+  },
+  {
+    "key": "gand",
+    "name": "Gand",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Gand begin the game with one rank in Discipline. They still may not train Discipline above rank 2 during character creation.",
+      "Ammonia Breathers: One notable difference between the two main subspecies of Gand is that one has lungs and one does not. Those who have lungs breathe an ammonia gas mixture. Those without lungs do not respire and gain all necessary metabolic substances through food. When playing a Gand, each player chooses whether [they] wish [their] character to have lungs or not. If [they] select to play a lungless Gand, [their] character is immune to suffocation (but not the wounds suffered from being exposed to vacuum). If [they] choose to play a Gand with lungs, [they] start the game with an ammonia respirator, and treats oxygen as a dangerous atmosphere with Rating 8. However, [they] gain +10 starting XP."
+    ],
+    "sources": [
+      "Endless Vigil: A Sourcebook for Sentinels (Page 18-20)"
+    ]
+  },
+  {
+    "key": "gank",
+    "name": "Gank",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Special Abilities: Ganks begin the game with one rank in Coercion or Vigilance. They still may not train Coercion or Vigilance above rank 2 during character creation.",
+      "Cyborg: All Ganks are cyborgs, and each one often posseses several different cybernetic implants. A Gank begins play with up to two cybernetics that cost a total of up to 5,000 credits. If a character takes on additional Obligation for credits at character creation, [they] may apply these extra funds to the 5,000 credit budget to purchase cybernetics. Ganks have a cybernetic implant cap of 3 plus Brawn rating."
+    ],
+    "sources": [
+      "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 95-96)"
+    ]
+  },
+  {
+    "key": "geonosian",
+    "name": "Geonosian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 1,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 140,
+    "special_abilities": [
+      "Special Abilities: Geonosians begin with one rank in a skill of their choice. They still may not train this skill above rank 2 at character creation.",
+      "Industrious: A Geonosian who provides assistance adds a boost die to the check, in addition to the normal benefits of assistance, and the Geonosian heals 1 strain.",
+      "Winged: Geonosians can fly."
+    ],
+    "sources": [
+      "Rise of the Separatists: An Era Sourcebook (Page 12-13)"
+    ]
+  },
+  {
+    "key": "gigoran",
+    "name": "Gigoran",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 1,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Gigorans begin the game with one rank in Brawl. They still may not train Brawl above rank 2 during character creations.",
+      "Adapted to the Cold: Gigorans remove a setback die imposed due to cold or snow-filled conditions.",
+      "Low-Tech: Gigorans upgrade the difficulty of Mechanics checks involving advanced technology once."
+    ],
+    "sources": [
+      "Dawn of Rebellion: An Era Sourcebook (Page 93-94)"
+    ]
+  },
+  {
+    "key": "gossam",
+    "name": "Gossam",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Gossams begin the game with one rank in Deception. They still may not train Deception above rank 2 during character creation.",
+      "Small: Gossams are smaller than average and count as silhouette 0."
+    ],
+    "sources": [
+      "Desperate Allies: A Sourcebook for Diplomats (Page 22-23)"
+    ]
+  },
+  {
+    "key": "gotal",
+    "name": "Gotal",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Gotals begin the game with one rank in Perception. They still may not train Perception above rank 2 during chracter creation.",
+      "Energy Sensitivity: The head cones of a Gotal are finely tuned sensory organs used to detect almost the entirety of the electromagnetic spectrum. Once per encounter as a maneuver, a Gotal may sense the presence and current emotional states of all living things within short range of himself."
+    ],
+    "sources": [
+      "Fly Casual: A Sourcebook for Smugglers (Page 21-22)"
+    ]
+  },
+  {
+    "key": "gozzo",
+    "name": "Gozzo",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Gozzo begin with one rank in Negotiation. They still may not train this skill above rank 2 at character creation.",
+      "Who Dares, Gains: Once per encounter, during a check, you may upgrade the difficulty of the check to add a success and advantage result to your final result."
+    ],
+    "sources": [
+      "Fires of Resistance: An Unofficial Era Sourcebook (Page 4-5)"
+    ]
+  },
+  {
+    "key": "gran",
+    "name": "Gran",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Gran begin the game with one rank in Charm or Negotiation. They still may not train Charm or Negotiation above rank 2 in character creation.",
+      "Enhanced Vision: When making ranged combat or Perception checks, Gran remove up to two setback dice imposed due to environmental conditions or concealment (but not defense)."
+    ],
+    "sources": [
+      "Far Horizons: A Sourcebook for Colonists (Page 22-23)"
+    ]
+  },
+  {
+    "key": "gungan",
+    "name": "Gungan",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 1,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Gungans begin the game with one rank in Athletics. They still may not train Athletics above rank 2 during character creation.",
+      "Amphibious: Gungans may breathe underwater without penalty and never suffer movement penalties for traveling through water."
+    ],
+    "sources": [
+      "Nexus of Power: A Sourcebook of Worlds Strong in the Force (Page 101)"
+    ]
+  },
+  {
+    "key": "harch",
+    "name": "Harch",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 75,
+    "special_abilities": [
+      "Special Abilities: Harches begin the game with one rank in Perception. They still may not train this skill above rank 2 during character creation.",
+      "Additional Limbs: Harches have multiple sets of arms. As a result, they gain an additional free maneuver per turn, though still may not perform more than two maneuvers per turn.",
+      "Venomous Fangs: When a Harch makes a Brawl check to deal damage to an opponent, the attack gains the Stun 3 item quality."
+    ],
+    "sources": [
+      "Collapse of the Republic: An Era Sourcebook (Page 14-15)"
+    ]
+  },
+  {
+    "key": "human",
+    "name": "Human",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Special Abilities: Humans start the game with one rank each in two different non-career skills of their choice. They still may not train these skills above rank 2 at character creation."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 55-57)"
+    ]
+  },
+  {
+    "key": "human_onderonian",
+    "name": "Human (Onderonian)",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Special Abilities: Onderonians begin the game with one rank in Survival.",
+      "Natural Animal Handlers: Due to their homeworld's strong beast-riding traditions, Onderonian Humans may train Survival up to rank 3 during character creation."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 269)"
+    ]
+  },
+  {
+    "key": "hutt",
+    "name": "Hutt",
+    "brawn": 3,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 13,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 70,
+    "special_abilities": [
+      "Special Abilities: Hutts begin the game with one rank in the Enduring talent and one rank in the Nobody's Fool talents. Hutts begin the game with one rank in Coercion or Discipline. They still may not train Coercion or Discipline above rank 2 during character creation.",
+      "Ponderous: A Hutt can never spend more than one maneuver moving per turn."
+    ],
+    "sources": [
+      "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 94)"
+    ]
+  },
+  {
+    "key": "iakaru",
+    "name": "Iakaru",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Iakaru begin the game with one rank in Piloting (Space). They still may not train Piloting (Space) above rank 2 during character creation.",
+      "Brachiation: Iakaru suffer no terrain penalties to movement through jungles or similar environments. They also add a boost die to Athletics and Coordination checks related to climbing, swinging, and balancing."
+    ],
+    "sources": [
+      "Dawn of Rebellion: An Era Sourcebook (Page 94-95)"
+    ]
+  },
+  {
+    "key": "iktotchi",
+    "name": "Iktotchi",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Iktotchi begin the game with one rank in Vigilance. They still may not train Vigilance above rank 2 during character creation.",
+      "Precognition: Iktotchi occasionally see glimpses of the future, letting them predict certain events even before they occur. In addition to seeing flashes of the future at the GM's discretion, an Iktotchi may spend a triumph result on a check to determine Initiative to perform a free maneuver before the encounter begins or to have an ally in short range perform a free maneuver before the encounter begins."
+    ],
+    "sources": [
+      "Keeping the Peace: A Sourcebook for Guardians (Page 18-19)"
+    ]
+  },
+  {
+    "key": "ishi_tib",
+    "name": "Ishi Tib",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Ishi Tib begin the game with one rank in Discipline. They still may not train Discipline above rank 2 during character creation.",
+      "Amphibious: Ishi Tib can breathe underwater without penalty and never suffer movement penalties for traveling through water.",
+      "Water Dependence: If an Ishi Tib has not been doused in salt water in the last twenty-four hours, the character's wound threshold is reduced by 2. This condition remains in effect until the Ishi Tib is doused in salt water."
+    ],
+    "sources": [
+      "Lead by Example: A Sourcebook for Commanders (Page 21-22)"
+    ]
+  },
+  {
+    "key": "ithorian",
+    "name": "Ithorian",
+    "brawn": 2,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Ithorians begin the game with one rank in Survival. They still may not train Survival above rank 2 during character creation.",
+      "Ithorian Bellow: With two mouths and four throats, Ithorians have a unique natural weapon they can call upon when threatened (Resilience; Damage 6; Critical 4; Range [Short]; Blast 3, Concussive 1, Slow-Firing 2, Stun Damage). Each time they use this ability, they suffer 3 strain."
+    ],
+    "sources": [
+      "Savage Spirits: A Sourcebook for Seekers (Page 20-21)"
+    ]
+  },
+  {
+    "key": "jawa",
+    "name": "Jawa",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 120,
+    "special_abilities": [
+      "Special Abilities: Jawas begin the game with one rank in Negotiation or Skulduggery. They still may not train Negotiation or Skulduggery above rank 2 during character creation.",
+      "Clever Negotiators: Jawas may use Cunning instead of Presence when making Negotiation checks."
+    ],
+    "sources": [
+      "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 92)"
+    ]
+  },
+  {
+    "key": "kage",
+    "name": "Kage",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Kage begin the game with one rank in either Brawl or Coordination. They still may not train these skills above rank 2 during character creation.",
+      "Martial Tradition: Kage begin the game with one rank in the Iron Body talent."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 269)"
+    ]
+  },
+  {
+    "key": "kaleesh",
+    "name": "Kaleesh",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Kaleesh begin the game with one rank in either Coercion or Melee. They still may not train these skills above rank 2 during character creation.",
+      "War Mask: Because of their fierce appearance, Kaleesh suffer a setback die on all Charm and Negotiation checks."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 270)"
+    ]
+  },
+  {
+    "key": "kalleran",
+    "name": "Kalleran",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Kallerans begin the game with one rank in Streetwise. They still may not train Streetwise above rank 2 during character creation.",
+      "Hypersensitive Antennae: Kallerans begin the game with the Heightened Awareness talent."
+    ],
+    "sources": [
+      "No Disintegrations: A Sourcebook for Bounty Hunters (Page 25-26)"
+    ]
+  },
+  {
+    "key": "kaminoan",
+    "name": "Kaminoan",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Kaminoans begin the game with one rank in Medicine. They still may not train Medicine above rank 2 during character creation. They also start the game with one rank in the Researcher talent.",
+      "Expressionless: Kaminoans add a setback die to all Charm checks they make. Other characters add a setback die to all Social skill checks they make when targeting Kaminoans."
+    ],
+    "sources": [
+      "Rise of the Separatists: An Era Sourcebook (Page 14-15)"
+    ]
+  },
+  {
+    "key": "karkarodon",
+    "name": "Karkarodon",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 1,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Karkarodons begin the game with one rank in Athletics. They still may not train this skill above rank 2 during character creation.",
+      "Amphibious: Karkarodons may breathe underwater without penalty and never suffer movement penalties for traveling through water.",
+      "Jaws: When a Karkarodon make a Brawl check to deal damage to an opponent, they deal +1 damage and the attack has a critical rating of 3."
+    ],
+    "sources": [
+      "Collapse of the Republic: An Era Sourcebook (Page 15-16)"
+    ]
+  },
+  {
+    "key": "kel_dor",
+    "name": "Kel Dor",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Kel Dors begin the game with one rank in Knowledge (Education). They still may not train Knowledge (Education) above rank 2 during character creation.",
+      "Dark Vision: When making skill checks, Kel Dors remove up to two setback dice imposed due to darkness.",
+      "Atmospheric Requirement: Kel Dors must wear a specialized mask to breathe and see outside of their native atmosphere. A Kel Dor character starts the game with an antitox breath mask and treats oxygen as a dangerous atmosphere with Rating 8. However, Kel Dors may survive in vacuum for up to five minutes before suffering its effects."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 57-58)"
+    ]
+  },
+  {
+    "key": "klatooinian",
+    "name": "Klatooinian",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Klatooinians begin the game with one rank in either Brawl or Ranged (Heavy) or Ranged (Light). In addition, a Klatooinian starts the game with one additional rank of one non-career skill of [their] choice. [They] may not train any of these skills above rank 2 during character creation."
+    ],
+    "sources": [
+      "Dangerous Covenants: A Sourcebook for Hired Guns (Page 20-22)"
+    ]
+  },
+  {
+    "key": "kubaz",
+    "name": "Kubaz",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Kubaz begin the game with one free rank in Stealth or Survival. They still may not train Stealth or Survival above rank 2 during character creation.",
+      "Enhanced Vision: When making Ranged combat or Perception checks, Kubaz may remove up to two setback dice imposed due to concealment or appliable environmental factors (but not defense)."
+    ],
+    "sources": [
+      "Cyphers and Masks: A Sourcebook for Spies (Page 20-21)"
+    ]
+  },
+  {
+    "key": "kyuzo",
+    "name": "Kyuzo",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Kyuzo begin the game with one rank in Coordination. They still may not train Coordination above rank 2 during character creation..",
+      "Dense Musculature: Kyuzo are adapted for Phatrong's relatively high gravity, and can make impressive bounding leaps on most other worlds. Once per round as a maneuver, a Kyuzo may suffer 3 strain to leap horizontally or vertically to any location within medium range."
+    ],
+    "sources": [
+      "Forged in Battle: A Sourcebook for Soldiers (Page 22-24)"
+    ]
+  },
+  {
+    "key": "lannik",
+    "name": "Lannik",
+    "brawn": 2,
+    "agility": 1,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Lanniks begin the game with one rank in Streetwise. They still may not train Streetwise above rank 2 during character creation.",
+      "Indomitable: A Lannik removes up to two setback die caused by Critical Injuries, fear, or the disoriented condition from all checks."
+    ],
+    "sources": []
+  },
+  {
+    "key": "lasat",
+    "name": "Lasat",
+    "brawn": 3,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Lasats begin the game with one rank in either Brawl or Knowledge (Lore). They still may not train either skill above rank 2 during character creation.",
+      "Prehensile Feet: Lasats can move along a vertical surface as if the surface is horizontal."
+    ],
+    "sources": [
+      "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 19)"
+    ]
+  },
+  {
+    "key": "mandalorian_human",
+    "name": "Mandalorian Human",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 105,
+    "special_abilities": [
+      "Special Abilities: Mandalorians begin the game with their choice of either one rank in a combat skill of their choice, or one rank each in two knowledge skills of their choice. They still may not train these skills above rank 2 during character creation."
+    ],
+    "sources": [
+      "Friends Like These: Adventure Module (Page 7-8)"
+    ]
+  },
+  {
+    "key": "melitto",
+    "name": "Melitto",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Melittos begin the game with one rank in Perception. They still may not train Perception above rank 2 during character creation.",
+      "Sightless Vision: Melittos can perceive their surroundings without needing light, and they never suffer penalties on combat or Perception checks due to darkness or other environmental factors that affect vision.",
+      "Reliant on Toxins: Melittos require the toxins of their native atmosphere to live; offworld, they gain free special respirators to emulate the conditions of their homeworld. They treat standard planetary air composition as a corrosive atmosphere with rating 6."
+    ],
+    "sources": [
+      "Cyphers and Masks: A Sourcebook for Spies (Page 21-23)"
+    ]
+  },
+  {
+    "key": "mikkian",
+    "name": "Mikkian",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Mikkians begin the game with one rank in Discipline. They still may not train Discipline above rank 2 during character creation.",
+      "Sensory Tendrils: Mikkians add a boost die to all Perception checks they make."
+    ],
+    "sources": [
+      "Knights of Fate: A Sourcebook for Warriors(Page 20-21)"
+    ]
+  },
+  {
+    "key": "miraluka",
+    "name": "Miraluka",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Miraluka begin the game with one rank in Discipline. They still may not train Discipline above rank 2 during character creation.",
+      "Force Sight: Miraluka are blind from birth but rely on the Force to perceive their environment. They remove any setback die added to their checks as a result of smoke, darkness or concealment, but add two setback dice to any checks that require precise investigation. They may never benefit from equipment that relies on the user's vision. Should a Miraluka become disconnected from the Force, they lose any benefits of Force Sight and incur all penalties of the \"Blinded\" Critical Injury."
+    ],
+    "sources": [
+      "The Old Republic: An Era Sourcebook (Page 8)"
+    ]
+  },
+  {
+    "key": "mirialan",
+    "name": "Mirialan",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Mirialans begin the game with one rank in Discipline and one rank in Cool. They still may not train Discipline or Cool above rank 2 during character creation."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 58-59)"
+    ]
+  },
+  {
+    "key": "mon_calamari",
+    "name": "Mon Calamari",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Mon Calamari begin the game with one rank in Knowledge (Education). They still may not train Knowledge (Education) above rank 2 during character creation.",
+      "Amphibious: Mon Calamari can breathe underwater without penalty and never suffer movement penalties for traveling through water."
+    ],
+    "sources": [
+      "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 59)"
+    ]
+  },
+  {
+    "key": "mustafarian",
+    "name": "Mustafarian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Each Mustafarian subspecies has its own special abilities, listed below.",
+      "Special Abilities: Norther Mustafarians may remove two setback dice from checks to resist arid or hot environmental conditions. Additionally, they begin play with one rank in the Eye for Detail talent.",
+      "Special Abilities: Souther Mustafarians may remove two setback dice from checks to resist arid or hot environmental conditions. Additionally, they begin play with one rank of the Enduring talent."
+    ],
+    "sources": [
+      "Special Modifications: A Sourcebook for Technicians (Page 24-26)"
+    ]
+  },
+  {
+    "key": "muun",
+    "name": "Muun",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 3,
+    "willpower": 1,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Muun begin the game with one rank in Knowledge (Education) and one rank in Knowledge (Core Worlds). They still may not train Knowledge (Education) or Knowledge (Core Worlds) above rank 2 during character creation.",
+      "Deep Pockets: Muun characters start the game with an additional 1,000 credits (they may not spend these credits during character creation)."
+    ],
+    "sources": [
+      "Endless Vigil: A Sourcebook for Sentinels (Page 20-21)"
+    ]
+  },
+  {
+    "key": "mythrol",
+    "name": "Mythrol",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Semi-Aquatic: Can breath underwater.",
+      "Sonic Senses: Can hear super and sub sonic noise, add a boost die to checks involving hearing",
+      "Heat Resistant: Remove a setback die imposed by hot environments."
+    ],
+    "sources": []
+  },
+  {
+    "key": "nautolan",
+    "name": "Nautolan",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Nautolans begin the game with one rank in Athletics. They still may not train Athletics above rank 2 during character creation.",
+      "Amphibious: Nautolans may breathe underwater without penalty and never suffer movement penalties for traveling through water."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 59)"
+    ]
+  },
+  {
+    "key": "neimoidian",
+    "name": "Neimoidian",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 3,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Neimoidians begin the game with one rank in either Deception or Negotiation. They still may not train Deception or Negotiation above rank 2 during character creation."
+    ],
+    "sources": [
+      "Desperate Allies: A Sourcebook for Diplomats (Page 20-22)"
+    ]
+  },
+  {
+    "key": "nikto",
+    "name": "Nikto",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Each Nikto subspecies has its own special abilities, listed here."
+    ],
+    "sources": [
+      "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 96-98)"
+    ]
+  },
+  {
+    "key": "noghri",
+    "name": "Noghri",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Noghri gain a free rank in the Stalker Talent."
+    ],
+    "sources": [
+      "The Thrawn Trilogy: An Era Sourcebook (Page 58)"
+    ]
+  },
+  {
+    "key": "pantoran",
+    "name": "Pantoran",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Special Abilities: Pantorans begin the game with one rank in either Cool or Negotiation. They still may not train Cool or Negotiation above rank 2 during character creation.",
+      "Tundra Dwellers: When making skill checks, Pantorans may remove a setback die imposed due to cold environmental conditions."
+    ],
+    "sources": [
+      "Endless Vigil: A Sourcebook for Sentinels (Page 22-23)"
+    ]
+  },
+  {
+    "key": "patrolian",
+    "name": "Patrolian",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Patrolians are smaller than average and count as Silhouette 0. Patrolians begin the game with one rank in either Computers or Skulduggery. They still may not train these skills above rank 2 during character creation.",
+      "Amphibious: Patrolians can breathe underwater without penalty and never suffer movement penalties for traveling through water.",
+      "Slicer By Nature: Patrolians being the game with one rank in the Bypass Security talent."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 270)"
+    ]
+  },
+  {
+    "key": "pau_an",
+    "name": "Pau'an",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Pau'ans begin the game with one rank in Negotiation or Coercion. They still cannot train Negotiation or Coercion above rank 2 during character creation.",
+      "Sensitive Hearing: Pau'ans add a boost die to all Perception and Vigilance checks they make as long as they are wearing their protective earpieces. If they are not wearing these earpieces, they do not gain the bonus, and they add a threat result to Perception and Vigilance checks they make instead."
+    ],
+    "sources": [
+      "Disciples of Harmony: A Sourcebook for Consulars (Page 19-20)"
+    ]
+  },
+  {
+    "key": "phrogg",
+    "name": "Phrogg",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "1 rank in Discipline or Charm",
+      "Amphibian: Can breath underwater and remove penalties for being underwater. Remove a setback die from humidity and heat, add a setback die for dry or cold conditions.",
+      "Prehensile Tongue: May pick up items within Short range as an incidental",
+      "Leaping Lizards: Upgrade Athletic and Coordination checks once if they involve jumping."
+    ],
+    "sources": [
+      "Adventures in Babysitting: A Source Book for \"The Mandalorian\" Seasons 1 and 2 (Page 18)"
+    ]
+  },
+  {
+    "key": "phydolon",
+    "name": "Phydolon",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Phydolons begin the game with one rank in Cool or Discipline. They still may not train Cool or Discipline above rank 2 during character creation.",
+      "Symbiotic Resilience: When recovering wounds naturally, Phydolons heal 1 extra wound per night's rest. In addition, a Phydolon may attempt to recover naturally from one Critical Injury after a full night's rest, instead of after a full week.",
+      "Symbiont Isolation: If no other Phydolons are present when a Phydolon recovers strain at the end of an encounter, they recover 1 less strain to a minimum of 1."
+    ],
+    "sources": [
+      "Knights of Fate: A Sourcebook for Warriors(Page 21-22)"
+    ]
+  },
+  {
+    "key": "polis_massan",
+    "name": "Polis Massan",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Polis Massans begin the game with one rank in Medicine. They still may not train Medicine above rank 2 during character creation.",
+      "No Vocal Chords: The vast majority of Polis Massans are born without vocal chords, though a small subset does possess them. Referred to as \"speakers\" by their people, these rare individuals can physically speak languages, though their voices are soft and strangely resonant. When creating a Polis Massan character, a player may spend 10 starting XP to specify that the character possesses vocal chords.",
+      "Telepathy: Polis Massans can communicate with other beings at short range using a simple form of telepathy. This communication is akin to a broadcast, and anyone within short range \"hears\" the Polis Massan's speech. Polis Massans can only \"whisper\" privately to beings they are engaged with."
+    ],
+    "sources": [
+      "Strongholds of Resistance: A Sourcebook of Alliance Worlds (Page 98-99)"
+    ]
+  },
+  {
+    "key": "pyke",
+    "name": "Pyke",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Pykes begin the game with one rank in Streetwise. They still may not train this skill above rank 2 during character creation.",
+      "Family Business: Pykes begin the game with one rank in the Black Market Contacts talent and adds a boost die to any Knowledge checks relating to the illegal spice trade."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 271)"
+    ]
+  },
+  {
+    "key": "quarren",
+    "name": "Quarren",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 1,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Quarren begin the game with one rank in Negotiation. They still may not train Negotiation above rank 2 during character creation.",
+      "Amphibious: Quarren can breathe underwater without penalty and never suffer movement penalties for traveling through water.",
+      "Ink Spray: Quarren can spit ink from a specialized sac within their gills that disperses in water, creating a brief murk used to confuse foes or escape predators. This ability can be used on land as well, though it is considerably less effective because it must be sprayed directly at the target. Once per encounter, as an out-of-turn incidental, a Quarren may suffer 2 strain to add a setback die to a combat check made by a character within short range (underwater, it adds three setback dice to the combat check instead)."
+    ],
+    "sources": [
+      "Strongholds of Resistance: A Sourcebook of Alliance Worlds (Page 100-101)"
+    ]
+  },
+  {
+    "key": "quermian",
+    "name": "Quermian",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 85,
+    "special_abilities": [
+      "Special Abilities: Quermians begin the game with one rank in Perception. They still may not train Perception above rank 2 during character creation.",
+      "Additional Limbs: Quermians have six limbs: two legs and four arms. As a result, they gain an additional free maneuver per turn, although they still may not perform more than two maneuvers per turn."
+    ],
+    "sources": [
+      "Savage Spirits: A Sourcebook for Seekers (Page 21-23)"
+    ]
+  },
+  {
+    "key": "rattataki",
+    "name": "Rattataki",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Rattataki begin the game with one rank in a combat skill of their choice. They still may not train this skill above rank 2 during character creation.",
+      "Culture of Violence: For their violent nature, Rattataki are poorly regarded across the galaxy. They add a setback die to any Charm, Deception, Leadership and Negotiation checks they make, but they add a boost die to any Coercion checks. This does not apply when interacting with other Rattataki."
+    ],
+    "sources": [
+      "The Old Republic: An Era Sourcebook (Page 9)"
+    ]
+  },
+  {
+    "key": "rodian",
+    "name": "Rodian",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Rodians begin the game with one rank in Survival. They still may not train Survival above rank 2 during character creation. Rodians start with one rank in the Expert Tracker talent."
+    ],
+    "sources": [
+      "Star Wars Edge of the Empire Roleplaying Game: Core Rulebook (Page 49-50)"
+    ]
+  },
+  {
+    "key": "sakiyan",
+    "name": "Sakiyan",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 80,
+    "special_abilities": [
+      "Special Abilities: Sakiyans begin the game with one rank in Perception or Vigilance. They still may not train Perception or Vigilance above rank 2 during character creation. Sakiyans also start with one rank in the Expert Tracker talent."
+    ],
+    "sources": [
+      "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 98-99)"
+    ]
+  },
+  {
+    "key": "sathari",
+    "name": "Sathari",
+    "brawn": 1,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 8,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Sathari begin with one rank in Coordination. They still may not train Coordination above rank 2 during character creation.",
+      "Glider: A Sathari can fall safely from any height and can glide over small gaps or distances while falling. While conscious, a Sathari character does not suffer damage from falling."
+    ],
+    "sources": [
+      "Chronicles of the Gatekeeper: Adventure Module (Page 15)"
+    ]
+  },
+  {
+    "key": "selkath",
+    "name": "Selkath",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Selkath begin the game with one rank in Medicine. They still may not train this skill above rank 2 during character creation.",
+      "Amphibious: Selkath can breathe underwater without penalty and never suffer movement penalties for traveling through water."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 271)"
+    ]
+  },
+  {
+    "key": "selonian",
+    "name": "Selonian",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 80,
+    "special_abilities": [
+      "Special Abilities: Selonians begin the game with one rank in Coordination. They still may not train Coordination above rank 2 during character creation. The structure of a Selonian's eyes allows [them] to see in near total darkness. [They] may remove all setback dice added to checks due to darkness, though [they] still cannot see in absolute darkness.",
+      "Tail: A Selonian's tail may be used as a Brawl weapon. When used to attack, it uses the Brawl skill combined with the Agility characteristic, but like most Brawl weapons, adds its weapon damage to the character's Brawn for total damage. It always counts as equipped, and has the following weapon profile (Brawl; Damage +1; Critical 5; Range [Engaged]; Disorient 2, Knockdown). The Selonian may trigger Knockdown with an advantage result, but still must spend additional advantage results to knock down targets with a higher silhouette as per the Knockdown quality rules."
+    ],
+    "sources": [
+      "Suns of Fortune: A Sourcebook for the Corellian Sector (Page 91-93)"
+    ]
+  },
+  {
+    "key": "shistavanen",
+    "name": "Shistavanen",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 1,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 80,
+    "special_abilities": [
+      "Special Abilities: Shistavanens begin the game with one rank in either Brawl or Survival. They still may not train Brawl or Survival above rank 2 during character creation.",
+      "Hunter's Instincts: When making a check for initiative, a Shistavanen may make a Survival check instead of a Discipline or Cool check."
+    ],
+    "sources": [
+      "Forged in Battle: A Sourcebook for Soldiers (Page 24-26)"
+    ]
+  },
+  {
+    "key": "sith_pureblood",
+    "name": "Sith Pureblood",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Sith Purebloods begin the game with one rank in Knowledge (Lore) or Leadership. They still may not train Knowledge (Lore) or Leadership above rank 2 during character creation."
+    ],
+    "sources": [
+      "The Old Republic: An Era Sourcebook (Page 10)"
+    ]
+  },
+  {
+    "key": "skakoan",
+    "name": "Skakoan",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 80,
+    "special_abilities": [
+      "Special Abilities: Skakoans begin the game with one rank in Knowledge (Education) and one rank in Mechanics. They still may not train either above rank 2 during character creation.",
+      "Methane Breather: Skakoans require methane to live, and wear special pressure suits to emulate the conditions on Skako. They start the game with a specialised pressure suit with methane respirator, which counts as armor with indefinite supplies of methane. The suit has +2 soak, encumbrance of 3, 3 hard points, cannot acquired unless on Skako (at a price equivalent to laminate armor), and cannot be worn by other species. Skakoans treat standard planetary air pressure and composition as a corrosive atmosphere with rating 6."
+    ],
+    "sources": [
+      "Fully Operational: A Sourcebook for Engineers (Page 21-23)"
+    ]
+  },
+  {
+    "key": "talpini",
+    "name": "Talpini",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Willpower",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Talpini begin the game with one rank in Mechanics. They still may not train Mechanics above rank 2 during character creation.",
+      "Harsh Upbringing: Talpini begin the game with one rank in the Inventor talent.",
+      "Darksight: Talpini may see in low light without any penalty."
+    ],
+    "sources": [
+      "For Light and Life: An Era Sourcebook (Page 16)"
+    ]
+  },
+  {
+    "key": "talz",
+    "name": "Talz",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 13,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Talz begin the game with one rank in Resilience. They still may not train this skill above rank 2 during character creation.",
+      "Tundra Dwellers: When making skill checks, Talz may remove setback die imposed due to cold environmental conditions.",
+      "Primitive: Talz upgrade the difficulty of any checks involving advanced technology once. This counts as any technology not available on the Talz's home planet, though individual pieces of technology they become familiar with over an extended period of time can become exempt from this at the GM's discretion. Talz can spend 10 XP at character creation to remove this penalty permanently."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 272)"
+    ]
+  },
+  {
+    "key": "tarasin",
+    "name": "Tarasin",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 3,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Tarasin begin the game with one rank in Stealth. They still may not train Stealth above rank 2 during character creation.",
+      "Insulated: The Tarasin’s thick hide and scales allow their body to remain at a constant temperature against outside influence. Adapted to the hot climate of Cularin, they remove up to two setback dice imposed by hot environments and other heat hazards.",
+      "Silent Communication: The Tarasin’s colour shifting skin allows them to blend into their environment, but it can also be finely controlled to communicate with other Tarasin silently. The patterns and their meaning can be learnt by non-Tarasin if they apply themselves. However, these shifting colors also reflect on the emotional state of the individual, potentially betraying their intentions. Tarasin upgrade the difficulty of Deception checks once (this may also apply to other checks where the Tarasin’s intention makes the interaction harder)."
+    ],
+    "sources": [
+      "The Living Force: A Sourcebook for the Cularin System (Page 30-32)"
+    ]
+  },
+  {
+    "key": "teedo",
+    "name": "Teedo",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 1,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 110,
+    "special_abilities": [
+      "Special Abilities: Teedo begin with one rank in Survival or Mechanics. They still may not train this skill above rank 2 at character creation.",
+      "Small: Teedo are smaller than average and count as silhouette 0.",
+      "Not This Teedo: Once per check as an incidental, the character may suffer 3 strain to upgrade the ability of a check using a non-career skill once."
+    ],
+    "sources": [
+      "Fires of Resistance: An Unofficial Era Sourcebook (Page 5-6)"
+    ]
+  },
+  {
+    "key": "thisspiasian",
+    "name": "Thisspiasian",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Thisspiasians begin the game with one rank in Discipline. They still may not train Discipline above rank 2 during character creation.",
+      "Rest and Meditation: Thisspiassians need very little sleep to function. They only need to sleep for two hours to heal all strain they are suffering from, instead of for a full night sleep (they cannot sleep multiple times a day however!). In addition, once per session Thisspiasians may spend ten minutes meditating; if they do so, they heal strain equal to twice their ranks in Discipline."
+    ],
+    "sources": [
+      "Unlimited Power: A Sourcebook for Mystics (Page 18-20)"
+    ]
+  },
+  {
+    "key": "tholothian",
+    "name": "Tholothian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Tholothians begin the game with one rank in Knowledge (Xenology). They still may not train Knowledge (Xenology) above rank 2 during character creation.",
+      "Cultural Adopters: When making a social skill check to interact with non-Tholothians, Tholothians add an automatic advantage result to the results.",
+      "Natural Roots: When making a check to heal strain while in a natural or wild setting, Tholothians heal one additional strain."
+    ],
+    "sources": [
+      "Unlimited Power: A Sourcebook for Mystics (Page 20-22)"
+    ]
+  },
+  {
+    "key": "tognath",
+    "name": "Tognath",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 95,
+    "special_abilities": [
+      "Special Abilities: Cybernetic implants and specialized lenses for their compound eyes grant Tognath characters one free rank each in Coordination and Perception. They may not train either skill beyond rank 2 at character creation. This set of cybernetics counts as 1 implant against a Tognath's limit on cybernetic implants.",
+      "Primitive Nerves: Add two setback dice to Coercion checks targeting Tognath characters.",
+      "Atmospheric Requirement: Tognaths must wear a specialized mask or breathing apparatus to breathe outside their native atmosphere. Tognath characters start the game with a breath mask and treat oxygen as a corrosive atmosphere with rating 5. However, they can survive in vacuum for up to five minutes before suffering its effects."
+    ],
+    "sources": [
+      "Dawn of Rebellion: An Era Sourcebook (Page 96-97)"
+    ]
+  },
+  {
+    "key": "togruta",
+    "name": "Togruta",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Togrutas begin the game with one rank in Perception. They still may not train Perception above rank 2 during character creation.",
+      "Pack Instincts: When performing the assist maneuver, Togrutas grant two boost dice instead of one boost die."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 60)"
+    ]
+  },
+  {
+    "key": "toydarian",
+    "name": "Toydarian",
+    "brawn": 1,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 3,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Toydarians are smaller than average and count as silhouette 0.",
+      "Hoverer: Toydarians have wings that allow them to hover slightly off the ground. When hovering, Toydarians do not have to spend additional maneuvers when navigating difficult terrain. Otherwise, their wings allow them no extra capabilities beyond those of a normal, walking character."
+    ],
+    "sources": [
+      "Enter the Unknown: A Sourcebook for Explorers (Page 22-23)"
+    ]
+  },
+  {
+    "key": "trandoshan",
+    "name": "Trandoshan",
+    "brawn": 3,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Trandoshans begin the game with one rank in Perception. They still may not train Perception above rank 2 during character creation.",
+      "Regeneration: Whenever a Trandoshan would recover one or more wounds from natural rest or recuperation in a Bacta tank, [they] recover one additional wound. [They] do not recover one additional wound when receiving first aid or medical treatment from a character, or when using a stimpack. Trandoshans can regrow lost limbs as well, though it usually takes at least a month before the limb is usable.",
+      "Claws: When a Trandoshan makes Brawl checks to deal damage to an opponent, [they] deal +1 damage and have a Critical Rating of 3."
+    ],
+    "sources": [
+      "Star Wars Edge of the Empire Roleplaying Game: Core Rulebook (Page 50-51)"
+    ]
+  },
+  {
+    "key": "tusken_raider",
+    "name": "Tusken Raider",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 105,
+    "special_abilities": [
+      "Special Abilities: Tusken Raiders begin the game with one rank in Survival. They still may not train Survival above rank 2 during character creation.",
+      "Bantha Riders: When making Athletics or Survival checks to handle a bantha, Tusken Raiders add an automatic success result to the check.",
+      "Water Reclamator: Tusken Raiders reduce the difficulty of all Resilience and Survival checks related to enduring extreme heat or going without water once."
+    ],
+    "sources": [
+      "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 105)"
+    ]
+  },
+  {
+    "key": "twi_lek",
+    "name": "Twi'lek",
+    "brawn": 1,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Twi'leks begin the game with one rank in either Charm or Deception. They still may not train Charm or Deception above rank 2 during character creation.",
+      "Desert Dwellers: When making skill checks, Twi'leks may remove a setback die imposed due to arid or hot environmental conditions."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 61-62)"
+    ]
+  },
+  {
+    "key": "ugor",
+    "name": "Ugor",
+    "brawn": 1,
+    "agility": 1,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 1,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 150,
+    "special_abilities": [
+      "Special Abilities: Ugor begin the game with one rank in Mechanics. They still may not train Mechanics above rank 2 during character creation.",
+      "Bad Reputation: Unfortunately, Ugor have a poor reputation in certain close-minded areas of the Clone Wars. All Ugor must add an additional setback die to any Social checks in the Core Worlds.",
+      "Highly Adaptable: Because of their unique biology, Ugor are able to take on two strain in exchange for temporarily boosting any skill for one round. An Ugor may temporarily grow pseudopodia into a bunch of eyestalks to increase their Perception or grow extra limbs to increase their Athletics skill. However, no attribute may be boosted higher than rank 3."
+    ],
+    "sources": [
+      "For Light and Life: An Era Sourcebook (Page 13-14)"
+    ]
+  },
+  {
+    "key": "umbaran",
+    "name": "Umbaran",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Umbarans begin the game with one rank in Deception. They still may not train Deception above rank 2 during character creation.",
+      "Entrancing Gaze: Umbarans add a boost die to Charm, Deception, and Negotiation checks.",
+      "Shadow Dweller: When making skill checks, Umbarans remove up to two setback dice imposed due to darkness. Umbarans add a setback die to all checks they make while in bright natural light, such as direct sunlight."
+    ],
+    "sources": [
+      "Rise of the Separatists: An Era Sourcebook (Page 15-16)"
+    ]
+  },
+  {
+    "key": "verpine",
+    "name": "Verpine",
+    "brawn": 2,
+    "agility": 3,
+    "intellect": 3,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 12,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 80,
+    "special_abilities": [
+      "Special Abilities: Verpine begin the game with one rank in Mechanics. They still may not train Mechanics above rank 2 during character creation.",
+      "Microvision: The compound eyes of a Verpine are capable of seeing tiny, even microscopic, details. While closely examining an object, Verpine characters add a boost die to their Perception checks.",
+      "Radio-wave Communication: Verpine can produce and hear radio waves, which allows them to silently communicate with other Verpine and specially tuned comlinks within a 100-kilometer range."
+    ],
+    "sources": [
+      "Strongholds of Resistance: A Sourcebook of Alliance Worlds (Page 102-103)"
+    ]
+  },
+  {
+    "key": "vurk",
+    "name": "Vurk",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 3,
+    "wound_threshold": 11,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 11,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Vurks begin the game with one rank in Negotiation. They still may not train Negotiation above rank 2 during character creation.",
+      "Amphibious: Vurks can breathe underwater without penalty and never suffer movement penalties when traveling through water.",
+      "Cold Blooded: Vurks add a setback die to all checks they make while in cold environments (in addition to any other penalties)."
+    ],
+    "sources": [
+      "Unlimited Power: A Sourcebook for Mystics (Page 22-24)"
+    ]
+  },
+  {
+    "key": "weequay",
+    "name": "Weequay",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 1,
+    "cunning": 3,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Weequays begin the game with one rank in Resilience or one rank in Athletics. They still may not train Resilience or Athletics above rank 2 during character creation.",
+      "A Weequay can communicate with other Weequays using pheromones. This is completely non-verbal, and undetectable to any other species nearby. Weequays can only communicate like this if they are within short range of each other."
+    ],
+    "sources": [
+      "Dangerous Covenants: A Sourcebook for Hired Guns (Page 22-23)"
+    ]
+  },
+  {
+    "key": "whiphid",
+    "name": "Whiphid",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 1,
+    "willpower": 2,
+    "presence": 2,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 80,
+    "special_abilities": [
+      "Special Abilities: Whiphids begin the game with one rank in Survival. They still may not train Survival above rank 2 during character creation.",
+      "Hardy Survivalist: A Whiphid adds an automatic success to Survival checks and can survive for several weeks without food thanks to reserve blubber.",
+      "Tusks: When a Whiphid makes a Brawl check to deal damage to an opponent, [they] deal +2 damage, has a Critical Rating of 4, and the Vicious 1 quality."
+    ],
+    "sources": [
+      "Keeping the Peace: A Sourcebook for Guardians (Page 21-22)"
+    ]
+  },
+  {
+    "key": "wookiee",
+    "name": "Wookiee",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 14,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 8,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Wookiees begin the game with oner rank in Brawl. They still may not train Brawl above rank 2 during character creation.",
+      "Wookiee Rage: When a Wookiee has suffered any wounds [they] deal +1 damage to Brawl and Melee attacks. When a Wookiee is Critically Injured, [they] instead deal +2 damage to Brawl and Melee attacks."
+    ],
+    "sources": [
+      "Star Wars Edge of the Empire Roleplaying Game: Core Rulebook (Page 52-53)"
+    ]
+  },
+  {
+    "key": "xexto",
+    "name": "Xexto",
+    "brawn": 1,
+    "agility": 3,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 1,
+    "presence": 2,
+    "wound_threshold": 9,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 9,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 85,
+    "special_abilities": [
+      "Special Abilities: Xexto begin play with one rank in the Confidence talent.",
+      "Additional Limbs: Xexto have six limbs: two legs and four arms. As a result, they gain an additional free maneuver per turn, though still may not perform more than two maneuvers per turn."
+    ],
+    "sources": [
+      "Stay on Target: A Sourcebook for Aces (Page 23-25)"
+    ]
+  },
+  {
+    "key": "yahk_tosh",
+    "name": "Yahk-Tosh",
+    "brawn": 3,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 2,
+    "presence": 1,
+    "wound_threshold": 12,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 75,
+    "special_abilities": [
+      "Special Abilities: Yahk-Tosh begin the game with one rank in Athletics or Discipline. They still may not train these skills above rank 2 during character creation.",
+      "Additional Limbs: Yahk-Tosh have multiple sets of arms. As a result, they gain an additional free maneuver per turn, though still may not perform more than two maneuvers per turn.",
+      "Droid Telepathy: The mild telepathic abilities of the Yahk-Tosh allows them to take control of droids with their minds. Yahk-Tosh begin the game with one rank of Speaks Binary and can direct droids without audible speech when within medium range of them."
+    ],
+    "sources": [
+      "Neo-Crusader's Arc of Doom: Adventure Module (Page 13)"
+    ]
+  },
+  {
+    "key": "zabrak",
+    "name": "Zabrak",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 100,
+    "special_abilities": [
+      "Special Abilities: Zabrak begin the game with one rank in Survival. They still may not train Survival above rank 2 during character creation.",
+      "Fearsome Countenance: Zabrak add an automatic advantage result to all Coercion checks they make."
+    ],
+    "sources": [
+      "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 62-63)"
+    ]
+  },
+  {
+    "key": "zygerrian",
+    "name": "Zygerrian",
+    "brawn": 2,
+    "agility": 2,
+    "intellect": 2,
+    "cunning": 2,
+    "willpower": 3,
+    "presence": 1,
+    "wound_threshold": 10,
+    "wound_threshold_stat": "Brawn",
+    "strain_threshold": 10,
+    "strain_threshold_stat": "Willpower",
+    "starting_xp": 90,
+    "special_abilities": [
+      "Special Abilities: Zygerrians begin the game with one rank in Coercion. They still may not train this skill above rank 2 during character creation.",
+      "Long Live Zygerria: Zygerrians begin the game with one rank in the Confidence talent.",
+      "Always Alert: Zygerrians add a boost die to hearing-based Perception and Vigilance checks."
+    ],
+    "sources": [
+      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 272)"
+    ]
+  }
+]
