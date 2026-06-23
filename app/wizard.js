@@ -74,6 +74,162 @@ const Wizard = (() => {
     { key: 'presence',  label: 'Inspiring & In-Touch',    abbr: 'PR' },
   ];
 
+  // ── Tooltip data ──────────────────────────────────────────────────────────
+  const SKILL_DESCS = {
+    'Astrogation':           'Plan hyperspace jumps and navigate between star systems.',
+    'Athletics':             'Run, jump, climb, swim, and perform feats of physical endurance.',
+    'Brawl':                 'Unarmed combat: punches, kicks, grappling, and improvised strikes.',
+    'Charm':                 'Persuade through likability, flattery, and personal appeal.',
+    'Coercion':              'Intimidate, threaten, and force compliance through fear or pain.',
+    'Computers':             'Slice systems, hack networks, and interface with computers.',
+    'Cool':                  'Stay calm under pressure and act first in social conflicts.',
+    'Coordination':          'Acrobatics, balance, contortion, and nimble physical maneuvers.',
+    'Core Worlds':           'Politics, culture, history, and geography of the inner galaxy.',
+    'Deception':             'Lie convincingly, bluff, and create false impressions.',
+    'Discipline':            'Resist fear, mental coercion, and stay focused under stress.',
+    'Education':             'Broad formal academic knowledge across scholarly fields.',
+    'Gunnery':               'Operate vehicle-mounted and starship weapon systems.',
+    'Leadership':            'Inspire, direct, and command allies and groups effectively.',
+    'Lightsaber':            'Wield a lightsaber in combat. Uses Brawn as its characteristic.',
+    'Lore':                  'Ancient history, legends, Force lore, and obscure knowledge.',
+    'Mechanics':             'Repair, modify, and build mechanical and electronic devices.',
+    'Medicine':              'Treat wounds, diagnose illness, and perform surgery.',
+    'Melee':                 'Armed close-quarters combat with hand-held weapons.',
+    'Negotiation':           'Strike deals, barter prices, and reach mutually beneficial agreements.',
+    'Outer Rim':             'Fringe worlds, criminal territories, and outer-rim geography.',
+    'Perception':            'Notice hidden things, detect ambushes, and spot important details.',
+    'Piloting - Planetary':  'Pilot landspeeders, airspeeders, and atmospheric craft.',
+    'Piloting - Space':      'Pilot starships and space vessels through the void.',
+    'Ranged - Heavy':        'Fire large blasters, rifles, and heavy ranged weapons.',
+    'Ranged - Light':        'Fire pistols, hold-outs, and light ranged weapons.',
+    'Resilience':            'Endure physical hardship, resist toxins, and shake off strain.',
+    'Skulduggery':           'Pick locks, pickpocket, palm objects, and defeat security systems.',
+    'Stealth':               'Move silently, hide in shadows, and avoid detection.',
+    'Streetwise':            'Navigate city underworlds, find contacts, and gather street intel.',
+    'Survival':              'Forage, track, navigate wilderness, and endure harsh environments.',
+    'Underworld':            'Criminal organizations, black markets, and illegal operations.',
+    'Vigilance':             'Stay alert, detect danger, and act first in ambushes.',
+    'Xenology':              'Knowledge of alien species, cultures, biology, and history.',
+    'Warfare':               'Military history, strategy, tactics, and organizational doctrine.',
+  };
+
+  const TALENT_DESCS = {
+    'Black Market Contacts':   'Remove up to 2 setback dice per rank from checks to acquire illegal or restricted goods.',
+    'Bypass Security':         'Remove 1 setback die per rank from checks to disable security devices or open locks.',
+    'Confidence':              'Reduce the difficulty of fear checks by 1 per rank; may ignore fear checks entirely at rank 5.',
+    'Convincing Demeanor':     'Remove 1 setback die per rank from Deception and Skulduggery checks.',
+    'Durable':                 'Reduce the result of Critical Injury rolls by 10 per rank (minimum 1).',
+    'Enduring':                'Permanently increase Soak Value by 1 per rank.',
+    'Expert Tracker':          'Remove 1 setback die per rank from Survival checks when tracking; halve time required per rank.',
+    'Eye for Detail':          'On a Triumph in Mechanics or Computers, gain 1 free maneuver without strain cost.',
+    'Inventor':                'Gain 1 advantage per rank on crafting checks; reduce crafted item rarity by 1 per rank.',
+    'Iron Body':               'Upgrade the ability of unarmed Brawl checks once per rank.',
+    'Kill With Kindness':      'Remove 1 setback die per rank from Charm and Leadership checks.',
+    'Kill with Kindness':      'Remove 1 setback die per rank from Charm and Leadership checks.',
+    'Knowledge Specialization':'Choose a Knowledge skill; reduce its difficulty by 1 per rank (minimum 0).',
+    'Physical Training':       'Add 1 rank per rank to Athletics and Resilience, even beyond normal limits.',
+    'Researcher':              'Remove 1 setback die per rank from Knowledge checks; halve research time per rank.',
+  };
+
+  // ── Tooltip engine ────────────────────────────────────────────────────────
+  let _tooltipEl = null;
+  let _tooltipHideTimer = null;
+
+  function ensureTooltip() {
+    if (_tooltipEl) return _tooltipEl;
+    _tooltipEl = document.createElement('div');
+    _tooltipEl.id = 'sw-tooltip';
+    _tooltipEl.className = 'sw-tooltip';
+    _tooltipEl.style.display = 'none';
+    document.body.appendChild(_tooltipEl);
+    _tooltipEl.addEventListener('mouseenter', () => clearTimeout(_tooltipHideTimer));
+    _tooltipEl.addEventListener('mouseleave', hideTooltip);
+    return _tooltipEl;
+  }
+
+  function showTooltip(anchor, html) {
+    clearTimeout(_tooltipHideTimer);
+    const tt = ensureTooltip();
+    tt.innerHTML = html;
+    tt.style.display = 'block';
+    tt.style.opacity = '0';
+    // Position after paint so we know tt dimensions
+    requestAnimationFrame(() => {
+      const ar = anchor.getBoundingClientRect();
+      const tw = tt.offsetWidth, th = tt.offsetHeight;
+      const vw = window.innerWidth, vh = window.innerHeight;
+      let top  = ar.bottom + window.scrollY + 6;
+      let left = ar.left   + window.scrollX;
+      if (left + tw > vw - 10) left = vw - tw - 10;
+      if (top  + th > vh + window.scrollY - 10) top = ar.top + window.scrollY - th - 6;
+      tt.style.top  = top  + 'px';
+      tt.style.left = left + 'px';
+      tt.style.opacity = '1';
+    });
+  }
+
+  function hideTooltip() {
+    _tooltipHideTimer = setTimeout(() => {
+      if (_tooltipEl) _tooltipEl.style.display = 'none';
+    }, 120);
+  }
+
+  function tooltipContent(type, name, spKey) {
+    if (type === 'skill') {
+      const sk = SW.skills.find(s => s.name.toLowerCase() === name.toLowerCase()) ||
+                 SW.skills.find(s => Engine.normSkillName(s.name) === Engine.normSkillName(name));
+      const char = sk ? sk.characteristic : '';
+      const skType = sk ? sk.type : '';
+      const desc  = SKILL_DESCS[sk ? sk.name : name] || SKILL_DESCS[name] || '';
+      return `<div class="tt-title">${name}</div>
+              <div class="tt-meta">${char} &bull; ${skType} Skill</div>
+              ${desc ? `<div class="tt-body">${desc}</div>` : ''}`;
+    }
+    if (type === 'talent') {
+      const tal = SW.talents.find(t => t.name.toLowerCase() === name.toLowerCase());
+      const desc = TALENT_DESCS[name] || '';
+      const meta = tal ? `${tal.activation} &bull; ${tal.ranked ? 'Ranked' : 'Not Ranked'}` : '';
+      return `<div class="tt-title">${name}</div>
+              ${meta ? `<div class="tt-meta">${meta}</div>` : ''}
+              ${desc ? `<div class="tt-body">${desc}</div>` : ''}`;
+    }
+    if (type === 'ability') {
+      const sp = SW.species.find(s => s.key === spKey);
+      if (!sp) return `<div class="tt-title">${name}</div>`;
+      const full = sp.special_abilities.find(a => {
+        const colon = a.indexOf(':');
+        return colon > 0 && a.slice(0, colon).trim().toLowerCase() === name.toLowerCase();
+      });
+      const body = full ? full.slice(full.indexOf(':') + 1).trim() : '';
+      return `<div class="tt-title">${name}</div>
+              ${body ? `<div class="tt-body">${body}</div>` : ''}`;
+    }
+    return `<div class="tt-title">${name}</div>`;
+  }
+
+  function initTipListeners(container) {
+    container.addEventListener('mouseenter', e => {
+      const link = e.target.closest('[data-tip-type]');
+      if (!link) return;
+      showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
+    }, true);
+    container.addEventListener('mouseleave', e => {
+      if (e.target.closest('[data-tip-type]')) hideTooltip();
+    }, true);
+    container.addEventListener('click', e => {
+      const link = e.target.closest('[data-tip-type]');
+      if (!link) return;
+      const tt = ensureTooltip();
+      if (tt.style.display !== 'none') { hideTooltip(); return; }
+      showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
+    });
+  }
+
+  function tipLink(type, name, spKey, label) {
+    const sp = spKey ? ` data-tip-sp="${spKey}"` : '';
+    return `<span class="tip-link" data-tip-type="${type}" data-tip-name="${name}"${sp}>${label || name}</span>`;
+  }
+
   function getArchetype(sp) {
     const vals = Engine.CHAR_STATS.map(st => sp[st] || 0);
     const max = Math.max(...vals), min = Math.min(...vals);
@@ -288,13 +444,17 @@ const Wizard = (() => {
           `<div class="char-pip"><abbr title="${st}">${Engine.CHAR_ABBR[st]}</abbr><strong>${sp[st] ?? '?'}</strong></div>`
         ).join('');
         const { skills, talents, named } = parseSpeciesCard(sp);
+        // Skills may be "Coordination or Negotiation" — make each word a tip-link
+        function skillTips(skillStr) {
+          return skillStr.split(/\s+or\s+/).map(s => tipLink('skill', s.trim())).join(' or ') + ' 1';
+        }
         const statRows = [
           `<div><span class="sp-key">Wound Threshold</span><span class="sp-val">${sp.wound_threshold} + ${sp.wound_threshold_stat || 'Brawn'}</span></div>`,
           `<div><span class="sp-key">Strain Threshold</span><span class="sp-val">${sp.strain_threshold} + ${sp.strain_threshold_stat || 'Willpower'}</span></div>`,
           `<div><span class="sp-key">Starting XP</span><span class="sp-val">${sp.starting_xp}</span></div>`,
-          skills.length  ? `<div><span class="sp-key">Skills</span><span class="sp-val">${skills.map(s => s + ' 1').join(', ')}</span></div>` : '',
-          talents.length ? `<div><span class="sp-key">Talents</span><span class="sp-val">${talents.map(t => t + ' 1').join(', ')}</span></div>` : '',
-          named.length   ? `<div><span class="sp-key">Abilities</span><span class="sp-val">${named.join(', ')}</span></div>` : '',
+          skills.length  ? `<div><span class="sp-key">Skills</span><span class="sp-val">${skills.map(skillTips).join(', ')}</span></div>` : '',
+          talents.length ? `<div><span class="sp-key">Talents</span><span class="sp-val">${talents.map(t => tipLink('talent', t) + ' 1').join(', ')}</span></div>` : '',
+          named.length   ? `<div><span class="sp-key">Abilities</span><span class="sp-val">${named.map(n => tipLink('ability', n, sp.key)).join(', ')}</span></div>` : '',
         ].join('');
         card.innerHTML = `
           <h3>${sp.name}</h3>
@@ -329,6 +489,7 @@ const Wizard = (() => {
       pill.classList.toggle('active', _spArchetypes.has(key));
       draw();
     });
+    initTipListeners($('#sp-grid'));
   }
 
   // ── Step: Career ──────────────────────────────────────────────────────────

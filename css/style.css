@@ -280,6 +280,46 @@ body {
 
 .arch-abbr { opacity: 0.65; font-size: 0.85em; }
 
+/* ── Tip links (skills / talents / abilities) ─────────────────── */
+.tip-link {
+  cursor: help;
+  text-decoration: underline dotted var(--muted);
+  text-underline-offset: 2px;
+  color: inherit;
+  transition: color 0.1s;
+}
+.tip-link:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* ── Floating tooltip ─────────────────────────────────────────── */
+.sw-tooltip {
+  position: absolute;
+  z-index: 9999;
+  max-width: 280px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 13px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  pointer-events: auto;
+  transition: opacity 0.12s;
+}
+.tt-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.tt-meta {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.tt-body {
+  font-size: 0.76rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
 /* ── Species grid ──────────────────────────────────────────────── */
 .species-grid {
   display: grid;
