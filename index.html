@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Wars RPG - Character Creator</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="site-header">
+      <div class="header-inner">
+        <div class="site-title">STAR WARS RPG</div>
+        <div class="site-subtitle">Character Creator</div>
+      </div>
+      <div id="header-xp" class="header-xp hidden"></div>
+    </header>
+
+    <div id="progress-track">
+      <div id="progress-steps"></div>
+    </div>
+
+    <main id="step-content"></main>
+
+    <nav id="wizard-nav">
+      <button id="btn-back" class="btn btn-secondary">&#8592; Back</button>
+      <span id="nav-status"></span>
+      <button id="btn-next" class="btn btn-primary">Next &#8594;</button>
+    </nav>
+  </div>
+
+  <!-- Data (must load before app scripts) -->
+  <script src="data/species.js"></script>
+  <script src="data/skills.js"></script>
+  <script src="data/talents.js"></script>
+  <script src="data/careers.js"></script>
+  <script src="data/specializations.js"></script>
+
+  <!-- App -->
+  <script src="app/engine.js"></script>
+  <script src="app/sheet.js"></script>
+  <script src="app/wizard.js"></script>
+</body>
+</html>
