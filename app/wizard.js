@@ -156,6 +156,43 @@ const Wizard = (() => {
     }
   }
 
+  // ── Species ability parser ────────────────────────────────────────────────
+  function parseSpeciesCard(sp) {
+    const skills = [], talents = [], named = [];
+
+    // Talents: "one rank in the X talent" -- search ALL entries
+    for (const ab of sp.special_abilities) {
+      const re = /one rank[s]? in the ([\w ]+?) talent/gi;
+      let m;
+      while ((m = re.exec(ab)) !== null) {
+        const t = m[1].trim();
+        if (!talents.includes(t)) talents.push(t);
+      }
+    }
+
+    // Skills: "one rank in X" from first entry only, X starts uppercase, not a talent ref
+    const firstText = (sp.special_abilities[0] || '').replace(/^Special Abilities:\s*/i, '');
+    const skRe = /one rank[s]? in (?:either )?((?!the )[A-Z][\w ()]+?)(?=\s+or\s+one|\s*[.,]|\s+[Tt]hey|\s+[Cc]haracters|\s+[Dd]uring|\s+at\s+|$)/g;
+    let m;
+    while ((m = skRe.exec(firstText)) !== null) {
+      let sk = m[1].trim();
+      // Absorb "or Y" alternative if it follows and is NOT "or one rank in"
+      const after = firstText.slice(m.index + m[0].length);
+      const orAlt = after.match(/^\s+or\s+((?!one\s)[A-Z][\w ()]+?)(?=\s*[.,]|\s+[Tt]hey|\s+[Cc]haracters|$)/);
+      if (orAlt) sk += ' or ' + orAlt[1].trim();
+      if (!/talent/i.test(sk) && !skills.includes(sk)) skills.push(sk);
+    }
+
+    // Named abilities: entries 2+ use "Name: description" format
+    for (let i = 1; i < sp.special_abilities.length; i++) {
+      const ab = sp.special_abilities[i];
+      const colon = ab.indexOf(':');
+      if (colon > 0 && colon < 60) named.push(ab.slice(0, colon).trim());
+    }
+
+    return { skills, talents, named };
+  }
+
   // ── Step: Species ─────────────────────────────────────────────────────────
   function renderSpecies() {
     const c = $('#step-content');
@@ -180,17 +217,19 @@ const Wizard = (() => {
         const pips = Engine.CHAR_STATS.map(st =>
           `<div class="char-pip"><abbr title="${st}">${Engine.CHAR_ABBR[st]}</abbr><strong>${sp[st] ?? '?'}</strong></div>`
         ).join('');
-        const ab0 = (sp.special_abilities[0] || '');
-        const ab  = ab0.length > 90 ? ab0.slice(0, 90) + '…' : ab0;
+        const { skills, talents, named } = parseSpeciesCard(sp);
+        const statRows = [
+          `<div><span class="sp-key">Wound Threshold</span><span class="sp-val">${sp.wound_threshold} + ${sp.wound_threshold_stat || 'Brawn'}</span></div>`,
+          `<div><span class="sp-key">Strain Threshold</span><span class="sp-val">${sp.strain_threshold} + ${sp.strain_threshold_stat || 'Willpower'}</span></div>`,
+          `<div><span class="sp-key">Starting XP</span><span class="sp-val">${sp.starting_xp}</span></div>`,
+          skills.length  ? `<div><span class="sp-key">Skills</span><span class="sp-val">${skills.map(s => s + ' 1').join(', ')}</span></div>` : '',
+          talents.length ? `<div><span class="sp-key">Talents</span><span class="sp-val">${talents.map(t => t + ' 1').join(', ')}</span></div>` : '',
+          named.length   ? `<div><span class="sp-key">Abilities</span><span class="sp-val">${named.join(', ')}</span></div>` : '',
+        ].join('');
         card.innerHTML = `
           <h3>${sp.name}</h3>
           <div class="char-pips">${pips}</div>
-          <div class="species-meta">
-            <span>${sp.starting_xp ?? '?'} XP</span>
-            <span>WT ${sp.wound_threshold}+${(sp.wound_threshold_stat||'Brawn').slice(0,2).toUpperCase()}</span>
-            <span>ST ${sp.strain_threshold}+${(sp.strain_threshold_stat||'Willpower').slice(0,2).toUpperCase()}</span>
-          </div>
-          ${ab ? `<div class="species-ability">${ab}</div>` : ''}`;
+          <div class="sp-stats">${statRows}</div>`;
         card.addEventListener('click', () => {
           const prev = state.speciesKey;
           state.speciesKey = sp.key;

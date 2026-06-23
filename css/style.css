@@ -253,7 +253,7 @@ body {
 /* ── Species grid ──────────────────────────────────────────────── */
 .species-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 12px;
 }
 
@@ -293,16 +293,31 @@ body {
 .char-pip abbr { font-size: 0.62rem; color: var(--muted); text-decoration: none; }
 .char-pip strong { font-size: 0.95rem; color: var(--accent); }
 
-.species-meta { font-size: 0.75rem; color: var(--muted); margin-bottom: 6px; }
-.species-meta span + span::before { content: ' · '; }
+.sp-stats {
+  margin-top: 8px;
+  font-size: 0.72rem;
+}
 
-.species-ability {
-  font-size: 0.73rem;
+.sp-stats div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.sp-stats div:last-child { border-bottom: none; }
+
+.sp-key {
   color: var(--muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sp-val {
+  color: var(--text);
+  text-align: right;
 }
 
 /* ── Career & spec grids ─────────────────────────────────────────── */
