@@ -63,6 +63,30 @@ const Wizard = (() => {
     },
   };
 
+  // ── Career flavor blurbs ─────────────────────────────────────────────────
+  const CAREER_BLURBS = {
+    THEACE:      'Pilots, hot-shot drivers, and expert operators who live for the thrill of the cockpit. If it flies, rolls, or shoots, this is their domain.',
+    BOUNT:       'Relentless trackers who make their living finding people who don\'t want to be found. Adaptable, dangerous, and they always get their mark.',
+    CLONE:       'Bred for battle and unwavering in discipline, carrying the legacy of the Republic\'s clone armies. Warriors of identical origin, each forging a unique path.',
+    COLO:        'Merchants, doctors, diplomats, and scholars who built civilization at the edge of known space. When fists fall short, words and credits do the work.',
+    COMMANDER:   'Military leaders who win battles through strategy, inspiration, and sheer force of will. They shape the outcome before the first shot is ever fired.',
+    CONSULAR:    'Force-sensitive peacekeepers who trust wisdom and the light side over conflict. Their greatest weapon is understanding.',
+    DIPLOMAT:    'Advocates and negotiators who fight tyranny with words, alliances, and precisely applied pressure. The pen is mightier than the blaster.',
+    ENGINEER:    'Technical wizards who keep the Rebellion running by fixing ships, building weapons, and jury-rigging solutions under impossible conditions.',
+    EXPLORER:    'Scouts and wanderers driven to chart the galaxy\'s unexplored reaches. They go where others won\'t and come back with something priceless.',
+    GUARD:       'Force-sensitive protectors devoted to shielding the innocent and confronting evil head-on. They stand between danger and those who cannot defend themselves.',
+    HIREDGUN:    'Mercenaries and bodyguards who fight for credits rather than causes. Hard to kill, dangerous to cross, and always expensive to hire.',
+    JEDI:        'Ancient defenders of peace and justice who wield the Force and a lightsaber with discipline and purpose. Even in exile, the Order endures.',
+    MYSTIC:      'Force-sensitives drawn to the galaxy\'s deeper mysteries, seeking truth through ancient lore, visions, and inner reflection.',
+    SEEKER:      'Force-sensitive wanderers guided by instinct and the living Force rather than maps or orders, most at home in the galaxy\'s wild places.',
+    SENTINEL:    'Covert Force-users who operate in the shadows, blending martial training with slicing, subterfuge, and precisely applied Force abilities.',
+    SMUG:        'Scoundrels who navigate the gray market with charm and cunning, and have a talent for being somewhere else when trouble finally arrives.',
+    SOLDIER:     'The backbone of the Alliance\'s ground forces. Disciplined fighters who master weapons, tactics, and survival when the blasters start flying.',
+    SPY:         'Intelligence operatives who gather secrets, plant misinformation, and vanish without a trace. The Rebellion knows what it knows because of them.',
+    TECHNICIAN:  'Slicers, mechanics, and inventors who bend technology to their will. No lock is too secure, no machine too broken, no gadget too exotic.',
+    WAR:         'Force-sensitives who channel their power directly into combat, achieving a perfect synthesis of physical prowess and Force-driven martial excellence.',
+  };
+
   // ── Archetypes ────────────────────────────────────────────────────────────
   const ARCHETYPES = [
     { key: 'balanced',  label: 'Jack of All Trades',      abbr: '' },
@@ -508,10 +532,15 @@ const Wizard = (() => {
       const sel = state.careerKey === ca.key;
       const card = document.createElement('div');
       card.className = `career-card${sel ? ' selected' : ''}`;
-      const tags = (ca.career_skill_keys || []).map(k => `<span class="skill-tag">${skillName(k)}</span>`).join('');
+      const tags = (ca.career_skill_keys || []).map(k => {
+        const name = skillName(k);
+        return `<span class="skill-tag" data-tip-type="skill" data-tip-name="${name}">${name}</span>`;
+      }).join('');
+      const blurb = CAREER_BLURBS[ca.key] || '';
       card.innerHTML = `
         <span class="game-badge badge-${state.game}">${g ? g.name : ''}</span>
         <h3>${ca.name}</h3>
+        ${blurb ? `<p class="career-blurb">${blurb}</p>` : ''}
         <div class="skill-tags">${tags}</div>`;
       card.addEventListener('click', () => {
         if (state.careerKey !== ca.key) {
@@ -521,6 +550,7 @@ const Wizard = (() => {
       });
       grid.appendChild(card);
     }
+    initTipListeners(grid);
   }
 
   // ── Step: Specialization ──────────────────────────────────────────────────

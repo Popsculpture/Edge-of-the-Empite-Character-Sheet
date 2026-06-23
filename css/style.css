@@ -426,6 +426,13 @@ body {
 
 .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 
+.career-blurb {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 4px 0 10px;
+}
+
 .skill-tag {
   font-size: 0.72rem;
   background: var(--surface2);
@@ -437,6 +444,9 @@ body {
 
 .skill-tag.bonus { border-color: var(--success); color: var(--success); }
 .skill-tag.rank2 { border-color: var(--accent); color: var(--accent); }
+
+.skill-tag[data-tip-type] { cursor: help; }
+.skill-tag[data-tip-type]:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ── Specialization cards ───────────────────────────────────────── */
 .spec-grid {
