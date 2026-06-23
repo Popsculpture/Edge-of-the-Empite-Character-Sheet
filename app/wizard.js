@@ -63,6 +63,173 @@ const Wizard = (() => {
     },
   };
 
+  // ── Specialization flavor blurbs ──────────────────────────────────────────
+  const SPEC_BLURBS = {
+    // Ace
+    beast_rider:      'Bond with and ride exotic creatures as mounts and weapons, turning the living world into an arsenal.',
+    driver:           'Master ground vehicles and airspeeders, turning any craft into a high-speed tactical weapon.',
+    gunner:           'Operate vehicle weapons with devastating accuracy, maximizing damage output from any gun platform.',
+    hotshot:          'Push ships and vehicles past their rated limits, pulling off maneuvers no sane pilot would attempt.',
+    pilot:            'Exceptional starship pilots who handle any spacefaring challenge with ease and pure instinctive skill.',
+    rigger:           'Jury-rig and heavily modify vehicles on the fly, squeezing impossible performance out of any craft.',
+    // Bounty Hunter
+    assassin:         'Silent and precise killers who strike from shadows, specializing in ending targets cleanly and quietly.',
+    gadgeteer:        'Trap-layers and gear junkies who solve problems with custom gadgets and prepared surprises.',
+    martial_artist:   'Unarmed combat masters who hit harder than blasters and move faster than most eyes can follow.',
+    operator:         'Vehicle-mounted hunters who specialize in chasing, intercepting, and apprehending moving targets.',
+    skip_tracer:      'Investigators who find anyone anywhere using connections, pressure, and relentless resourcefulness.',
+    survivalist:      'Hardened survivors who endure punishment that would kill others and outlast opponents over time.',
+    // Clone Soldier
+    arc_trooper:      'Elite Clone commandos trained for the most dangerous solo and small-team special operations missions.',
+    clone_commander:  'Field commanders who lead Clone units with tactical precision and unwavering battlefield authority.',
+    clone_officer:    'Officers who direct Clone forces with leadership and strategic sense across the engagement.',
+    clone_pilot:      'Clone-trained starfighter and gunship pilots who dominate aerospace and atmospheric combat.',
+    clone_trooper:    'The backbone of the Republic army -- bred from birth for disciplined combined-arms warfare.',
+    clone_veteran:    'Battle-hardened Clones whose campaign experience has forged unique instincts and hard-won skills.',
+    // Colonist
+    doctor:           'Skilled physicians who keep allies alive under fire and patch wounds that would end most careers.',
+    entrepreneur:     'Savvy operators who deal in information, favors, and credits -- always knowing who to call.',
+    marshal:          'Frontier lawkeepers who enforce order in lawless places through authority and a very quick draw.',
+    performer:        'Entertainers who use performance and charm as tools just as dangerous as any blaster.',
+    politico:         'Political operators who leverage social networks and careful words to get exactly what they want.',
+    scholar:          'Experts who turn deep knowledge into tactical advantage -- the right fact at the right moment changes everything.',
+    // Commander
+    commodore:        'Naval commanders who control fleet engagements and turn battles through superior positioning.',
+    figurehead:       'Inspiring leaders whose presence alone lifts ally performance and shapes morale under pressure.',
+    instructor:       'Trainers who make everyone around them better by sharing skills and lifting the whole group.',
+    squadron_leader:  'Fighter wing leaders who coordinate starfighter groups and dominate dogfights through teamwork.',
+    strategist:       'Big-picture planners who outthink opponents before the battle starts by controlling information and timing.',
+    tactician:        'On-the-ground combat directors who adapt mid-battle and exploit every opportunity as it emerges.',
+    // Consular
+    arbiter:          'Conflict resolvers who mediate disputes and turn enemies into reluctant allies through Force-aided insight.',
+    ascetic:          'Minimalists who shed worldly attachments to develop extraordinary mental and Force discipline.',
+    healer:           'Force-sensitive healers who mend wounds, clear minds, and keep companions fighting at full strength.',
+    niman_disciple:   'Balanced Force users who blend lightsaber combat with Force powers into a fluid, adaptable style.',
+    sage:             'Seekers of Force wisdom who use deep knowledge of the Force to see clearly and act with precision.',
+    teacher:          'Mentors who accelerate the growth of allies and help build the next generation of Force talent.',
+    // Diplomat
+    advocate:         'Legal and moral champions who win arguments, protect allies, and turn opinion with the right words.',
+    agitator:         'Rabble-rousers who inspire resistance movements, sow dissent, and ignite rebellion from the ground up.',
+    ambassador:       'Formal diplomatic representatives who navigate high-stakes negotiations and forge critical alliances.',
+    analyst:          'Intelligence specialists who gather, process, and weaponize information against their opponents.',
+    propagandist:     'Master storytellers who shape narratives, control perception, and turn public opinion into a weapon.',
+    quartermaster:    'Supply experts who ensure allies are always equipped, resourced, and ready for the next operation.',
+    // Engineer
+    droid_specialist: 'Command squads of droids as tactical assets, keeping them operational under any condition.',
+    mechanic:         'Field engineers who keep ships and vehicles running against all odds through improvisation and raw skill.',
+    saboteur:         'Demolitions and sabotage experts who dismantle enemy infrastructure silently from the inside out.',
+    sapper:           'Combat engineers who use explosives, traps, and environmental destruction to control the battlefield.',
+    scientist:        'Researchers who apply theoretical knowledge to create new solutions, devices, and tactical options.',
+    shipwright:       'Starship designers and modifiers who push vessel performance far beyond factory specifications.',
+    // Explorer
+    archaeologist:    'Academic adventurers who unearth ancient secrets and artifacts that could change the galaxy.',
+    big_game_hunter:  'Trophy hunters who track, trap, and take down the most dangerous creatures in the known galaxy.',
+    fringer:          'Adaptable survivors who thrive on the frontier by knowing everyone, finding anything, and fearing nothing.',
+    scout:            'Forward observers who gather intelligence, survive in the wild, and always find the fastest route through.',
+    trader:           'Deal-making merchants who turn commercial connections and trade routes into real operational advantages.',
+    // Guardian
+    armorer:          'Craftspeople who forge and modify armor and weapons, turning equipment into a decisive tactical edge.',
+    peacekeeper:      'Force-sensitive officers who maintain order, deescalate conflict, and project authority with the Force.',
+    protector:        'Dedicated shields who absorb punishment for others and ensure those in their care survive anything.',
+    soresu_defender:  'Masters of Soresu -- the ultimate defensive lightsaber form, nearly impossible to break through.',
+    warden:           'Guardians who control environments and restrain opponents, turning terrain itself into a weapon.',
+    warleader:        'Battlefield commanders who direct allies with Force-enhanced leadership and tactical precision.',
+    // Hired Gun
+    bodyguard:        'Personal protection specialists who keep clients alive through anticipation and controlled aggression.',
+    demolitionist:    'Explosives experts who never met a problem that couldn\'t be solved with the right shaped charge.',
+    enforcer:         'Intimidating operatives who get results through physical presence, pain, and the threat of more.',
+    heavy:            'Weapon platforms who carry and operate the biggest, most destructive firearms credits can buy.',
+    marauder:         'Melee fighters who wade into chaos and turn close-quarters carnage into their natural advantage.',
+    mercenary_soldier:'Professional fighters who apply military training to freelance work -- flexible, lethal, and for hire.',
+    // Jedi
+    general:          'Jedi who lead armies and coordinate large-scale battles, blending Force ability with military command.',
+    knight:           'Versatile Jedi who balance combat skill with Force ability -- the well-rounded core of the old Order.',
+    master:           'The pinnacle of Jedi development -- wisdom, power, and control earned over a lifetime of service.',
+    padawan:          'Force-sensitive students taking first steps down the path, raw with potential and hungry to grow.',
+    temple_guardian:  'Warrior Jedi who defended the Temple itself, combining combat power with absolute dedication.',
+    // Mystic
+    advisor:          'Force-sensitive counselors who sense deception, read currents of fate, and guide others with wisdom.',
+    alchemist:        'Dark practitioners who channel the Force into physical substances, creating effects no lab could replicate.',
+    magus:            'Force mystics who project power outward dramatically, bending reality through focused will.',
+    makashi_duelist:  'Elegant lightsaber duelists who use the precise Makashi form to dismantle opponents cut by cut.',
+    prophet:          'Seers who peer into the currents of the future, turning foresight into tactical and personal advantage.',
+    seer:             'Force-sensitives who read the present and near-future with uncanny clarity, always one step ahead.',
+    // Seeker
+    ataru_striker:    'Acrobatic lightsaber fighters who use kinetic Ataru speed and power to overwhelm opponents.',
+    executioner:      'Force-guided hunters who eliminate high-value targets with cold precision and lethal efficiency.',
+    hermit:           'Isolated Force mystics whose detachment from society has deepened their link to the living Force.',
+    hunter:           'Predatory Force-users who stalk prey through wild places with tracking skill and Force-enhanced senses.',
+    navigator:        'Force-sensitive pathfinders who chart impossible routes and find safe passage through any danger.',
+    pathfinder:       'Trail-blazers who lead expeditions into the unknown, surviving any terrain and outlasting any challenge.',
+    // Sentinel
+    artisan:          'Force-sensitive crafters who channel the Force into building and modifying items with remarkable results.',
+    investigator:     'Detectives who combine Force senses with sharp intellect to expose lies and catch culprits.',
+    racer:            'Speed-focused pilots who push vehicles to the absolute edge through Force-honed reflexes.',
+    sentry:           'Vigilant guardians who never miss a threat and make infiltrating their protected area nearly impossible.',
+    shadow:           'Covert Force operatives who blend Jedi ability with infiltration and assassination in service of balance.',
+    shien_expert:     'Masters of Shien -- the lightsaber form designed to redirect blaster fire and punish ranged attackers.',
+    // Smuggler
+    blockade_runner:  'Daredevils who specialize in slipping through Imperial blockades with contraband and nerve.',
+    charmer:          'Silver-tongued operators who talk their way into and out of anything with irresistible charisma.',
+    gambler:          'Odds-readers who apply risk calculation to every situation -- they always know when to fold or go all in.',
+    gunslinger:       'Quick-draw artists who end fights in seconds with speed and accuracy most blasters can\'t match.',
+    scoundrel:        'Jack-of-all-trades criminals who combine dirty tricks, cunning, and adaptability to survive anything.',
+    thief:            'Expert burglars and pickpockets who can steal anything from anyone without leaving a trace.',
+    // Soldier
+    commando:         'Special forces operatives who execute high-risk missions deep behind enemy lines with brutal efficiency.',
+    medic:            'Combat medics who patch wounds mid-firefight and keep the squad operational against all odds.',
+    sharpshooter:     'Precision marksmen who eliminate threats from extreme range before enemies know they\'re targeted.',
+    trailblazer:      'Advance scouts who find paths through any terrain and set conditions for everyone who follows.',
+    vanguard:         'Shock troops who punch through enemy lines and establish footholds in the most dangerous situations.',
+    // Spy
+    courier:          'Information brokers who move sensitive data and personnel through hostile territory undetected.',
+    infiltrator:      'Deep-cover agents who slip into enemy organizations and extract intelligence from the inside.',
+    interrogator:     'Specialists at breaking down resistance and extracting truth from subjects who refuse to talk.',
+    sleeper_agent:    'Long-term embedded operatives who maintain covers for years, activated only for a decisive moment.',
+    slicer:           'Hackers who breach any system, steal any data, and can bring entire networks crashing down.',
+    // Technician
+    cyber_tech:       'Cybernetics experts who enhance themselves and allies with implants that push past biological limits.',
+    droid_tech:       'Droid mechanics who build, repair, and optimize automations as loyal and lethal companions.',
+    modder:           'Weapons and gear modifiers who upgrade equipment to peak performance and well beyond factory specs.',
+    outlaw_tech:      'Black-market engineers who build custom illegal tech and find creative solutions to any problem.',
+    // Warrior
+    aggressor:        'Relentless Force-enhanced combatants who overwhelm opponents through raw power and sustained pressure.',
+    colossus:         'Force-powered juggernauts who absorb enormous punishment and dish it back with devastating force.',
+    juyo_berserker:   'Masters of the ferocious Juyo form who channel pure aggression into overwhelming offensive fury.',
+    shii_cho_knight:  'Practitioners of the oldest lightsaber form -- deceptively simple and brutally effective.',
+    starfighter_ace:  'Force-sensitive pilots who blend exceptional flying instincts with Force-enhanced reflexes.',
+    steel_hand_adept: 'Unarmed Force fighters who channel power through their body for devastating, weapon-free strikes.',
+    // Careerless / Cross-game
+    acolyte:              'Dark side initiates taking first steps down a dangerous path -- raw in power but lacking control.',
+    blademaster:          'Devoted melee experts who have mastered multiple combat forms beyond any single tradition.',
+    cartel_dealer:        'Criminal fixers who trade in favors, contraband, and connections across the underworld.',
+    dark_side_cultist:    'Devotees of the dark side who pursue power through fear, rage, and forbidden Force practices.',
+    death_watch_warrior:  'Mandalorian zealots who honor warrior traditions through skill, armor, and unwavering violence.',
+    force_adherent:       'Non-Jedi Force-sensitives who follow their own path outside any established Order or tradition.',
+    force_sensitive_exile:'Force-users in hiding who have suppressed their abilities to survive Imperial persecution.',
+    force_sensitive_emergent: 'Newly awakened Force-sensitives only beginning to understand what they are capable of.',
+    force_sensitive_outcast:  'Untrained Force-users who have developed raw, unguided abilities through instinct and necessity.',
+    gladiator:            'Arena fighters who turned combat performance into an art form and a career built on spectacle.',
+    imperial_academy_cadet:   'Imperial military trainees who embrace discipline, hierarchy, and the Emperor\'s ideals.',
+    imperial_loyalist:    'True believers in the Empire who have internalized its ideology and act as its most effective instrument.',
+    jedi_archivist:       'Keepers of Jedi knowledge who protect and expand the Order\'s records, history, and teachings.',
+    jedi_explorer:        'Wandering Jedi who explored the Unknown Regions, recording species, relics, and Force phenomena.',
+    jedi_wayseeker:       'Independent Jedi who operate without Master or Padawan, guided solely by the Force\'s will.',
+    lord:                 'Dark side aristocrats who dominate others through fear, power, and the absolute authority of the Sith.',
+    mandalorian_crusader: 'Ancient-tradition Mandalorians who fight to preserve their culture and prove their warrior heritage.',
+    nightsister:          'Force witches of Dathomir who wield dark-side magick as a birthright passed through generations.',
+    padawan_survivor:     'Jedi students who survived Order 66 and are quietly rebuilding their connection to the Force.',
+    pirate:               'Raiders of the spacelanes who board, plunder, and vanish before any authority can respond.',
+    recruit:              'Fresh volunteers just beginning their service with everything still to prove.',
+    republic_diplomat:    'Representatives of the Republic who pursue diplomacy and law on behalf of the Galactic Senate.',
+    scavenger:            'Scrap hunters who make a living picking through wreckage, finding value where others see only ruin.',
+    seasoned_adventurer:  'Veterans of countless scrapes whose broad experience gives a practical edge in any situation.',
+    senator:              'Political leaders who shape galactic policy and fight institutional battles from the halls of the Senate.',
+    separatist_commander: 'CIS commanders who led Separatist forces and still believe in the ideals of independence.',
+    ship_captain:         'Veteran starship commanders who know their vessels intimately and lead crews through anything.',
+    sorcerer:             'Dark side practitioners who wield ancient and terrible Force powers that few alive can understand.',
+  };
+
   // ── Career flavor blurbs ─────────────────────────────────────────────────
   const CAREER_BLURBS = {
     THEACE:      'Pilots, hot-shot drivers, and expert operators who live for the thrill of the cockpit. If it flies, rolls, or shoots, this is their domain.',
@@ -211,11 +378,13 @@ const Wizard = (() => {
     }
     if (type === 'talent') {
       const tal = SW.talents.find(t => t.name.toLowerCase() === name.toLowerCase());
-      const desc = TALENT_DESCS[name] || '';
+      const curated = TALENT_DESCS[name] || '';
+      const ref = (!curated && tal && tal.description) ? tal.description : '';
       const meta = tal ? `${tal.activation} &bull; ${tal.ranked ? 'Ranked' : 'Not Ranked'}` : '';
       return `<div class="tt-title">${name}</div>
               ${meta ? `<div class="tt-meta">${meta}</div>` : ''}
-              ${desc ? `<div class="tt-body">${desc}</div>` : ''}`;
+              ${curated ? `<div class="tt-body">${curated}</div>` : ''}
+              ${ref ? `<div class="tt-body tt-ref">${ref}</div>` : ''}`;
     }
     if (type === 'ability') {
       const sp = SW.species.find(s => s.key === spKey);
@@ -590,21 +759,27 @@ const Wizard = (() => {
         const card = document.createElement('div');
         card.className = `spec-card${sel ? ' selected' : ''}`;
 
-        const bonusTags = (sp.bonus_career_skills || [])
-          .map(s => `<span class="skill-tag bonus">${s}</span>`).join('');
+        const bonusTags = (sp.bonus_career_skills || []).map(s => {
+          // bonus_career_skills uses display names like "Knowledge (Education)"
+          const canonical = Engine.nameToKey(s) ? Engine.getSkill(Engine.nameToKey(s))?.name || s : s;
+          return `<span class="skill-tag bonus" data-tip-type="skill" data-tip-name="${canonical}">${s}</span>`;
+        }).join('');
 
         const treeHtml = (sp.talent_tree || []).map(row =>
           `<div class="tree-row"><div class="tree-cost">${row.cost}</div>${
             (row.talents || []).map(t =>
-              `<div class="tree-cell${t ? '' : ' empty'}">${t || '—'}</div>`
+              t ? `<div class="tree-cell" data-tip-type="talent" data-tip-name="${t}">${t}</div>`
+                : `<div class="tree-cell empty">—</div>`
             ).join('')}</div>`
         ).join('');
 
+        const blurb = SPEC_BLURBS[sp.key] || '';
         card.innerHTML = `
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:${blurb ? '4px' : '8px'}">
             <h3>${sp.name}</h3>
             ${!inCareer ? '<span style="font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:1px 5px;border-radius:3px">Out-of-career</span>' : ''}
           </div>
+          ${blurb ? `<p class="career-blurb" style="margin-bottom:10px">${blurb}</p>` : ''}
           <div class="skill-tags" style="margin-bottom:10px">${bonusTags}</div>
           <div class="talent-tree">${treeHtml}</div>`;
 
@@ -619,6 +794,7 @@ const Wizard = (() => {
     draw();
     $('#spec-search').addEventListener('input', draw);
     $('#career-only').addEventListener('change', draw);
+    initTipListeners($('#spec-grid'));
   }
 
   // ── Step: Characteristics ─────────────────────────────────────────────────

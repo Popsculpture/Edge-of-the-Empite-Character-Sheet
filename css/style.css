@@ -319,6 +319,11 @@ body {
   color: var(--text);
   line-height: 1.45;
 }
+.tt-ref {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.7rem;
+}
 
 /* ── Species grid ──────────────────────────────────────────────── */
 .species-grid {
@@ -511,6 +516,8 @@ body {
 .tree-cell:last-child { border-right: none; }
 .tree-cell.purchased { background: var(--accent-bg); color: var(--accent); }
 .tree-cell.empty { color: var(--muted); font-style: italic; }
+.tree-cell[data-tip-type] { cursor: help; }
+.tree-cell[data-tip-type]:hover { background: var(--accent-bg); color: var(--accent); }
 
 /* ── Characteristics step ────────────────────────────────────────── */
 .chars-layout {
