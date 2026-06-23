@@ -12,7 +12,7 @@ window.SW.talents = [
     "name": "A Lesson in Pain",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per session, suffer a Critical Injury to reroll a failed check; the GM may allow sacrificing something personally significant instead."
   },
   {
     "key": "ASTEPAHEAD",
@@ -495,7 +495,7 @@ window.SW.talents = [
     "name": "Brainwash",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Hard Leadership check; one short-range ally suffers 2 strain and upgrades their next check. Improved lets you suffer 1 strain to use it as a maneuver instead."
   },
   {
     "key": "BRI",
@@ -582,18 +582,25 @@ window.SW.talents = [
     "description": "Once per game session, the character can choose to introduce a \"fact\" or additional context directly into the narrative as if they had spent a Destiny Point."
   },
   {
+    "name": "Cargo Drop",
+    "key": "CARGODROP",
+    "ranked": false,
+    "activation": "Active (Action)",
+    "description": "Once per encounter, dump cargo with a Hard Skulduggery check. Nearby foes equal to successes must slow to speed 1 or suffer a major collision; Advantage/Triumph can trigger cargo-specific effects."
+  },
+  {
     "key": "CARTELLICENS",
     "name": "Cartel License",
     "ranked": false,
     "activation": "Passive",
-    "description": ""
+    "description": "On civilized worlds, you avoid legal trouble for merely possessing restricted gear, though unlawful use can still get you punished."
   },
   {
     "key": "CEASEHOSTILI",
     "name": "Cease Hostilities!",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Once per encounter, opposed Coercion vs Discipline to stagger a Rival or Minion in short range. Improved allows twice per encounter and can target a Nemesis by spending a Destiny Point."
   },
   {
     "key": "CENTEROFATTE",
@@ -914,15 +921,15 @@ window.SW.talents = [
     "key": "DARASUUMKOTE",
     "name": "Darasuum Kote",
     "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
+    "activation": "Active (Incidental, Out of Turn)",
+    "description": "Once per encounter after an enemy wounds you, spend a Destiny Point to automatically hit that enemy with a wielded weapon if they are in range."
   },
   {
     "key": "DARKESTSECRE",
     "name": "Darkest Secret",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Once per encounter, make a Daunting Knowledge check. On success, you may add a Despair to one adversary check if it relates to the information uncovered."
   },
   {
     "key": "DAZZLINGFLOU",
@@ -1034,7 +1041,7 @@ window.SW.talents = [
     "name": "Deferred Blame",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Once per session, make an Average Deception check to shift blame for your mistake onto someone else."
   },
   {
     "key": "DEFTMAKER",
@@ -1048,7 +1055,7 @@ window.SW.talents = [
     "name": "Defy Fate",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per session when you roll a Despair, spend a Destiny Point to cancel the Despair when it would be spent. Improved lets allies use it once per session."
   },
   {
     "key": "DELAYEDRESPO",
@@ -1237,7 +1244,7 @@ window.SW.talents = [
     "name": "Domination",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Suffer 2 strain to make a Leadership check using Willpower instead of Presence."
   },
   {
     "key": "DONTSHOOT",
@@ -1601,7 +1608,7 @@ window.SW.talents = [
     "name": "Fight What You Hate",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per encounter, suffer 3 strain and choose a long-range adversary; checks between you and that adversary have reduced critical rating."
   },
   {
     "key": "FINETUN",
@@ -1644,6 +1651,13 @@ window.SW.talents = [
     "ranked": false,
     "activation": "Active (Maneuver)",
     "description": "Force talent. Once per round, the character may perform the Flows through all Things maneuver to recover strain equal to their Force rating."
+  },
+  {
+    "name": "Fly Casual",
+    "key": "FLYCASUAL",
+    "ranked": false,
+    "activation": "Active (Incidental)",
+    "description": "Once per encounter while aboard or piloting a familiar craft, spend a Destiny Point to add Setback equal to Cunning to attempts to identify, scan, or inspect the craft or cargo."
   },
   {
     "key": "MOUNTFLY",
@@ -1761,8 +1775,8 @@ window.SW.talents = [
     "key": "FREEDOMINVIC",
     "name": "Freedom in Victory",
     "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": ""
+    "activation": "Active (Incidental)",
+    "description": "Force talent. Commit a Force die; when you would become immobilized or staggered, suffer 2 strain to ignore it."
   },
   {
     "key": "FREERUN",
@@ -2168,7 +2182,7 @@ window.SW.talents = [
     "name": "Imperial Valor",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Once per encounter, Hard Discipline check; on success, you and allies in short range equal to successes increase strain threshold by 1 for the encounter."
   },
   {
     "key": "IMPOSFALL",
@@ -3344,7 +3358,7 @@ window.SW.talents = [
     "name": "Keen Insight",
     "ranked": true,
     "activation": "Passive",
-    "description": ""
+    "description": "Add one Boost die per rank of Keen Insight to Perception checks."
   },
   {
     "key": "KILLCONFIRME",
@@ -3561,7 +3575,7 @@ window.SW.talents = [
     "name": "Local Businesses",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Once per session, Hard Knowledge Underworld check to locate a friendly nearby black market and know how to access it."
   },
   {
     "key": "LOCKANDLOAD",
@@ -3900,6 +3914,13 @@ window.SW.talents = [
     "description": "Once per game session, the character may take an action to make a Hard difficulty Knowledge (Education) check regarding a single relic, ruin, or piece of galactic history (subject to the GM's approval). If successful, the character knows an amount of information about the item based on the number of success results rolled."
   },
   {
+    "name": "Mustafar Special",
+    "key": "MUSTAFARSPEC",
+    "ranked": false,
+    "activation": "Active (Action)",
+    "description": "Once per round while piloting, make opposed Piloting against a close craft. On success, inflict system strain equal to Cunning plus successes; 2 Advantage can affect another close craft."
+  },
+  {
     "key": "NATATHL",
     "name": "Natural Athlete",
     "ranked": false,
@@ -4162,8 +4183,8 @@ window.SW.talents = [
     "key": "OLDBUDDY",
     "name": "Old Buddy",
     "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
+    "activation": "Active (Action)",
+    "description": "Once per session, Hard Streetwise check to establish a prior relationship with an NPC; extra results shape how helpful or hostile that relationship is."
   },
   {
     "key": "ONORDER",
@@ -4316,8 +4337,8 @@ window.SW.talents = [
     "key": "PASSIONOVERP",
     "name": "Passion Over Peace",
     "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
+    "activation": "Passive",
+    "description": "Once per round, recover strain equal to dark side Destiny Points in the pool. Purchasing this talent adds 1 Conflict at session start."
   },
   {
     "key": "PATHSUNCHART",
@@ -4457,7 +4478,7 @@ window.SW.talents = [
     "name": "Pragmatic",
     "ranked": true,
     "activation": "Passive",
-    "description": ""
+    "description": "Add one Boost die per rank of Pragmatic to Cool and Streetwise checks."
   },
   {
     "name": "Pre-emptive Avoidance",
@@ -4562,7 +4583,7 @@ window.SW.talents = [
     "name": "Programmed",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "When making a check, suffer strain up to twice your Discipline ranks; gain one Boost die for every 2 strain suffered. Improved can upgrade dice instead by flipping a Destiny Point."
   },
   {
     "key": "PROPAIM",
@@ -4597,7 +4618,7 @@ window.SW.talents = [
     "name": "Questionable Ethics",
     "ranked": true,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per round before a Medicine or Coercion check, suffer strain and Conflict up to ranks in Questionable Ethics to add an equal number of Success or Advantage results."
   },
   {
     "key": "QUICKDR",
@@ -4688,7 +4709,7 @@ window.SW.talents = [
     "name": "RDC Specialised Training",
     "ranked": false,
     "activation": "Passive",
-    "description": ""
+    "description": "Choose one career skill when this talent is acquired; when using that skill, add Boost dice equal to your ranks in that skill."
   },
   {
     "key": "REACHFORTHES",
@@ -4723,21 +4744,21 @@ window.SW.talents = [
     "name": "Reassuring Presence",
     "ranked": false,
     "activation": "Passive",
-    "description": ""
+    "description": "At the end of each encounter, allies equal to your Cool ranks each recover 1 additional strain."
   },
   {
     "key": "RECKLESSCHAR",
     "name": "Reckless Charge",
-    "ranked": true,
+    "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "After maneuvering to engage an enemy, suffer 2 strain to add 2 Success and 2 Threat to your next Brawl, Melee, or Lightsaber check that turn."
   },
   {
     "key": "RECKLESSZEAL",
     "name": "Reckless Zeal",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per session, suffer 2 strain and 2 wounds to reroll a failed check."
   },
   {
     "key": "RECSCENE",
@@ -4891,7 +4912,7 @@ window.SW.talents = [
     "name": "Rule By Fear",
     "ranked": true,
     "activation": "Passive",
-    "description": ""
+    "description": "Remove one Setback die per rank from Leadership and Coercion checks."
   },
   {
     "key": "SABERSW",
@@ -4939,8 +4960,8 @@ window.SW.talents = [
     "key": "SAVEWHATYOUL",
     "name": "Save What You Love",
     "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
+    "activation": "Active (Incidental, Out of Turn)",
+    "description": "Once per session, prevent a short-range ally from being incapacitated by a hit; you then suffer 5 wounds and a Critical Injury at +20."
   },
   {
     "key": "SAVVY",
@@ -4975,7 +4996,7 @@ window.SW.talents = [
     "name": "Scapegoat",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Once per session, Hard Deception check to avoid blame for your decision or action and place it on someone else."
   },
   {
     "key": "SCATH",
@@ -5107,15 +5128,15 @@ window.SW.talents = [
     "key": "SENTINELOFTH",
     "name": "Sentinel of the Order",
     "ranked": false,
-    "activation": "Active",
-    "description": ""
+    "activation": "Active (Maneuver)",
+    "description": "As a maneuver, suffer 3 strain to give your equipped weapon Defensive 1 and Deflection 1 until the end of the next round, or increase those ratings if already present."
   },
   {
     "key": "SENTRYSREST",
     "name": "Sentry's Rest",
     "ranked": false,
-    "activation": "Active",
-    "description": ""
+    "activation": "Passive",
+    "description": "Use waking meditation instead of sleep, remaining conscious and alert while resting."
   },
   {
     "key": "SHADOWFEEDSE",
@@ -5290,7 +5311,7 @@ window.SW.talents = [
     "name": "Snap Out Of It",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": ""
+    "description": "Once per session, Daunting Discipline check to recover strain equal to half your current strain, rounded down."
   },
   {
     "key": "SNIPSHOT",
@@ -5437,7 +5458,7 @@ window.SW.talents = [
     "name": "Stalwart",
     "ranked": false,
     "activation": "Passive",
-    "description": ""
+    "description": "Enemy checks opposed by your Discipline suffer automatic Failure and Threat results."
   },
   {
     "key": "STANDFIRM",
@@ -5535,7 +5556,7 @@ window.SW.talents = [
     "name": "Strength From Passion",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per session, spend a Destiny Point to add successes and threats equal to dark side Destiny Points in the pool. Purchasing this talent adds 1 Conflict at session start."
   },
   {
     "key": "STRGEN",
@@ -6053,7 +6074,7 @@ window.SW.talents = [
     "name": "Touched by Darkness",
     "ranked": true,
     "activation": "Passive",
-    "description": ""
+    "description": "Whenever the GM spends a Destiny Point, recover 1 strain and 1 wound per rank before the effect resolves."
   },
   {
     "key": "TOUGH",
@@ -6270,7 +6291,7 @@ window.SW.talents = [
     "name": "Victory From Strength",
     "ranked": false,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per session before a non-combat check, spend a Destiny Point to automatically succeed with one success and no other results."
   },
   {
     "key": "VOICEOFREASO",
@@ -6291,7 +6312,7 @@ window.SW.talents = [
     "name": "Watch This",
     "ranked": true,
     "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Once per encounter on a Daunting or harder check, add successes equal to ranks of Watch This."
   },
   {
     "name": "Watch Your Step!",
@@ -6397,5 +6418,12 @@ window.SW.talents = [
     "ranked": false,
     "activation": "Incidental",
     "description": "Once per game session, the character can choose to make one skill check using Presence, rather than the characteristic linked to that skill. When [they] do this, [they] must explain how, in this particular instance, [their] social ability is helping [them] overcome this challenge."
+  },
+  {
+    "name": "Wretched Hive",
+    "key": "WRETCHEDHIVE",
+    "ranked": false,
+    "activation": "Active (Action)",
+    "description": "Once per session, make a Hard Astrogation or Knowledge Underworld check to locate the nearest Shadowport; upgrade checks to reach or interact with it this session."
   }
 ];
