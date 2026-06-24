@@ -734,6 +734,9 @@ const Wizard = (() => {
         <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--muted);white-space:nowrap;cursor:pointer">
           <input type="checkbox" id="career-only" checked> Career only
         </label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--muted);white-space:nowrap;cursor:pointer">
+          <input type="checkbox" id="show-homebrew"> Show homebrew
+        </label>
       </div>
       <div class="spec-grid" id="spec-grid"></div>`;
 
@@ -744,8 +747,9 @@ const Wizard = (() => {
       const cName      = career ? career.name : '';
       grid.innerHTML   = '';
 
+      const showHomebrew = $('#show-homebrew').checked;
       const list = SW.specializations.filter(s => {
-        if (s.is_respec) return false;
+        if (s.homebrew && !showHomebrew) return false;
         if (filter && !s.name.toLowerCase().includes(filter)) return false;
         if (careerOnly && !s.careers.includes(cName)) return false;
         return true;
@@ -775,9 +779,10 @@ const Wizard = (() => {
 
         const blurb = SPEC_BLURBS[sp.key] || '';
         card.innerHTML = `
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:${blurb ? '4px' : '8px'}">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:${blurb ? '4px' : '8px'}">
             <h3>${sp.name}</h3>
             ${!inCareer ? '<span style="font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:1px 5px;border-radius:3px">Out-of-career</span>' : ''}
+            ${sp.homebrew ? `<span class="homebrew-badge" title="${sp.homebrew_source}">Homebrew</span>` : ''}
           </div>
           ${blurb ? `<p class="career-blurb" style="margin-bottom:10px">${blurb}</p>` : ''}
           <div class="skill-tags" style="margin-bottom:10px">${bonusTags}</div>
@@ -794,6 +799,7 @@ const Wizard = (() => {
     draw();
     $('#spec-search').addEventListener('input', draw);
     $('#career-only').addEventListener('change', draw);
+    $('#show-homebrew').addEventListener('change', draw);
     initTipListeners($('#spec-grid'));
   }
 

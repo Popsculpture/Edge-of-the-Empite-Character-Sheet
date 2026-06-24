@@ -431,6 +431,20 @@ body {
 
 .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 
+.homebrew-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b87a00;
+  background: rgba(184, 122, 0, 0.15);
+  border: 1px solid rgba(184, 122, 0, 0.45);
+  border-radius: 3px;
+  padding: 1px 6px;
+  cursor: default;
+  white-space: nowrap;
+}
+
 .career-blurb {
   font-size: 0.78rem;
   color: var(--muted);

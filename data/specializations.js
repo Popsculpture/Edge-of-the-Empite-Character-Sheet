@@ -58,7 +58,9 @@ window.SW.specializations = [
           "Strength From Passion"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "advisor",
@@ -122,7 +124,9 @@ window.SW.specializations = [
           "Sense Advantage"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "advocate",
@@ -186,7 +190,9 @@ window.SW.specializations = [
           "Contingency Plan"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "aggressor",
@@ -250,7 +256,9 @@ window.SW.specializations = [
           "Against All Odds"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "agitator",
@@ -314,7 +322,9 @@ window.SW.specializations = [
           "Incite Rebellion"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "alchemist",
@@ -378,7 +388,9 @@ window.SW.specializations = [
           "Improvised Concoction"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "ambassador",
@@ -442,7 +454,9 @@ window.SW.specializations = [
           "Sixth Sense"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "analyst",
@@ -506,7 +520,9 @@ window.SW.specializations = [
           "Stroke of Genius"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "arbiter",
@@ -570,7 +586,9 @@ window.SW.specializations = [
           "Aggressive Negotiations"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "arc_trooper",
@@ -634,7 +652,9 @@ window.SW.specializations = [
           "Rapid Fire"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "archaeologist",
@@ -698,7 +718,9 @@ window.SW.specializations = [
           "Museum Worthy"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "archaeologist_respec",
@@ -762,7 +784,9 @@ window.SW.specializations = [
           "Unearth the Answer"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "armorer",
@@ -826,7 +850,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "artisan",
@@ -890,7 +916,9 @@ window.SW.specializations = [
           "Comprehend Technology"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "ascetic",
@@ -954,7 +982,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "assassin",
@@ -1018,7 +1048,9 @@ window.SW.specializations = [
           "Master of Shadows"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "assassin_respec",
@@ -1082,7 +1114,9 @@ window.SW.specializations = [
           "The Perfect Crime"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "ataru_striker",
@@ -1146,7 +1180,9 @@ window.SW.specializations = [
           "Balance"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "beast_rider",
@@ -1210,7 +1246,9 @@ window.SW.specializations = [
           "Soothing Tone"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "big_game_hunter_respec",
@@ -1274,7 +1312,9 @@ window.SW.specializations = [
           "Know Your Prey"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "big_game_hunter",
@@ -1338,7 +1378,9 @@ window.SW.specializations = [
           "Superior Reflexes"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "blademaster",
@@ -1398,7 +1440,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "blockade_runner",
@@ -1462,7 +1506,9 @@ window.SW.specializations = [
           "Cargo Drop"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Blockade Runner Folio"
   },
   {
     "key": "bodyguard",
@@ -1526,7 +1572,9 @@ window.SW.specializations = [
           "Improved Hard Headed"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "bodyguard_respec",
@@ -1590,7 +1638,9 @@ window.SW.specializations = [
           ""
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "cartel_dealer",
@@ -1650,7 +1700,9 @@ window.SW.specializations = [
           "Indistinguishable"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "charmer",
@@ -1714,7 +1766,9 @@ window.SW.specializations = [
           "Resolve"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "charmer_respec",
@@ -1778,7 +1832,9 @@ window.SW.specializations = [
           "Don't Shoot!"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "clone_commander",
@@ -1842,7 +1898,9 @@ window.SW.specializations = [
           "Practiced Strategist"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "clone_officer",
@@ -1906,7 +1964,9 @@ window.SW.specializations = [
           "For The Republic!"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "clone_pilot",
@@ -1970,7 +2030,9 @@ window.SW.specializations = [
           "Toughened"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "clone_trooper",
@@ -2034,7 +2096,9 @@ window.SW.specializations = [
           "Lateral Thinking"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "clone_veteran",
@@ -2098,7 +2162,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "colossus",
@@ -2162,7 +2228,9 @@ window.SW.specializations = [
           "Power From Pain"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Unknown fan supplement"
   },
   {
     "key": "commando",
@@ -2226,7 +2294,9 @@ window.SW.specializations = [
           "Feral Strength"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "commodore",
@@ -2290,7 +2360,9 @@ window.SW.specializations = [
           "Galaxy Mapper"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "courier",
@@ -2354,7 +2426,9 @@ window.SW.specializations = [
           "Natural Athlete"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "cyber_tech",
@@ -2418,7 +2492,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "cyber_tech_respec",
@@ -2482,7 +2558,9 @@ window.SW.specializations = [
           "Supreme Overcharge"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "dark_side_cultist",
@@ -2542,7 +2620,9 @@ window.SW.specializations = [
           "Improved Fearsome"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance"
   },
   {
     "key": "death_watch_warrior",
@@ -2602,7 +2682,9 @@ window.SW.specializations = [
           "Momentum"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "demolitionist",
@@ -2666,7 +2748,9 @@ window.SW.specializations = [
           "Selective Detonation"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "demolitionist_respec",
@@ -2730,7 +2814,9 @@ window.SW.specializations = [
           "Making A Door"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "doctor",
@@ -2794,7 +2880,9 @@ window.SW.specializations = [
           "Dodge"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "doctor_respec",
@@ -2858,7 +2946,9 @@ window.SW.specializations = [
           "Anatomy Lessons"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "driver",
@@ -2924,7 +3014,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "driver_respec",
@@ -2988,7 +3080,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "droid_specialist",
@@ -3052,7 +3146,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "droid_tech",
@@ -3116,7 +3212,9 @@ window.SW.specializations = [
           "Machine Mender"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "droid_tech_respec",
@@ -3180,7 +3278,9 @@ window.SW.specializations = [
           "Supreme Directive"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "enforcer",
@@ -3244,7 +3344,9 @@ window.SW.specializations = [
           "Fearsome"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "enforcer_respec",
@@ -3308,7 +3410,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "entrepreneur",
@@ -3372,7 +3476,9 @@ window.SW.specializations = [
           "Sound Investments"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "entrepreneur_respec",
@@ -3436,7 +3542,9 @@ window.SW.specializations = [
           "Improved Greased Palms"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "executioner",
@@ -3500,7 +3608,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "figurehead",
@@ -3564,7 +3674,9 @@ window.SW.specializations = [
           "Improved Commanding Presence"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "first_order_defector",
@@ -3624,7 +3736,9 @@ window.SW.specializations = [
           "Improved Fight What You Hate"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance"
   },
   {
     "key": "first_order_loyalist",
@@ -3684,7 +3798,9 @@ window.SW.specializations = [
           "Scapegoat"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance"
   },
   {
     "key": "force_adherent",
@@ -3744,7 +3860,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Unknown fan supplement"
   },
   {
     "key": "force_sensitive_exile",
@@ -3801,7 +3919,9 @@ window.SW.specializations = [
           "Superior Reflexes"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "force_sensitive_emergent",
@@ -3858,7 +3978,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "force_sensitive_outcast",
@@ -3913,7 +4035,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "fringer",
@@ -3977,7 +4101,9 @@ window.SW.specializations = [
           "Dodge"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "fringer_respec",
@@ -4041,7 +4167,9 @@ window.SW.specializations = [
           "Desperate Scramble"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "gadgeteer",
@@ -4105,7 +4233,9 @@ window.SW.specializations = [
           "Crippling Blow"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gadgeteer_respec",
@@ -4169,7 +4299,9 @@ window.SW.specializations = [
           "Supreme Master of Arms"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "gambler",
@@ -4233,7 +4365,9 @@ window.SW.specializations = [
           "Improved Double or Nothing"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gambler_respec",
@@ -4297,7 +4431,9 @@ window.SW.specializations = [
           "Second Chances"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "general",
@@ -4361,7 +4497,9 @@ window.SW.specializations = [
           "Exemplar Of The Republic"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gladiator",
@@ -4421,7 +4559,9 @@ window.SW.specializations = [
           "Feral Strength"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gunner",
@@ -4486,7 +4626,9 @@ window.SW.specializations = [
           "True Aim"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gunslinger",
@@ -4550,7 +4692,9 @@ window.SW.specializations = [
           "Deadly Accuracy"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gunslinger_respec",
@@ -4614,7 +4758,9 @@ window.SW.specializations = [
           "Improved Guns Blazing"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "healer",
@@ -4678,7 +4824,9 @@ window.SW.specializations = [
           "Improved Calming Aura"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "heavy",
@@ -4744,7 +4892,9 @@ window.SW.specializations = [
           "Heavy Hitter"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "heavy_respec",
@@ -4808,7 +4958,9 @@ window.SW.specializations = [
           "Heroic Resilience"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "hermit",
@@ -4872,7 +5024,9 @@ window.SW.specializations = [
           "Shroud"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "hotshot",
@@ -4936,7 +5090,9 @@ window.SW.specializations = [
           "Showboat"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "hunter",
@@ -5000,7 +5156,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "imperial_academy_cadet",
@@ -5060,7 +5218,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Unknown fan supplement"
   },
   {
     "key": "imperial_loyalist",
@@ -5120,7 +5280,9 @@ window.SW.specializations = [
           "By The Book"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "infiltrator",
@@ -5184,7 +5346,9 @@ window.SW.specializations = [
           "Natural Rogue"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "instructor",
@@ -5248,7 +5412,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "interrogator",
@@ -5312,7 +5478,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "investigator",
@@ -5376,7 +5544,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "jedi_archivist",
@@ -5438,7 +5608,9 @@ window.SW.specializations = [
           "Mental Fortress"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Jedi Career (fan-made)"
   },
   {
     "key": "jedi_explorer",
@@ -5500,7 +5672,9 @@ window.SW.specializations = [
           "Improved Reflect"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Jedi Career (fan-made)"
   },
   {
     "key": "jedi_wayseeker",
@@ -5562,7 +5736,9 @@ window.SW.specializations = [
           "Sum Djem"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Jedi Career (fan-made)"
   },
   {
     "key": "juyo_berserker",
@@ -5626,7 +5802,9 @@ window.SW.specializations = [
           "Multiple Opponents"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "knight",
@@ -5690,7 +5868,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Jedi Career (fan-made)"
   },
   {
     "key": "lord",
@@ -5750,7 +5930,9 @@ window.SW.specializations = [
           "Master Of The Order"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "magus",
@@ -5814,7 +5996,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Unknown fan supplement"
   },
   {
     "key": "makashi_duelist",
@@ -5878,7 +6062,9 @@ window.SW.specializations = [
           "Makashi Flourish"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mandalorian_crusader",
@@ -5938,7 +6124,9 @@ window.SW.specializations = [
           "Rapid Reaction"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "marauder",
@@ -6002,7 +6190,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "marauder_respec",
@@ -6066,7 +6256,9 @@ window.SW.specializations = [
           "Kill Or Be Killed"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "marshal",
@@ -6130,7 +6322,9 @@ window.SW.specializations = [
           "Natural Marksman"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "marshal_respec",
@@ -6194,7 +6388,9 @@ window.SW.specializations = [
           "Improved Merciful Shot"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "martial_artist",
@@ -6258,7 +6454,9 @@ window.SW.specializations = [
           "Supreme Precision Strike"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "martial_artist_respec",
@@ -6322,7 +6520,9 @@ window.SW.specializations = [
           "Supreme Precision Strike"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "master",
@@ -6386,7 +6586,9 @@ window.SW.specializations = [
           "Supreme Center Of Being"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Jedi Career (fan-made)"
   },
   {
     "key": "mechanic",
@@ -6452,7 +6654,9 @@ window.SW.specializations = [
           "Improved Hard Headed"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mechanic_respec",
@@ -6516,7 +6720,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "medic",
@@ -6580,7 +6786,9 @@ window.SW.specializations = [
           "Supreme Stim Application"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mercenary_soldier",
@@ -6644,7 +6852,9 @@ window.SW.specializations = [
           "True Aim"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mercenary_soldier_respec",
@@ -6708,7 +6918,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "modder",
@@ -6772,7 +6984,9 @@ window.SW.specializations = [
           "Custom Loadout"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "modder_respec",
@@ -6836,7 +7050,9 @@ window.SW.specializations = [
           "Signature Superiority"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "navigator",
@@ -6900,7 +7116,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "nightsister",
@@ -6960,7 +7178,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "niman_disciple",
@@ -7024,7 +7244,9 @@ window.SW.specializations = [
           "Improved Center of Being"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "operator",
@@ -7088,7 +7310,9 @@ window.SW.specializations = [
           "Hindering Shot"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "operator_respec",
@@ -7152,7 +7376,9 @@ window.SW.specializations = [
           "Hindering Shot"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "outlaw_tech",
@@ -7216,7 +7442,9 @@ window.SW.specializations = [
           "Brace"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "outlaw_tech_respec",
@@ -7280,7 +7508,9 @@ window.SW.specializations = [
           "Improved Make It Dangerous"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "padawan",
@@ -7344,7 +7574,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Jedi Career (fan-made)"
   },
   {
     "key": "padawan_survivor",
@@ -7399,7 +7631,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Jedi Career (fan-made)"
   },
   {
     "key": "pathfinder",
@@ -7463,7 +7697,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "peacekeeper",
@@ -7527,7 +7763,9 @@ window.SW.specializations = [
           "Natural Leader"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "performer",
@@ -7591,7 +7829,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "performer_respec",
@@ -7655,7 +7895,9 @@ window.SW.specializations = [
           "Biggest Fan"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "pilot",
@@ -7721,7 +7963,9 @@ window.SW.specializations = [
           "Brilliant Evasion"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "pirate",
@@ -7781,7 +8025,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "politico",
@@ -7845,7 +8091,9 @@ window.SW.specializations = [
           "Intense Presence"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "politico_respec",
@@ -7909,7 +8157,9 @@ window.SW.specializations = [
           "Master Manipulator"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "propagandist",
@@ -7973,7 +8223,9 @@ window.SW.specializations = [
           "In the Know"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "prophet",
@@ -8037,7 +8289,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "protector",
@@ -8101,7 +8355,9 @@ window.SW.specializations = [
           "Improved Body Guard"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "quartermaster",
@@ -8165,7 +8421,9 @@ window.SW.specializations = [
           "Toughened"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "racer",
@@ -8229,7 +8487,9 @@ window.SW.specializations = [
           "Intuitive Evasion"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "rdc_navigator",
@@ -8291,7 +8551,9 @@ window.SW.specializations = [
           "Toughened"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "rdc_officer",
@@ -8353,7 +8615,9 @@ window.SW.specializations = [
           "Natural Leader"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "rdc_peacekeeper",
@@ -8415,7 +8679,9 @@ window.SW.specializations = [
           "Take the Initiative"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "recruit",
@@ -8477,7 +8743,9 @@ window.SW.specializations = [
           "Enduring"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "republic_diplomat",
@@ -8539,7 +8807,9 @@ window.SW.specializations = [
           "Intense Presence"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "republic_navy_officer",
@@ -8599,7 +8869,9 @@ window.SW.specializations = [
           "Outmaneuver"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "republic_representative",
@@ -8659,7 +8931,9 @@ window.SW.specializations = [
           "Backroom Deal"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "retired_clone_trooper",
@@ -8721,7 +8995,9 @@ window.SW.specializations = [
           "Enduring"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Unknown fan supplement"
   },
   {
     "key": "rigger",
@@ -8785,7 +9061,9 @@ window.SW.specializations = [
           "Reinforced Frame"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "saboteur",
@@ -8849,7 +9127,9 @@ window.SW.specializations = [
           "Improved Hard Headed"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "sage",
@@ -8913,7 +9193,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "sapper",
@@ -8977,7 +9259,9 @@ window.SW.specializations = [
           "Master Demolitionist"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "scavenger",
@@ -9037,7 +9321,9 @@ window.SW.specializations = [
           "Contraption"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "scholar",
@@ -9101,7 +9387,9 @@ window.SW.specializations = [
           "Toughened"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "scholar_respec",
@@ -9165,7 +9453,9 @@ window.SW.specializations = [
           "Stroke of Genius"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "scientist",
@@ -9229,7 +9519,9 @@ window.SW.specializations = [
           "Utility Belt"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "scoundrel",
@@ -9293,7 +9585,9 @@ window.SW.specializations = [
           "Quick Strike"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "scoundrel_respec",
@@ -9357,7 +9651,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "scout",
@@ -9423,7 +9719,9 @@ window.SW.specializations = [
           "Disorient"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "scout_respec",
@@ -9487,7 +9785,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "seasoned_adventurer",
@@ -9547,7 +9847,9 @@ window.SW.specializations = [
           "Watch This"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance"
   },
   {
     "key": "seer",
@@ -9611,7 +9913,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "senator",
@@ -9671,7 +9975,9 @@ window.SW.specializations = [
           "Resource Allocation"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "sentry",
@@ -9735,7 +10041,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "separatist_commander",
@@ -9795,7 +10103,9 @@ window.SW.specializations = [
           "Lead From The Back"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "shadow",
@@ -9859,7 +10169,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "sharpshooter",
@@ -9923,7 +10235,9 @@ window.SW.specializations = [
           "Targeted Blow"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "shien_expert",
@@ -9987,7 +10301,9 @@ window.SW.specializations = [
           "Supreme Reflect"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "shii_cho_knight",
@@ -10051,7 +10367,9 @@ window.SW.specializations = [
           "Parry"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "ship_captain",
@@ -10111,7 +10429,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "shipwright",
@@ -10175,7 +10495,9 @@ window.SW.specializations = [
           "Exhaust Port"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "shipwright_high_republic",
@@ -10237,7 +10559,9 @@ window.SW.specializations = [
           "Stroke of Genius"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "High Republic fan supplement"
   },
   {
     "key": "skip_tracer",
@@ -10301,7 +10625,9 @@ window.SW.specializations = [
           "Soft Spot"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "skip_tracer_respec",
@@ -10365,7 +10691,9 @@ window.SW.specializations = [
           "Ultimatum"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "sleeper_agent",
@@ -10429,7 +10757,9 @@ window.SW.specializations = [
           "Inside Knowledge"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "slicer",
@@ -10495,7 +10825,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "slicer_respec",
@@ -10559,7 +10891,9 @@ window.SW.specializations = [
           "Stroke Of Genius"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "sorcerer",
@@ -10619,7 +10953,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "soresu_defender",
@@ -10683,7 +11019,9 @@ window.SW.specializations = [
           "Strategic Form"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "squadron_leader",
@@ -10747,7 +11085,9 @@ window.SW.specializations = [
           "Brilliant Evasion"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "starfighter_ace",
@@ -10811,7 +11151,9 @@ window.SW.specializations = [
           "Intuitive Evasion"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "steel_hand_adept",
@@ -10875,7 +11217,9 @@ window.SW.specializations = [
           "Dodge"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "strategist",
@@ -10939,7 +11283,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "survivalist",
@@ -11003,7 +11349,9 @@ window.SW.specializations = [
           "Heroic Fortitude"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "survivalist_respec",
@@ -11067,7 +11415,9 @@ window.SW.specializations = [
           "Improved Nowhere Is Safe"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "tactician",
@@ -11131,7 +11481,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "teacher",
@@ -11195,7 +11547,9 @@ window.SW.specializations = [
           "Force Rating"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "temple_guardian",
@@ -11259,7 +11613,9 @@ window.SW.specializations = [
           "Sentinel of the Order"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides"
   },
   {
     "key": "thief",
@@ -11323,7 +11679,9 @@ window.SW.specializations = [
           "Dedication"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "thief_respec",
@@ -11387,7 +11745,9 @@ window.SW.specializations = [
           "Stakeout"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "trader",
@@ -11451,7 +11811,9 @@ window.SW.specializations = [
           "Master Merchant"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "trader_high_republic",
@@ -11513,7 +11875,9 @@ window.SW.specializations = [
           "Black Market Contacts"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "High Republic fan supplement"
   },
   {
     "key": "trader_respec",
@@ -11577,7 +11941,9 @@ window.SW.specializations = [
           "Master Merchant"
         ]
       }
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The reSpecialized Project"
   },
   {
     "key": "trailblazer",
@@ -11641,7 +12007,9 @@ window.SW.specializations = [
           "Prey on the Weak"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "vanguard",
@@ -11705,7 +12073,9 @@ window.SW.specializations = [
           "Seize the Initiative"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "warden",
@@ -11769,7 +12139,9 @@ window.SW.specializations = [
           "Fearsome"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "warleader",
@@ -11833,6 +12205,8 @@ window.SW.specializations = [
           "Prophetic Aim"
         ]
       }
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   }
 ];
