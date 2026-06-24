@@ -1324,7 +1324,7 @@ const Wizard = (() => {
            <strong class="tt-xp-spent">${talentXp} XP</strong> spent on talents.</p>
       </div>
       <div class="talent-tree-wrap">
-        <div class="talent-tree" id="talent-tree-grid">${cells}</div>
+        <div class="tt-grid" id="talent-tree-grid">${cells}</div>
       </div>`;
 
     // Tooltip on hover (mouseenter/leave only — click is reserved for purchase)
