@@ -85,6 +85,7 @@ const Wizard = (() => {
       specKey: null,
       characteristics: null,
       freeCareerSkillPicks: [],
+      specBonusSkillPicks: [],
       name: '',
       player: '',
       background: '',
@@ -554,7 +555,13 @@ const Wizard = (() => {
     { id: 'species', label: 'Species',         tab: 'Species',  valid: () => !!state.speciesKey },
     { id: 'career',  label: 'Career',          tab: 'Career',   valid: () => !!state.careerKey },
     { id: 'spec',    label: 'Specialization',  tab: 'Spec.',    valid: () => !!state.specKey },
-    { id: 'skills',  label: 'Skills',          tab: 'Skills',   valid: () => (state.freeCareerSkillPicks || []).length === 4 },
+    { id: 'skills',  label: 'Skills',          tab: 'Skills',
+                     valid: () => {
+                       const spec = Engine.getSpec(state.specKey);
+                       const need = spec ? Math.min(2, Engine.specBonusSkillKeys(spec).length) : 2;
+                       return (state.freeCareerSkillPicks || []).length === 4
+                           && (state.specBonusSkillPicks || []).length === need;
+                     } },
     { id: 'oms',     label: () => state.game === 'eote' ? 'Obligation' : state.game === 'aor' ? 'Duty' : 'Morality',
                      tab:   () => state.game === 'eote' ? 'Oblig.'     : state.game === 'aor' ? 'Duty' : 'Morality',
                      valid: () => true },
@@ -569,6 +576,21 @@ const Wizard = (() => {
 
   function skillName(key) { const s = Engine.getSkill(key); return s ? s.name : key; }
   function skillChar(key) { const s = Engine.getSkill(key); return s ? s.characteristic.slice(0,3).toUpperCase() : ''; }
+
+  // Small "i" info affordance that triggers the skill tooltip on hover/tap
+  function skillInfoIcon(key) {
+    if (!key) return '';
+    const nm = skillName(key).replace(/"/g, '&quot;');
+    return ` <span class="skill-pick-info tip-link" data-tip-type="skill" data-tip-name="${nm}">i</span>`;
+  }
+  // Strip scraped wiki markup / leading "and " from a skill display name
+  function cleanSkillName(name) {
+    return String(name || '')
+      .replace(/\[\[[^\]|]*\|/g, '')
+      .replace(/[\[\]]/g, '')
+      .replace(/^\s*and\s+/i, '')
+      .trim();
+  }
 
   // ── Main render ────────────────────────────────────────────────────────────
   function render() {
@@ -664,7 +686,7 @@ const Wizard = (() => {
       card.addEventListener('click', () => {
         if (state.game !== id) {
           state.game = id; state.careerKey = null;
-          state.specKey = null; state.freeCareerSkillPicks = [];
+          state.specKey = null; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = [];
         }
         saveState(); render();
       });
@@ -844,7 +866,7 @@ const Wizard = (() => {
         <div class="skill-tags">${tags}</div>`;
       card.addEventListener('click', () => {
         if (state.careerKey !== ca.key) {
-          state.careerKey = ca.key; state.specKey = null; state.freeCareerSkillPicks = [];
+          state.careerKey = ca.key; state.specKey = null; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = [];
         }
         saveState(); renderStep(); renderNav();
       });
@@ -920,7 +942,7 @@ const Wizard = (() => {
           <div class="talent-tree">${treeHtml}</div>`;
 
         card.addEventListener('click', () => {
-          if (state.specKey !== sp.key) { state.specKey = sp.key; state.freeCareerSkillPicks = []; }
+          if (state.specKey !== sp.key) { state.specKey = sp.key; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = []; }
           saveState(); draw(); renderNav();
         });
         grid.appendChild(card);
@@ -1007,72 +1029,100 @@ const Wizard = (() => {
       c.innerHTML = '<div class="empty-state">Please complete earlier steps first.</div>'; return;
     }
 
-    const careerKeys = career.career_skill_keys || [];
-    const bonusKeys  = Engine.specBonusSkillKeys(spec);
+    const careerKeys   = career.career_skill_keys || [];
+    const bonusNames   = spec.bonus_career_skills || [];
+    const bonusResolved= bonusNames.map(n => Engine.nameToKey(n));  // aligned to bonusNames; null if unresolvable
+    const bonusKeySet  = new Set(bonusResolved.filter(Boolean));
+    const bonusNeeded  = Math.min(2, bonusKeySet.size);
 
     c.innerHTML = `
       <div class="step-header"><h2>Starting Skills</h2>
-        <p>Pick 4 of 8 career skills to receive rank 1 for free. Specialization bonus skills are automatically granted.</p></div>
+        <p>Pick <strong>4 of 8</strong> career skills and <strong>2 of 4</strong> specialization skills to gain one free rank in each. A skill chosen in both lists starts at Rank 2.</p></div>
       <div class="skills-layout">
         <div class="skills-section">
-          <h3>Career Skills &mdash; <span id="pick-counter">0 / 4 chosen</span></h3>
+          <h3>Career Skills &mdash; <span id="career-counter">0 / 4 chosen</span></h3>
           <div id="career-picks"></div>
         </div>
         <div class="skills-section">
-          <h3>${spec.name} Bonus Skills</h3>
+          <h3>${spec.name} Bonus Skills${bonusNeeded ? ` &mdash; <span id="bonus-counter">0 / ${bonusNeeded} chosen</span>` : ''}</h3>
           <div id="bonus-list"></div>
-          <p style="margin-top:14px;font-size:0.78rem;color:var(--muted)">
-            Skills marked <span style="color:var(--accent)">★</span> appear in both lists and start at Rank 2.</p>
+          ${bonusNeeded ? `<p style="margin-top:14px;font-size:0.78rem;color:var(--muted)">
+            All four are career skills (cheaper to raise later); choose <strong>two</strong> for a free rank.
+            Skills marked <span style="color:var(--accent)">★</span> also appear in the career list and start at Rank 2 if chosen in both.</p>`
+          : `<p style="margin-top:14px;font-size:0.78rem;color:var(--muted)">
+            This specialization grants no bonus career skills; it provides a Force rating and Force powers instead.</p>`}
         </div>
       </div>`;
 
-    function refresh() {
-      const picks = state.freeCareerSkillPicks || [];
-      $('#pick-counter').textContent = `${picks.length} / 4 chosen`;
+    function rankOf(key) {
+      const cP = state.freeCareerSkillPicks || [];
+      const bP = state.specBonusSkillPicks  || [];
+      return (cP.includes(key) ? 1 : 0) + (bP.includes(key) ? 1 : 0);
+    }
 
+    function refresh() {
+      const cPicks = state.freeCareerSkillPicks || [];
+      const bPicks = state.specBonusSkillPicks  || [];
+      $('#career-counter').textContent = `${cPicks.length} / 4 chosen`;
+      const bonusCounterEl = $('#bonus-counter');
+      if (bonusCounterEl) bonusCounterEl.textContent = `${bPicks.length} / ${bonusNeeded} chosen`;
+
+      // Career skills: pick 4 of 8
       const pickList = $('#career-picks');
       pickList.innerHTML = '';
       for (const key of careerKeys) {
-        const picked  = picks.includes(key);
-        const overlap = bonusKeys.includes(key);
-        const isR2    = picked && overlap;
-        let cls = 'skill-pick-row' + (isR2 ? ' rank2' : picked ? ' selected' : '');
+        const picked  = cPicks.includes(key);
+        const overlap = bonusKeySet.has(key);
+        const isR2    = picked && rankOf(key) === 2;
+        const cls = 'skill-pick-row' + (isR2 ? ' rank2' : picked ? ' selected' : '');
         const row = document.createElement('div');
         row.className = cls;
         row.innerHTML = `
           <div class="skill-pick-check">${picked ? '✓' : ''}</div>
-          <span class="skill-pick-name">${skillName(key)}${overlap ? ' <span style="color:var(--accent)">★</span>' : ''}</span>
+          <span class="skill-pick-name">${skillName(key)}${overlap ? ' <span style="color:var(--accent)">★</span>' : ''}${skillInfoIcon(key)}</span>
           <span class="skill-pick-char">${skillChar(key)}</span>
           <span class="skill-pick-rank">${picked ? (isR2 ? 'Rank 2' : 'Rank 1') : ''}</span>`;
-        row.addEventListener('click', () => {
-          const idx = picks.indexOf(key);
-          if (idx !== -1) picks.splice(idx, 1);
-          else if (picks.length < 4) picks.push(key);
-          state.freeCareerSkillPicks = picks;
+        row.addEventListener('click', e => {
+          if (e.target.closest('[data-tip-type]')) return;   // info icon: show tooltip, don't toggle pick
+          const idx = cPicks.indexOf(key);
+          if (idx !== -1) cPicks.splice(idx, 1);
+          else if (cPicks.length < 4) cPicks.push(key);
+          state.freeCareerSkillPicks = cPicks;
           saveState(); refresh(); renderNav();
         });
         pickList.appendChild(row);
       }
 
+      // Specialization bonus skills: pick 2 of 4
       const bonusList = $('#bonus-list');
       bonusList.innerHTML = '';
-      for (let i = 0; i < (spec.bonus_career_skills || []).length; i++) {
-        const name    = spec.bonus_career_skills[i];
-        const key     = bonusKeys[i];
+      for (let i = 0; i < bonusNames.length; i++) {
+        const key     = bonusResolved[i];
+        const display = cleanSkillName(bonusNames[i]);
         const inCar   = key && careerKeys.includes(key);
-        const isPicked= key && picks.includes(key);
-        const rank    = inCar && isPicked ? 2 : 1;
+        const picked  = key && bPicks.includes(key);
+        const isR2    = picked && rankOf(key) === 2;
+        const cls = 'skill-pick-row' + (isR2 ? ' rank2' : picked ? ' selected' : '') + (key ? '' : ' disabled');
         const row = document.createElement('div');
-        row.className = `skill-pick-row granted${rank === 2 ? ' rank2' : ''}`;
+        row.className = cls;
         row.innerHTML = `
-          <div class="skill-pick-check" style="background:var(--success);border-color:var(--success);color:#fff">✓</div>
-          <span class="skill-pick-name">${name}${inCar ? ' <span style="color:var(--accent)">★</span>' : ''}</span>
-          <span class="skill-pick-rank" style="color:var(--success)">Rank ${rank}</span>`;
+          <div class="skill-pick-check">${picked ? '✓' : ''}</div>
+          <span class="skill-pick-name">${esc(display)}${inCar ? ' <span style="color:var(--accent)">★</span>' : ''}${skillInfoIcon(key)}</span>
+          <span class="skill-pick-rank">${picked ? (isR2 ? 'Rank 2' : 'Rank 1') : ''}</span>`;
+        if (key) row.addEventListener('click', e => {
+          if (e.target.closest('[data-tip-type]')) return;   // info icon: show tooltip, don't toggle pick
+          const idx = bPicks.indexOf(key);
+          if (idx !== -1) bPicks.splice(idx, 1);
+          else if (bPicks.length < bonusNeeded) bPicks.push(key);
+          state.specBonusSkillPicks = bPicks;
+          saveState(); refresh(); renderNav();
+        });
         bonusList.appendChild(row);
       }
     }
 
     refresh();
+    initTipListeners($('.skills-layout'));
   }
 
   // ── Step: OMS (Obligation / Duty / Morality) ──────────────────────────────

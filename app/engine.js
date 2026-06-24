@@ -47,14 +47,38 @@ const Engine = (() => {
     return _skillNameMap;
   }
 
-  // Resolve a skill display name (from wiki) to a skill key
+  // Resolve a skill display name (from wiki) to a skill key.
+  // Handles "Knowledge (Underworld)" -> Underworld and scraped wiki markup
+  // like "and [[Vigilance (Will)|Vigilance]]".
   function nameToKey(displayName) {
-    const norm = normSkillName(displayName);
+    if (!displayName) return null;
     const map = skillNameMap();
-    if (map[norm]) return map[norm];
-    // Partial match fallback
-    for (const [n, k] of Object.entries(map)) {
-      if (n.startsWith(norm) || norm.startsWith(n)) return k;
+    const clean = String(displayName)
+      .replace(/\[\[[^\]|]*\|/g, '')   // drop "[[target|" from wiki links
+      .replace(/[\[\]]/g, '')          // drop remaining brackets
+      .replace(/^\s*and\s+/i, '')      // drop a leading "and "
+      .trim();
+
+    function resolve(s) {
+      const norm = normSkillName(s);
+      if (!norm) return null;
+      if (map[norm]) return map[norm];
+      for (const [n, k] of Object.entries(map)) {
+        if (n.startsWith(norm) || norm.startsWith(n)) return k;
+      }
+      return null;
+    }
+
+    let key = resolve(clean);
+    if (key) return key;
+    // "Knowledge (Education)" -> "Education"
+    const m = clean.match(/Knowledge\s*\(([^)]+)\)/i);
+    if (m) { key = resolve(m[1]); if (key) return key; }
+    // generic leading "Knowledge" prefix
+    const norm = normSkillName(clean);
+    if (norm.startsWith('knowledge') && norm.length > 9) {
+      key = resolve(norm.slice(9));
+      if (key) return key;
     }
     return null;
   }
@@ -162,15 +186,17 @@ const Engine = (() => {
     const armorDefense = wornArmor ? (wornArmor.defense || 0) : 0;
 
     const careerSkillKeys = career ? (career.career_skill_keys || []) : [];
-    const bonusSkillKeys  = specBonusSkillKeys(spec);
+    const bonusSkillKeys  = specBonusSkillKeys(spec);     // all 4 are career skills (cheaper to raise)
     const freePickKeys    = state.freeCareerSkillPicks || [];
+    const bonusPickKeys   = state.specBonusSkillPicks  || [];  // the 2 chosen for a free rank
 
-    // Compute skill ranks
+    // Compute skill ranks: one free rank per chosen career pick and per chosen
+    // specialization pick; a skill chosen in both lists starts at Rank 2.
     const skillRanks = {};
     for (const key of freePickKeys) {
       skillRanks[key] = (skillRanks[key] || 0) + 1;
     }
-    for (const key of bonusSkillKeys) {
+    for (const key of bonusPickKeys) {
       skillRanks[key] = Math.min(2, (skillRanks[key] || 0) + 1);
     }
 

@@ -698,8 +698,29 @@ body.on-sheet #progress-track { display: none; }
 .skill-pick-row.rank2 {
   background: var(--accent-bg);
   border-color: var(--accent-border);
-  cursor: default;
 }
+
+.skill-pick-row.disabled { opacity: 0.5; cursor: default; }
+.skill-pick-row.disabled:hover { background: transparent; }
+
+.skill-pick-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-style: italic;
+  font-weight: 700;
+  font-family: Georgia, 'Times New Roman', serif;
+  cursor: help;
+  vertical-align: middle;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+.skill-pick-info:hover { border-color: var(--accent); color: var(--accent); }
 
 .skill-pick-check {
   width: 18px; height: 18px;
