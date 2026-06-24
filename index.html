@@ -8,19 +8,20 @@
 </head>
 <body>
   <div id="app">
-    <header id="site-header">
-      <div class="header-inner">
-        <div class="site-title">STAR WARS RPG</div>
-        <div class="site-subtitle">Character Creator</div>
+    <div id="sticky-top">
+      <header id="site-header">
+        <div class="header-inner">
+          <div class="site-title">STAR WARS RPG</div>
+          <div class="site-subtitle">Character Creator</div>
+        </div>
+        <button id="btn-settings" class="btn-settings" title="Theme Settings" aria-label="Theme Settings">&#9881;</button>
+      </header>
+      <div id="progress-track">
+        <div id="progress-steps"></div>
       </div>
       <div id="header-xp" class="header-xp hidden"></div>
-      <button id="btn-settings" class="btn-settings" title="Theme Settings" aria-label="Theme Settings">&#9881;</button>
-    </header>
-    <div id="theme-modal" class="theme-modal hidden" role="dialog" aria-modal="true" aria-label="Choose color theme"></div>
-
-    <div id="progress-track">
-      <div id="progress-steps"></div>
     </div>
+    <div id="theme-modal" class="theme-modal hidden" role="dialog" aria-modal="true" aria-label="Choose color theme"></div>
 
     <main id="step-content"></main>
 
@@ -33,6 +34,7 @@
 
   <!-- Data (must load before app scripts) -->
   <script src="data/character-choices.js"></script>
+  <script src="data/blurbs.js"></script>
   <script src="data/species.js"></script>
   <script src="data/skills.js"></script>
   <script src="data/talents.js"></script>

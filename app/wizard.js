@@ -98,6 +98,9 @@ const Wizard = (() => {
       reasonForAdventure: '',
       motivationType:     '',
       motivationSpecific: '',
+      beginningsText:     '',
+      forceAttitudeText:  '',
+      motivationText:     '',
     };
   }
 
@@ -561,6 +564,7 @@ const Wizard = (() => {
     renderStep();
     renderNav();
     renderHeaderXp();
+    document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
   }
 
   function renderProgress() {
@@ -586,15 +590,15 @@ const Wizard = (() => {
 
   function renderHeaderXp() {
     const bar = $('#header-xp');
-    if (!state.speciesKey || state.step < 5) { bar.classList.add('hidden'); return; }
+    const XP_STEPS = new Set(['oms', 'chars', 'talents']);
+    if (!state.speciesKey || !XP_STEPS.has(STEPS[state.step].id)) { bar.classList.add('hidden'); return; }
     const d = Engine.derive(state);
     if (!d) return;
-    bar.classList.remove('hidden');
     bar.className = 'header-xp' + (d.xp_remaining < 0 ? ' xp-warn' : '');
     bar.innerHTML = `
-      <span>Starting XP: <strong>${d.starting_xp}</strong></span>
-      <span>Spent: <strong>${d.xp_spent}</strong></span>
-      <span>Remaining: <strong>${d.xp_remaining}</strong></span>`;
+      <span>Starting XP <strong>${d.starting_xp}</strong></span>
+      <span>Spent <strong>${d.xp_spent}</strong></span>
+      <span class="xp-remain">Remaining <strong>${d.xp_remaining}</strong></span>`;
   }
 
   function renderStep() {
@@ -1274,13 +1278,31 @@ const Wizard = (() => {
         list.map(s => `<option value="${esc(s.key)}"${s.key===selected?' selected':''}>${esc(s.name)}</option>`).join('');
     }
 
+    function getMotivBlurb() {
+      const tKey = state.motivationType;
+      const sKey = state.motivationSpecific;
+      if (!tKey) return '';
+      const tBlurb = (SW.blurbs && SW.blurbs.motivations && SW.blurbs.motivations[tKey]) || '';
+      if (!sKey) return tBlurb;
+      const sName = ((SW.specificMotivations||[]).find(s => s.key === sKey)||{}).name || '';
+      return tBlurb + (sName ? '\n\nIn particular, you are driven by ' + sName + '.' : '');
+    }
+
+    // Pre-fill blurb text for pre-existing selections (first visit or state upgrade)
+    if (!state.beginningsText && state.beginnings)
+      state.beginningsText = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.beginnings]) || '';
+    if (!state.forceAttitudeText && state.forceAttitude)
+      state.forceAttitudeText = (SW.blurbs && SW.blurbs.attitudes && SW.blurbs.attitudes[state.forceAttitude]) || '';
+    if (!state.motivationText && state.motivationType)
+      state.motivationText = getMotivBlurb();
+
     const motivName = state.motivationType
       ? ((SW.motivations||[]).find(m => m.key === state.motivationType)||{}).name : '';
 
     c.innerHTML = `
       <div class="step-header"><h2>Identity</h2>
         <p>Name your character and define their history and motivations.</p></div>
-      <div style="max-width:640px">
+      <div>
         <div class="form-section-title">Identity</div>
         <div class="details-layout">
           <div class="form-group"><label>Character Name *</label>
@@ -1291,9 +1313,11 @@ const Wizard = (() => {
 
         <div class="form-section-title">Game Mechanics</div>
         <div class="form-group"><label>Beginnings</label>
-          <select id="f-beginnings">${opts(SW.hooks||[], state.beginnings)}</select></div>
+          <select id="f-beginnings">${opts(SW.hooks||[], state.beginnings)}</select>
+          <textarea id="f-beginnings-text" class="blurb-textarea" placeholder="Auto-fills from your Beginnings choice -- edit freely">${esc(state.beginningsText)}</textarea></div>
         <div class="form-group"><label>Attitude Toward the Force</label>
-          <select id="f-attitude">${opts(SW.attitudes||[], state.forceAttitude)}</select></div>
+          <select id="f-attitude">${opts(SW.attitudes||[], state.forceAttitude)}</select>
+          <textarea id="f-attitude-text" class="blurb-textarea" placeholder="Auto-fills from your Force Attitude choice -- edit freely">${esc(state.forceAttitudeText)}</textarea></div>
         <div class="form-group"><label>Reason for Adventure</label>
           <input type="text" id="f-reason" placeholder="What draws your character into danger?"
             value="${esc(state.reasonForAdventure)}"></div>
@@ -1303,25 +1327,66 @@ const Wizard = (() => {
           <div class="form-group"><label>Motivation</label>
             <select id="f-motiv-specific">${specificOpts(motivName, state.motivationSpecific)}</select></div>
         </div>
+        <div class="form-group">
+          <textarea id="f-motiv-text" class="blurb-textarea" placeholder="Auto-fills from your Motivation choice -- edit freely">${esc(state.motivationText)}</textarea></div>
 
         <div class="form-section-title">Background</div>
-        <div class="form-group"><label>Background</label>
+        <div class="form-group">
           <textarea id="f-bg" placeholder="History, personality, appearance...">${esc(state.background)}</textarea></div>
       </div>`;
 
     $('#f-name').addEventListener('input', e => { state.name = e.target.value; saveState(); renderNav(); });
     $('#f-player').addEventListener('input', e => { state.player = e.target.value; saveState(); });
-    $('#f-beginnings').addEventListener('change', e => { state.beginnings = e.target.value; saveState(); });
-    $('#f-attitude').addEventListener('change', e => { state.forceAttitude = e.target.value; saveState(); });
+
+    $('#f-beginnings').addEventListener('change', e => {
+      const oldBlurb = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.beginnings]) || '';
+      state.beginnings = e.target.value;
+      if (!state.beginningsText || state.beginningsText === oldBlurb) {
+        state.beginningsText = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.beginnings]) || '';
+        $('#f-beginnings-text').value = state.beginningsText;
+      }
+      saveState();
+    });
+    $('#f-beginnings-text').addEventListener('input', e => { state.beginningsText = e.target.value; saveState(); });
+
+    $('#f-attitude').addEventListener('change', e => {
+      const oldBlurb = (SW.blurbs && SW.blurbs.attitudes && SW.blurbs.attitudes[state.forceAttitude]) || '';
+      state.forceAttitude = e.target.value;
+      if (!state.forceAttitudeText || state.forceAttitudeText === oldBlurb) {
+        state.forceAttitudeText = (SW.blurbs && SW.blurbs.attitudes && SW.blurbs.attitudes[state.forceAttitude]) || '';
+        $('#f-attitude-text').value = state.forceAttitudeText;
+      }
+      saveState();
+    });
+    $('#f-attitude-text').addEventListener('input', e => { state.forceAttitudeText = e.target.value; saveState(); });
+
     $('#f-reason').addEventListener('input', e => { state.reasonForAdventure = e.target.value; saveState(); });
+
     $('#f-motiv-type').addEventListener('change', e => {
+      const oldBlurb = getMotivBlurb();
       state.motivationType = e.target.value;
       state.motivationSpecific = '';
-      saveState();
       const parentName = ((SW.motivations||[]).find(m => m.key === state.motivationType)||{}).name || '';
       $('#f-motiv-specific').innerHTML = specificOpts(parentName, '');
+      const newBlurb = getMotivBlurb();
+      if (!state.motivationText || state.motivationText === oldBlurb) {
+        state.motivationText = newBlurb;
+        $('#f-motiv-text').value = newBlurb;
+      }
+      saveState();
     });
-    $('#f-motiv-specific').addEventListener('change', e => { state.motivationSpecific = e.target.value; saveState(); });
+    $('#f-motiv-specific').addEventListener('change', e => {
+      const oldBlurb = getMotivBlurb();
+      state.motivationSpecific = e.target.value;
+      const newBlurb = getMotivBlurb();
+      if (!state.motivationText || state.motivationText === oldBlurb) {
+        state.motivationText = newBlurb;
+        $('#f-motiv-text').value = newBlurb;
+      }
+      saveState();
+    });
+    $('#f-motiv-text').addEventListener('input', e => { state.motivationText = e.target.value; saveState(); });
+
     $('#f-bg').addEventListener('input', e => { state.background = e.target.value; saveState(); });
   }
 

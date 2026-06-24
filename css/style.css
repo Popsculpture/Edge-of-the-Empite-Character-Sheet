@@ -61,14 +61,40 @@ body {
 }
 
 .header-xp {
-  font-size: 0.85rem;
-  color: var(--muted);
   display: flex;
-  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  padding: 6px 24px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
 }
+.header-xp.hidden { display: none; }
+.header-xp span {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.header-xp strong {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent);
+}
+.header-xp.xp-warn .xp-remain strong { color: var(--danger); }
 
-.header-xp strong { color: var(--accent); }
-.header-xp.xp-warn strong { color: var(--danger); }
+/* ── Sticky header + progress wrapper ──────────────────────────────── */
+#sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
 /* ── Progress track ─────────────────────────────────────────────── */
 #progress-track {
@@ -77,6 +103,8 @@ body {
   padding: 0 24px;
   flex-shrink: 0;
 }
+
+body.on-sheet #progress-track { display: none; }
 
 #progress-steps {
   display: flex;
@@ -905,6 +933,17 @@ body {
 .form-group select:focus { border-color: var(--accent-border); }
 
 .form-group textarea { resize: vertical; min-height: 80px; }
+
+.blurb-textarea {
+  margin-top: 6px;
+  min-height: 60px;
+  font-size: 0.875em;
+  line-height: 1.6;
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--muted);
+}
+.blurb-textarea:focus { color: var(--text); }
 
 .form-section-title {
   font-size: 0.75rem;
