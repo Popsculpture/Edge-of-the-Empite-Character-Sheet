@@ -15,9 +15,10 @@ const Wizard = (() => {
       player: '',
       background: '',
       motivation: '',
-      obligation: { type: '', magnitude: 10, bonusType: '' },
-      duty:       { type: '', deficit: 0, bonusType: '' },
-      morality:   { strength: '', weakness: '', score: 50 },
+      obligation:      { type: '', magnitude: 10, bonusType: '' },
+      duty:            { type: '', deficit: 0, bonusType: '' },
+      morality:        { strength: '', weakness: '', score: 50 },
+      talentPurchases: {},
     };
   }
 
@@ -465,6 +466,7 @@ const Wizard = (() => {
                      tab:   () => state.game === 'eote' ? 'Oblig.'     : state.game === 'aor' ? 'Duty' : 'Morality',
                      valid: () => true },
     { id: 'chars',   label: 'Characteristics', tab: 'Attrs',    valid: () => true },
+    { id: 'talents', label: 'Talents',         tab: 'Talents',  valid: () => true },
     { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',    valid: () => true },
   ];
 
@@ -520,8 +522,8 @@ const Wizard = (() => {
     const content = $('#step-content');
     content.innerHTML = '';
     const fns = { game: renderGame, species: renderSpecies, career: renderCareer,
-                  spec: renderSpec, chars: renderChars, oms: renderOMS, skills: renderSkills,
-                  details: renderDetails, sheet: renderSheet };
+                  spec: renderSpec, skills: renderSkills, oms: renderOMS, chars: renderChars,
+                  talents: renderTalents, details: renderDetails, sheet: renderSheet };
     fns[STEPS[state.step].id]();
   }
 
@@ -1202,6 +1204,152 @@ const Wizard = (() => {
   }
 
   function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+  // ── Step: Talents ─────────────────────────────────────────────────────────
+  function renderTalents() {
+    const c = $('#step-content');
+    const spec = Engine.getSpec(state.specKey);
+    if (!spec || !spec.talent_tree || !spec.talent_tree.length) {
+      c.innerHTML = '<div class="empty-state">Select a specialization first.</div>';
+      return;
+    }
+
+    const specKey  = state.specKey;
+    const conns    = spec.connections || null;   // array of 20 bitmasks, or null for homebrew
+    if (!state.talentPurchases)          state.talentPurchases = {};
+    if (!state.talentPurchases[specKey]) state.talentPurchases[specKey] = new Array(20).fill(false);
+    const purchases = state.talentPurchases[specKey];
+
+    // Flatten talent names to a 20-element array (row-major)
+    const names = [];
+    for (const row of spec.talent_tree) {
+      for (const n of (row.talents || [])) names.push(n);
+    }
+    while (names.length < 20) names.push('');
+
+    // Connection bitmask helpers (bit0=up, bit1=down, bit2=left, bit3=right)
+    function getConn(r, col) {
+      if (conns) return conns[r * 4 + col];
+      return r === 0 ? 2 : r === 4 ? 1 : 3;  // fallback: vertical chains
+    }
+    function linked(r1, c1, r2, c2) {
+      if (r1 === r2 && c2 === c1 + 1) return !!(getConn(r1,c1) & 8) || !!(getConn(r2,c2) & 4);
+      if (r1 === r2 && c2 === c1 - 1) return !!(getConn(r1,c1) & 4) || !!(getConn(r2,c2) & 8);
+      if (c1 === c2 && r2 === r1 + 1) return !!(getConn(r1,c1) & 2) || !!(getConn(r2,c2) & 1);
+      if (c1 === c2 && r2 === r1 - 1) return !!(getConn(r1,c1) & 1) || !!(getConn(r2,c2) & 2);
+      return false;
+    }
+
+    function adjacentPurchased(r, col) {
+      return [[r-1,col],[r+1,col],[r,col-1],[r,col+1]].some(
+        ([nr,nc]) => nr>=0&&nr<5&&nc>=0&&nc<4 && purchases[nr*4+nc] && linked(r,col,nr,nc));
+    }
+    function canBuy(r, col)   { return !purchases[r*4+col] && !!names[r*4+col] && (r===0 || adjacentPurchased(r,col)); }
+    function canSell(r, col) {
+      if (!purchases[r*4+col]) return false;
+      const temp = [...purchases]; temp[r*4+col] = false;
+      // BFS from all purchased row-0 nodes to confirm remaining purchased nodes stay connected
+      const visited = new Set();
+      const q = [];
+      for (let cc=0; cc<4; cc++) { if (temp[cc]) { visited.add(cc); q.push([0,cc]); } }
+      while (q.length) {
+        const [cr,cc] = q.shift();
+        for (const [nr,nc] of [[cr-1,cc],[cr+1,cc],[cr,cc-1],[cr,cc+1]]) {
+          if (nr<0||nr>=5||nc<0||nc>=4) continue;
+          const ni = nr*4+nc;
+          if (visited.has(ni)||!temp[ni]||!linked(cr,cc,nr,nc)) continue;
+          visited.add(ni); q.push([nr,nc]);
+        }
+      }
+      return temp.every((p,i) => !p || visited.has(i));
+    }
+
+    const COSTS = [5,10,15,20,25];
+    const talentXp = purchases.reduce((s,p,i) => p ? s + COSTS[Math.floor(i/4)] : s, 0);
+
+    // Build 7-col × 9-row grid (talent cells on even indices, connectors on odd)
+    let cells = '';
+    for (let gr=0; gr<9; gr++) {
+      for (let gc=0; gc<7; gc++) {
+        const isTR = gr%2===0, isTC = gc%2===0;
+        const r = gr>>1, col = gc>>1;
+        const gRow = gr+1, gCol = gc+1;
+
+        if (isTR && isTC) {
+          const idx    = r*4+col;
+          const name   = names[idx] || '';
+          const bought = purchases[idx];
+          const buyable = canBuy(r,col);
+          const sellable = bought && canSell(r,col);
+          const tal    = name ? Engine.getTalent(name) : null;
+          const isActive = tal && tal.activation && !tal.activation.toLowerCase().includes('passive');
+          let cls = 'tt-node';
+          if (bought)       cls += ' tt-purchased';
+          else if (buyable) cls += ' tt-buyable';
+          else              cls += ' tt-locked';
+          if (isActive)     cls += ' tt-active';
+          cells += `<div class="${cls}" data-r="${r}" data-c="${col}"
+            data-tip-type="talent" data-tip-name="${name.replace(/"/g,'&quot;')}"
+            style="grid-row:${gRow};grid-column:${gCol}">
+            <div class="tt-name">${name}</div>
+            <div class="tt-meta">${isActive?'Active':'Passive'} &bull; ${COSTS[r]} XP</div>
+            ${bought ? '<div class="tt-check">&#10003;</div>' : ''}
+          </div>`;
+
+        } else if (isTR && !isTC) {
+          const has = linked(r,col,r,col+1);
+          const act = has && purchases[r*4+col] && purchases[r*4+col+1];
+          cells += `<div class="tt-hconn" style="grid-row:${gRow};grid-column:${gCol}">
+            ${has ? `<div class="tt-hline${act?' tt-lit':''}"></div>` : ''}
+          </div>`;
+
+        } else if (!isTR && isTC) {
+          const has = r<4 && linked(r,col,r+1,col);
+          const act = has && purchases[r*4+col] && purchases[(r+1)*4+col];
+          cells += `<div class="tt-vconn" style="grid-row:${gRow};grid-column:${gCol}">
+            ${has ? `<div class="tt-vline${act?' tt-lit':''}"></div>` : ''}
+          </div>`;
+
+        } else {
+          cells += `<div style="grid-row:${gRow};grid-column:${gCol}"></div>`;
+        }
+      }
+    }
+
+    c.innerHTML = `
+      <div class="step-header">
+        <h2>${spec.name}</h2>
+        <p>Click a talent to purchase it. You must own an adjacent connected talent to unlock lower rows.
+           Talents can be refunded as long as no other purchased talent depends on them as its only path.
+           <strong class="tt-xp-spent">${talentXp} XP</strong> spent on talents.</p>
+      </div>
+      <div class="talent-tree-wrap">
+        <div class="talent-tree" id="talent-tree-grid">${cells}</div>
+      </div>`;
+
+    // Tooltip on hover (mouseenter/leave only — click is reserved for purchase)
+    const grid = $('#talent-tree-grid');
+    grid.addEventListener('mouseenter', e => {
+      const node = e.target.closest('.tt-node');
+      if (!node || !node.dataset.tipName) return;
+      showTooltip(node, tooltipContent('talent', node.dataset.tipName));
+    }, true);
+    grid.addEventListener('mouseleave', e => {
+      if (e.target.closest('.tt-node')) hideTooltip();
+    }, true);
+
+    grid.addEventListener('click', e => {
+      hideTooltip();
+      const node = e.target.closest('.tt-node');
+      if (!node) return;
+      const r = +node.dataset.r, col = +node.dataset.c, idx = r*4+col;
+      if (purchases[idx]) {
+        if (canSell(r,col)) { purchases[idx]=false; saveState(); renderTalents(); renderHeaderXp(); }
+      } else {
+        if (canBuy(r,col))  { purchases[idx]=true;  saveState(); renderTalents(); renderHeaderXp(); }
+      }
+    });
+  }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────
   function renderSheet() {

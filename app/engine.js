@@ -97,8 +97,13 @@ const Engine = (() => {
       if (score <= 30) omsXpBonus = 10;
       else if (score >= 70) omsXpBonus = -10;
     }
-    const startingXp  = (species.starting_xp || 100) + omsXpBonus;
-    const xpSpent     = totalCharXp(species, chars);
+    const startingXp = (species.starting_xp || 100) + omsXpBonus;
+
+    let talentXp = 0;
+    const tp = (state.talentPurchases || {})[state.specKey];
+    if (tp) tp.forEach((p, i) => { if (p) talentXp += (Math.floor(i / 4) + 1) * 5; });
+
+    const xpSpent     = totalCharXp(species, chars) + talentXp;
     const xpRemaining = startingXp - xpSpent;
 
     const careerSkillKeys = career ? (career.career_skill_keys || []) : [];

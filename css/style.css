@@ -778,6 +778,99 @@ body {
   margin-top: 2px;
 }
 
+/* ── Talent Tree ─────────────────────────────────────────────────── */
+.talent-tree-wrap {
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.talent-tree {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr 28px 1fr 28px 1fr;
+  grid-template-rows: auto 28px auto 28px auto 28px auto 28px auto;
+  min-width: 520px;
+}
+
+.tt-node {
+  padding: 10px 8px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, opacity 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  user-select: none;
+  position: relative;
+  min-height: 72px;
+}
+
+.tt-node.tt-locked {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.tt-node.tt-buyable { border-color: var(--text); }
+.tt-node.tt-buyable:hover { border-color: var(--accent); background: var(--accent-bg); }
+
+.tt-node.tt-purchased {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.tt-node.tt-active .tt-meta { color: #c0392b; }
+.tt-node.tt-purchased.tt-active .tt-meta { color: #e57373; }
+
+.tt-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.tt-node.tt-purchased .tt-name { color: var(--accent); }
+
+.tt-meta {
+  font-size: 0.6rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tt-check {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.tt-hconn, .tt-vconn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tt-hline {
+  height: 2px;
+  width: 100%;
+  background: var(--border);
+  border-radius: 1px;
+  transition: background 0.15s;
+}
+
+.tt-vline {
+  width: 2px;
+  height: 100%;
+  background: var(--border);
+  border-radius: 1px;
+  transition: background 0.15s;
+}
+
+.tt-lit { background: var(--accent); }
+
 /* ── Details step ────────────────────────────────────────────────── */
 .details-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 

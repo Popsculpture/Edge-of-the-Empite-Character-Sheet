@@ -126,7 +126,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      1,
+      1,
+      3,
+      3,
+      10,
+      14,
+      7,
+      11,
+      13,
+      15,
+      7,
+      9,
+      12,
+      5,
+      1
+    ]
   },
   {
     "key": "advocate",
@@ -192,7 +214,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      11,
+      6,
+      9,
+      7,
+      11,
+      7,
+      10,
+      7,
+      11,
+      5,
+      11,
+      7,
+      9,
+      12,
+      13,
+      5
+    ]
   },
   {
     "key": "aggressor",
@@ -258,7 +302,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      7,
+      3,
+      11,
+      7,
+      11,
+      7,
+      11,
+      7,
+      3,
+      3,
+      9,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "agitator",
@@ -324,7 +390,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      2,
+      3,
+      3,
+      2,
+      9,
+      15,
+      15,
+      5,
+      10,
+      7,
+      11,
+      6,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "alchemist",
@@ -390,7 +478,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      2,
+      10,
+      15,
+      12,
+      7,
+      9,
+      15,
+      4,
+      3,
+      8,
+      7,
+      10,
+      7,
+      8,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "ambassador",
@@ -456,7 +566,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      8,
+      7,
+      3,
+      3,
+      10,
+      15,
+      13,
+      7,
+      3,
+      11,
+      4,
+      3,
+      1,
+      9,
+      13,
+      5
+    ]
   },
   {
     "key": "analyst",
@@ -522,7 +654,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      9,
+      15,
+      15,
+      5,
+      10,
+      7,
+      11,
+      6,
+      11,
+      15,
+      15,
+      7,
+      1,
+      9,
+      5,
+      1
+    ]
   },
   {
     "key": "arbiter",
@@ -588,7 +742,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      11,
+      7,
+      3,
+      2,
+      1,
+      11,
+      7,
+      3,
+      10,
+      13,
+      15,
+      7,
+      9,
+      12,
+      5,
+      1
+    ]
   },
   {
     "key": "arc_trooper",
@@ -720,7 +896,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      10,
+      13,
+      13,
+      7,
+      11,
+      4,
+      2,
+      3,
+      11,
+      14,
+      15,
+      7,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "archaeologist_respec",
@@ -852,7 +1050,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      0,
+      2,
+      2,
+      2,
+      10,
+      5,
+      3,
+      3,
+      11,
+      12,
+      7,
+      9,
+      15,
+      12,
+      7,
+      8,
+      13,
+      4,
+      1
+    ]
   },
   {
     "key": "artisan",
@@ -918,7 +1138,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      13,
+      7,
+      11,
+      13,
+      12,
+      7,
+      11,
+      6,
+      10,
+      7,
+      9,
+      5,
+      9,
+      5
+    ]
   },
   {
     "key": "ascetic",
@@ -984,7 +1226,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      3,
+      9,
+      14,
+      5,
+      3,
+      8,
+      15,
+      4,
+      11,
+      12,
+      15,
+      6,
+      9,
+      12,
+      5,
+      1
+    ]
   },
   {
     "key": "assassin",
@@ -1050,7 +1314,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      15,
+      7,
+      3,
+      11,
+      7,
+      3,
+      11,
+      7,
+      3,
+      3,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "assassin_respec",
@@ -1182,7 +1468,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      3,
+      10,
+      7,
+      1,
+      3,
+      11,
+      15,
+      6,
+      3,
+      3,
+      11,
+      7,
+      9,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "beast_rider",
@@ -1248,7 +1556,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      5,
+      3,
+      9,
+      15,
+      14,
+      7,
+      10,
+      13,
+      7,
+      1,
+      1,
+      8,
+      13,
+      4
+    ]
   },
   {
     "key": "big_game_hunter_respec",
@@ -1380,7 +1710,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      11,
+      12,
+      7,
+      1,
+      1,
+      8,
+      15,
+      6,
+      10,
+      14,
+      7,
+      3,
+      1,
+      1,
+      9,
+      5
+    ]
   },
   {
     "key": "blademaster",
@@ -1574,7 +1926,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      10,
+      15,
+      15,
+      6,
+      3,
+      11,
+      7,
+      1,
+      1,
+      11,
+      15,
+      6,
+      8,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "bodyguard_respec",
@@ -1768,7 +2142,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      9,
+      7,
+      3,
+      3,
+      8,
+      7,
+      3,
+      11,
+      12,
+      15,
+      7,
+      9,
+      12,
+      13,
+      5
+    ]
   },
   {
     "key": "charmer_respec",
@@ -1966,7 +2362,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      6,
+      10,
+      7,
+      3,
+      3,
+      3,
+      3,
+      11,
+      5,
+      9,
+      7,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "clone_pilot",
@@ -2032,7 +2450,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      7,
+      11,
+      7,
+      11,
+      5,
+      11,
+      5,
+      11,
+      14,
+      15,
+      4,
+      1,
+      1,
+      9,
+      4
+    ]
   },
   {
     "key": "clone_trooper",
@@ -2098,7 +2538,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      2,
+      8,
+      7,
+      8,
+      7,
+      10,
+      15,
+      12,
+      7,
+      3,
+      3,
+      2,
+      3,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "clone_veteran",
@@ -2230,7 +2692,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "commando",
@@ -2296,7 +2780,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      9,
+      14,
+      15,
+      7,
+      10,
+      7,
+      1,
+      3,
+      11,
+      15,
+      6,
+      3,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "commodore",
@@ -2362,7 +2868,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "courier",
@@ -2428,7 +2956,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      2,
+      10,
+      15,
+      14,
+      7,
+      9,
+      7,
+      9,
+      7,
+      10,
+      13,
+      14,
+      5,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "cyber_tech",
@@ -2494,7 +3044,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      3,
+      11,
+      14,
+      7,
+      11,
+      15,
+      15,
+      5,
+      11,
+      13,
+      13,
+      6,
+      9,
+      12,
+      4,
+      1
+    ]
   },
   {
     "key": "cyber_tech_respec",
@@ -2750,7 +3322,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      3,
+      3,
+      10,
+      7,
+      3,
+      1,
+      3,
+      3,
+      11,
+      12,
+      15,
+      5,
+      1,
+      8,
+      13,
+      4
+    ]
   },
   {
     "key": "demolitionist_respec",
@@ -2882,7 +3476,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      0,
+      11,
+      12,
+      15,
+      6,
+      11,
+      14,
+      7,
+      3,
+      3,
+      3,
+      3,
+      3,
+      9,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "doctor_respec",
@@ -3016,7 +3632,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      14,
+      12,
+      7,
+      3,
+      1,
+      8,
+      7,
+      11,
+      12,
+      4,
+      3,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "driver_respec",
@@ -3148,7 +3786,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      0,
+      3,
+      2,
+      9,
+      6,
+      11,
+      7,
+      10,
+      7,
+      11,
+      15,
+      15,
+      5,
+      9,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "droid_tech",
@@ -3214,7 +3874,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      5,
+      11,
+      7,
+      3,
+      8,
+      7,
+      3,
+      3,
+      10,
+      13,
+      7,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "droid_tech_respec",
@@ -3346,7 +4028,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      1,
+      11,
+      12,
+      7,
+      8,
+      15,
+      4,
+      3,
+      10,
+      13,
+      4,
+      3,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "enforcer_respec",
@@ -3478,7 +4182,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      0,
+      11,
+      6,
+      11,
+      6,
+      11,
+      5,
+      9,
+      7,
+      11,
+      6,
+      8,
+      7,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "entrepreneur_respec",
@@ -3610,7 +4336,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      2,
+      10,
+      15,
+      4,
+      3,
+      3,
+      11,
+      12,
+      7,
+      11,
+      13,
+      14,
+      5,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "figurehead",
@@ -3676,7 +4424,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      10,
+      13,
+      7,
+      3,
+      11,
+      6,
+      11,
+      7,
+      11,
+      15,
+      5,
+      3,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "first_order_defector",
@@ -3921,7 +4691,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      3,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      11,
+      15,
+      15,
+      7,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "force_sensitive_emergent",
@@ -3980,7 +4772,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      2,
+      3,
+      3,
+      2,
+      3,
+      3,
+      3,
+      3,
+      11,
+      15,
+      15,
+      7,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "force_sensitive_outcast",
@@ -4037,7 +4851,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      3,
+      11,
+      4,
+      3,
+      11,
+      7,
+      10,
+      7,
+      9,
+      7,
+      1,
+      3,
+      8,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "fringer",
@@ -4103,7 +4939,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      11,
+      6,
+      11,
+      7,
+      9,
+      5,
+      11,
+      7,
+      10,
+      14,
+      5,
+      3,
+      9,
+      5,
+      8,
+      5
+    ]
   },
   {
     "key": "fringer_respec",
@@ -4235,7 +5093,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      2,
+      8,
+      15,
+      4,
+      3,
+      8,
+      15,
+      4,
+      3,
+      8,
+      15,
+      4,
+      3,
+      8,
+      13,
+      4,
+      1
+    ]
   },
   {
     "key": "gadgeteer_respec",
@@ -4367,7 +5247,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      0,
+      3,
+      3,
+      8,
+      6,
+      3,
+      3,
+      2,
+      3,
+      3,
+      9,
+      13,
+      7,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "gambler_respec",
@@ -4628,7 +5530,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      9,
+      14,
+      7,
+      3,
+      10,
+      5,
+      3,
+      3,
+      11,
+      14,
+      5,
+      3,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "gunslinger",
@@ -4694,7 +5618,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      11,
+      13,
+      7,
+      9,
+      15,
+      14,
+      5,
+      8,
+      5,
+      9,
+      4
+    ]
   },
   {
     "key": "gunslinger_respec",
@@ -4826,7 +5772,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      11,
+      7,
+      9,
+      6,
+      11,
+      15,
+      6,
+      3,
+      3,
+      1,
+      3,
+      1,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "heavy",
@@ -4894,7 +5862,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      9,
+      15,
+      4,
+      3,
+      2,
+      3,
+      8,
+      7,
+      11,
+      5,
+      2,
+      1,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "heavy_respec",
@@ -5026,7 +6016,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      9,
+      15,
+      14,
+      7,
+      8,
+      15,
+      15,
+      5,
+      2,
+      11,
+      13,
+      6,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "hotshot",
@@ -5092,7 +6104,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      8,
+      7,
+      11,
+      5,
+      10,
+      13,
+      15,
+      6,
+      3,
+      10,
+      7,
+      3,
+      1,
+      1,
+      9,
+      5
+    ]
   },
   {
     "key": "hunter",
@@ -5158,7 +6192,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      9,
+      7,
+      11,
+      4,
+      2,
+      11,
+      13,
+      6,
+      11,
+      7,
+      10,
+      7,
+      1,
+      9,
+      13,
+      5
+    ]
   },
   {
     "key": "imperial_academy_cadet",
@@ -5348,7 +6404,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      0,
+      2,
+      2,
+      10,
+      12,
+      5,
+      3,
+      9,
+      12,
+      6,
+      3,
+      10,
+      12,
+      5,
+      3,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "instructor",
@@ -5414,7 +6492,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      3,
+      3,
+      11,
+      6,
+      11,
+      7,
+      11,
+      7,
+      11,
+      15,
+      13,
+      7,
+      1,
+      9,
+      12,
+      5
+    ]
   },
   {
     "key": "interrogator",
@@ -5480,7 +6580,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      14,
+      12,
+      7,
+      9,
+      7,
+      2,
+      3,
+      8,
+      15,
+      15,
+      5,
+      8,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "investigator",
@@ -5546,7 +6668,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      1,
+      11,
+      13,
+      6,
+      8,
+      13,
+      14,
+      5,
+      8,
+      14,
+      15,
+      6,
+      8,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "jedi_archivist",
@@ -5804,7 +6948,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      0,
+      0,
+      2,
+      10,
+      12,
+      4,
+      3,
+      3,
+      10,
+      6,
+      3,
+      3,
+      3,
+      1,
+      3,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "knight",
@@ -5870,7 +7036,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      2,
+      3,
+      9,
+      6,
+      11,
+      13,
+      6,
+      3,
+      11,
+      12,
+      5,
+      3,
+      9,
+      4,
+      8,
+      5
+    ]
   },
   {
     "key": "lord",
@@ -5998,7 +7186,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      10,
+      15,
+      15,
+      5,
+      1,
+      11,
+      15,
+      4,
+      10,
+      5,
+      3,
+      2,
+      1,
+      8,
+      13,
+      5
+    ]
   },
   {
     "key": "makashi_duelist",
@@ -6064,7 +7274,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      0,
+      10,
+      15,
+      14,
+      6,
+      11,
+      15,
+      7,
+      3,
+      11,
+      7,
+      9,
+      7,
+      9,
+      5,
+      8,
+      5
+    ]
   },
   {
     "key": "mandalorian_crusader",
@@ -6192,7 +7424,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      9,
+      15,
+      15,
+      5,
+      10,
+      13,
+      13,
+      6,
+      9,
+      14,
+      14,
+      5,
+      8,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "marauder_respec",
@@ -6324,7 +7578,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      10,
+      15,
+      15,
+      6,
+      3,
+      11,
+      7,
+      3,
+      3,
+      11,
+      5,
+      3,
+      1,
+      9,
+      4,
+      1
+    ]
   },
   {
     "key": "marshal_respec",
@@ -6456,7 +7732,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      14,
+      14,
+      5,
+      11,
+      15,
+      15,
+      6,
+      1,
+      11,
+      5,
+      3,
+      8,
+      13,
+      4,
+      1
+    ]
   },
   {
     "key": "martial_artist_respec",
@@ -6656,7 +7954,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      15,
+      7,
+      11,
+      15,
+      15,
+      7,
+      11,
+      15,
+      7,
+      3,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "mechanic_respec",
@@ -6788,7 +8108,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      3,
+      10,
+      14,
+      5,
+      3,
+      11,
+      15,
+      4,
+      3,
+      3,
+      11,
+      6,
+      1,
+      9,
+      5,
+      1
+    ]
   },
   {
     "key": "mercenary_soldier",
@@ -6854,7 +8196,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      7,
+      11,
+      5,
+      11,
+      15,
+      15,
+      6,
+      1,
+      3,
+      9,
+      7,
+      8,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "mercenary_soldier_respec",
@@ -6986,7 +8350,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      7,
+      11,
+      7,
+      11,
+      7,
+      9,
+      7,
+      1,
+      11,
+      14,
+      7,
+      8,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "modder_respec",
@@ -7118,7 +8504,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      11,
+      13,
+      15,
+      6,
+      11,
+      14,
+      15,
+      7,
+      9,
+      7,
+      11,
+      5,
+      8,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "nightsister",
@@ -7246,7 +8654,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      0,
+      10,
+      7,
+      2,
+      2,
+      11,
+      15,
+      15,
+      7,
+      11,
+      15,
+      13,
+      7,
+      9,
+      5,
+      8,
+      5
+    ]
   },
   {
     "key": "operator",
@@ -7312,7 +8742,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      11,
+      6,
+      11,
+      7,
+      3,
+      11,
+      15,
+      7,
+      11,
+      15,
+      15,
+      7,
+      9,
+      13,
+      5,
+      1
+    ]
   },
   {
     "key": "operator_respec",
@@ -7444,7 +8896,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      15,
+      7,
+      11,
+      15,
+      15,
+      7,
+      11,
+      13,
+      7,
+      3,
+      9,
+      4,
+      9,
+      5
+    ]
   },
   {
     "key": "outlaw_tech_respec",
@@ -7576,7 +9050,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      0,
+      11,
+      12,
+      15,
+      6,
+      9,
+      6,
+      9,
+      7,
+      10,
+      7,
+      8,
+      7,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "padawan_survivor",
@@ -7699,7 +9195,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      13,
+      15,
+      5,
+      11,
+      6,
+      11,
+      4,
+      11,
+      5,
+      11,
+      4,
+      1,
+      8,
+      13,
+      4
+    ]
   },
   {
     "key": "peacekeeper",
@@ -7765,7 +9283,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      9,
+      14,
+      14,
+      5,
+      10,
+      13,
+      13,
+      6,
+      11,
+      14,
+      14,
+      7,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "performer",
@@ -7831,7 +9371,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      10,
+      15,
+      15,
+      4,
+      11,
+      5,
+      11,
+      6,
+      11,
+      6,
+      11,
+      7,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "performer_respec",
@@ -7965,7 +9527,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      7,
+      11,
+      7,
+      3,
+      1,
+      11,
+      7,
+      11,
+      4,
+      3,
+      3,
+      9,
+      12,
+      13,
+      5
+    ]
   },
   {
     "key": "pirate",
@@ -8093,7 +9677,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      5,
+      9,
+      7,
+      11,
+      6,
+      10,
+      7,
+      3,
+      1,
+      1,
+      3,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "politico_respec",
@@ -8225,7 +9831,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      1,
+      11,
+      13,
+      15,
+      6,
+      11,
+      14,
+      13,
+      7,
+      9,
+      5,
+      8,
+      5
+    ]
   },
   {
     "key": "prophet",
@@ -8291,7 +9919,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      11,
+      15,
+      14,
+      5,
+      1,
+      1,
+      11,
+      4,
+      2,
+      10,
+      13,
+      6,
+      9,
+      13,
+      4,
+      1
+    ]
   },
   {
     "key": "protector",
@@ -8357,7 +10007,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      2,
+      10,
+      15,
+      14,
+      7,
+      3,
+      11,
+      15,
+      5,
+      1,
+      11,
+      15,
+      6,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "quartermaster",
@@ -8423,7 +10095,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      3,
+      10,
+      6,
+      3,
+      3,
+      11,
+      7,
+      3,
+      11,
+      13,
+      5,
+      3,
+      9,
+      4,
+      8,
+      5
+    ]
   },
   {
     "key": "racer",
@@ -8489,7 +10183,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      8,
+      15,
+      15,
+      4,
+      8,
+      15,
+      13,
+      6,
+      10,
+      13,
+      14,
+      5,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "rdc_navigator",
@@ -8745,7 +10461,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      9,
+      7,
+      3,
+      3,
+      10,
+      13,
+      15,
+      5,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "republic_diplomat",
@@ -8871,7 +10609,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      8,
+      7,
+      3,
+      3,
+      2,
+      11,
+      15,
+      5,
+      9,
+      5,
+      3,
+      2,
+      8,
+      12,
+      13,
+      5
+    ]
   },
   {
     "key": "republic_representative",
@@ -8933,7 +10693,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      0,
+      2,
+      2,
+      10,
+      14,
+      13,
+      7,
+      11,
+      7,
+      2,
+      3,
+      3,
+      11,
+      13,
+      7,
+      1,
+      9,
+      12,
+      5
+    ]
   },
   {
     "key": "retired_clone_trooper",
@@ -9063,7 +10845,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      3,
+      8,
+      7,
+      1,
+      3,
+      8,
+      15,
+      6,
+      3,
+      10,
+      7,
+      3,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "saboteur",
@@ -9129,7 +10933,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      9,
+      14,
+      14,
+      5,
+      10,
+      7,
+      9,
+      6,
+      1,
+      11,
+      6,
+      3,
+      8,
+      5,
+      1,
+      1
+    ]
   },
   {
     "key": "sage",
@@ -9195,7 +11021,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      8,
+      15,
+      15,
+      4,
+      8,
+      7,
+      11,
+      4,
+      10,
+      15,
+      15,
+      6,
+      1,
+      9,
+      5,
+      1
+    ]
   },
   {
     "key": "sapper",
@@ -9261,7 +11109,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      3,
+      3,
+      10,
+      5,
+      11,
+      15,
+      7,
+      2,
+      9,
+      13,
+      15,
+      7,
+      8,
+      12,
+      13,
+      5
+    ]
   },
   {
     "key": "scavenger",
@@ -9323,7 +11193,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      10,
+      5,
+      3,
+      3,
+      3,
+      8,
+      15,
+      7,
+      1,
+      2,
+      3,
+      1,
+      8,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "scholar",
@@ -9389,7 +11281,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      5,
+      9,
+      7,
+      9,
+      6,
+      10,
+      5,
+      10,
+      5,
+      9,
+      6,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "scholar_respec",
@@ -9521,7 +11435,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      4,
+      8,
+      7,
+      11,
+      4,
+      8,
+      7,
+      11,
+      4,
+      8,
+      7,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "scoundrel",
@@ -9587,7 +11523,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      3,
+      10,
+      6,
+      3,
+      3,
+      11,
+      7,
+      3,
+      3,
+      11,
+      7,
+      3,
+      9,
+      12,
+      13,
+      5
+    ]
   },
   {
     "key": "scoundrel_respec",
@@ -9721,7 +11679,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      15,
+      7,
+      3,
+      3,
+      3,
+      3,
+      3,
+      1,
+      3,
+      3,
+      9,
+      12,
+      5,
+      1
+    ]
   },
   {
     "key": "scout_respec",
@@ -9915,7 +11895,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      0,
+      2,
+      10,
+      15,
+      6,
+      3,
+      11,
+      15,
+      7,
+      3,
+      11,
+      15,
+      7,
+      1,
+      9,
+      5,
+      9,
+      4
+    ]
   },
   {
     "key": "senator",
@@ -10043,7 +12045,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      9,
+      7,
+      3,
+      3,
+      8,
+      5,
+      3,
+      9,
+      14,
+      14,
+      5,
+      8,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "separatist_commander",
@@ -10171,7 +12195,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      3,
+      3,
+      11,
+      4,
+      1,
+      11,
+      7,
+      2,
+      8,
+      15,
+      15,
+      5,
+      8,
+      5,
+      9,
+      4
+    ]
   },
   {
     "key": "sharpshooter",
@@ -10237,7 +12283,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      3,
+      3,
+      2,
+      3,
+      3,
+      11,
+      13,
+      7,
+      3,
+      11,
+      6,
+      3,
+      8,
+      5,
+      1,
+      1
+    ]
   },
   {
     "key": "shien_expert",
@@ -10303,7 +12371,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      0,
+      10,
+      7,
+      11,
+      6,
+      11,
+      7,
+      11,
+      7,
+      11,
+      7,
+      11,
+      7,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "key": "shii_cho_knight",
@@ -10369,7 +12459,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      7,
+      3,
+      3,
+      11,
+      15,
+      7,
+      11,
+      7,
+      9,
+      5,
+      9,
+      13,
+      12,
+      4
+    ]
   },
   {
     "key": "ship_captain",
@@ -10497,7 +12609,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      6,
+      10,
+      5,
+      3,
+      11,
+      15,
+      4,
+      1,
+      11,
+      15,
+      6,
+      8,
+      5,
+      9,
+      5
+    ]
   },
   {
     "key": "shipwright_high_republic",
@@ -10627,7 +12761,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      15,
+      15,
+      7,
+      11,
+      7,
+      11,
+      7,
+      1,
+      11,
+      15,
+      5,
+      8,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "skip_tracer_respec",
@@ -10759,7 +12915,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      6,
+      10,
+      7,
+      3,
+      11,
+      13,
+      7,
+      9,
+      15,
+      14,
+      5,
+      8,
+      13,
+      13,
+      4
+    ]
   },
   {
     "key": "slicer",
@@ -10827,7 +13005,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      0,
+      3,
+      10,
+      14,
+      6,
+      3,
+      11,
+      15,
+      7,
+      11,
+      15,
+      15,
+      7,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "slicer_respec",
@@ -11021,7 +13221,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      14,
+      6,
+      3,
+      11,
+      15,
+      7,
+      3,
+      11,
+      13,
+      15,
+      5,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "squadron_leader",
@@ -11087,7 +13309,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      6,
+      10,
+      5,
+      3,
+      3,
+      3,
+      2,
+      1,
+      11,
+      15,
+      7,
+      8,
+      5,
+      1,
+      1
+    ]
   },
   {
     "key": "starfighter_ace",
@@ -11153,7 +13397,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      0,
+      2,
+      2,
+      2,
+      8,
+      15,
+      15,
+      7,
+      8,
+      7,
+      1,
+      3,
+      10,
+      15,
+      14,
+      7,
+      1,
+      9,
+      13,
+      5
+    ]
   },
   {
     "key": "steel_hand_adept",
@@ -11219,7 +13485,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      3,
+      2,
+      2,
+      3,
+      11,
+      15,
+      15,
+      7,
+      1,
+      3,
+      3,
+      1,
+      8,
+      5,
+      9,
+      4
+    ]
   },
   {
     "key": "strategist",
@@ -11285,7 +13573,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      11,
+      14,
+      15,
+      5,
+      11,
+      7,
+      11,
+      6,
+      3,
+      11,
+      15,
+      7,
+      9,
+      13,
+      13,
+      5
+    ]
   },
   {
     "key": "survivalist",
@@ -11351,7 +13661,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      0,
+      11,
+      15,
+      15,
+      6,
+      3,
+      3,
+      11,
+      7,
+      3,
+      1,
+      3,
+      3,
+      9,
+      12,
+      5,
+      1
+    ]
   },
   {
     "key": "survivalist_respec",
@@ -11483,7 +13815,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      3,
+      3,
+      8,
+      7,
+      1,
+      11,
+      12,
+      7,
+      8,
+      15,
+      6,
+      3,
+      8,
+      5,
+      1,
+      1
+    ]
   },
   {
     "key": "teacher",
@@ -11549,7 +13903,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      9,
+      14,
+      12,
+      5,
+      2,
+      11,
+      14,
+      6,
+      11,
+      15,
+      7,
+      3,
+      9,
+      5,
+      9,
+      5
+    ]
   },
   {
     "key": "temple_guardian",
@@ -11681,7 +14057,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      2,
+      11,
+      14,
+      14,
+      7,
+      11,
+      15,
+      15,
+      7,
+      3,
+      11,
+      15,
+      7,
+      1,
+      9,
+      5,
+      1
+    ]
   },
   {
     "key": "thief_respec",
@@ -11813,7 +14211,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      0,
+      0,
+      11,
+      12,
+      12,
+      4,
+      11,
+      12,
+      12,
+      4,
+      11,
+      12,
+      12,
+      6,
+      9,
+      12,
+      12,
+      5
+    ]
   },
   {
     "key": "trader_high_republic",
@@ -12009,7 +14429,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      11,
+      7,
+      10,
+      7,
+      11,
+      15,
+      7,
+      3,
+      11,
+      5,
+      11,
+      5,
+      9,
+      12,
+      13,
+      4
+    ]
   },
   {
     "key": "vanguard",
@@ -12075,7 +14517,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      0,
+      2,
+      11,
+      7,
+      8,
+      7,
+      3,
+      9,
+      12,
+      7,
+      11,
+      12,
+      14,
+      7,
+      9,
+      4,
+      1,
+      1
+    ]
   },
   {
     "key": "warden",
@@ -12141,7 +14605,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      2,
+      2,
+      2,
+      11,
+      5,
+      9,
+      7,
+      11,
+      14,
+      12,
+      7,
+      3,
+      9,
+      6,
+      3,
+      9,
+      12,
+      13,
+      5
+    ]
   },
   {
     "key": "warleader",
@@ -12207,6 +14693,28 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      2,
+      11,
+      6,
+      11,
+      5,
+      3,
+      11,
+      13,
+      6,
+      9,
+      15,
+      14,
+      7,
+      8,
+      5,
+      9,
+      5
+    ]
   }
 ];
