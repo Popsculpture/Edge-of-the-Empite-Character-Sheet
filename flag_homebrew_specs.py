@@ -46,12 +46,8 @@ HOMEBREW = {
     'Shipwright (High Republic)': 'High Republic fan supplement',
     'Trader (High Republic)':     'High Republic fan supplement',
 
-    # Unidentified fan supplements
-    'Colossus':             'Unknown fan supplement',
-    'Force Adherent':       'Unknown fan supplement',
-    'Imperial Academy Cadet': 'Unknown fan supplement',
-    'Magus':                'Unknown fan supplement',
-    'Retired Clone Trooper': 'Unknown fan supplement',
+    # NOTE: Colossus (KoF), Force Adherent (DoR), Imperial Academy Cadet (DoR),
+    # Magus (Unlimited Power), Retired Clone Trooper (DoR) are all confirmed official FFG.
 }
 
 flagged = 0

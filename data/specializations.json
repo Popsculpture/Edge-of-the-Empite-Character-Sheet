@@ -2228,8 +2228,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Unknown fan supplement"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "commando",
@@ -3860,8 +3860,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Unknown fan supplement"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "force_sensitive_exile",
@@ -5218,8 +5218,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Unknown fan supplement"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "imperial_loyalist",
@@ -5996,8 +5996,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Unknown fan supplement"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "makashi_duelist",
@@ -8995,8 +8995,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Unknown fan supplement"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "rigger",
