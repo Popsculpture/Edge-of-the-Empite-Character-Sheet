@@ -15,6 +15,7 @@ RANGE_MAP = {
 SKILL_MAP = {
     "RANGLT": "Ranged - Light", "RANGHVY": "Ranged - Heavy", "MELEE": "Melee",
     "BRAWL": "Brawl", "LTSABER": "Lightsaber", "GUNN": "Gunnery", "MECH": "Mechanics",
+    "SKUL": "Skulduggery", "LIGHT": "Lightsaber",
 }
 
 # The 3 core rulebooks (for a "core only" filter and book grouping)
@@ -23,6 +24,36 @@ CORE_BOOKS = {
     "Age of Rebellion Core Rulebook",
     "Force and Destiny Core Rulebook",
 }
+
+# Real item descriptions scraped from the FFG wiki (see scrape_equipment_descriptions.py)
+def _norm_name(s):
+    return re.sub(r"[^a-z0-9]", "", (s or "").lower())
+
+def _load_descs():
+    path = os.path.join(OUT, "equipment_descriptions.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            raw = json.load(f)
+    except FileNotFoundError:
+        return {}
+    return {_norm_name(title): desc for title, desc in raw.items()}
+
+DESCS = _load_descs()
+
+def desc_for(name):
+    n = _norm_name(name)
+    if n in DESCS:
+        return DESCS[n]
+    base = re.sub(r"\s*\([^)]*\)\s*$", "", name or "")   # drop a trailing "(handheld)" qualifier
+    nb = _norm_name(base)
+    if nb != n and nb in DESCS:
+        return DESCS[nb]
+    # Safe prefix match: exactly one long wiki title is a prefix of (or prefixed by) this name
+    if len(n) >= 9:
+        cands = [k for k in DESCS if len(k) >= 9 and (k.startswith(n) or n.startswith(k))]
+        if len(cands) == 1:
+            return DESCS[cands[0]]
+    return ""
 
 
 def text(el):
@@ -167,6 +198,7 @@ def do_weapons():
         rows.append({
             "key": text(w.find("Key")),
             "name": text(w.find("Name")),
+            "description": desc_for(text(w.find("Name"))),
             "skillKey": skill_key,
             "skill": SKILL_MAP.get(skill_key, skill_key),
             "damageType": dmg_type,
@@ -197,6 +229,7 @@ def do_armor():
         rows.append({
             "key": text(a.find("Key")),
             "name": text(a.find("Name")),
+            "description": desc_for(text(a.find("Name"))),
             "defense": num(a.find("Defense"), 0),
             "soak": num(a.find("Soak"), 0),
             "encumbrance": num(a.find("Encumbrance")),
@@ -221,6 +254,7 @@ def do_gear():
         rows.append({
             "key": text(g.find("Key")),
             "name": text(g.find("Name")),
+            "description": desc_for(text(g.find("Name"))),
             "short": strip_markup(text(g.find("Short"))),
             "encumbrance": num(g.find("Encumbrance")),
             "price": num(g.find("Price")),

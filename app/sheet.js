@@ -176,9 +176,10 @@ const Sheet = (() => {
     const dmg = w => (w.damage === '' || w.damage == null) ? '—' : (w.damageType === 'add' ? '+' + w.damage : '' + w.damage);
     const cr  = n => (typeof n === 'number' ? n.toLocaleString('en-US') : (n || '—'));
 
+    // Only items flagged "show" appear on the sheet
     function lines(cat, fmt) {
       const bag = eq[cat] || {};
-      const keys = Object.keys(bag).filter(k => bag[k] && bag[k].qty);
+      const keys = Object.keys(bag).filter(k => bag[k] && bag[k].qty && bag[k].show !== false);
       return keys.map(k => {
         const it = Engine.getItem(cat, k);
         if (!it) return '';
@@ -188,7 +189,7 @@ const Sheet = (() => {
 
     const wRows = lines('weapon', (w, l) => `
       <div class="sheet-eq-row">
-        <span class="sheet-eq-name">${esc(w.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
+        <span class="sheet-eq-name">${esc(w.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.equip ? ' <em class="sheet-eq-worn">(equipped)</em>' : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
         <span class="sheet-eq-meta">${esc(w.skill || '')} &middot; Dmg ${dmg(w)} &middot; Crit ${w.crit ?? '—'} &middot; ${esc(w.range || '')}${(w.qualities||[]).length ? ' &middot; ' + w.qualities.map(q => esc(q.name) + (q.count ? ' ' + q.count : '')).join(', ') : ''}</span>
       </div>`);
 
@@ -204,6 +205,16 @@ const Sheet = (() => {
         <span class="sheet-eq-meta">${esc(g.type || '')}${g.encumbrance ? ' &middot; Enc ' + g.encumbrance : ''}</span>
       </div>`);
 
+    // Two-weapon sets
+    const sets = (eq.weaponSets || []).filter(s => {
+      const wb = eq.weapon || {};
+      return wb[s.a] && wb[s.a].qty && wb[s.b] && wb[s.b].qty;
+    });
+    const setRows = sets.map(s => {
+      const a = Engine.getWeapon(s.a), b = Engine.getWeapon(s.b);
+      return `<div class="sheet-eq-row"><span class="sheet-eq-name">${esc(a ? a.name : '?')} + ${esc(b ? b.name : '?')}</span></div>`;
+    }).join('');
+
     if (!wRows && !aRows && !gRows) return '';
 
     const sub = (title, rows) => rows
@@ -218,6 +229,7 @@ const Sheet = (() => {
           ${sub('Weapons', wRows)}
           ${sub('Armor', aRows)}
           ${sub('Gear', gRows)}
+          ${sub('Two-Weapon Sets', setRows)}
         </div>
       </div>`;
   }

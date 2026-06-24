@@ -177,8 +177,9 @@ const Engine = (() => {
         const price = typeof item.price === 'number' ? item.price : 0;
         const enc   = typeof item.encumbrance === 'number' ? item.encumbrance : 0;
         if (!line.free) creditsSpent += price * line.qty;
-        encumbrance += enc * line.qty;
-        if (cat === 'armor' && (!wornArmor || (item.soak || 0) > (wornArmor.soak || 0))) wornArmor = item;
+        if (line.carry !== false) encumbrance += enc * line.qty;   // carried items count toward encumbrance
+        // Only equipped armor contributes Soak / Defense; tie goes to highest Soak
+        if (cat === 'armor' && line.equip && (!wornArmor || (item.soak || 0) > (wornArmor.soak || 0))) wornArmor = item;
       }
     }
     const creditsRemaining = startingCredits - creditsSpent;

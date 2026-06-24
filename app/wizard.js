@@ -90,7 +90,7 @@ const Wizard = (() => {
       player: '',
       background: '',
       motivation: '',
-      obligation:         { type: '', magnitude: 10, bonusType: '' },
+      obligation:         { type: '', magnitude: 10, bonusType: '', detail: '' },
       duty:               { type: '', deficit: 0, bonusType: '' },
       morality:           { strength: '', weakness: '', score: 50 },
       talentPurchases:    {},
@@ -102,7 +102,7 @@ const Wizard = (() => {
       beginningsText:     '',
       forceAttitudeText:  '',
       motivationText:     '',
-      equipment:          { weapon: {}, armor: {}, gear: {} },
+      equipment:          { weapon: {}, armor: {}, gear: {}, weaponSets: [] },
     };
   }
 
@@ -115,10 +115,11 @@ const Wizard = (() => {
   // UI-only state for the Equipment step (persists across re-renders)
   let _eqCat  = 'weapon';   // active storefront: weapon | armor | gear
   let _eqMode = false;      // acquisition mode: false = Purchase, true = Acquire Free
+  let _eqSelected = null;   // { cat, key } shown in the detail panel
   const _eqFilter = {
-    weapon: { q: '', type: '', rarity: '', core: false, afford: false, hideR: false },
-    armor:  { q: '', type: '', rarity: '', core: false, afford: false, hideR: false },
-    gear:   { q: '', type: '', rarity: '', core: false, afford: false, hideR: false },
+    weapon: { q: '', type: '', skill: '', rarity: '', core: false, afford: false, hideR: false },
+    armor:  { q: '', type: '', skill: '', rarity: '', core: false, afford: false, hideR: false },
+    gear:   { q: '', type: '', skill: '', rarity: '', core: false, afford: false, hideR: false },
   };
   const _EQ_CAP = 200;      // max rows rendered per storefront (perf guard)
 
@@ -518,6 +519,18 @@ const Wizard = (() => {
     return `<span class="tip-link" data-tip-type="${type}" data-tip-name="${name}"${sp}>${label || name}</span>`;
   }
 
+  // Hover-only tooltips (no click-toggle) for containers whose elements are
+  // themselves click targets, so a tap selects without popping a stray tooltip.
+  function initHoverTips(container) {
+    container.addEventListener('mouseenter', e => {
+      const link = e.target.closest('[data-tip-type]');
+      if (link) showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
+    }, true);
+    container.addEventListener('mouseleave', e => {
+      if (e.target.closest('[data-tip-type]')) hideTooltip();
+    }, true);
+  }
+
   function getArchetype(sp) {
     const vals = Engine.CHAR_STATS.map(st => sp[st] || 0);
     const max = Math.max(...vals), min = Math.min(...vals);
@@ -577,12 +590,6 @@ const Wizard = (() => {
   function skillName(key) { const s = Engine.getSkill(key); return s ? s.name : key; }
   function skillChar(key) { const s = Engine.getSkill(key); return s ? s.characteristic.slice(0,3).toUpperCase() : ''; }
 
-  // Small "i" info affordance that triggers the skill tooltip on hover/tap
-  function skillInfoIcon(key) {
-    if (!key) return '';
-    const nm = skillName(key).replace(/"/g, '&quot;');
-    return ` <span class="skill-pick-info tip-link" data-tip-type="skill" data-tip-name="${nm}">i</span>`;
-  }
   // Strip scraped wiki markup / leading "and " from a skill display name
   function cleanSkillName(name) {
     return String(name || '')
@@ -1079,16 +1086,15 @@ const Wizard = (() => {
         row.className = cls;
         row.innerHTML = `
           <div class="skill-pick-check">${picked ? '✓' : ''}</div>
-          <span class="skill-pick-name">${skillName(key)}${overlap ? ' <span style="color:var(--accent)">★</span>' : ''}${skillInfoIcon(key)}</span>
+          <span class="skill-pick-name" data-tip-type="skill" data-tip-name="${skillName(key).replace(/"/g,'&quot;')}">${skillName(key)}${overlap ? ' <span style="color:var(--accent)">★</span>' : ''}</span>
           <span class="skill-pick-char">${skillChar(key)}</span>
           <span class="skill-pick-rank">${picked ? (isR2 ? 'Rank 2' : 'Rank 1') : ''}</span>`;
-        row.addEventListener('click', e => {
-          if (e.target.closest('[data-tip-type]')) return;   // info icon: show tooltip, don't toggle pick
+        row.addEventListener('click', () => {
           const idx = cPicks.indexOf(key);
           if (idx !== -1) cPicks.splice(idx, 1);
           else if (cPicks.length < 4) cPicks.push(key);
           state.freeCareerSkillPicks = cPicks;
-          saveState(); refresh(); renderNav();
+          saveState(); refresh(); renderNav(); hideTooltip();
         });
         pickList.appendChild(row);
       }
@@ -1103,31 +1109,52 @@ const Wizard = (() => {
         const picked  = key && bPicks.includes(key);
         const isR2    = picked && rankOf(key) === 2;
         const cls = 'skill-pick-row' + (isR2 ? ' rank2' : picked ? ' selected' : '') + (key ? '' : ' disabled');
+        const tipAttr = key ? ` data-tip-type="skill" data-tip-name="${skillName(key).replace(/"/g,'&quot;')}"` : '';
         const row = document.createElement('div');
         row.className = cls;
         row.innerHTML = `
           <div class="skill-pick-check">${picked ? '✓' : ''}</div>
-          <span class="skill-pick-name">${esc(display)}${inCar ? ' <span style="color:var(--accent)">★</span>' : ''}${skillInfoIcon(key)}</span>
+          <span class="skill-pick-name"${tipAttr}>${esc(display)}${inCar ? ' <span style="color:var(--accent)">★</span>' : ''}</span>
           <span class="skill-pick-rank">${picked ? (isR2 ? 'Rank 2' : 'Rank 1') : ''}</span>`;
-        if (key) row.addEventListener('click', e => {
-          if (e.target.closest('[data-tip-type]')) return;   // info icon: show tooltip, don't toggle pick
+        if (key) row.addEventListener('click', () => {
           const idx = bPicks.indexOf(key);
           if (idx !== -1) bPicks.splice(idx, 1);
           else if (bPicks.length < bonusNeeded) bPicks.push(key);
           state.specBonusSkillPicks = bPicks;
-          saveState(); refresh(); renderNav();
+          saveState(); refresh(); renderNav(); hideTooltip();
         });
         bonusList.appendChild(row);
       }
     }
 
     refresh();
-    initTipListeners($('.skills-layout'));
+    initHoverTips($('.skills-layout'));
   }
 
   // ── Step: OMS (Obligation / Duty / Morality) ──────────────────────────────
   const OBLIGATIONS = ['Addiction','Betrayal','Blackmail','Bounty','Criminal','Debt',
     'Dutybound','Family','Favor','Oath','Obsession','Responsibility','Revenge','Superstition'];
+
+  // Thematic placeholder prompts shown in the Obligation detail field
+  const OBLIGATION_BLURBS = {
+    Addiction:      'A craving you cannot shake has its hooks in you. What is the vice, who supplies it, and what do you risk to feed it?',
+    Betrayal:       'A trust was broken, by you or against you. Who was betrayed, why, and what reckoning still hangs over you?',
+    Blackmail:      'Someone holds a secret over your head. What do they know, who are they, and what do they demand for their silence?',
+    Bounty:         'There is a price on your head. Who posted it, what did you do to earn it, and who comes hunting?',
+    Criminal:       'The law remembers your crimes. What did you do, which authority wants you, and what happens if they catch you?',
+    Debt:           'You owe more than you can easily repay. Who is the creditor, how much is owed, and what do they do when you fall behind?',
+    Dutybound:      'You are sworn to a cause or an organization. Who commands your loyalty, and what do they ask of you in return?',
+    Family:         'Blood binds you to others. Who is your kin, what do they expect of you, and what would you sacrifice for them?',
+    Favor:          'You owe a debt that credits cannot settle. Who came through for you once, and what might they call in one day?',
+    Oath:           'You swore a binding promise. What is the vow, to whom did you make it, and what does breaking it cost you?',
+    Obsession:      'A fixation drives you past reason. What consumes your thoughts, and how far will you go to satisfy it?',
+    Responsibility: 'Others depend on you to survive. Who relies on your protection or support, and what do you risk to provide it?',
+    Revenge:        'A wrong demands an answer. Who hurt you, what did they take, and how do you intend to settle the score?',
+    Superstition:   'Omens and rituals govern your choices. What signs do you heed, and what will you do to stay in their favor?',
+  };
+  function obligationPrompt(type) {
+    return OBLIGATION_BLURBS[type] || 'Choose an Obligation type above, then describe its specifics in your own words.';
+  }
   const DUTIES = ['Combat Victory','Counter-intelligence','Espionage','Internal Affairs',
     'Political Influence','Recruiting','Sabotage','Space Superiority','Tech Procurement'];
   const MORALITY_PAIRS = [
@@ -1156,9 +1183,12 @@ const Wizard = (() => {
         </div>
         <div class="form-group">
           <div class="form-section-title">Obligation Type</div>
-          <div class="arch-pills" id="obl-pills">
-            ${OBLIGATIONS.map(o => `<span class="arch-pill${state.obligation.type === o ? ' active' : ''}" data-val="${o}">${o}</span>`).join('')}
-          </div>
+          <select id="obl-type" class="oms-select">
+            <option value="">-- Select an Obligation --</option>
+            ${OBLIGATIONS.map(o => `<option value="${o}"${state.obligation.type === o ? ' selected' : ''}>${o}</option>`).join('')}
+          </select>
+          <textarea id="obl-detail" class="blurb-textarea" rows="3"
+            placeholder="${esc(obligationPrompt(state.obligation.type))}">${esc(state.obligation.detail || '')}</textarea>
         </div>
         <div class="form-group">
           <div class="form-section-title">Starting Obligation: 10</div>
@@ -1190,13 +1220,14 @@ const Wizard = (() => {
           </div>` : ''}
         </div>`;
 
-      $('#obl-pills').addEventListener('click', e => {
-        const pill = e.target.closest('.arch-pill');
-        if (!pill) return;
-        state.obligation.type = pill.dataset.val === state.obligation.type ? '' : pill.dataset.val;
+      $('#obl-type').addEventListener('change', e => {
+        state.obligation.type = e.target.value;
+        $('#obl-detail').setAttribute('placeholder', obligationPrompt(state.obligation.type));
         saveState();
-        $('#obl-pills').querySelectorAll('.arch-pill').forEach(p =>
-          p.classList.toggle('active', p.dataset.val === state.obligation.type));
+      });
+      $('#obl-detail').addEventListener('input', e => {
+        state.obligation.detail = e.target.value;
+        saveState();
       });
       c.querySelectorAll('.oms-tile[data-extra]').forEach(tile => {
         tile.addEventListener('click', () => {
@@ -1690,18 +1721,20 @@ const Wizard = (() => {
            <span class="r-badge">R</span> items normally require GM approval &mdash; use
            <strong>Acquire Free</strong> to add anything without spending credits.</p></div>
       <div class="equip-tabs">${tabs}</div>
-      <div class="equip-layout">
+      <div class="equip-main">
         <div class="equip-shop">
           <div class="equip-toolbar" id="eq-toolbar"></div>
           <div class="equip-results" id="eq-results"></div>
           <div class="equip-list" id="eq-list"></div>
         </div>
         <aside class="equip-cart" id="eq-cart"></aside>
-      </div>`;
+      </div>
+      <div class="equip-detail" id="eq-detail"></div>`;
 
     drawToolbar();
     drawList();
     drawCart();
+    drawDetail();
 
     $('.equip-tabs').addEventListener('click', e => {
       const t = e.target.closest('[data-cat]');
@@ -1714,18 +1747,28 @@ const Wizard = (() => {
 
     $('#eq-list').addEventListener('click', e => {
       const btn = e.target.closest('[data-add]');
-      if (!btn) return;
-      addItem(_eqCat, btn.dataset.add);
+      if (btn) { addItem(btn.dataset.addCat || _eqCat, btn.dataset.add); return; }
+      const row = e.target.closest('[data-sel-key]');
+      if (row) selectItem(row.dataset.selCat, row.dataset.selKey);
+    });
+
+    $('#eq-detail').addEventListener('click', e => {
+      const btn = e.target.closest('[data-add]');
+      if (btn) addItem(btn.dataset.addCat || _eqCat, btn.dataset.add);
     });
 
     $('#eq-cart').addEventListener('click', e => {
+      const setEl = e.target.closest('[data-set-act]');
+      if (setEl) { handleSetAction(setEl.dataset.setAct, setEl.dataset.setI); return; }
       const el = e.target.closest('[data-act]');
       if (!el) return;
       const { act, cat, key } = el.dataset;
-      if (act === 'inc')  setQty(cat, key, ownedQty(cat, key) + 1);
-      if (act === 'dec')  setQty(cat, key, ownedQty(cat, key) - 1);
-      if (act === 'rm')   setQty(cat, key, 0);
-      if (act === 'free') toggleFree(cat, key);
+      if (act === 'inc')       setQty(cat, key, ownedQty(cat, key) + 1);
+      else if (act === 'dec')  setQty(cat, key, ownedQty(cat, key) - 1);
+      else if (act === 'rm')   setQty(cat, key, 0);
+      else if (act === 'free') toggleFree(cat, key);
+      else if (act === 'equip' || act === 'carry' || act === 'show') toggleFlag(cat, key, act);
+      else if (act === 'select') selectItem(cat, key);
     });
   }
 
@@ -1736,8 +1779,15 @@ const Wizard = (() => {
     const rarOpts = ['', 0,1,2,3,4,5,6,7,8,9,10].map(r =>
       `<option value="${r}"${String(f.rarity) === String(r) ? ' selected' : ''}>${r === '' ? 'Any rarity' : '≤ ' + r}</option>`).join('');
 
+    const skillSel = _eqCat === 'weapon'
+      ? `<select id="eq-skill"><option value="">All combat skills</option>${
+          weaponSkillOptions().map(s => `<option value="${esc(s)}"${f.skill === s ? ' selected' : ''}>${esc(s)}</option>`).join('')
+        }</select>`
+      : '';
+
     $('#eq-toolbar').innerHTML = `
       <input type="search" id="eq-q" placeholder="Search ${EQ_STORE[_eqCat].label.toLowerCase()}..." value="${esc(f.q)}">
+      ${skillSel}
       <select id="eq-type"><option value="">All types</option>${typeOpts}</select>
       <select id="eq-rarity">${rarOpts}</select>
       <label class="eq-check"><input type="checkbox" id="eq-core"${f.core ? ' checked' : ''}> Core only</label>
@@ -1749,6 +1799,7 @@ const Wizard = (() => {
       </div>`;
 
     $('#eq-q').addEventListener('input', e => { f.q = e.target.value; drawList(); });
+    if (_eqCat === 'weapon') $('#eq-skill').addEventListener('change', e => { f.skill = e.target.value; drawList(); });
     $('#eq-type').addEventListener('change', e => { f.type = e.target.value; drawList(); });
     $('#eq-rarity').addEventListener('change', e => { f.rarity = e.target.value; drawList(); });
     $('#eq-core').addEventListener('change', e => { f.core = e.target.checked; drawList(); });
@@ -1771,6 +1822,7 @@ const Wizard = (() => {
     const q = f.q.trim().toLowerCase();
     return EQ_STORE[cat].list().filter(it => {
       if (q && !it.name.toLowerCase().includes(q)) return false;
+      if (cat === 'weapon' && f.skill && it.skill !== f.skill) return false;
       if (f.type && !itemTypeValues(cat, it).includes(f.type)) return false;
       if (f.rarity !== '' && (typeof it.rarity !== 'number' || it.rarity > +f.rarity)) return false;
       if (f.core && !it.core) return false;
@@ -1791,6 +1843,7 @@ const Wizard = (() => {
     const el = $('#eq-list');
     if (!list.length) { el.innerHTML = '<div class="empty-state">No items match these filters.</div>'; return; }
     el.innerHTML = list.slice(0, _EQ_CAP).map(it => itemRowHtml(_eqCat, it)).join('');
+    applySelHighlight();
   }
 
   function statChip(label, val) {
@@ -1829,19 +1882,39 @@ const Wizard = (() => {
         ${it.short ? `<div class="eq-short">${esc(glyphify(it.short))}</div>` : ''}`;
     }
     return `
-      <div class="eq-row${owned ? ' owned' : ''}">
+      <div class="eq-row${owned ? ' owned' : ''}" data-sel-cat="${cat}" data-sel-key="${it.key}">
         <div class="eq-row-main">
           <div class="eq-row-head"><span class="eq-name">${esc(it.name)}</span>${rBadge}${ownedBadge}</div>
           <div class="eq-stats">${stats}</div>
         </div>
         <div class="eq-row-buy">
           <div class="eq-price">${priceLabel(it)}<i>cr</i></div>
-          <button class="btn btn-primary btn-sm" data-add="${it.key}">${_eqMode ? '+ Free' : '+ Buy'}</button>
+          <button class="btn btn-primary btn-sm" data-add="${it.key}" data-add-cat="${cat}">${_eqMode ? '+ Free' : '+ Buy'}</button>
         </div>
       </div>`;
   }
 
+  function equippableCat(cat) { return cat === 'weapon' || cat === 'armor'; }
+
+  function weaponSkillOptions() {
+    const set = new Set();
+    for (const w of (SW.weapons || [])) if (w.skill) set.add(w.skill);
+    return [...set].sort();
+  }
+
+  function weaponSetsArr() {
+    if (!state.equipment) eqBag('weapon');
+    if (!Array.isArray(state.equipment.weaponSets)) state.equipment.weaponSets = [];
+    return state.equipment.weaponSets;
+  }
+  function pruneSets() {
+    const bag = eqBag('weapon');
+    const owned = k => bag[k] && bag[k].qty;
+    state.equipment.weaponSets = weaponSetsArr().filter(s => owned(s.a) && owned(s.b));
+  }
+
   function drawCart() {
+    pruneSets();
     const d = Engine.derive(state);
     const el = $('#eq-cart');
     let sections = '';
@@ -1858,12 +1931,18 @@ const Wizard = (() => {
         const p = priceNum(it);
         const lineCost = line.free ? '<span class="cart-free">FREE</span>'
                                    : (p === null ? '—' : fmtCr(p * line.qty));
-        const worn = cat === 'armor' && d && d.worn_armor === key
-          ? '<span class="cart-worn" title="Highest-Soak armor: counts toward Soak/Defense">worn</span>' : '';
+        const carry = line.carry !== false, show = line.show !== false, equip = !!line.equip;
+        const sel = _eqSelected && _eqSelected.cat === cat && _eqSelected.key === key ? ' eq-sel' : '';
+        const flags = `
+          ${equippableCat(cat)
+            ? `<label class="cart-flag" title="Equipped (wielded / worn)"><input type="checkbox" data-act="equip" data-cat="${cat}" data-key="${key}"${equip ? ' checked' : ''}><span>E</span></label>`
+            : '<span class="cart-flag cart-flag-na">&nbsp;</span>'}
+          <label class="cart-flag" title="Carried (counts toward encumbrance)"><input type="checkbox" data-act="carry" data-cat="${cat}" data-key="${key}"${carry ? ' checked' : ''}><span>C</span></label>
+          <label class="cart-flag" title="Show on character sheet"><input type="checkbox" data-act="show" data-cat="${cat}" data-key="${key}"${show ? ' checked' : ''}><span>S</span></label>`;
         return `
-          <div class="cart-row">
+          <div class="cart-row${sel}" data-sel-cat="${cat}" data-sel-key="${key}">
             <div class="cart-row-top">
-              <span class="cart-name">${esc(it.name)}${worn}</span>
+              <span class="cart-name" data-act="select" data-cat="${cat}" data-key="${key}">${esc(it.name)}</span>
               <button class="cart-x" data-act="rm" data-cat="${cat}" data-key="${key}" title="Remove">&times;</button>
             </div>
             <div class="cart-row-ctl">
@@ -1872,7 +1951,8 @@ const Wizard = (() => {
                 <span>${line.qty}</span>
                 <button data-act="inc" data-cat="${cat}" data-key="${key}">+</button>
               </div>
-              <label class="cart-freebox"><input type="checkbox" data-act="free" data-cat="${cat}" data-key="${key}"${line.free ? ' checked' : ''}> free</label>
+              <div class="cart-flags">${flags}</div>
+              <label class="cart-freebox" title="Acquire free (no credits)"><input type="checkbox" data-act="free" data-cat="${cat}" data-key="${key}"${line.free ? ' checked' : ''}><span>$0</span></label>
               <span class="cart-cost">${lineCost}</span>
             </div>
           </div>`;
@@ -1880,9 +1960,31 @@ const Wizard = (() => {
       sections += `<div class="cart-section"><div class="cart-section-title">${EQ_STORE[cat].label}</div>${rows}</div>`;
     }
 
+    // Two-weapon sets
+    const wbag = eqBag('weapon');
+    const wKeys = Object.keys(wbag).filter(k => wbag[k] && wbag[k].qty);
+    const sets = weaponSetsArr();
+    if (wKeys.length >= 2 || sets.length) {
+      const setRows = sets.map((s, i) => {
+        const a = Engine.getWeapon(s.a), b = Engine.getWeapon(s.b);
+        return `<div class="tws-row"><span>${esc(a ? a.name : '?')} <i>+</i> ${esc(b ? b.name : '?')}</span>
+          <button class="cart-x" data-set-act="del" data-set-i="${i}" title="Remove set">&times;</button></div>`;
+      }).join('');
+      const opts = wKeys.map(k => `<option value="${k}">${esc(Engine.getWeapon(k)?.name || k)}</option>`).join('');
+      sections += `
+        <div class="cart-section">
+          <div class="cart-section-title">Two-Weapon Sets</div>
+          ${setRows || '<div class="tws-empty">Pair two weapons to dual-wield.</div>'}
+          ${wKeys.length >= 2 ? `<div class="tws-add">
+            <select id="tws-a">${opts}</select><span class="tws-plus">+</span><select id="tws-b">${opts}</select>
+            <button class="btn btn-secondary btn-sm" data-set-act="add">Pair</button>
+          </div>` : ''}
+        </div>`;
+    }
+
     const encOver = d && d.encumbrance > d.encumbrance_threshold;
     el.innerHTML = `
-      <div class="cart-head">Loadout</div>
+      <div class="cart-head">Loadout <span class="cart-legend">E=equip &middot; C=carry &middot; S=show</span></div>
       ${sections || '<div class="cart-empty">Nothing acquired yet.<br>Add items from the shop to build your loadout.</div>'}
       <div class="cart-totals">
         <div class="cart-total-row"><span>Spent</span><strong>${d ? fmtCr(d.credits_spent) : 0} cr</strong></div>
@@ -1893,17 +1995,113 @@ const Wizard = (() => {
       ${d && d.credits_remaining < 0 ? '<div class="cart-note cart-note-warn">You are over budget. Remove items or mark some as free.</div>' : ''}`;
   }
 
+  function drawDetail() {
+    const el = $('#eq-detail');
+    if (!el) return;
+    if (!_eqSelected) {
+      el.innerHTML = '<div class="eq-detail-empty">Select an item from the shop or loadout to see its full details.</div>';
+      return;
+    }
+    const { cat, key } = _eqSelected;
+    const it = Engine.getItem(cat, key);
+    if (!it) { el.innerHTML = ''; return; }
+
+    const stats = [];
+    stats.push(['Encumbrance', it.encumbrance ?? '—']);
+    stats.push(['Hard Points', it.hp ?? '—']);
+    stats.push(['Rarity', rarityLabel(it)]);
+    stats.push(['Price', priceLabel(it) + (it.restricted ? ' (R)' : '') + ' cr']);
+    if (cat === 'weapon') {
+      stats.push(['Skill', it.skill || '—']);
+      stats.push(['Damage', dmgDisplay(it)]);
+      stats.push(['Critical', it.crit ?? '—']);
+      stats.push(['Range', it.range || '—']);
+    }
+    if (cat === 'armor') {
+      stats.push(['Soak', '+' + (it.soak ?? 0)]);
+      stats.push(['Defense', '+' + (it.defense ?? 0)]);
+    }
+    if (it.type) stats.push(['Type', it.type]);
+    if (it.categories && it.categories.length) stats.push(['Categories', it.categories.join(', ')]);
+
+    const statHtml = stats.map(([k, v]) =>
+      `<div class="eq-detail-stat"><span>${k}</span><strong>${esc(String(v))}</strong></div>`).join('');
+    const quals = cat === 'weapon' && (it.qualities || []).length
+      ? `<div class="eq-detail-quals">${it.qualities.map(q =>
+          `<span class="eq-qual" title="${esc(glyphify((SW.weaponQualities[q.key] || {}).desc || ''))}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('')}</div>`
+      : '';
+    const srcTxt = (it.sources || []).length
+      ? 'Please see ' + it.sources.map(s => `page ${s.page} of the ${s.book}`).join(', ') + ' for details.'
+      : '';
+    const desc = it.description
+      ? esc(it.description)
+      : [it.short ? esc(glyphify(it.short)) : '', srcTxt ? esc(srcTxt) : '']
+          .filter(Boolean).join('<br><br>');
+    const owned = ownedQty(cat, key);
+
+    el.innerHTML = `
+      <div class="eq-detail-grid">
+        <div class="eq-detail-col">
+          <div class="eq-detail-title">${esc(it.name)}${it.restricted ? ' <span class="r-badge">R</span>' : ''}</div>
+          <div class="eq-detail-stats">${statHtml}</div>
+          ${quals}
+          <div class="eq-detail-actions">
+            <button class="btn btn-primary btn-sm" data-add="${key}" data-add-cat="${cat}">${_eqMode ? '+ Acquire Free' : '+ Purchase'}</button>
+            ${owned ? `<span class="eq-owned">Owned &times;${owned}</span>` : ''}
+          </div>
+        </div>
+        <div class="eq-detail-col eq-detail-desccol">
+          <div class="eq-detail-title">Description</div>
+          <div class="eq-detail-desc">${desc || '<span class="eq-detail-muted">No additional description recorded.</span>'}</div>
+        </div>
+      </div>`;
+  }
+
+  function applySelHighlight() {
+    document.querySelectorAll('.eq-row.eq-sel, .cart-row.eq-sel').forEach(e => e.classList.remove('eq-sel'));
+    if (!_eqSelected) return;
+    document.querySelectorAll(`[data-sel-cat="${_eqSelected.cat}"][data-sel-key="${_eqSelected.key}"]`)
+      .forEach(e => e.classList.add('eq-sel'));
+  }
+
+  function selectItem(cat, key) {
+    _eqSelected = { cat, key };
+    drawDetail();
+    applySelHighlight();
+  }
+
+  function handleSetAction(act, idx) {
+    if (act === 'add') {
+      const a = $('#tws-a') && $('#tws-a').value;
+      const b = $('#tws-b') && $('#tws-b').value;
+      if (!a || !b) return;
+      const bag = eqBag('weapon');
+      if (a === b && (!bag[a] || bag[a].qty < 2)) return;   // need two copies to pair the same weapon
+      if (weaponSetsArr().some(s => (s.a === a && s.b === b) || (s.a === b && s.b === a))) return;
+      weaponSetsArr().push({ a, b });
+      afterEquipChange();
+    } else if (act === 'del') {
+      weaponSetsArr().splice(+idx, 1);
+      afterEquipChange();
+    }
+  }
+
   function afterEquipChange() {
     saveState();
     drawCart();
+    drawDetail();
     renderHeaderCredits();
-    // refresh visible rows so owned badges / affordability reflect the new state
-    drawList();
+    drawList();   // refresh owned badges / affordability
+  }
+  function anyEquipped(cat) {
+    const bag = eqBag(cat);
+    return Object.keys(bag).some(k => bag[k] && bag[k].qty && bag[k].equip);
   }
   function addItem(cat, key) {
     const bag = eqBag(cat);
     if (bag[key] && bag[key].qty) bag[key].qty++;
-    else bag[key] = { qty: 1, free: _eqMode };
+    else bag[key] = { qty: 1, free: _eqMode, carry: true, show: true,
+                      equip: equippableCat(cat) && !anyEquipped(cat) };
     afterEquipChange();
   }
   function setQty(cat, key, qty) {
@@ -1916,6 +2114,17 @@ const Wizard = (() => {
   function toggleFree(cat, key) {
     const bag = eqBag(cat);
     if (bag[key]) { bag[key].free = !bag[key].free; afterEquipChange(); }
+  }
+  function toggleFlag(cat, key, flag) {
+    const bag = eqBag(cat);
+    const line = bag[key];
+    if (!line) return;
+    const cur = flag === 'equip' ? !!line.equip : line[flag] !== false;  // carry/show default true
+    line[flag] = !cur;
+    if (flag === 'equip' && line.equip && cat === 'armor') {
+      for (const k of Object.keys(bag)) if (k !== key && bag[k]) bag[k].equip = false;  // one suit worn
+    }
+    afterEquipChange();
   }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────
