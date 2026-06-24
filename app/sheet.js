@@ -175,7 +175,8 @@ const Sheet = (() => {
       return `Obligation: <strong>${esc(state.obligation.type)} (${state.obligation.magnitude})</strong>`;
     }
     if (state.game === 'aor' && state.duty.type) {
-      return `Duty: <strong>${esc(state.duty.type)} (${state.duty.magnitude})</strong>`;
+      const def = state.duty.deficit || 0;
+      return `Duty: <strong>${esc(state.duty.type)}${def ? ` (deficit: ${def})` : ''}</strong>`;
     }
     if (state.game === 'fad') {
       const parts = [];

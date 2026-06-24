@@ -15,8 +15,8 @@ const Wizard = (() => {
       player: '',
       background: '',
       motivation: '',
-      obligation: { type: '', magnitude: 10 },
-      duty:       { type: '', magnitude: 10 },
+      obligation: { type: '', magnitude: 10, bonusType: '' },
+      duty:       { type: '', deficit: 0, bonusType: '' },
       morality:   { strength: '', weakness: '', score: 50 },
     };
   }
@@ -460,6 +460,7 @@ const Wizard = (() => {
     { id: 'career',  label: 'Career',          valid: () => !!state.careerKey },
     { id: 'spec',    label: 'Specialization',  valid: () => !!state.specKey },
     { id: 'chars',   label: 'Characteristics', valid: () => true },
+    { id: 'oms',     label: () => state.game === 'eote' ? 'Obligation' : state.game === 'aor' ? 'Duty' : 'Morality', valid: () => true },
     { id: 'skills',  label: 'Skills',          valid: () => (state.freeCareerSkillPicks || []).length === 4 },
     { id: 'details', label: 'Details',         valid: () => (state.name || '').trim().length > 0 },
     { id: 'sheet',   label: 'Sheet',           valid: () => true },
@@ -483,7 +484,8 @@ const Wizard = (() => {
     const container = $('#progress-steps');
     container.innerHTML = STEPS.map((step, i) => {
       const cls = i < state.step ? 'done' : i === state.step ? 'active' : '';
-      return `<div class="progress-step ${cls}">${step.label}</div>`;
+      const label = typeof step.label === 'function' ? step.label() : step.label;
+      return `<div class="progress-step ${cls}">${label}</div>`;
     }).join('');
   }
 
@@ -516,7 +518,7 @@ const Wizard = (() => {
     const content = $('#step-content');
     content.innerHTML = '';
     const fns = { game: renderGame, species: renderSpecies, career: renderCareer,
-                  spec: renderSpec, chars: renderChars, skills: renderSkills,
+                  spec: renderSpec, chars: renderChars, oms: renderOMS, skills: renderSkills,
                   details: renderDetails, sheet: renderSheet };
     fns[STEPS[state.step].id]();
   }
@@ -953,11 +955,220 @@ const Wizard = (() => {
     refresh();
   }
 
-  // ── Step: Details ─────────────────────────────────────────────────────────
+  // ── Step: OMS (Obligation / Duty / Morality) ──────────────────────────────
   const OBLIGATIONS = ['Addiction','Betrayal','Blackmail','Bounty','Criminal','Debt',
     'Dutybound','Family','Favor','Oath','Obsession','Responsibility','Revenge','Superstition'];
   const DUTIES = ['Combat Victory','Counter-intelligence','Espionage','Internal Affairs',
     'Political Influence','Recruiting','Sabotage','Space Superiority','Tech Procurement'];
+  const MORALITY_PAIRS = [
+    ['Bravery','Fear'],        ['Brilliance','Obsession'],  ['Caution','Cowardice'],
+    ['Charisma','Manipulation'],['Clarity','Coldness'],     ['Compassion','Pity'],
+    ['Confidence','Arrogance'],['Creativity','Instability'],['Discipline','Rigidity'],
+    ['Enthusiasm','Recklessness'],['Generosity','Wastefulness'],['Humanity','Sentimentality'],
+    ['Ingenuity','Deception'], ['Kindness','Weakness'],     ['Loyalty','Betrayal'],
+    ['Mercy','Passivity'],     ['Patience','Apathy'],       ['Resilience','Stubbornness'],
+    ['Righteousness','Judgment'],['Selflessness','Martyrdom'],['Sensitivity','Vulnerability'],
+    ['Serenity','Detachment'], ['Wisdom','Doubt'],          ['Zeal','Fanaticism'],
+  ];
+
+  function renderOMS() {
+    const c = $('#step-content');
+    const g = state.game;
+
+    if (g === 'eote') {
+      const mag   = state.obligation.magnitude || 10;
+      const extra = mag - 10;
+      const btype = state.obligation.bonusType || '';
+      c.innerHTML = `
+        <div class="step-header">
+          <h2>Choose Your Obligation</h2>
+          <p>Every Edge of the Empire character carries an Obligation -- a debt, crime, or responsibility that shadows their life. The GM rolls each session; when your Obligation comes up it creates complications for the group.</p>
+        </div>
+        <div class="form-group">
+          <div class="form-section-title">Obligation Type</div>
+          <div class="arch-pills" id="obl-pills">
+            ${OBLIGATIONS.map(o => `<span class="arch-pill${state.obligation.type === o ? ' active' : ''}" data-val="${o}">${o}</span>`).join('')}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-section-title">Starting Obligation: 10</div>
+          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Take on additional Obligation in exchange for bonus resources at character creation.</p>
+          <div class="oms-bonus-tiles">
+            <div class="oms-tile${extra === 0 ? ' selected' : ''}" data-extra="0">
+              <div class="oms-tile-title">No Extra</div>
+              <div class="oms-tile-sub">Obligation: 10</div>
+            </div>
+            <div class="oms-tile${extra === 5 ? ' selected' : ''}" data-extra="5">
+              <div class="oms-tile-title">+5 Obligation</div>
+              <div class="oms-tile-sub">Total: 15</div>
+              <div class="oms-tile-bonus">+5 XP or +2,500 Credits</div>
+            </div>
+            <div class="oms-tile${extra === 10 ? ' selected' : ''}" data-extra="10">
+              <div class="oms-tile-title">+10 Obligation</div>
+              <div class="oms-tile-sub">Total: 20</div>
+              <div class="oms-tile-bonus">+10 XP or +5,000 Credits</div>
+            </div>
+          </div>
+          ${extra > 0 ? `
+          <div style="margin-top:16px;display:flex;gap:24px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.88rem;white-space:nowrap">
+              <input type="radio" name="obl-bonus" value="xp"${btype === 'xp' ? ' checked' : ''}> +${extra} Starting XP
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.88rem;white-space:nowrap">
+              <input type="radio" name="obl-bonus" value="credits"${btype === 'credits' ? ' checked' : ''}> +${extra === 5 ? '2,500' : '5,000'} Starting Credits
+            </label>
+          </div>` : ''}
+        </div>`;
+
+      $('#obl-pills').addEventListener('click', e => {
+        const pill = e.target.closest('.arch-pill');
+        if (!pill) return;
+        state.obligation.type = pill.dataset.val === state.obligation.type ? '' : pill.dataset.val;
+        saveState();
+        $('#obl-pills').querySelectorAll('.arch-pill').forEach(p =>
+          p.classList.toggle('active', p.dataset.val === state.obligation.type));
+      });
+      c.querySelectorAll('.oms-tile[data-extra]').forEach(tile => {
+        tile.addEventListener('click', () => {
+          const ex = +tile.dataset.extra;
+          state.obligation.magnitude = 10 + ex;
+          if (ex === 0) state.obligation.bonusType = '';
+          else if (!state.obligation.bonusType) state.obligation.bonusType = 'xp';
+          saveState(); renderOMS(); renderHeaderXp();
+        });
+      });
+      if (extra > 0) {
+        c.querySelectorAll('input[name="obl-bonus"]').forEach(r =>
+          r.addEventListener('change', e => { state.obligation.bonusType = e.target.value; saveState(); renderHeaderXp(); }));
+      }
+
+    } else if (g === 'aor') {
+      const deficit = state.duty.deficit || 0;
+      const btype   = state.duty.bonusType || '';
+      c.innerHTML = `
+        <div class="step-header">
+          <h2>Choose Your Duty</h2>
+          <p>Every Age of Rebellion character has a Duty -- a specific responsibility to the Rebellion. When the group's combined Duty reaches 100, your Duty triggers and the Alliance rewards the effort.</p>
+        </div>
+        <div class="form-group">
+          <div class="form-section-title">Duty Type</div>
+          <div class="arch-pills" id="duty-pills">
+            ${DUTIES.map(d => `<span class="arch-pill${state.duty.type === d ? ' active' : ''}" data-val="${d}">${d}</span>`).join('')}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-section-title">Starting Duty Adjustment</div>
+          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Start with a Duty deficit -- owing more to the Rebellion than you have earned -- in exchange for bonus resources.</p>
+          <div class="oms-bonus-tiles">
+            <div class="oms-tile${deficit === 0 ? ' selected' : ''}" data-deficit="0">
+              <div class="oms-tile-title">No Adjustment</div>
+              <div class="oms-tile-sub">Starting Duty: 0</div>
+            </div>
+            <div class="oms-tile${deficit === 5 ? ' selected' : ''}" data-deficit="5">
+              <div class="oms-tile-title">-5 Duty</div>
+              <div class="oms-tile-sub">Starting: -5</div>
+              <div class="oms-tile-bonus">+5 XP or +1,000 Credits</div>
+            </div>
+            <div class="oms-tile${deficit === 10 ? ' selected' : ''}" data-deficit="10">
+              <div class="oms-tile-title">-10 Duty</div>
+              <div class="oms-tile-sub">Starting: -10</div>
+              <div class="oms-tile-bonus">+10 XP or +2,500 Credits</div>
+            </div>
+          </div>
+          ${deficit > 0 ? `
+          <div style="margin-top:16px;display:flex;gap:24px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.88rem;white-space:nowrap">
+              <input type="radio" name="duty-bonus" value="xp"${btype === 'xp' ? ' checked' : ''}> +${deficit} Starting XP
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.88rem;white-space:nowrap">
+              <input type="radio" name="duty-bonus" value="credits"${btype === 'credits' ? ' checked' : ''}> +${deficit === 5 ? '1,000' : '2,500'} Starting Credits
+            </label>
+          </div>` : ''}
+        </div>`;
+
+      $('#duty-pills').addEventListener('click', e => {
+        const pill = e.target.closest('.arch-pill');
+        if (!pill) return;
+        state.duty.type = pill.dataset.val === state.duty.type ? '' : pill.dataset.val;
+        saveState();
+        $('#duty-pills').querySelectorAll('.arch-pill').forEach(p =>
+          p.classList.toggle('active', p.dataset.val === state.duty.type));
+      });
+      c.querySelectorAll('.oms-tile[data-deficit]').forEach(tile => {
+        tile.addEventListener('click', () => {
+          const def = +tile.dataset.deficit;
+          state.duty.deficit = def;
+          if (def === 0) state.duty.bonusType = '';
+          else if (!state.duty.bonusType) state.duty.bonusType = 'xp';
+          saveState(); renderOMS(); renderHeaderXp();
+        });
+      });
+      if (deficit > 0) {
+        c.querySelectorAll('input[name="duty-bonus"]').forEach(r =>
+          r.addEventListener('change', e => { state.duty.bonusType = e.target.value; saveState(); renderHeaderXp(); }));
+      }
+
+    } else {
+      const strength = state.morality.strength || '';
+      const weakness = state.morality.weakness || '';
+      const score    = state.morality.score || 50;
+      c.innerHTML = `
+        <div class="step-header">
+          <h2>Choose Your Morality</h2>
+          <p>Every Force and Destiny character has a Morality score reflecting their emotional balance between light and dark. It starts at 50 and shifts based on actions and Conflict throughout play.</p>
+        </div>
+        <div class="form-group">
+          <div class="form-section-title">Emotional Strength &amp; Weakness</div>
+          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Select the emotional pair that defines your character's inner nature. The strength guides your highest moments; the weakness pulls at you under pressure.</p>
+          <div class="morality-pairs" id="morality-pairs">
+            ${MORALITY_PAIRS.map(([str, wk]) => `
+              <div class="morality-pair-card${strength === str && weakness === wk ? ' selected' : ''}" data-str="${str}" data-wk="${wk}">
+                <div class="morality-pair-strength">${str}</div>
+                <div class="morality-pair-weakness">/ ${wk}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:20px">
+          <div class="form-section-title">Starting Score</div>
+          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Morality thresholds trigger at 30 (dark side) and 70 (light side). Adjust your starting position for an XP tradeoff.</p>
+          <div class="oms-bonus-tiles">
+            <div class="oms-tile${score >= 70 ? ' selected' : ''}" data-mscore="70">
+              <div class="oms-tile-title">Morality 70</div>
+              <div class="oms-tile-sub">Start light-aligned</div>
+              <div class="oms-tile-bonus oms-tile-cost">-10 Starting XP</div>
+            </div>
+            <div class="oms-tile${score > 30 && score < 70 ? ' selected' : ''}" data-mscore="50">
+              <div class="oms-tile-title">Morality 50</div>
+              <div class="oms-tile-sub">Default</div>
+            </div>
+            <div class="oms-tile${score <= 30 ? ' selected' : ''}" data-mscore="30">
+              <div class="oms-tile-title">Morality 30</div>
+              <div class="oms-tile-sub">Start dark-aligned</div>
+              <div class="oms-tile-bonus">+10 Starting XP</div>
+            </div>
+          </div>
+        </div>`;
+
+      $('#morality-pairs').addEventListener('click', e => {
+        const card = e.target.closest('.morality-pair-card');
+        if (!card) return;
+        const same = state.morality.strength === card.dataset.str && state.morality.weakness === card.dataset.wk;
+        state.morality.strength = same ? '' : card.dataset.str;
+        state.morality.weakness = same ? '' : card.dataset.wk;
+        saveState();
+        document.querySelectorAll('.morality-pair-card').forEach(cd =>
+          cd.classList.toggle('selected', cd.dataset.str === state.morality.strength && cd.dataset.wk === state.morality.weakness));
+      });
+      c.querySelectorAll('.oms-tile[data-mscore]').forEach(tile => {
+        tile.addEventListener('click', () => {
+          state.morality.score = +tile.dataset.mscore;
+          saveState(); renderOMS(); renderHeaderXp();
+        });
+      });
+    }
+  }
+
+  // ── Step: Details ─────────────────────────────────────────────────────────
   const STRENGTHS = ['Bravery','Caution','Compassion','Creativity','Curiosity','Devotion',
     'Enthusiasm','Forgiveness','Grit','Heroism','Honesty','Inspiration','Justice',
     'Kindness','Loyalty','Mercy','Patience','Pride','Righteousness','Wisdom'];
@@ -967,90 +1178,28 @@ const Wizard = (() => {
 
   function renderDetails() {
     const c = $('#step-content');
-    const g = state.game;
-    const mechLabel = g === 'eote' ? 'Obligation' : g === 'aor' ? 'Duty' : 'Morality';
-
     c.innerHTML = `
       <div class="step-header"><h2>Character Details</h2>
         <p>Name your character and fill in their background.</p></div>
-      <div class="details-layout">
-        <div>
-          <div class="form-section-title">Identity</div>
-          <div class="form-group"><label>Character Name *</label>
-            <input type="text" id="f-name" placeholder="Enter name..." value="${esc(state.name)}"></div>
-          <div class="form-group"><label>Player Name</label>
-            <input type="text" id="f-player" placeholder="Your name..." value="${esc(state.player)}"></div>
-          <div class="form-group"><label>Motivation / Goal</label>
-            <input type="text" id="f-motiv" placeholder="What drives your character?" value="${esc(state.motivation)}"></div>
-          <div class="form-group"><label>Background</label>
-            <textarea id="f-bg" placeholder="History, personality, appearance...">${esc(state.background)}</textarea></div>
-        </div>
-        <div>
-          <div class="form-section-title">${mechLabel}</div>
-          ${mechFields(g)}
-        </div>
+      <div style="max-width:560px">
+        <div class="form-section-title">Identity</div>
+        <div class="form-group"><label>Character Name *</label>
+          <input type="text" id="f-name" placeholder="Enter name..." value="${esc(state.name)}"></div>
+        <div class="form-group"><label>Player Name</label>
+          <input type="text" id="f-player" placeholder="Your name..." value="${esc(state.player)}"></div>
+        <div class="form-group"><label>Motivation / Goal</label>
+          <input type="text" id="f-motiv" placeholder="What drives your character?" value="${esc(state.motivation)}"></div>
+        <div class="form-group"><label>Background</label>
+          <textarea id="f-bg" placeholder="History, personality, appearance...">${esc(state.background)}</textarea></div>
       </div>`;
 
     $('#f-name').addEventListener('input', e => { state.name = e.target.value; saveState(); renderNav(); });
     $('#f-player').addEventListener('input', e => { state.player = e.target.value; saveState(); });
     $('#f-motiv').addEventListener('input', e => { state.motivation = e.target.value; saveState(); });
     $('#f-bg').addEventListener('input', e => { state.background = e.target.value; saveState(); });
-    bindMech(g);
   }
 
   function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
-
-  function mechFields(g) {
-    if (g === 'eote') return `
-      <div class="form-group"><label>Obligation Type</label>
-        <select id="f-obl-type">
-          <option value="">Select type...</option>
-          ${OBLIGATIONS.map(o => `<option value="${o}"${state.obligation.type===o?' selected':''}>${o}</option>`).join('')}
-        </select></div>
-      <div class="form-group"><label>Magnitude</label>
-        <input type="number" id="f-obl-mag" min="5" max="30" step="5" value="${state.obligation.magnitude||10}"></div>
-      <p style="font-size:0.8rem;color:var(--muted)">Starting group obligation pool is typically 40 XP worth for a 4-player group.</p>`;
-    if (g === 'aor') return `
-      <div class="form-group"><label>Duty Type</label>
-        <select id="f-duty-type">
-          <option value="">Select type...</option>
-          ${DUTIES.map(d => `<option value="${d}"${state.duty.type===d?' selected':''}>${d}</option>`).join('')}
-        </select></div>
-      <div class="form-group"><label>Duty Value</label>
-        <input type="number" id="f-duty-mag" min="0" max="100" value="${state.duty.magnitude||10}"></div>
-      <p style="font-size:0.8rem;color:var(--muted)">Reaching 100 Duty triggers a major reward for the character and the Rebellion.</p>`;
-    if (g === 'fad') return `
-      <div class="form-group"><label>Emotional Strength</label>
-        <select id="f-str">
-          <option value="">Select...</option>
-          ${STRENGTHS.map(s => `<option value="${s}"${state.morality.strength===s?' selected':''}>${s}</option>`).join('')}
-        </select></div>
-      <div class="form-group"><label>Emotional Weakness</label>
-        <select id="f-weak">
-          <option value="">Select...</option>
-          ${WEAKNESSES.map(s => `<option value="${s}"${state.morality.weakness===s?' selected':''}>${s}</option>`).join('')}
-        </select></div>
-      <div class="form-group"><label>Starting Morality (default 50)</label>
-        <input type="number" id="f-mor" min="1" max="100" value="${state.morality.score||50}"></div>
-      <p style="font-size:0.8rem;color:var(--muted)">Higher = more light side. Lower = more dark side. Triggers at 30 (dark) or 70 (light).</p>`;
-    return '';
-  }
-
-  function bindMech(g) {
-    if (g === 'eote') {
-      $('#f-obl-type').addEventListener('change', e => { state.obligation.type = e.target.value; saveState(); });
-      $('#f-obl-mag').addEventListener('input', e => { state.obligation.magnitude = +e.target.value; saveState(); });
-    }
-    if (g === 'aor') {
-      $('#f-duty-type').addEventListener('change', e => { state.duty.type = e.target.value; saveState(); });
-      $('#f-duty-mag').addEventListener('input', e => { state.duty.magnitude = +e.target.value; saveState(); });
-    }
-    if (g === 'fad') {
-      $('#f-str').addEventListener('change', e => { state.morality.strength = e.target.value; saveState(); });
-      $('#f-weak').addEventListener('change', e => { state.morality.weakness = e.target.value; saveState(); });
-      $('#f-mor').addEventListener('input', e => { state.morality.score = +e.target.value; saveState(); });
-    }
-  }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────
   function renderSheet() {

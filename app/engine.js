@@ -85,8 +85,20 @@ const Engine = (() => {
     const wtStat = (species.wound_threshold_stat  || 'Brawn').toLowerCase();
     const stStat = (species.strain_threshold_stat || 'Willpower').toLowerCase();
 
-    const startingXp = species.starting_xp || 100;
-    const xpSpent    = totalCharXp(species, chars);
+    let omsXpBonus = 0;
+    if (state.game === 'eote') {
+      const obl = state.obligation || {};
+      if (obl.bonusType === 'xp') omsXpBonus = (obl.magnitude || 10) - 10;
+    } else if (state.game === 'aor') {
+      const duty = state.duty || {};
+      if (duty.bonusType === 'xp') omsXpBonus = duty.deficit || 0;
+    } else if (state.game === 'fad') {
+      const score = (state.morality || {}).score || 50;
+      if (score <= 30) omsXpBonus = 10;
+      else if (score >= 70) omsXpBonus = -10;
+    }
+    const startingXp  = (species.starting_xp || 100) + omsXpBonus;
+    const xpSpent     = totalCharXp(species, chars);
     const xpRemaining = startingXp - xpSpent;
 
     const careerSkillKeys = career ? (career.career_skill_keys || []) : [];
