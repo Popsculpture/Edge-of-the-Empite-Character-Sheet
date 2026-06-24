@@ -12,6 +12,7 @@ const Sheet = (() => {
     const career  = Engine.getCareer(state.careerKey);
     const spec    = Engine.getSpec(state.specKey);
     const chars   = state.characteristics || {};
+    const vBlock  = vehicleBlock(state);
 
     container.innerHTML = `
       <div class="sheet-root">
@@ -21,6 +22,7 @@ const Sheet = (() => {
         ${abilitiesBlock(species, state)}
         ${skillsBlock(derived)}
         ${equipmentBlock(state, derived)}
+        ${vBlock}
         ${spec ? treeBlock(spec) : ''}
         <div class="print-btn">
           <button class="btn btn-secondary btn-sm" onclick="window.print()">Print / Save as PDF</button>
@@ -231,6 +233,89 @@ const Sheet = (() => {
           ${sub('Gear', gRows)}
           ${sub('Two-Weapon Sets', setRows)}
         </div>
+      </div>`;
+  }
+
+  function vehicleBlock(state) {
+    const fleet = (state.vehicles || []).filter(e => e.key);
+    if (!fleet.length) return '';
+
+    const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
+    const vwMap = (SW.vehicleWeapons || []).reduce((m, w) => { m[w.key] = w; return m; }, {});
+
+    const cards = fleet.map(entry => {
+      const v = Engine.getVehicle(entry.key);
+      if (!v) return '';
+      const displayName = entry.nickname && entry.nickname !== v.name ? entry.nickname : v.name;
+      const arcVal = (val, lbl, cls) =>
+        `<div class="sveh-arc-cell ${cls}"><div class="sveh-arc-val">${val ?? 0}</div><div class="sveh-arc-lbl">${lbl}</div></div>`;
+
+      const wRows = (v.weapons || []).map(w => {
+        const wd = vwMap[w.key] || { name: w.key, damage: '?', crit: '?', range: '?' };
+        const quals = (w.qualities || []).map(q => {
+          const qd = (SW.weaponQualities || {})[q.key];
+          return (qd ? qd.name : q.key) + (q.count ? ' ' + q.count : '');
+        }).join(', ');
+        const count = w.count > 1 ? ` ×${w.count}` : '';
+        const loc = [w.location, w.turret ? 'turret' : ''].filter(Boolean).join(', ');
+        return `<div class="sveh-weapon-row">
+          <span>${esc(wd.name)}${count}</span>
+          <span class="sveh-meta">Dmg ${wd.damage ?? '?'} &middot; Crit ${wd.crit ?? '—'} &middot; ${esc(wd.range || '—')}${loc ? ' &middot; ' + esc(loc) : ''}${quals ? ' &middot; ' + esc(quals) : ''}</span>
+        </div>`;
+      }).join('');
+
+      const hyper = v.hyperdrivePrimary
+        ? `Class ${v.hyperdrivePrimary}${v.hyperdriveBackup ? '/Backup ' + v.hyperdriveBackup : ''}`
+        : 'None';
+
+      return `
+        <div class="sveh-card">
+          <div class="sveh-card-head">
+            <div>
+              <span class="sveh-card-name">${esc(displayName)}</span>
+              ${displayName !== v.name ? `<span class="sveh-card-model">${esc(v.name)}</span>` : ''}
+            </div>
+            <span class="sveh-card-type">${esc(v.type || '')}</span>
+            ${entry.purchased ? '' : '<span class="sheet-eq-free">(not purchased)</span>'}
+          </div>
+          <div class="sveh-primary-stats">
+            <div class="sveh-stat"><span>Sil</span><strong>${v.silhouette ?? '—'}</strong></div>
+            <div class="sveh-stat"><span>Spd</span><strong>${v.speed ?? '—'}</strong></div>
+            <div class="sveh-stat"><span>Hdl</span><strong>${v.handling ?? '—'}</strong></div>
+            <div class="sveh-stat"><span>Armor</span><strong>${v.armor ?? '—'}</strong></div>
+            <div class="sveh-stat"><span>HT</span><strong>${v.hullTrauma ?? '—'}</strong></div>
+            <div class="sveh-stat"><span>SS</span><strong>${v.systemStrain ?? '—'}</strong></div>
+          </div>
+          <div class="sveh-lower">
+            <div class="sveh-arc">
+              ${arcVal(v.defFore, 'Fore', 'arc-fore')}
+              ${arcVal(v.defPort, 'Port', 'arc-port')}
+              <div class="sveh-arc-ship">&#128640;</div>
+              ${arcVal(v.defStarboard, 'Stbd', 'arc-stbd')}
+              ${arcVal(v.defAft, 'Aft', 'arc-aft')}
+            </div>
+            <div class="sveh-details">
+              ${v.hyperdrivePrimary ? `<div class="sveh-detail-row"><span>Hyperdrive</span><strong>${esc(hyper)}</strong></div>` : ''}
+              ${v.navicomputer ? '<div class="sveh-detail-row"><span>NaviComp</span><strong>Yes</strong></div>' : ''}
+              <div class="sveh-detail-row"><span>Sensors</span><strong>${esc(v.sensorRange || '—')}</strong></div>
+              <div class="sveh-detail-row"><span>Crew</span><strong>${esc(v.crew || '—')}</strong></div>
+              ${v.passengers ? `<div class="sveh-detail-row"><span>Passengers</span><strong>${v.passengers}</strong></div>` : ''}
+              <div class="sveh-detail-row"><span>Cargo</span><strong>${v.encumbranceCapacity} enc.</strong></div>
+              ${v.consumables ? `<div class="sveh-detail-row"><span>Consumables</span><strong>${esc(v.consumables)}</strong></div>` : ''}
+              <div class="sveh-detail-row"><span>HP</span><strong>${v.hp ?? 0}</strong></div>
+              <div class="sveh-detail-row"><span>Price</span><strong>${cr(v.price)} cr</strong></div>
+            </div>
+          </div>
+          ${(v.baseMods || []).length ? `<div class="sveh-mods">${v.baseMods.map(m => `<p>${esc(m)}</p>`).join('')}</div>` : ''}
+          ${wRows ? `<div class="sveh-weapons"><div class="sveh-weapons-title">Weapons</div>${wRows}</div>` : ''}
+          ${entry.notes ? `<div class="sveh-notes">${esc(entry.notes)}</div>` : ''}
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="sheet-panel" style="grid-column:1/-1">
+        <div class="sheet-panel-title">Fleet</div>
+        <div class="sveh-cards">${cards}</div>
       </div>`;
   }
 

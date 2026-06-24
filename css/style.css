@@ -1723,3 +1723,343 @@ body.on-sheet #progress-track { display: none; }
 }
 .oms-select:focus { border-color: var(--accent-border); }
 #obl-detail { width: 100%; max-width: 520px; }
+
+/* ── Vehicle Fleet step ─────────────────────────────────────────────── */
+.veh-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 900px) { .veh-main { grid-template-columns: 1fr; } }
+
+.veh-shop { min-width: 0; }
+
+.veh-list {
+  max-height: 62vh;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.veh-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.veh-row:last-child { border-bottom: none; }
+.veh-row:hover { background: var(--surface2); }
+.veh-row.owned { background: var(--accent-bg); border-color: var(--accent-border); }
+.veh-row.veh-sel { outline: 2px solid var(--accent); outline-offset: -2px; }
+.veh-row-main { flex: 1; min-width: 0; }
+.veh-row-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.veh-row-stats { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-top: 3px; }
+
+.veh-sil-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.veh-type-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.veh-group-starship  { color: #6aade0; border-color: rgba(106,173,224,0.4); background: rgba(106,173,224,0.08); }
+.veh-group-land      { color: #7ac46a; border-color: rgba(122,196,106,0.4); background: rgba(122,196,106,0.08); }
+.veh-group-aquatic   { color: #5abcd8; border-color: rgba(90,188,216,0.4);  background: rgba(90,188,216,0.08); }
+.veh-group-personal  { color: #e0b86a; border-color: rgba(224,184,106,0.4); background: rgba(224,184,106,0.08); }
+.veh-group-other     { color: var(--muted); border-color: var(--border); background: transparent; }
+
+/* ── Vehicle stats panel (right sidebar) ──────────────────────────── */
+.veh-stats {
+  position: sticky;
+  top: calc(var(--sticky-h, 0px) + 8px);
+  max-height: calc(100vh - var(--sticky-h, 0px) - 56px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 0;
+}
+.veh-stats-empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.veh-stats-inner { padding: 0 0 12px; }
+.veh-stats-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.veh-stats-name { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+.veh-stats-sub  { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+.veh-primary-stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+@media (max-width: 480px) { .veh-primary-stats { grid-template-columns: repeat(3, 1fr); } }
+.veh-stat-big {
+  padding: 10px 4px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.veh-stat-big:last-child { border-right: none; }
+.veh-stat-big-val { font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.veh-stat-big-lbl { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 3px; }
+
+/* Defense arc */
+.veh-arc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 2px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  max-width: 180px;
+  margin: 0 auto;
+}
+.veh-arc-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+.arc-fore  { grid-column: 2; grid-row: 1; }
+.arc-port  { grid-column: 1; grid-row: 2; }
+.veh-arc-ship { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+.arc-stbd  { grid-column: 3; grid-row: 2; }
+.arc-aft   { grid-column: 2; grid-row: 3; }
+.veh-arc-val { font-size: 0.95rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.veh-arc-lbl { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 2px; }
+
+/* Detail grid (key-value pairs) */
+.veh-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.veh-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 3px 0;
+  font-size: 0.78rem;
+  border-bottom: 1px solid var(--border);
+  gap: 6px;
+}
+.veh-detail-row:last-child { border-bottom: none; }
+.veh-detail-row span { color: var(--muted); white-space: nowrap; }
+.veh-detail-row strong { color: var(--text); text-align: right; font-size: 0.78rem; }
+
+/* Sections (baseMods, weapons, description) */
+.veh-detail-section { padding: 10px 16px; border-top: 1px solid var(--border); }
+.veh-detail-lbl {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.veh-detail-mod { font-size: 0.8rem; color: var(--text); line-height: 1.5; margin: 4px 0; }
+
+.veh-weapon-row {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 1px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.veh-weapon-row:last-child { border-bottom: none; }
+.veh-weapon-name { font-weight: 700; color: var(--text); }
+.veh-weapon-stats { color: var(--text); }
+.veh-weapon-meta { color: var(--muted); font-size: 0.72rem; }
+
+/* ── Fleet (owned vehicles) ─────────────────────────────────────────── */
+.veh-fleet {
+  margin-top: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.veh-fleet-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.veh-fleet-count {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+.veh-fleet-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+
+.veh-fleet-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.veh-fleet-card-head { display: flex; align-items: center; gap: 7px; }
+.veh-fleet-card-meta { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+.veh-fleet-card-footer { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.veh-nickname {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 2px 4px;
+  outline: none;
+}
+.veh-nickname:focus { border-color: var(--accent-border); }
+
+.veh-notes {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.78rem;
+  padding: 5px 7px;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  line-height: 1.4;
+}
+.veh-notes:focus { border-color: var(--accent-border); }
+
+/* ── Vehicle block on character sheet ─────────────────────────────── */
+.sveh-cards { display: flex; flex-direction: column; gap: 16px; }
+.sveh-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.sveh-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.sveh-card-name { font-size: 1.0rem; font-weight: 700; color: var(--text); }
+.sveh-card-model { font-size: 0.72rem; color: var(--muted); margin-left: 6px; }
+.sveh-card-type { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+
+.sveh-primary-stats {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.sveh-stat {
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px;
+  border-right: 1px solid var(--border);
+}
+.sveh-stat:last-child { border-right: none; }
+.sveh-stat span { display: block; font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.sveh-stat strong { display: block; font-size: 1.2rem; font-weight: 800; color: var(--accent); }
+
+.sveh-lower {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.sveh-arc {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 2px;
+  padding: 8px;
+  border-right: 1px solid var(--border);
+  align-content: center;
+}
+.sveh-arc-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+.sveh-arc-val { font-size: 0.85rem; font-weight: 800; color: var(--accent); }
+.sveh-arc-lbl { font-size: 0.5rem; text-transform: uppercase; color: var(--muted); }
+.sveh-arc-ship { grid-column:2; grid-row:2; display:flex; align-items:center; justify-content:center; font-size:1rem; }
+.sveh-arc-cell.arc-fore { grid-column:2; grid-row:1; }
+.sveh-arc-cell.arc-port { grid-column:1; grid-row:2; }
+.sveh-arc-cell.arc-stbd { grid-column:3; grid-row:2; }
+.sveh-arc-cell.arc-aft  { grid-column:2; grid-row:3; }
+
+.sveh-details { padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; }
+.sveh-detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  gap: 8px;
+}
+.sveh-detail-row span { color: var(--muted); }
+.sveh-detail-row strong { color: var(--text); }
+
+.sveh-mods { padding: 8px 14px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text); }
+.sveh-mods p { margin: 2px 0; line-height: 1.5; }
+.sveh-weapons { padding: 8px 14px; border-top: 1px solid var(--border); }
+.sveh-weapons-title { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 700; margin-bottom: 5px; }
+.sveh-weapon-row { display: flex; flex-direction: column; font-size: 0.76rem; padding: 3px 0; border-bottom: 1px solid var(--border); }
+.sveh-weapon-row:last-child { border-bottom: none; }
+.sveh-meta { color: var(--muted); font-size: 0.7rem; }
+.sveh-notes { padding: 8px 14px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); line-height: 1.5; }

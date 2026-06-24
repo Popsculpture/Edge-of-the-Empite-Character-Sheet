@@ -103,6 +103,7 @@ const Wizard = (() => {
       forceAttitudeText:  '',
       motivationText:     '',
       equipment:          { weapon: {}, armor: {}, gear: {}, weaponSets: [] },
+      vehicles:           [],
     };
   }
 
@@ -111,6 +112,11 @@ const Wizard = (() => {
   // UI-only filter state for the species step (persists across re-renders)
   let _spBook       = '';
   let _spArchetypes = new Set();
+
+  // UI-only state for the Vehicle step (persists across re-renders)
+  let _vehSelected = null;
+  const _vehFilter = { q: '', group: '', sil: '', core: false, afford: false };
+  const _VEH_CAP = 150;
 
   // UI-only state for the Equipment step (persists across re-renders)
   let _eqCat  = 'weapon';   // active storefront: weapon | armor | gear
@@ -581,6 +587,7 @@ const Wizard = (() => {
     { id: 'chars',   label: 'Characteristics', tab: 'Attrs',    valid: () => true },
     { id: 'talents', label: 'Talents',         tab: 'Talents',  valid: () => true },
     { id: 'equip',   label: 'Equipment',       tab: 'Gear',     valid: () => true },
+    { id: 'vehicle', label: 'Fleet',           tab: 'Fleet',    valid: () => true },
     { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',    valid: () => true },
   ];
 
@@ -646,7 +653,8 @@ const Wizard = (() => {
   function renderHeaderCredits() {
     const bar = $('#header-credits');
     if (!bar) return;
-    if (!state.speciesKey || STEPS[state.step].id !== 'equip') { bar.classList.add('hidden'); return; }
+    const stepId = STEPS[state.step].id;
+    if (!state.speciesKey || (stepId !== 'equip' && stepId !== 'vehicle')) { bar.classList.add('hidden'); return; }
     const d = Engine.derive(state);
     if (!d) { bar.classList.add('hidden'); return; }
     bar.className = 'header-credits' + (d.credits_remaining < 0 ? ' cr-warn' : '');
@@ -668,7 +676,7 @@ const Wizard = (() => {
     const fns = { game: renderGame, species: renderSpecies, career: renderCareer,
                   spec: renderSpec, skills: renderSkills, oms: renderOMS, chars: renderChars,
                   talents: renderTalents, details: renderDetails, equip: renderEquip,
-                  sheet: renderSheet };
+                  vehicle: renderVehicle, sheet: renderSheet };
     fns[STEPS[state.step].id]();
   }
 
@@ -2125,6 +2133,345 @@ const Wizard = (() => {
       for (const k of Object.keys(bag)) if (k !== key && bag[k]) bag[k].equip = false;  // one suit worn
     }
     afterEquipChange();
+  }
+
+  // ── Step: Vehicle Fleet ────────────────────────────────────────────────────
+  function vehicleGroup(v) {
+    const cats = v.categories || [];
+    const type = (v.type || '').toLowerCase();
+    if (cats.includes('Starship')) return 'Starship';
+    if (cats.includes('Land Vehicle') ||
+        ['speeder', 'swoop', 'walker', 'groundcar', 'repulsor', 'landspeeder',
+         'cloud car', 'airspeeder'].some(t => type.includes(t))) return 'Land';
+    if (['aqua', 'submersible', 'watercraft'].some(t => type.includes(t))) return 'Aquatic';
+    if (['jet pack', 'rocket boot', 'drop suit', 'foot speeder', 'jump boot'].some(t => type.includes(t))) return 'Personal';
+    return 'Other';
+  }
+
+  function filteredVehicles() {
+    const f = _vehFilter;
+    const d = state.speciesKey ? Engine.derive(state) : null;
+    const remain = d ? d.credits_remaining : Infinity;
+    let list = SW.vehicles || [];
+    if (f.q) {
+      const q = f.q.toLowerCase();
+      list = list.filter(v => v.name.toLowerCase().includes(q) || (v.type || '').toLowerCase().includes(q));
+    }
+    if (f.group) list = list.filter(v => vehicleGroup(v) === f.group);
+    if (f.sil) {
+      if (f.sil === '6+') list = list.filter(v => (v.silhouette || 0) >= 6);
+      else { const s = parseInt(f.sil); list = list.filter(v => (v.silhouette || 0) === s); }
+    }
+    if (f.core) list = list.filter(v => v.core);
+    if (f.afford) list = list.filter(v => typeof v.price === 'number' && v.price <= remain);
+    return list;
+  }
+
+  function ownedVehicle(key) {
+    return (state.vehicles || []).find(v => v.key === key) || null;
+  }
+
+  function addVehicle(key) {
+    if (ownedVehicle(key)) return;
+    const v = Engine.getVehicle(key);
+    if (!v) return;
+    if (!state.vehicles) state.vehicles = [];
+    state.vehicles.push({ key, nickname: v.name, notes: '', purchased: false });
+    saveState();
+    drawVehicleList();
+    drawVehicleStats();
+    drawFleet();
+    renderHeaderCredits();
+  }
+
+  function removeVehicle(key) {
+    state.vehicles = (state.vehicles || []).filter(v => v.key !== key);
+    saveState();
+    drawVehicleList();
+    drawVehicleStats();
+    drawFleet();
+    renderHeaderCredits();
+  }
+
+  function selectVehicle(key) {
+    _vehSelected = key;
+    applyVehicleSelHighlight();
+    drawVehicleStats();
+  }
+
+  function applyVehicleSelHighlight() {
+    const list = $('#veh-list');
+    if (!list) return;
+    list.querySelectorAll('.veh-row').forEach(row =>
+      row.classList.toggle('veh-sel', row.dataset.vkey === _vehSelected));
+  }
+
+  function drawVehicleToolbar() {
+    const f = _vehFilter;
+    const groups = ['Starship', 'Land', 'Aquatic', 'Personal', 'Other'];
+    const sils = ['1','2','3','4','5','6+'];
+    $('#veh-toolbar').innerHTML = `
+      <input type="search" id="veh-q" placeholder="Search vehicles..." value="${esc(f.q)}">
+      <select id="veh-group">
+        <option value="">All types</option>
+        ${groups.map(g => `<option value="${esc(g)}"${f.group===g?' selected':''}>${esc(g)}</option>`).join('')}
+      </select>
+      <select id="veh-sil">
+        <option value="">Any silhouette</option>
+        ${sils.map(s => `<option value="${s}"${f.sil===s?' selected':''}>Sil ${s}</option>`).join('')}
+      </select>
+      <label class="eq-check"><input type="checkbox" id="veh-core"${f.core?' checked':''}> Core only</label>
+      <label class="eq-check"><input type="checkbox" id="veh-afford"${f.afford?' checked':''}> Affordable</label>`;
+    $('#veh-q').addEventListener('input', e => { f.q = e.target.value; drawVehicleList(); });
+    $('#veh-group').addEventListener('change', e => { f.group = e.target.value; drawVehicleList(); });
+    $('#veh-sil').addEventListener('change', e => { f.sil = e.target.value; drawVehicleList(); });
+    $('#veh-core').addEventListener('change', e => { f.core = e.target.checked; drawVehicleList(); });
+    $('#veh-afford').addEventListener('change', e => { f.afford = e.target.checked; drawVehicleList(); });
+  }
+
+  function drawVehicleList() {
+    const list = filteredVehicles();
+    const shown = list.slice(0, _VEH_CAP);
+    const over = list.length - shown.length;
+    $('#veh-results').innerHTML =
+      `<span>${list.length} vehicle${list.length !== 1 ? 's' : ''}${over ? `, showing first ${_VEH_CAP}` : ''}</span>`;
+    $('#veh-list').innerHTML = shown.map(vehicleRowHtml).join('') +
+      (over ? `<div class="eq-row" style="text-align:center;color:var(--muted);font-size:0.82rem;padding:10px">+${over} more &mdash; narrow your search</div>` : '');
+    applyVehicleSelHighlight();
+  }
+
+  function vehicleRowHtml(v) {
+    const owned = ownedVehicle(v.key);
+    const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
+    const group = vehicleGroup(v);
+    return `
+      <div class="veh-row${owned ? ' owned' : ''}" data-vkey="${esc(v.key)}">
+        <div class="veh-row-main">
+          <div class="veh-row-head">
+            <span class="veh-sil-badge" title="Silhouette ${v.silhouette ?? '?'}">${v.silhouette ?? '?'}</span>
+            <span class="eq-name">${esc(v.name)}</span>
+            ${v.restricted ? '<span class="r-badge">R</span>' : ''}
+            ${owned ? '<span class="eq-owned">&#10003;</span>' : ''}
+          </div>
+          <div class="veh-row-stats">
+            <span class="eq-stat"><span>Spd</span><strong>${v.speed ?? '—'}</strong></span>
+            <span class="eq-stat"><span>Hdl</span><strong>${v.handling ?? '—'}</strong></span>
+            <span class="eq-stat"><span>Armor</span><strong>${v.armor ?? '—'}</strong></span>
+            <span class="eq-stat"><span>HT</span><strong>${v.hullTrauma ?? '—'}</strong></span>
+            <span class="eq-stat"><span>SS</span><strong>${v.systemStrain ?? '—'}</strong></span>
+            <span class="veh-type-tag veh-group-${group.toLowerCase()}">${esc(v.type || group)}</span>
+          </div>
+        </div>
+        <div class="eq-row-buy">
+          <div class="eq-price">${cr(v.price)}<i>cr</i></div>
+          <button class="btn btn-sm btn-accent" data-vadd="${esc(v.key)}"${owned ? ' disabled' : ''}>${owned ? '&#10003;' : '+'}</button>
+        </div>
+      </div>`;
+  }
+
+  function drawVehicleStats() {
+    const panel = $('#veh-stats');
+    if (!panel) return;
+    if (!_vehSelected) {
+      panel.innerHTML = '<div class="veh-stats-empty">Select a vehicle to see its full stats.</div>';
+      return;
+    }
+    const v = Engine.getVehicle(_vehSelected);
+    if (!v) { panel.innerHTML = ''; return; }
+    const owned = ownedVehicle(v.key);
+    const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
+
+    // Defense arc
+    const arcCell = (val, lbl, cls) =>
+      `<div class="veh-arc-cell ${cls}"><div class="veh-arc-val">${val ?? 0}</div><div class="veh-arc-lbl">${lbl}</div></div>`;
+
+    // Vehicle weapons resolved to names
+    const vwMap = Engine.getVehicleWeaponMap();
+    const wepRows = (v.weapons || []).map(w => {
+      const wd = vwMap[w.key] || { name: w.key, damage: '?', crit: '?', range: '?' };
+      const quals = (w.qualities || []).map(q => {
+        const qd = (SW.weaponQualities || {})[q.key];
+        return (qd ? qd.name : q.key) + (q.count ? ' ' + q.count : '');
+      }).join(', ');
+      const arcs = Object.entries(w.firingArcs || {}).filter(([,on]) => on)
+        .map(([k]) => k.charAt(0).toUpperCase() + k.slice(1)).join('/');
+      return `<div class="veh-weapon-row">
+        <span class="veh-weapon-name">${esc(wd.name)}${w.count > 1 ? ` &times;${w.count}` : ''}</span>
+        <span class="veh-weapon-stats">Dmg ${wd.damage ?? '?'} &middot; Crit ${wd.crit ?? '—'} &middot; ${esc(wd.range || '—')}</span>
+        <span class="veh-weapon-meta">${[w.location, w.turret ? 'turret' : '', w.retractable ? 'retractable' : '', arcs, quals].filter(Boolean).join(' &middot; ')}</span>
+      </div>`;
+    }).join('');
+
+    const hyper = v.hyperdrivePrimary
+      ? `Class ${v.hyperdrivePrimary}${v.hyperdriveBackup ? ' / Backup Class ' + v.hyperdriveBackup : ''}`
+      : 'None';
+
+    const modsHtml = (v.baseMods || []).length
+      ? `<div class="veh-detail-section"><div class="veh-detail-lbl">Special Features</div>
+         ${v.baseMods.map(m => `<p class="veh-detail-mod">${esc(m)}</p>`).join('')}</div>` : '';
+
+    const src = (v.sources || []).map(s => s.page ? `${s.book} p.${s.page}` : s.book).join(', ');
+
+    panel.innerHTML = `
+      <div class="veh-stats-inner">
+        <div class="veh-stats-head">
+          <div>
+            <div class="veh-stats-name">${esc(v.name)}</div>
+            <div class="veh-stats-sub">${esc(v.type || '')} &middot; <span class="eq-detail-muted">${esc(src)}</span></div>
+          </div>
+          ${!owned
+            ? `<button class="btn btn-sm btn-accent" data-vadd="${esc(v.key)}">+ Add to Fleet</button>`
+            : `<span class="eq-owned" style="font-size:0.85rem">&#10003; In fleet</span>`}
+        </div>
+
+        <div class="veh-primary-stats">
+          ${[['Silhouette',v.silhouette],['Speed',v.speed],['Handling',v.handling],
+             ['Armor',v.armor],['Hull Trauma',v.hullTrauma],['Sys. Strain',v.systemStrain]]
+            .map(([l,val]) => `<div class="veh-stat-big"><div class="veh-stat-big-val">${val ?? '—'}</div><div class="veh-stat-big-lbl">${l}</div></div>`).join('')}
+        </div>
+
+        <div class="veh-arc-grid">
+          ${arcCell(v.defFore,      'Fore',  'arc-fore')}
+          ${arcCell(v.defPort,      'Port',  'arc-port')}
+          <div class="veh-arc-ship">&#9673;</div>
+          ${arcCell(v.defStarboard, 'Stbd',  'arc-stbd')}
+          ${arcCell(v.defAft,       'Aft',   'arc-aft')}
+        </div>
+
+        <div class="veh-detail-grid">
+          ${v.hyperdrivePrimary ? `<div class="veh-detail-row"><span>Hyperdrive</span><strong>${esc(hyper)}</strong></div>` : ''}
+          <div class="veh-detail-row"><span>NaviComputer</span><strong>${v.navicomputer ? 'Yes' : 'No'}</strong></div>
+          <div class="veh-detail-row"><span>Sensors</span><strong>${esc(v.sensorRange || '—')}</strong></div>
+          <div class="veh-detail-row"><span>Crew</span><strong>${esc(v.crew || '—')}</strong></div>
+          ${(v.passengers ?? 0) > 0 ? `<div class="veh-detail-row"><span>Passengers</span><strong>${v.passengers}</strong></div>` : ''}
+          <div class="veh-detail-row"><span>Cargo</span><strong>${v.encumbranceCapacity ?? 0} enc.</strong></div>
+          ${v.consumables ? `<div class="veh-detail-row"><span>Consumables</span><strong>${esc(v.consumables)}</strong></div>` : ''}
+          ${v.maxAltitude ? `<div class="veh-detail-row"><span>Max Altitude</span><strong>${esc(v.maxAltitude)}</strong></div>` : ''}
+          <div class="veh-detail-row"><span>Hardpoints</span><strong>${v.hp ?? 0}</strong></div>
+          <div class="veh-detail-row"><span>Price</span><strong>${cr(v.price)} cr${v.restricted ? ' <span class="r-badge">R</span>' : ''}</strong></div>
+          <div class="veh-detail-row"><span>Rarity</span><strong>${v.rarity ?? '—'}</strong></div>
+        </div>
+
+        ${modsHtml}
+
+        ${wepRows ? `<div class="veh-detail-section"><div class="veh-detail-lbl">Stock Weapons</div>${wepRows}</div>` : ''}
+
+        ${v.description
+          ? `<div class="veh-detail-section"><div class="veh-detail-lbl">Description</div>
+             <p class="eq-detail-desc">${esc(v.description)}</p></div>`
+          : ''}
+      </div>`;
+  }
+
+  function drawFleet() {
+    const fleet = $('#veh-fleet');
+    if (!fleet) return;
+    const d = state.speciesKey ? Engine.derive(state) : null;
+    const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
+    const vehicles = state.vehicles || [];
+
+    const totalCost = vehicles.filter(e => e.purchased).reduce((sum, e) => {
+      const vd = Engine.getVehicle(e.key);
+      return sum + (vd && typeof vd.price === 'number' ? vd.price : 0);
+    }, 0);
+    const neg = d && d.credits_remaining < 0;
+
+    const cards = vehicles.map(entry => {
+      const vd = Engine.getVehicle(entry.key);
+      if (!vd) return '';
+      const group = vehicleGroup(vd);
+      const price = typeof vd.price === 'number' ? vd.price : null;
+      return `
+        <div class="veh-fleet-card">
+          <div class="veh-fleet-card-head">
+            <span class="veh-type-tag veh-group-${group.toLowerCase()}">${esc(group)}</span>
+            <input class="veh-nickname" type="text" value="${esc(entry.nickname)}"
+              placeholder="${esc(vd.name)}" data-vfield="nickname" data-vkey="${esc(entry.key)}" maxlength="60">
+            <button class="cart-x" data-vact="rm" data-vkey="${esc(entry.key)}" title="Remove">&#10005;</button>
+          </div>
+          <div class="veh-fleet-card-meta">
+            ${[['Sil',vd.silhouette],['Spd',vd.speed],['Hdl',vd.handling],
+               ['Armor',vd.armor],['HT',vd.hullTrauma],['SS',vd.systemStrain]]
+              .map(([l,val]) => `<span class="eq-stat"><span>${l}</span><strong>${val ?? '—'}</strong></span>`).join('')}
+          </div>
+          <div class="veh-fleet-card-footer">
+            <label class="cart-flag" style="gap:5px">
+              <input type="checkbox" data-vact="toggle-purchased" data-vkey="${esc(entry.key)}"${entry.purchased?' checked':''}>
+              Purchased
+            </label>
+            ${price !== null
+              ? `<span class="cart-cost${entry.purchased ? (neg ? ' cart-neg' : '') : ' cart-free'}">${entry.purchased ? cr(price) + ' cr' : 'Not purchased'}</span>`
+              : ''}
+          </div>
+          <textarea class="veh-notes" placeholder="Ship name, backstory, modifications..." rows="2"
+            data-vfield="notes" data-vkey="${esc(entry.key)}">${esc(entry.notes)}</textarea>
+        </div>`;
+    }).join('');
+
+    fleet.innerHTML = `
+      <div class="veh-fleet-head">
+        MY FLEET
+        <span class="veh-fleet-count">${vehicles.length} vehicle${vehicles.length !== 1 ? 's' : ''}</span>
+        ${totalCost ? `<span class="cart-cost${neg?' cart-neg':''}">${cr(totalCost)} cr total</span>` : ''}
+      </div>
+      ${vehicles.length
+        ? `<div class="veh-fleet-cards">${cards}</div>`
+        : `<div class="cart-empty">No vehicles added yet. Browse above and click <strong>+</strong> to add a vehicle to your fleet.</div>`}`;
+  }
+
+  function renderVehicle() {
+    const c = $('#step-content');
+    if (!SW.vehicles || !SW.vehicles.length) {
+      c.innerHTML = '<div class="empty-state">Vehicle data failed to load.</div>'; return;
+    }
+    c.innerHTML = `
+      <div class="step-header"><h2>Fleet</h2>
+        <p>Select a ship or vehicle for your character. Toggle <strong>Purchased</strong> to deduct the cost from
+           your starting credits. Restricted <span class="r-badge">R</span> items require GM approval.
+           Vehicles not purchased represent loaned, party-owned, or mission-assigned craft.</p></div>
+      <div class="veh-main">
+        <div class="veh-shop">
+          <div class="veh-toolbar" id="veh-toolbar"></div>
+          <div class="equip-results" id="veh-results"></div>
+          <div class="veh-list" id="veh-list"></div>
+        </div>
+        <aside class="veh-stats" id="veh-stats"></aside>
+      </div>
+      <div class="veh-fleet" id="veh-fleet"></div>`;
+
+    drawVehicleToolbar();
+    drawVehicleList();
+    drawVehicleStats();
+    drawFleet();
+
+    $('#veh-list').addEventListener('click', e => {
+      const btn = e.target.closest('[data-vadd]');
+      if (btn) { addVehicle(btn.dataset.vadd); return; }
+      const row = e.target.closest('[data-vkey]');
+      if (row) selectVehicle(row.dataset.vkey);
+    });
+    $('#veh-stats').addEventListener('click', e => {
+      const btn = e.target.closest('[data-vadd]');
+      if (btn) addVehicle(btn.dataset.vadd);
+    });
+    $('#veh-fleet').addEventListener('click', e => {
+      const el = e.target.closest('[data-vact]');
+      if (!el) return;
+      if (el.dataset.vact === 'rm') removeVehicle(el.dataset.vkey);
+    });
+    $('#veh-fleet').addEventListener('change', e => {
+      const el = e.target;
+      if (el.dataset.vact === 'toggle-purchased') {
+        const entry = ownedVehicle(el.dataset.vkey);
+        if (entry) { entry.purchased = el.checked; saveState(); drawFleet(); renderHeaderCredits(); }
+      }
+    });
+    $('#veh-fleet').addEventListener('input', e => {
+      const el = e.target.closest('[data-vfield]');
+      if (!el) return;
+      const entry = ownedVehicle(el.dataset.vkey);
+      if (entry) { entry[el.dataset.vfield] = el.value; saveState(); }
+    });
   }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────

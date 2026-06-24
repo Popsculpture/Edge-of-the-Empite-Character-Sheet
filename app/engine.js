@@ -105,6 +105,19 @@ const Engine = (() => {
     return cat === 'weapon' ? getWeapon(key) : cat === 'armor' ? getArmor(key) : getGear(key);
   }
 
+  // Vehicle lookups (lazy key maps)
+  let _vehMaps = null;
+  function vehMaps() {
+    if (!_vehMaps) {
+      const idx = list => { const m = {}; for (const it of (list || [])) m[it.key] = it; return m; };
+      _vehMaps = { vehicle: idx(SW.vehicles), vehWeapon: idx(SW.vehicleWeapons) };
+    }
+    return _vehMaps;
+  }
+  function getVehicle(key)        { return vehMaps().vehicle[key]    || null; }
+  function getVehicleWeapon(key)  { return vehMaps().vehWeapon[key]  || null; }
+  function getVehicleWeaponMap()  { return vehMaps().vehWeapon; }
+
   // Additional starting credits granted by extra Obligation / Duty (core rulebooks)
   function creditBonusFor(extra) {
     if (extra >= 10) return 2500;
@@ -177,10 +190,14 @@ const Engine = (() => {
         const price = typeof item.price === 'number' ? item.price : 0;
         const enc   = typeof item.encumbrance === 'number' ? item.encumbrance : 0;
         if (!line.free) creditsSpent += price * line.qty;
-        if (line.carry !== false) encumbrance += enc * line.qty;   // carried items count toward encumbrance
-        // Only equipped armor contributes Soak / Defense; tie goes to highest Soak
+        if (line.carry !== false) encumbrance += enc * line.qty;
         if (cat === 'armor' && line.equip && (!wornArmor || (item.soak || 0) > (wornArmor.soak || 0))) wornArmor = item;
       }
+    }
+    for (const entry of (state.vehicles || [])) {
+      if (!entry.purchased) continue;
+      const vd = getVehicle(entry.key);
+      if (vd && typeof vd.price === 'number') creditsSpent += vd.price;
     }
     const creditsRemaining = startingCredits - creditsSpent;
     const armorSoak    = wornArmor ? (wornArmor.soak    || 0) : 0;
@@ -228,6 +245,7 @@ const Engine = (() => {
     nameToKey, skillNameMap,
     getSpecies, getCareer, getSpec, getSkill, getTalent,
     getWeapon, getArmor, getGear, getItem,
+    getVehicle, getVehicleWeapon, getVehicleWeaponMap,
     creditBonusFor,
     specBonusSkillKeys,
     derive,
