@@ -455,15 +455,17 @@ const Wizard = (() => {
 
   // ── Steps ──────────────────────────────────────────────────────────────────
   const STEPS = [
-    { id: 'game',    label: 'Game',            valid: () => !!state.game },
-    { id: 'species', label: 'Species',         valid: () => !!state.speciesKey },
-    { id: 'career',  label: 'Career',          valid: () => !!state.careerKey },
-    { id: 'spec',    label: 'Specialization',  valid: () => !!state.specKey },
-    { id: 'chars',   label: 'Characteristics', valid: () => true },
-    { id: 'oms',     label: () => state.game === 'eote' ? 'Obligation' : state.game === 'aor' ? 'Duty' : 'Morality', valid: () => true },
-    { id: 'skills',  label: 'Skills',          valid: () => (state.freeCareerSkillPicks || []).length === 4 },
-    { id: 'details', label: 'Details',         valid: () => (state.name || '').trim().length > 0 },
-    { id: 'sheet',   label: 'Sheet',           valid: () => true },
+    { id: 'game',    label: 'Game',            tab: 'Game',    valid: () => !!state.game },
+    { id: 'species', label: 'Species',         tab: 'Species', valid: () => !!state.speciesKey },
+    { id: 'career',  label: 'Career',          tab: 'Career',  valid: () => !!state.careerKey },
+    { id: 'spec',    label: 'Specialization',  tab: 'Spec.',   valid: () => !!state.specKey },
+    { id: 'chars',   label: 'Characteristics', tab: 'Attrs',   valid: () => true },
+    { id: 'oms',     label: () => state.game === 'eote' ? 'Obligation' : state.game === 'aor' ? 'Duty' : 'Morality',
+                     tab:   () => state.game === 'eote' ? 'Oblig.'     : state.game === 'aor' ? 'Duty' : 'Morality',
+                     valid: () => true },
+    { id: 'skills',  label: 'Skills',          tab: 'Skills',  valid: () => (state.freeCareerSkillPicks || []).length === 4 },
+    { id: 'details', label: 'Details',         tab: 'Details', valid: () => (state.name || '').trim().length > 0 },
+    { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',   valid: () => true },
   ];
 
   // ── DOM helpers ────────────────────────────────────────────────────────────
@@ -484,8 +486,8 @@ const Wizard = (() => {
     const container = $('#progress-steps');
     container.innerHTML = STEPS.map((step, i) => {
       const cls = i < state.step ? 'done' : i === state.step ? 'active' : '';
-      const label = typeof step.label === 'function' ? step.label() : step.label;
-      return `<div class="progress-step ${cls}">${label}</div>`;
+      const tab = typeof step.tab === 'function' ? step.tab() : step.tab;
+      return `<div class="progress-step ${cls}">${tab}</div>`;
     }).join('');
   }
 
