@@ -455,17 +455,17 @@ const Wizard = (() => {
 
   // ── Steps ──────────────────────────────────────────────────────────────────
   const STEPS = [
-    { id: 'game',    label: 'Game',            tab: 'Game',    valid: () => !!state.game },
-    { id: 'species', label: 'Species',         tab: 'Species', valid: () => !!state.speciesKey },
-    { id: 'career',  label: 'Career',          tab: 'Career',  valid: () => !!state.careerKey },
-    { id: 'spec',    label: 'Specialization',  tab: 'Spec.',   valid: () => !!state.specKey },
-    { id: 'skills',  label: 'Skills',          tab: 'Skills',  valid: () => (state.freeCareerSkillPicks || []).length === 4 },
+    { id: 'details', label: 'Identity',        tab: 'Identity', valid: () => (state.name || '').trim().length > 0 },
+    { id: 'game',    label: 'Game',            tab: 'Game',     valid: () => !!state.game },
+    { id: 'species', label: 'Species',         tab: 'Species',  valid: () => !!state.speciesKey },
+    { id: 'career',  label: 'Career',          tab: 'Career',   valid: () => !!state.careerKey },
+    { id: 'spec',    label: 'Specialization',  tab: 'Spec.',    valid: () => !!state.specKey },
+    { id: 'skills',  label: 'Skills',          tab: 'Skills',   valid: () => (state.freeCareerSkillPicks || []).length === 4 },
     { id: 'oms',     label: () => state.game === 'eote' ? 'Obligation' : state.game === 'aor' ? 'Duty' : 'Morality',
                      tab:   () => state.game === 'eote' ? 'Oblig.'     : state.game === 'aor' ? 'Duty' : 'Morality',
                      valid: () => true },
-    { id: 'chars',   label: 'Characteristics', tab: 'Attrs',   valid: () => true },
-    { id: 'details', label: 'Details',         tab: 'Details', valid: () => (state.name || '').trim().length > 0 },
-    { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',   valid: () => true },
+    { id: 'chars',   label: 'Characteristics', tab: 'Attrs',    valid: () => true },
+    { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',    valid: () => true },
   ];
 
   // ── DOM helpers ────────────────────────────────────────────────────────────
@@ -505,7 +505,7 @@ const Wizard = (() => {
 
   function renderHeaderXp() {
     const bar = $('#header-xp');
-    if (!state.speciesKey || state.step < 4) { bar.classList.add('hidden'); return; }
+    if (!state.speciesKey || state.step < 5) { bar.classList.add('hidden'); return; }
     const d = Engine.derive(state);
     if (!d) return;
     bar.classList.remove('hidden');
@@ -1181,7 +1181,7 @@ const Wizard = (() => {
   function renderDetails() {
     const c = $('#step-content');
     c.innerHTML = `
-      <div class="step-header"><h2>Character Details</h2>
+      <div class="step-header"><h2>Identity</h2>
         <p>Name your character and fill in their background.</p></div>
       <div style="max-width:560px">
         <div class="form-section-title">Identity</div>
