@@ -1,6 +1,80 @@
 'use strict';
 
 const Wizard = (() => {
+  // ── Themes ────────────────────────────────────────────────────────────────
+  const THEMES = {
+    crawl:    { title:'Opening Crawl', sub:'(Default)',               bg:'#080b12', surface:'#111724', surface2:'#192030', border:'#263348', text:'#d8e4f0', muted:'#6a80a0', accent:'#ffe81f', accentBg:'rgba(255,232,31,0.08)',   accentBorder:'rgba(255,232,31,0.4)'   },
+    phantom:  { title:'Episode I',     sub:'The Phantom Menace',      bg:'#060201', surface:'#1a0e09', surface2:'#271510', border:'#4a2318', text:'#E0BEA4', muted:'#7C5341', accent:'#E2422D', accentBg:'rgba(226,66,45,0.08)',    accentBorder:'rgba(226,66,45,0.4)'    },
+    clones:   { title:'Episode II',    sub:'Attack of the Clones',    bg:'#0d0812', surface:'#1a1030', surface2:'#251848', border:'#133054', text:'#F9D98C', muted:'#5C85B3', accent:'#AD73B1', accentBg:'rgba(173,115,177,0.08)', accentBorder:'rgba(173,115,177,0.4)'  },
+    sith:     { title:'Episode III',   sub:'Revenge of the Sith',     bg:'#0c0503', surface:'#1c0d06', surface2:'#2c1508', border:'#4E200E', text:'#D5BD85', muted:'#A4A27E', accent:'#F3934C', accentBg:'rgba(243,147,76,0.08)',  accentBorder:'rgba(243,147,76,0.4)'   },
+    newhope:  { title:'Episode IV',    sub:'A New Hope',              bg:'#080810', surface:'#0e1020', surface2:'#151828', border:'#213165', text:'#ECE8D6', muted:'#1F72B8', accent:'#B99D31', accentBg:'rgba(185,157,49,0.08)',  accentBorder:'rgba(185,157,49,0.4)'   },
+    empire:   { title:'Episode V',     sub:'The Empire Strikes Back', bg:'#0d1015', surface:'#171f28', surface2:'#202c38', border:'#495363', text:'#D9D2C9', muted:'#715A62', accent:'#F49D67', accentBg:'rgba(244,157,103,0.08)', accentBorder:'rgba(244,157,103,0.4)'  },
+    jedi:     { title:'Episode VI',    sub:'Return of the Jedi',      bg:'#0c0e0b', surface:'#141e10', surface2:'#1c2c18', border:'#364A5C', text:'#DDD7D8', muted:'#418A45', accent:'#80B972', accentBg:'rgba(128,185,114,0.08)', accentBorder:'rgba(128,185,114,0.4)'  },
+    force:    { title:'The Force Awakens', sub:'Episode VII',         bg:'#020202', surface:'#0e0808', surface2:'#180e0e', border:'#2d1010', text:'#EBE6E9', muted:'#ABA49E', accent:'#CC463C', accentBg:'rgba(204,70,60,0.08)',   accentBorder:'rgba(204,70,60,0.4)'    },
+    lastjedi: { title:'The Last Jedi', sub:'Episode VIII',            bg:'#050405', surface:'#130808', surface2:'#1f0f0f', border:'#761F14', text:'#FFFFFF', muted:'#79808C', accent:'#C03927', accentBg:'rgba(192,57,39,0.08)',   accentBorder:'rgba(192,57,39,0.4)'    },
+    rogueone: { title:'Rogue One',     sub:'A Star Wars Story',       bg:'#0c1215', surface:'#141e25', surface2:'#1c2c35', border:'#2C4E61', text:'#DFDDD4', muted:'#73A9C7', accent:'#4B7B92', accentBg:'rgba(75,123,146,0.08)',  accentBorder:'rgba(75,123,146,0.4)'   },
+    solo:     { title:'Solo',          sub:'A Star Wars Story',       bg:'#0d0810', surface:'#180e20', surface2:'#221530', border:'#3d1a50', text:'#EFD34B', muted:'#DF7DAF', accent:'#783891', accentBg:'rgba(120,56,145,0.08)',  accentBorder:'rgba(120,56,145,0.4)'   },
+  };
+
+  function applyTheme(key) {
+    const t = THEMES[key] || THEMES.crawl;
+    const r = document.documentElement.style;
+    r.setProperty('--bg',            t.bg);
+    r.setProperty('--surface',       t.surface);
+    r.setProperty('--surface2',      t.surface2);
+    r.setProperty('--border',        t.border);
+    r.setProperty('--text',          t.text);
+    r.setProperty('--muted',         t.muted);
+    r.setProperty('--accent',        t.accent);
+    r.setProperty('--accent-bg',     t.accentBg);
+    r.setProperty('--accent-border', t.accentBorder);
+    localStorage.setItem('sw_theme', key);
+  }
+
+  function initTheme() {
+    applyTheme(localStorage.getItem('sw_theme') || 'crawl');
+  }
+
+  function openThemePanel() {
+    const modal = $('#theme-modal');
+    const current = localStorage.getItem('sw_theme') || 'crawl';
+    modal.innerHTML = `
+      <div class="theme-modal-inner">
+        <div class="theme-modal-header">
+          <h3>Color Theme</h3>
+          <button class="theme-close-btn" id="theme-close">&#x2715;</button>
+        </div>
+        <div class="theme-swatches">
+          ${Object.entries(THEMES).map(([key, t]) => `
+            <div class="theme-swatch${key === current ? ' ts-active' : ''}" data-theme="${key}">
+              <div class="theme-swatch-colors">
+                <div style="background:${t.bg};flex:3"></div>
+                <div style="background:${t.surface};flex:2"></div>
+                <div style="background:${t.accent};flex:2"></div>
+                <div style="background:${t.text};flex:1"></div>
+              </div>
+              <div class="theme-swatch-label">
+                <div class="theme-swatch-title">${t.title}</div>
+                <div class="theme-swatch-sub">${t.sub}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    modal.classList.remove('hidden');
+    modal.addEventListener('click', function handler(e) {
+      const sw = e.target.closest('[data-theme]');
+      if (sw) {
+        applyTheme(sw.dataset.theme);
+        modal.querySelectorAll('.theme-swatch').forEach(el =>
+          el.classList.toggle('ts-active', el.dataset.theme === sw.dataset.theme));
+      }
+      if (e.target === modal || e.target.closest('#theme-close')) {
+        modal.classList.add('hidden');
+        modal.removeEventListener('click', handler);
+      }
+    });
+  }
+
   // ── State ─────────────────────────────────────────────────────────────────
   function defaultState() {
     return {
@@ -1382,9 +1456,11 @@ const Wizard = (() => {
 
   // ── Init ──────────────────────────────────────────────────────────────────
   function init() {
+    initTheme();
     loadState();
     $('#btn-next').addEventListener('click', next);
     $('#btn-back').addEventListener('click', back);
+    $('#btn-settings').addEventListener('click', openThemePanel);
     render();
   }
 
