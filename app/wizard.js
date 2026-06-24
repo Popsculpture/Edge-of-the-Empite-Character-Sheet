@@ -459,11 +459,11 @@ const Wizard = (() => {
     { id: 'species', label: 'Species',         tab: 'Species', valid: () => !!state.speciesKey },
     { id: 'career',  label: 'Career',          tab: 'Career',  valid: () => !!state.careerKey },
     { id: 'spec',    label: 'Specialization',  tab: 'Spec.',   valid: () => !!state.specKey },
+    { id: 'skills',  label: 'Skills',          tab: 'Skills',  valid: () => (state.freeCareerSkillPicks || []).length === 4 },
     { id: 'oms',     label: () => state.game === 'eote' ? 'Obligation' : state.game === 'aor' ? 'Duty' : 'Morality',
                      tab:   () => state.game === 'eote' ? 'Oblig.'     : state.game === 'aor' ? 'Duty' : 'Morality',
                      valid: () => true },
     { id: 'chars',   label: 'Characteristics', tab: 'Attrs',   valid: () => true },
-    { id: 'skills',  label: 'Skills',          tab: 'Skills',  valid: () => (state.freeCareerSkillPicks || []).length === 4 },
     { id: 'details', label: 'Details',         tab: 'Details', valid: () => (state.name || '').trim().length > 0 },
     { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',   valid: () => true },
   ];
