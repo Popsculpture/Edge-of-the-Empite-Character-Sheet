@@ -20,6 +20,7 @@ const Sheet = (() => {
         ${derivedBlock(derived)}
         ${abilitiesBlock(species, state)}
         ${skillsBlock(derived)}
+        ${equipmentBlock(state, derived)}
         ${spec ? treeBlock(spec) : ''}
         <div class="print-btn">
           <button class="btn btn-secondary btn-sm" onclick="window.print()">Print / Save as PDF</button>
@@ -167,6 +168,57 @@ const Sheet = (() => {
           Bonus career skills: <strong style="color:var(--text)">${(spec.bonus_career_skills||[]).join(', ')}</strong></div>
         <div class="sheet-tree-display">${rows}</div>
         <p style="margin-top:10px;font-size:0.75rem;color:var(--muted)">Talent connection topology not yet encoded — purchase order shown by tier cost only.</p>
+      </div>`;
+  }
+
+  function equipmentBlock(state, derived) {
+    const eq = state.equipment || {};
+    const dmg = w => (w.damage === '' || w.damage == null) ? '—' : (w.damageType === 'add' ? '+' + w.damage : '' + w.damage);
+    const cr  = n => (typeof n === 'number' ? n.toLocaleString('en-US') : (n || '—'));
+
+    function lines(cat, fmt) {
+      const bag = eq[cat] || {};
+      const keys = Object.keys(bag).filter(k => bag[k] && bag[k].qty);
+      return keys.map(k => {
+        const it = Engine.getItem(cat, k);
+        if (!it) return '';
+        return fmt(it, bag[k]);
+      }).join('');
+    }
+
+    const wRows = lines('weapon', (w, l) => `
+      <div class="sheet-eq-row">
+        <span class="sheet-eq-name">${esc(w.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
+        <span class="sheet-eq-meta">${esc(w.skill || '')} &middot; Dmg ${dmg(w)} &middot; Crit ${w.crit ?? '—'} &middot; ${esc(w.range || '')}${(w.qualities||[]).length ? ' &middot; ' + w.qualities.map(q => esc(q.name) + (q.count ? ' ' + q.count : '')).join(', ') : ''}</span>
+      </div>`);
+
+    const aRows = lines('armor', (a, l) => `
+      <div class="sheet-eq-row">
+        <span class="sheet-eq-name">${esc(a.name)}${derived && derived.worn_armor === a.key ? ' <em class="sheet-eq-worn">(worn)</em>' : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
+        <span class="sheet-eq-meta">Soak +${a.soak ?? 0} &middot; Defense +${a.defense ?? 0} &middot; Enc ${a.encumbrance ?? '—'}</span>
+      </div>`);
+
+    const gRows = lines('gear', (g, l) => `
+      <div class="sheet-eq-row">
+        <span class="sheet-eq-name">${esc(g.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
+        <span class="sheet-eq-meta">${esc(g.type || '')}${g.encumbrance ? ' &middot; Enc ' + g.encumbrance : ''}</span>
+      </div>`);
+
+    if (!wRows && !aRows && !gRows) return '';
+
+    const sub = (title, rows) => rows
+      ? `<div class="sheet-eq-group"><div class="sheet-eq-group-title">${title}</div>${rows}</div>` : '';
+
+    const remain = derived ? derived.credits_remaining : 0;
+    return `
+      <div class="sheet-panel" style="grid-column:1/-1">
+        <div class="sheet-panel-title">Equipment
+          <span style="font-size:0.7em;font-weight:400;color:var(--muted)">(${cr(remain)} cr unspent)</span></div>
+        <div class="sheet-eq-cols">
+          ${sub('Weapons', wRows)}
+          ${sub('Armor', aRows)}
+          ${sub('Gear', gRows)}
+        </div>
       </div>`;
   }
 

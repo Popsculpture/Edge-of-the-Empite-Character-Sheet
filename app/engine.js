@@ -65,6 +65,30 @@ const Engine = (() => {
   function getSkill(key)    { return SW.skills.find(s => s.key === key); }
   function getTalent(name)  { return SW.talents.find(t => t.name.toLowerCase() === name.toLowerCase()); }
 
+  // Equipment lookups (lazy key maps for speed across ~1,100 items)
+  let _eqMaps = null;
+  function eqMaps() {
+    if (!_eqMaps) {
+      const idx = list => { const m = {}; for (const it of (list || [])) m[it.key] = it; return m; };
+      _eqMaps = { weapon: idx(SW.weapons), armor: idx(SW.armor), gear: idx(SW.gear) };
+    }
+    return _eqMaps;
+  }
+  function getWeapon(key) { return eqMaps().weapon[key] || null; }
+  function getArmor(key)  { return eqMaps().armor[key]  || null; }
+  function getGear(key)   { return eqMaps().gear[key]   || null; }
+  function getItem(cat, key) {
+    return cat === 'weapon' ? getWeapon(key) : cat === 'armor' ? getArmor(key) : getGear(key);
+  }
+
+  // Additional starting credits granted by extra Obligation / Duty (core rulebooks)
+  function creditBonusFor(extra) {
+    if (extra >= 10) return 2500;
+    if (extra >= 5)  return 1000;
+    return 0;
+  }
+  const BASE_STARTING_CREDITS = 500;
+
   // Get spec bonus skill keys (converting display names to keys)
   function specBonusSkillKeys(spec) {
     if (!spec) return [];
@@ -106,6 +130,37 @@ const Engine = (() => {
     const xpSpent     = totalCharXp(species, chars) + talentXp;
     const xpRemaining = startingXp - xpSpent;
 
+    // ── Starting credits + equipment spend ───────────────────────────────
+    let omsCreditBonus = 0;
+    if (state.game === 'eote') {
+      const obl = state.obligation || {};
+      if (obl.bonusType === 'credits') omsCreditBonus = creditBonusFor((obl.magnitude || 10) - 10);
+    } else if (state.game === 'aor') {
+      const duty = state.duty || {};
+      if (duty.bonusType === 'credits') omsCreditBonus = creditBonusFor(duty.deficit || 0);
+    }
+    const startingCredits = BASE_STARTING_CREDITS + omsCreditBonus;
+
+    const eq = state.equipment || {};
+    let creditsSpent = 0, encumbrance = 0, wornArmor = null;
+    for (const cat of ['weapon', 'armor', 'gear']) {
+      const bag = eq[cat] || {};
+      for (const key of Object.keys(bag)) {
+        const line = bag[key];
+        if (!line || !line.qty) continue;
+        const item = getItem(cat, key);
+        if (!item) continue;
+        const price = typeof item.price === 'number' ? item.price : 0;
+        const enc   = typeof item.encumbrance === 'number' ? item.encumbrance : 0;
+        if (!line.free) creditsSpent += price * line.qty;
+        encumbrance += enc * line.qty;
+        if (cat === 'armor' && (!wornArmor || (item.soak || 0) > (wornArmor.soak || 0))) wornArmor = item;
+      }
+    }
+    const creditsRemaining = startingCredits - creditsSpent;
+    const armorSoak    = wornArmor ? (wornArmor.soak    || 0) : 0;
+    const armorDefense = wornArmor ? (wornArmor.defense || 0) : 0;
+
     const careerSkillKeys = career ? (career.career_skill_keys || []) : [];
     const bonusSkillKeys  = specBonusSkillKeys(spec);
     const freePickKeys    = state.freeCareerSkillPicks || [];
@@ -122,12 +177,18 @@ const Engine = (() => {
     return {
       wound_threshold:  (species.wound_threshold  || 10) + (chars[wtStat]  || 2),
       strain_threshold: (species.strain_threshold || 10) + (chars[stStat] || 2),
-      soak:             chars.brawn || 1,
-      defense_ranged:   0,
-      defense_melee:    0,
+      soak:             (chars.brawn || 1) + armorSoak,
+      defense_ranged:   armorDefense,
+      defense_melee:    armorDefense,
       starting_xp:      startingXp,
       xp_spent:         xpSpent,
       xp_remaining:     xpRemaining,
+      starting_credits:  startingCredits,
+      credits_spent:     creditsSpent,
+      credits_remaining: creditsRemaining,
+      encumbrance:           encumbrance,
+      encumbrance_threshold: (chars.brawn || 0) + 5,
+      worn_armor:        wornArmor ? wornArmor.key : null,
       career_skill_keys: careerSkillKeys,
       bonus_skill_keys:  bonusSkillKeys,
       skill_ranks:       skillRanks,
@@ -139,6 +200,8 @@ const Engine = (() => {
     xpToRaise, totalCharXp,
     nameToKey, skillNameMap,
     getSpecies, getCareer, getSpec, getSkill, getTalent,
+    getWeapon, getArmor, getGear, getItem,
+    creditBonusFor,
     specBonusSkillKeys,
     derive,
   };

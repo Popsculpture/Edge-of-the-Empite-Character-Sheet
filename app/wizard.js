@@ -101,6 +101,7 @@ const Wizard = (() => {
       beginningsText:     '',
       forceAttitudeText:  '',
       motivationText:     '',
+      equipment:          { weapon: {}, armor: {}, gear: {} },
     };
   }
 
@@ -109,6 +110,16 @@ const Wizard = (() => {
   // UI-only filter state for the species step (persists across re-renders)
   let _spBook       = '';
   let _spArchetypes = new Set();
+
+  // UI-only state for the Equipment step (persists across re-renders)
+  let _eqCat  = 'weapon';   // active storefront: weapon | armor | gear
+  let _eqMode = false;      // acquisition mode: false = Purchase, true = Acquire Free
+  const _eqFilter = {
+    weapon: { q: '', type: '', rarity: '', core: false, afford: false, hideR: false },
+    armor:  { q: '', type: '', rarity: '', core: false, afford: false, hideR: false },
+    gear:   { q: '', type: '', rarity: '', core: false, afford: false, hideR: false },
+  };
+  const _EQ_CAP = 200;      // max rows rendered per storefront (perf guard)
 
   function saveState() {
     try { localStorage.setItem('sw_char_v1', JSON.stringify(state)); } catch(e) {}
@@ -549,6 +560,7 @@ const Wizard = (() => {
                      valid: () => true },
     { id: 'chars',   label: 'Characteristics', tab: 'Attrs',    valid: () => true },
     { id: 'talents', label: 'Talents',         tab: 'Talents',  valid: () => true },
+    { id: 'equip',   label: 'Equipment',       tab: 'Gear',     valid: () => true },
     { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',    valid: () => true },
   ];
 
@@ -564,6 +576,7 @@ const Wizard = (() => {
     renderStep();
     renderNav();
     renderHeaderXp();
+    renderHeaderCredits();
     document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
   }
 
@@ -601,12 +614,32 @@ const Wizard = (() => {
       <span class="xp-remain">Remaining <strong>${d.xp_remaining}</strong></span>`;
   }
 
+  function renderHeaderCredits() {
+    const bar = $('#header-credits');
+    if (!bar) return;
+    if (!state.speciesKey || STEPS[state.step].id !== 'equip') { bar.classList.add('hidden'); return; }
+    const d = Engine.derive(state);
+    if (!d) { bar.classList.add('hidden'); return; }
+    bar.className = 'header-credits' + (d.credits_remaining < 0 ? ' cr-warn' : '');
+    bar.innerHTML = `
+      <span>Starting Credits <strong>${fmtCr(d.starting_credits)}</strong></span>
+      <span>Spent <strong>${fmtCr(d.credits_spent)}</strong></span>
+      <span class="cr-remain">Remaining <strong>${fmtCr(d.credits_remaining)}</strong></span>`;
+  }
+
+  function fmtCr(n) {
+    const neg = n < 0;
+    const s = Math.abs(Math.round(n)).toLocaleString('en-US');
+    return (neg ? '-' : '') + s;
+  }
+
   function renderStep() {
     const content = $('#step-content');
     content.innerHTML = '';
     const fns = { game: renderGame, species: renderSpecies, career: renderCareer,
                   spec: renderSpec, skills: renderSkills, oms: renderOMS, chars: renderChars,
-                  talents: renderTalents, details: renderDetails, sheet: renderSheet };
+                  talents: renderTalents, details: renderDetails, equip: renderEquip,
+                  sheet: renderSheet };
     fns[STEPS[state.step].id]();
   }
 
@@ -1088,12 +1121,12 @@ const Wizard = (() => {
             <div class="oms-tile${extra === 5 ? ' selected' : ''}" data-extra="5">
               <div class="oms-tile-title">+5 Obligation</div>
               <div class="oms-tile-sub">Total: 15</div>
-              <div class="oms-tile-bonus">+5 XP or +2,500 Credits</div>
+              <div class="oms-tile-bonus">+5 XP or +1,000 Credits</div>
             </div>
             <div class="oms-tile${extra === 10 ? ' selected' : ''}" data-extra="10">
               <div class="oms-tile-title">+10 Obligation</div>
               <div class="oms-tile-sub">Total: 20</div>
-              <div class="oms-tile-bonus">+10 XP or +5,000 Credits</div>
+              <div class="oms-tile-bonus">+10 XP or +2,500 Credits</div>
             </div>
           </div>
           ${extra > 0 ? `
@@ -1102,7 +1135,7 @@ const Wizard = (() => {
               <input type="radio" name="obl-bonus" value="xp"${btype === 'xp' ? ' checked' : ''}> +${extra} Starting XP
             </label>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.88rem;white-space:nowrap">
-              <input type="radio" name="obl-bonus" value="credits"${btype === 'credits' ? ' checked' : ''}> +${extra === 5 ? '2,500' : '5,000'} Starting Credits
+              <input type="radio" name="obl-bonus" value="credits"${btype === 'credits' ? ' checked' : ''}> +${extra === 5 ? '1,000' : '2,500'} Starting Credits
             </label>
           </div>` : ''}
         </div>`;
@@ -1536,6 +1569,303 @@ const Wizard = (() => {
         if (canBuy(r,col))  { purchases[idx]=true;  saveState(); renderTalents(); renderHeaderXp(); }
       }
     });
+  }
+
+  // ── Step: Equipment ───────────────────────────────────────────────────────
+  const EQ_GLYPHS = {
+    '[BOOST]': 'boost', '[SETBACK]': 'setback', '[ADVANTAGE]': 'advantage',
+    '[THREAT]': 'threat', '[DIFFICULTY]': 'difficulty', '[SUCCESS]': 'success',
+    '[FAILURE]': 'failure', '[TRIUMPH]': 'triumph', '[DESPAIR]': 'despair',
+    '[FORCE]': 'Force', '[RESTRICTED]': '(R)',
+  };
+  function glyphify(s) {
+    if (!s) return '';
+    return s.replace(/\[[A-Z]+\]/g, m => EQ_GLYPHS[m] !== undefined ? EQ_GLYPHS[m] : '');
+  }
+
+  const EQ_STORE = {
+    weapon: { label: 'Weapons', list: () => SW.weapons || [] },
+    armor:  { label: 'Armor',   list: () => SW.armor   || [] },
+    gear:   { label: 'Gear',    list: () => SW.gear    || [] },
+  };
+
+  function eqBag(cat) {
+    if (!state.equipment) state.equipment = { weapon: {}, armor: {}, gear: {} };
+    if (!state.equipment[cat]) state.equipment[cat] = {};
+    return state.equipment[cat];
+  }
+  function ownedQty(cat, key) { const l = eqBag(cat)[key]; return l ? l.qty : 0; }
+
+  // The value(s) a given item exposes to the "type" filter
+  function itemTypeValues(cat, item) {
+    if (cat === 'armor') return item.categories || [];
+    return item.type ? [item.type] : [];
+  }
+  function typeOptionsFor(cat) {
+    const set = new Set();
+    for (const it of EQ_STORE[cat].list()) for (const t of itemTypeValues(cat, it)) if (t) set.add(t);
+    return [...set].sort();
+  }
+
+  function priceNum(item) { return typeof item.price === 'number' ? item.price : null; }
+  function priceLabel(item) {
+    const p = priceNum(item);
+    return p === null ? (item.price || '—') : fmtCr(p);
+  }
+  function dmgDisplay(w) {
+    if (w.damage === '' || w.damage === null || w.damage === undefined) return '—';
+    return w.damageType === 'add' ? '+' + w.damage : '' + w.damage;
+  }
+  function rarityLabel(item) {
+    const r = typeof item.rarity === 'number' ? item.rarity : null;
+    return r === null ? '—' : String(r);
+  }
+
+  function renderEquip() {
+    const c = $('#step-content');
+    if (!state.speciesKey) { c.innerHTML = '<div class="empty-state">Please select a species first.</div>'; return; }
+    if (!SW.weapons || !SW.armor || !SW.gear) {
+      c.innerHTML = '<div class="empty-state">Equipment data failed to load.</div>'; return;
+    }
+
+    const tabs = Object.keys(EQ_STORE).map(cat =>
+      `<button class="equip-tab${_eqCat === cat ? ' active' : ''}" data-cat="${cat}">
+        ${EQ_STORE[cat].label}<span class="equip-tab-count">${EQ_STORE[cat].list().length}</span>
+      </button>`).join('');
+
+    c.innerHTML = `
+      <div class="step-header"><h2>Equipment</h2>
+        <p>Spend your starting credits on weapons, armor, and gear. Each character begins with
+           <strong>500 credits</strong> (plus any granted by Obligation or Duty). Restricted
+           <span class="r-badge">R</span> items normally require GM approval &mdash; use
+           <strong>Acquire Free</strong> to add anything without spending credits.</p></div>
+      <div class="equip-tabs">${tabs}</div>
+      <div class="equip-layout">
+        <div class="equip-shop">
+          <div class="equip-toolbar" id="eq-toolbar"></div>
+          <div class="equip-results" id="eq-results"></div>
+          <div class="equip-list" id="eq-list"></div>
+        </div>
+        <aside class="equip-cart" id="eq-cart"></aside>
+      </div>`;
+
+    drawToolbar();
+    drawList();
+    drawCart();
+
+    $('.equip-tabs').addEventListener('click', e => {
+      const t = e.target.closest('[data-cat]');
+      if (!t) return;
+      _eqCat = t.dataset.cat;
+      $('.equip-tabs').querySelectorAll('.equip-tab').forEach(b =>
+        b.classList.toggle('active', b.dataset.cat === _eqCat));
+      drawToolbar(); drawList();
+    });
+
+    $('#eq-list').addEventListener('click', e => {
+      const btn = e.target.closest('[data-add]');
+      if (!btn) return;
+      addItem(_eqCat, btn.dataset.add);
+    });
+
+    $('#eq-cart').addEventListener('click', e => {
+      const el = e.target.closest('[data-act]');
+      if (!el) return;
+      const { act, cat, key } = el.dataset;
+      if (act === 'inc')  setQty(cat, key, ownedQty(cat, key) + 1);
+      if (act === 'dec')  setQty(cat, key, ownedQty(cat, key) - 1);
+      if (act === 'rm')   setQty(cat, key, 0);
+      if (act === 'free') toggleFree(cat, key);
+    });
+  }
+
+  function drawToolbar() {
+    const f = _eqFilter[_eqCat];
+    const typeOpts = typeOptionsFor(_eqCat).map(t =>
+      `<option value="${esc(t)}"${f.type === t ? ' selected' : ''}>${esc(t)}</option>`).join('');
+    const rarOpts = ['', 0,1,2,3,4,5,6,7,8,9,10].map(r =>
+      `<option value="${r}"${String(f.rarity) === String(r) ? ' selected' : ''}>${r === '' ? 'Any rarity' : '≤ ' + r}</option>`).join('');
+
+    $('#eq-toolbar').innerHTML = `
+      <input type="search" id="eq-q" placeholder="Search ${EQ_STORE[_eqCat].label.toLowerCase()}..." value="${esc(f.q)}">
+      <select id="eq-type"><option value="">All types</option>${typeOpts}</select>
+      <select id="eq-rarity">${rarOpts}</select>
+      <label class="eq-check"><input type="checkbox" id="eq-core"${f.core ? ' checked' : ''}> Core only</label>
+      <label class="eq-check"><input type="checkbox" id="eq-afford"${f.afford ? ' checked' : ''}> Affordable</label>
+      <label class="eq-check"><input type="checkbox" id="eq-hideR"${f.hideR ? ' checked' : ''}> Hide <span class="r-badge">R</span></label>
+      <div class="eq-mode">
+        <button class="eq-mode-btn${!_eqMode ? ' active' : ''}" id="eq-mode-buy">Purchase</button>
+        <button class="eq-mode-btn${_eqMode ? ' active' : ''}" id="eq-mode-free">Acquire Free</button>
+      </div>`;
+
+    $('#eq-q').addEventListener('input', e => { f.q = e.target.value; drawList(); });
+    $('#eq-type').addEventListener('change', e => { f.type = e.target.value; drawList(); });
+    $('#eq-rarity').addEventListener('change', e => { f.rarity = e.target.value; drawList(); });
+    $('#eq-core').addEventListener('change', e => { f.core = e.target.checked; drawList(); });
+    $('#eq-afford').addEventListener('change', e => { f.afford = e.target.checked; drawList(); });
+    $('#eq-hideR').addEventListener('change', e => { f.hideR = e.target.checked; drawList(); });
+    $('#eq-mode-buy').addEventListener('click', () => { _eqMode = false; syncMode(); });
+    $('#eq-mode-free').addEventListener('click', () => { _eqMode = true; syncMode(); });
+  }
+
+  function syncMode() {
+    const buy = $('#eq-mode-buy'), free = $('#eq-mode-free');
+    if (buy)  buy.classList.toggle('active', !_eqMode);
+    if (free) free.classList.toggle('active', _eqMode);
+  }
+
+  function filteredList(cat) {
+    const f = _eqFilter[cat];
+    const d = Engine.derive(state);
+    const rem = d ? d.credits_remaining : 0;
+    const q = f.q.trim().toLowerCase();
+    return EQ_STORE[cat].list().filter(it => {
+      if (q && !it.name.toLowerCase().includes(q)) return false;
+      if (f.type && !itemTypeValues(cat, it).includes(f.type)) return false;
+      if (f.rarity !== '' && (typeof it.rarity !== 'number' || it.rarity > +f.rarity)) return false;
+      if (f.core && !it.core) return false;
+      if (f.hideR && it.restricted) return false;
+      if (f.afford) { const p = priceNum(it); if (p !== null && p > rem) return false; }
+      return true;
+    });
+  }
+
+  function drawList() {
+    const list = filteredList(_eqCat);
+    const resEl = $('#eq-results');
+    const shown = Math.min(list.length, _EQ_CAP);
+    resEl.innerHTML = list.length
+      ? `Showing <strong>${shown}</strong>${list.length > _EQ_CAP ? ` of ${list.length} (refine filters to see more)` : ''} &middot; mode: <strong>${_eqMode ? 'Acquire Free' : 'Purchase'}</strong>`
+      : '';
+
+    const el = $('#eq-list');
+    if (!list.length) { el.innerHTML = '<div class="empty-state">No items match these filters.</div>'; return; }
+    el.innerHTML = list.slice(0, _EQ_CAP).map(it => itemRowHtml(_eqCat, it)).join('');
+  }
+
+  function statChip(label, val) {
+    return `<span class="eq-stat"><i>${label}</i>${val}</span>`;
+  }
+
+  function itemRowHtml(cat, it) {
+    const owned = ownedQty(cat, it.key);
+    const rBadge = it.restricted ? '<span class="r-badge" title="Restricted - normally requires GM approval">R</span>' : '';
+    const ownedBadge = owned ? `<span class="eq-owned">Owned &times;${owned}</span>` : '';
+    let stats = '';
+    if (cat === 'weapon') {
+      const quals = (it.qualities || []).map(q =>
+        `<span class="eq-qual" title="${esc(glyphify((SW.weaponQualities[q.key]||{}).desc || ''))}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('');
+      stats = `
+        ${statChip('Dmg', dmgDisplay(it))}
+        ${statChip('Crit', it.crit ?? '—')}
+        ${statChip('Range', it.range || '—')}
+        ${statChip('Enc', it.encumbrance ?? '—')}
+        ${statChip('HP', it.hp ?? '—')}
+        ${statChip('Rarity', rarityLabel(it))}
+        <span class="eq-skill">${esc(it.skill || '')}</span>
+        <div class="eq-quals">${quals}</div>`;
+    } else if (cat === 'armor') {
+      stats = `
+        ${statChip('Soak', '+' + (it.soak ?? 0))}
+        ${statChip('Def', '+' + (it.defense ?? 0))}
+        ${statChip('Enc', it.encumbrance ?? '—')}
+        ${statChip('HP', it.hp ?? '—')}
+        ${statChip('Rarity', rarityLabel(it))}`;
+    } else {
+      stats = `
+        ${statChip('Enc', it.encumbrance ?? '—')}
+        ${statChip('Rarity', rarityLabel(it))}
+        ${it.type ? `<span class="eq-skill">${esc(it.type)}</span>` : ''}
+        ${it.short ? `<div class="eq-short">${esc(glyphify(it.short))}</div>` : ''}`;
+    }
+    return `
+      <div class="eq-row${owned ? ' owned' : ''}">
+        <div class="eq-row-main">
+          <div class="eq-row-head"><span class="eq-name">${esc(it.name)}</span>${rBadge}${ownedBadge}</div>
+          <div class="eq-stats">${stats}</div>
+        </div>
+        <div class="eq-row-buy">
+          <div class="eq-price">${priceLabel(it)}<i>cr</i></div>
+          <button class="btn btn-primary btn-sm" data-add="${it.key}">${_eqMode ? '+ Free' : '+ Buy'}</button>
+        </div>
+      </div>`;
+  }
+
+  function drawCart() {
+    const d = Engine.derive(state);
+    const el = $('#eq-cart');
+    let sections = '';
+    let restrictedOwned = 0;
+    for (const cat of ['weapon', 'armor', 'gear']) {
+      const bag = eqBag(cat);
+      const keys = Object.keys(bag).filter(k => bag[k] && bag[k].qty);
+      if (!keys.length) continue;
+      const rows = keys.map(key => {
+        const line = bag[key];
+        const it = Engine.getItem(cat, key);
+        if (!it) return '';
+        if (it.restricted && !line.free) restrictedOwned++;
+        const p = priceNum(it);
+        const lineCost = line.free ? '<span class="cart-free">FREE</span>'
+                                   : (p === null ? '—' : fmtCr(p * line.qty));
+        const worn = cat === 'armor' && d && d.worn_armor === key
+          ? '<span class="cart-worn" title="Highest-Soak armor: counts toward Soak/Defense">worn</span>' : '';
+        return `
+          <div class="cart-row">
+            <div class="cart-row-top">
+              <span class="cart-name">${esc(it.name)}${worn}</span>
+              <button class="cart-x" data-act="rm" data-cat="${cat}" data-key="${key}" title="Remove">&times;</button>
+            </div>
+            <div class="cart-row-ctl">
+              <div class="cart-qty">
+                <button data-act="dec" data-cat="${cat}" data-key="${key}">&minus;</button>
+                <span>${line.qty}</span>
+                <button data-act="inc" data-cat="${cat}" data-key="${key}">+</button>
+              </div>
+              <label class="cart-freebox"><input type="checkbox" data-act="free" data-cat="${cat}" data-key="${key}"${line.free ? ' checked' : ''}> free</label>
+              <span class="cart-cost">${lineCost}</span>
+            </div>
+          </div>`;
+      }).join('');
+      sections += `<div class="cart-section"><div class="cart-section-title">${EQ_STORE[cat].label}</div>${rows}</div>`;
+    }
+
+    const encOver = d && d.encumbrance > d.encumbrance_threshold;
+    el.innerHTML = `
+      <div class="cart-head">Loadout</div>
+      ${sections || '<div class="cart-empty">Nothing acquired yet.<br>Add items from the shop to build your loadout.</div>'}
+      <div class="cart-totals">
+        <div class="cart-total-row"><span>Spent</span><strong>${d ? fmtCr(d.credits_spent) : 0} cr</strong></div>
+        <div class="cart-total-row${d && d.credits_remaining < 0 ? ' cart-neg' : ''}"><span>Remaining</span><strong>${d ? fmtCr(d.credits_remaining) : 0} cr</strong></div>
+        <div class="cart-total-row${encOver ? ' cart-warn' : ''}"><span>Encumbrance</span><strong>${d ? d.encumbrance : 0} / ${d ? d.encumbrance_threshold : 5}</strong></div>
+      </div>
+      ${restrictedOwned ? `<div class="cart-note">${restrictedOwned} restricted item${restrictedOwned > 1 ? 's' : ''} purchased &mdash; normally needs GM approval.</div>` : ''}
+      ${d && d.credits_remaining < 0 ? '<div class="cart-note cart-note-warn">You are over budget. Remove items or mark some as free.</div>' : ''}`;
+  }
+
+  function afterEquipChange() {
+    saveState();
+    drawCart();
+    renderHeaderCredits();
+    // refresh visible rows so owned badges / affordability reflect the new state
+    drawList();
+  }
+  function addItem(cat, key) {
+    const bag = eqBag(cat);
+    if (bag[key] && bag[key].qty) bag[key].qty++;
+    else bag[key] = { qty: 1, free: _eqMode };
+    afterEquipChange();
+  }
+  function setQty(cat, key, qty) {
+    const bag = eqBag(cat);
+    if (!bag[key]) return;
+    if (qty <= 0) delete bag[key];
+    else bag[key].qty = qty;
+    afterEquipChange();
+  }
+  function toggleFree(cat, key) {
+    const bag = eqBag(cat);
+    if (bag[key]) { bag[key].free = !bag[key].free; afterEquipChange(); }
   }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────
