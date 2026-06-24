@@ -608,6 +608,9 @@ const Wizard = (() => {
           <option value="">All Books</option>
           ${bookOptions}
         </select>
+        <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--muted);white-space:nowrap;cursor:pointer">
+          <input type="checkbox" id="sp-show-homebrew"> Show homebrew
+        </label>
       </div>
       <div class="arch-pills" id="sp-arch">${archPills}</div>
       <div class="species-grid" id="sp-grid"></div>`;
@@ -617,7 +620,9 @@ const Wizard = (() => {
       const search = ($('#sp-search').value || '').toLowerCase();
       grid.innerHTML = '';
 
+      const showSpHomebrew = $('#sp-show-homebrew').checked;
       const list = SW.species.filter(sp => {
+        if (sp.homebrew && !showSpHomebrew) return false;
         if (search && !sp.name.toLowerCase().includes(search)) return false;
         if (_spBook) {
           const spBooks = (sp.sources || []).map(sourceBookName);
@@ -650,7 +655,10 @@ const Wizard = (() => {
           named.length   ? `<div><span class="sp-key">Abilities</span><span class="sp-val">${named.map(n => tipLink('ability', n, sp.key)).join(', ')}</span></div>` : '',
         ].join('');
         card.innerHTML = `
-          <h3>${sp.name}</h3>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+            <h3 style="margin:0">${sp.name}</h3>
+            ${sp.homebrew ? `<span class="homebrew-badge" title="${sp.homebrew_source}">Homebrew</span>` : ''}
+          </div>
           <div class="char-pips">${pips}</div>
           <div class="sp-stats">${statRows}</div>`;
         card.addEventListener('click', () => {
@@ -673,6 +681,7 @@ const Wizard = (() => {
     draw();
     $('#sp-search').addEventListener('input', draw);
     $('#sp-book').addEventListener('change', e => { _spBook = e.target.value; draw(); });
+    $('#sp-show-homebrew').addEventListener('change', draw);
     $('#sp-arch').addEventListener('click', e => {
       const pill = e.target.closest('[data-arch]');
       if (!pill) return;

@@ -20,7 +20,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fires of Resistance: An Unofficial Era Sourcebook (Page 2)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance (unofficial)"
   },
   {
     "key": "aki_aki",
@@ -42,7 +44,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fires of Resistance: An Unofficial Era Sourcebook (Page 2-4)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance (unofficial)"
   },
   {
     "key": "aleena",
@@ -64,7 +68,9 @@ window.SW.species = [
     ],
     "sources": [
       "Nexus of Power: A Sourcebook of Worlds Strong in the Force (Page 98)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "anx",
@@ -87,7 +93,9 @@ window.SW.species = [
     ],
     "sources": [
       "Savage Spirits: A Sourcebook for Seekers (Page 18-19)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "aqualish",
@@ -112,7 +120,9 @@ window.SW.species = [
     ],
     "sources": [
       "Dangerous Covenants: A Sourcebook for Hired Guns (Page 19-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "arcona",
@@ -134,7 +144,9 @@ window.SW.species = [
     ],
     "sources": [
       "Far Horizons: A Sourcebook for Colonists (Page 19-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "arkanian",
@@ -156,7 +168,9 @@ window.SW.species = [
     ],
     "sources": [
       "Disciples of Harmony: A Sourcebook for Consulars (Page 16-17)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "balosar",
@@ -178,7 +192,9 @@ window.SW.species = [
     ],
     "sources": [
       "Cyphers and Masks: A Sourcebook for Spies (Page 19-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "bardottan",
@@ -199,7 +215,9 @@ window.SW.species = [
     ],
     "sources": [
       "Nexus of Power: A Sourcebook of Worlds Strong in the Force (Page 98-100)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "besalisk",
@@ -221,7 +239,9 @@ window.SW.species = [
     ],
     "sources": [
       "Special Modifications: A Sourcebook for Technicians (Page 20-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "bith",
@@ -243,7 +263,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fully Operational: A Sourcebook for Engineers (Page 18-19)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "bothan",
@@ -264,7 +286,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 51-52)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "caamasi",
@@ -286,7 +310,9 @@ window.SW.species = [
     ],
     "sources": [
       "Desperate Allies: A Sourcebook for Diplomats (Page 19-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "caarite",
@@ -308,7 +334,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Living Force: A Sourcebook for the Cularin System (Page 85)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Living Force: A Sourcebook for the Cularin System (likely fan)"
   },
   {
     "key": "cerean",
@@ -330,7 +358,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 54-55)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "chadra_fan",
@@ -352,7 +382,9 @@ window.SW.species = [
     ],
     "sources": [
       "Stay on Target: A Sourcebook for Aces (Page 20-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "chagrian",
@@ -375,7 +407,9 @@ window.SW.species = [
     ],
     "sources": [
       "Lead by Example: A Sourcebook for Commanders (Page 19-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "chevin",
@@ -398,7 +432,9 @@ window.SW.species = [
     ],
     "sources": [
       "Far Horizons: A Sourcebook for Colonists (Page 21-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "chiss",
@@ -420,7 +456,9 @@ window.SW.species = [
     ],
     "sources": [
       "Enter the Unknown: A Sourcebook for Explorers (Page 20-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "clawdite",
@@ -442,7 +480,9 @@ window.SW.species = [
     ],
     "sources": [
       "No Disintegrations: A Sourcebook for Bounty Hunters (Page 20-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "clone",
@@ -464,7 +504,9 @@ window.SW.species = [
     ],
     "sources": [
       "Collapse of the Republic: An Era Sourcebook (Page 11-12)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "corellian_human",
@@ -485,7 +527,9 @@ window.SW.species = [
     ],
     "sources": [
       "Suns of Fortune: A Sourcebook for the Corellian Sector (Page 93-94)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "cosian",
@@ -507,7 +551,9 @@ window.SW.species = [
     ],
     "sources": [
       "Disciples of Harmony: A Sourcebook for Consulars (Page 18-19)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "dashade",
@@ -530,7 +576,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Old Republic: An Era Sourcebook (Page 6)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "dathomirian",
@@ -552,7 +600,9 @@ window.SW.species = [
     ],
     "sources": [
       "Collapse of the Republic: An Era Sourcebook (Page 12-13)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "devaronian",
@@ -574,7 +624,9 @@ window.SW.species = [
     ],
     "sources": [
       "No Disintegrations: A Sourcebook for Bounty Hunters (Page 23-24)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "dowutin",
@@ -597,7 +649,9 @@ window.SW.species = [
     ],
     "sources": [
       "Knights of Fate: A Sourcebook for Warriors(Page 18-19)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "drabatan",
@@ -619,7 +673,9 @@ window.SW.species = [
     ],
     "sources": [
       "Dawn of Rebellion: An Era Sourcebook (Page 92-93)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "drall",
@@ -640,7 +696,9 @@ window.SW.species = [
     ],
     "sources": [
       "Suns of Fortune: A Sourcebook for the Corellian Sector (Page 90-91)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "dressellian",
@@ -662,7 +720,9 @@ window.SW.species = [
     ],
     "sources": [
       "Stay on Target: A Sourcebook for Aces (Page 22-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "droid",
@@ -685,7 +745,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 53-54)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "dug",
@@ -707,7 +769,9 @@ window.SW.species = [
     ],
     "sources": [
       "Special Modifications: A Sourcebook for Technicians (Page 22-24)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "duros",
@@ -729,7 +793,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 55)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "echani",
@@ -751,7 +817,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Old Republic: An Era Sourcebook (Page 7)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "elom",
@@ -773,7 +841,9 @@ window.SW.species = [
     ],
     "sources": [
       "Forged in Battle: A Sourcebook for Soldiers (Page 18-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "elomin",
@@ -794,7 +864,9 @@ window.SW.species = [
     ],
     "sources": [
       "Forged in Battle: A Sourcebook for Soldiers (Page 18-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "evereni",
@@ -816,7 +888,9 @@ window.SW.species = [
     ],
     "sources": [
       "For Light and Life: An Era Sourcebook (Page 14-16)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "ewok",
@@ -839,7 +913,9 @@ window.SW.species = [
     ],
     "sources": [
       "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 119)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "falleen",
@@ -861,7 +937,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fly Casual: A Sourcebook for Smugglers (Page 18-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "filordi",
@@ -884,7 +962,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Living Force: A Sourcebook for the Cularin System (Page 86)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Living Force: A Sourcebook for the Cularin System (likely fan)"
   },
   {
     "key": "gand",
@@ -906,7 +986,9 @@ window.SW.species = [
     ],
     "sources": [
       "Endless Vigil: A Sourcebook for Sentinels (Page 18-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gank",
@@ -928,7 +1010,9 @@ window.SW.species = [
     ],
     "sources": [
       "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 95-96)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "geonosian",
@@ -951,7 +1035,9 @@ window.SW.species = [
     ],
     "sources": [
       "Rise of the Separatists: An Era Sourcebook (Page 12-13)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gigoran",
@@ -974,7 +1060,9 @@ window.SW.species = [
     ],
     "sources": [
       "Dawn of Rebellion: An Era Sourcebook (Page 93-94)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gossam",
@@ -996,7 +1084,9 @@ window.SW.species = [
     ],
     "sources": [
       "Desperate Allies: A Sourcebook for Diplomats (Page 22-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gotal",
@@ -1018,7 +1108,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fly Casual: A Sourcebook for Smugglers (Page 21-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gozzo",
@@ -1040,7 +1132,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fires of Resistance: An Unofficial Era Sourcebook (Page 4-5)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance (unofficial)"
   },
   {
     "key": "gran",
@@ -1062,7 +1156,9 @@ window.SW.species = [
     ],
     "sources": [
       "Far Horizons: A Sourcebook for Colonists (Page 22-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "gungan",
@@ -1084,7 +1180,9 @@ window.SW.species = [
     ],
     "sources": [
       "Nexus of Power: A Sourcebook of Worlds Strong in the Force (Page 101)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "harch",
@@ -1107,7 +1205,9 @@ window.SW.species = [
     ],
     "sources": [
       "Collapse of the Republic: An Era Sourcebook (Page 14-15)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "human",
@@ -1128,7 +1228,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 55-57)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "human_onderonian",
@@ -1150,7 +1252,9 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 269)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "hutt",
@@ -1172,7 +1276,9 @@ window.SW.species = [
     ],
     "sources": [
       "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 94)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "iakaru",
@@ -1194,7 +1300,9 @@ window.SW.species = [
     ],
     "sources": [
       "Dawn of Rebellion: An Era Sourcebook (Page 94-95)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "iktotchi",
@@ -1216,7 +1324,9 @@ window.SW.species = [
     ],
     "sources": [
       "Keeping the Peace: A Sourcebook for Guardians (Page 18-19)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "ishi_tib",
@@ -1239,7 +1349,9 @@ window.SW.species = [
     ],
     "sources": [
       "Lead by Example: A Sourcebook for Commanders (Page 21-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "ithorian",
@@ -1261,7 +1373,9 @@ window.SW.species = [
     ],
     "sources": [
       "Savage Spirits: A Sourcebook for Seekers (Page 20-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "jawa",
@@ -1283,7 +1397,9 @@ window.SW.species = [
     ],
     "sources": [
       "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 92)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "kage",
@@ -1305,7 +1421,9 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 269)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "kaleesh",
@@ -1327,7 +1445,9 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 270)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "kalleran",
@@ -1349,7 +1469,9 @@ window.SW.species = [
     ],
     "sources": [
       "No Disintegrations: A Sourcebook for Bounty Hunters (Page 25-26)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "kaminoan",
@@ -1371,7 +1493,9 @@ window.SW.species = [
     ],
     "sources": [
       "Rise of the Separatists: An Era Sourcebook (Page 14-15)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "karkarodon",
@@ -1394,7 +1518,9 @@ window.SW.species = [
     ],
     "sources": [
       "Collapse of the Republic: An Era Sourcebook (Page 15-16)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "kel_dor",
@@ -1417,7 +1543,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 57-58)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "klatooinian",
@@ -1438,7 +1566,9 @@ window.SW.species = [
     ],
     "sources": [
       "Dangerous Covenants: A Sourcebook for Hired Guns (Page 20-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "kubaz",
@@ -1460,7 +1590,9 @@ window.SW.species = [
     ],
     "sources": [
       "Cyphers and Masks: A Sourcebook for Spies (Page 20-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "kyuzo",
@@ -1482,7 +1614,9 @@ window.SW.species = [
     ],
     "sources": [
       "Forged in Battle: A Sourcebook for Soldiers (Page 22-24)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "lannik",
@@ -1502,7 +1636,9 @@ window.SW.species = [
       "Special Abilities: Lanniks begin the game with one rank in Streetwise. They still may not train Streetwise above rank 2 during character creation.",
       "Indomitable: A Lannik removes up to two setback die caused by Critical Injuries, fear, or the disoriented condition from all checks."
     ],
-    "sources": []
+    "sources": [],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "lasat",
@@ -1524,7 +1660,9 @@ window.SW.species = [
     ],
     "sources": [
       "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 19)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mandalorian_human",
@@ -1545,7 +1683,9 @@ window.SW.species = [
     ],
     "sources": [
       "Friends Like These: Adventure Module (Page 7-8)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "melitto",
@@ -1568,7 +1708,9 @@ window.SW.species = [
     ],
     "sources": [
       "Cyphers and Masks: A Sourcebook for Spies (Page 21-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mikkian",
@@ -1590,7 +1732,9 @@ window.SW.species = [
     ],
     "sources": [
       "Knights of Fate: A Sourcebook for Warriors(Page 20-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "miraluka",
@@ -1612,7 +1756,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Old Republic: An Era Sourcebook (Page 8)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "mirialan",
@@ -1633,7 +1779,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 58-59)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mon_calamari",
@@ -1655,7 +1803,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Age of Rebellion Roleplaying Game: Core Rulebook (Page 59)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mustafarian",
@@ -1678,7 +1828,9 @@ window.SW.species = [
     ],
     "sources": [
       "Special Modifications: A Sourcebook for Technicians (Page 24-26)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "muun",
@@ -1700,7 +1852,9 @@ window.SW.species = [
     ],
     "sources": [
       "Endless Vigil: A Sourcebook for Sentinels (Page 20-21)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mythrol",
@@ -1721,7 +1875,9 @@ window.SW.species = [
       "Sonic Senses: Can hear super and sub sonic noise, add a boost die to checks involving hearing",
       "Heat Resistant: Remove a setback die imposed by hot environments."
     ],
-    "sources": []
+    "sources": [],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "nautolan",
@@ -1743,7 +1899,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 59)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "neimoidian",
@@ -1764,7 +1922,9 @@ window.SW.species = [
     ],
     "sources": [
       "Desperate Allies: A Sourcebook for Diplomats (Page 20-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "nikto",
@@ -1785,7 +1945,9 @@ window.SW.species = [
     ],
     "sources": [
       "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 96-98)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "noghri",
@@ -1806,7 +1968,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Thrawn Trilogy: An Era Sourcebook (Page 58)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Thrawn Trilogy: An Era Sourcebook (fan supplement)"
   },
   {
     "key": "pantoran",
@@ -1828,7 +1992,9 @@ window.SW.species = [
     ],
     "sources": [
       "Endless Vigil: A Sourcebook for Sentinels (Page 22-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "patrolian",
@@ -1851,7 +2017,9 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 270)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "pau_an",
@@ -1873,7 +2041,9 @@ window.SW.species = [
     ],
     "sources": [
       "Disciples of Harmony: A Sourcebook for Consulars (Page 19-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "phrogg",
@@ -1897,7 +2067,9 @@ window.SW.species = [
     ],
     "sources": [
       "Adventures in Babysitting: A Source Book for \"The Mandalorian\" Seasons 1 and 2 (Page 18)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Adventures in Babysitting (fan supplement)"
   },
   {
     "key": "phydolon",
@@ -1920,7 +2092,9 @@ window.SW.species = [
     ],
     "sources": [
       "Knights of Fate: A Sourcebook for Warriors(Page 21-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "polis_massan",
@@ -1943,7 +2117,9 @@ window.SW.species = [
     ],
     "sources": [
       "Strongholds of Resistance: A Sourcebook of Alliance Worlds (Page 98-99)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "pyke",
@@ -1965,7 +2141,9 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 271)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "quarren",
@@ -1988,7 +2166,9 @@ window.SW.species = [
     ],
     "sources": [
       "Strongholds of Resistance: A Sourcebook of Alliance Worlds (Page 100-101)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "quermian",
@@ -2010,7 +2190,9 @@ window.SW.species = [
     ],
     "sources": [
       "Savage Spirits: A Sourcebook for Seekers (Page 21-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "rattataki",
@@ -2032,7 +2214,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Old Republic: An Era Sourcebook (Page 9)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "rodian",
@@ -2053,7 +2237,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Edge of the Empire Roleplaying Game: Core Rulebook (Page 49-50)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "sakiyan",
@@ -2074,7 +2260,9 @@ window.SW.species = [
     ],
     "sources": [
       "Lords of Nal Hutta: A Sourcebook for Hutt Space (Page 98-99)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "sathari",
@@ -2096,7 +2284,9 @@ window.SW.species = [
     ],
     "sources": [
       "Chronicles of the Gatekeeper: Adventure Module (Page 15)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "selkath",
@@ -2118,7 +2308,9 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 271)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "selonian",
@@ -2140,7 +2332,9 @@ window.SW.species = [
     ],
     "sources": [
       "Suns of Fortune: A Sourcebook for the Corellian Sector (Page 91-93)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "shistavanen",
@@ -2162,7 +2356,9 @@ window.SW.species = [
     ],
     "sources": [
       "Forged in Battle: A Sourcebook for Soldiers (Page 24-26)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "sith_pureblood",
@@ -2183,7 +2379,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Old Republic: An Era Sourcebook (Page 10)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "skakoan",
@@ -2205,7 +2403,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fully Operational: A Sourcebook for Engineers (Page 21-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "talpini",
@@ -2228,7 +2428,9 @@ window.SW.species = [
     ],
     "sources": [
       "For Light and Life: An Era Sourcebook (Page 16)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "talz",
@@ -2251,7 +2453,9 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 272)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "tarasin",
@@ -2274,7 +2478,9 @@ window.SW.species = [
     ],
     "sources": [
       "The Living Force: A Sourcebook for the Cularin System (Page 30-32)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "The Living Force: A Sourcebook for the Cularin System (likely fan)"
   },
   {
     "key": "teedo",
@@ -2297,7 +2503,9 @@ window.SW.species = [
     ],
     "sources": [
       "Fires of Resistance: An Unofficial Era Sourcebook (Page 5-6)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Fires of Resistance (unofficial)"
   },
   {
     "key": "thisspiasian",
@@ -2319,7 +2527,9 @@ window.SW.species = [
     ],
     "sources": [
       "Unlimited Power: A Sourcebook for Mystics (Page 18-20)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "tholothian",
@@ -2342,7 +2552,9 @@ window.SW.species = [
     ],
     "sources": [
       "Unlimited Power: A Sourcebook for Mystics (Page 20-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "tognath",
@@ -2365,7 +2577,9 @@ window.SW.species = [
     ],
     "sources": [
       "Dawn of Rebellion: An Era Sourcebook (Page 96-97)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "togruta",
@@ -2387,7 +2601,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 60)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "toydarian",
@@ -2409,7 +2625,9 @@ window.SW.species = [
     ],
     "sources": [
       "Enter the Unknown: A Sourcebook for Explorers (Page 22-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "trandoshan",
@@ -2432,7 +2650,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Edge of the Empire Roleplaying Game: Core Rulebook (Page 50-51)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "tusken_raider",
@@ -2455,7 +2675,9 @@ window.SW.species = [
     ],
     "sources": [
       "Allies and Adversaries: The Essential Collection of Heroes and Villains (Page 105)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "twi_lek",
@@ -2477,7 +2699,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 61-62)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "ugor",
@@ -2500,7 +2724,9 @@ window.SW.species = [
     ],
     "sources": [
       "For Light and Life: An Era Sourcebook (Page 13-14)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "umbaran",
@@ -2523,7 +2749,9 @@ window.SW.species = [
     ],
     "sources": [
       "Rise of the Separatists: An Era Sourcebook (Page 15-16)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "verpine",
@@ -2546,7 +2774,9 @@ window.SW.species = [
     ],
     "sources": [
       "Strongholds of Resistance: A Sourcebook of Alliance Worlds (Page 102-103)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "vurk",
@@ -2569,7 +2799,9 @@ window.SW.species = [
     ],
     "sources": [
       "Unlimited Power: A Sourcebook for Mystics (Page 22-24)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "weequay",
@@ -2591,7 +2823,9 @@ window.SW.species = [
     ],
     "sources": [
       "Dangerous Covenants: A Sourcebook for Hired Guns (Page 22-23)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "whiphid",
@@ -2614,7 +2848,9 @@ window.SW.species = [
     ],
     "sources": [
       "Keeping the Peace: A Sourcebook for Guardians (Page 21-22)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "wookiee",
@@ -2636,7 +2872,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Edge of the Empire Roleplaying Game: Core Rulebook (Page 52-53)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "xexto",
@@ -2658,7 +2896,9 @@ window.SW.species = [
     ],
     "sources": [
       "Stay on Target: A Sourcebook for Aces (Page 23-25)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "yahk_tosh",
@@ -2681,7 +2921,9 @@ window.SW.species = [
     ],
     "sources": [
       "Neo-Crusader's Arc of Doom: Adventure Module (Page 13)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Neo-Crusader's Arc of Doom (fan module)"
   },
   {
     "key": "zabrak",
@@ -2703,7 +2945,9 @@ window.SW.species = [
     ],
     "sources": [
       "Star Wars Force and Destiny Roleplaying Game: Core Rulebook (Page 62-63)"
-    ]
+    ],
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "zygerrian",
@@ -2726,6 +2970,8 @@ window.SW.species = [
     ],
     "sources": [
       "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 272)"
-    ]
+    ],
+    "homebrew": true,
+    "homebrew_source": "Heroes on Both Sides (unofficial)"
   }
 ];
