@@ -2,12 +2,49 @@ import json
 
 specs = json.load(open('data/specializations.json', encoding='utf-8'))
 
-# Confirmed homebrew: name -> source
+# Authoritative homebrew list. Any spec not here is official (or unknown) -- do NOT flag it.
 HOMEBREW = {
-    # The reSpecialized Project (all (reSpec) variants)
-    # handled below via is_respec flag
+    # [S1] The reSpecialized Project
+    'Archaeologist (reSpec)':    'The reSpecialized Project',
+    'Assassin (reSpec)':         'The reSpecialized Project',
+    'Big Game Hunter (reSpec)':  'The reSpecialized Project',
+    'Bodyguard (reSpec)':        'The reSpecialized Project',
+    'Charmer (reSpec)':          'The reSpecialized Project',
+    'Cyber Tech (reSpec)':       'The reSpecialized Project',
+    'Demolitionist (reSpec)':    'The reSpecialized Project',
+    'Doctor (reSpec)':           'The reSpecialized Project',
+    'Driver (reSpec)':           'The reSpecialized Project',
+    'Droid Tech (reSpec)':       'The reSpecialized Project',
+    'Enforcer (reSpec)':         'The reSpecialized Project',
+    'Entrepreneur (reSpec)':     'The reSpecialized Project',
+    'Fringer (reSpec)':          'The reSpecialized Project',
+    'Gadgeteer (reSpec)':        'The reSpecialized Project',
+    'Gambler (reSpec)':          'The reSpecialized Project',
+    'Gunslinger (reSpec)':       'The reSpecialized Project',
+    'Heavy (reSpec)':            'The reSpecialized Project',
+    'Marauder (reSpec)':         'The reSpecialized Project',
+    'Marshal (reSpec)':          'The reSpecialized Project',
+    'Martial Artist (reSpec)':   'The reSpecialized Project',
+    'Mechanic (reSpec)':         'The reSpecialized Project',
+    'Mercenary Soldier (reSpec)': 'The reSpecialized Project',
+    'Modder (reSpec)':           'The reSpecialized Project',
+    'Operator (reSpec)':         'The reSpecialized Project',
+    'Outlaw Tech (reSpec)':      'The reSpecialized Project',
+    'Performer (reSpec)':        'The reSpecialized Project',
+    'Politico (reSpec)':         'The reSpecialized Project',
+    'Scholar (reSpec)':          'The reSpecialized Project',
+    'Scoundrel (reSpec)':        'The reSpecialized Project',
+    'Scout (reSpec)':            'The reSpecialized Project',
+    'Skip Tracer (reSpec)':      'The reSpecialized Project',
+    'Slicer (reSpec)':           'The reSpecialized Project',
+    'Survivalist (reSpec)':      'The reSpecialized Project',
+    'Thief (reSpec)':            'The reSpecialized Project',
+    'Trader (reSpec)':           'The reSpecialized Project',
 
-    # The Old Republic: An Era Sourcebook
+    # [S2] The reSpecialized Project / Blockade Runner Folio
+    'Blockade Runner': 'The reSpecialized Project / Blockade Runner Folio',
+
+    # [S3/S4] The Old Republic: An Era Sourcebook
     'Acolyte':              'The Old Republic: An Era Sourcebook',
     'Blademaster':          'The Old Republic: An Era Sourcebook',
     'Cartel Dealer':        'The Old Republic: An Era Sourcebook',
@@ -16,54 +53,36 @@ HOMEBREW = {
     'Mandalorian Crusader': 'The Old Republic: An Era Sourcebook',
     'Sorcerer':             'The Old Republic: An Era Sourcebook',
 
-    # Fires of Resistance
+    # [S5] Fires of Resistance: An Unofficial Era Sourcebook
     'Dark Side Cultist':    'Fires of Resistance',
     'First Order Defector': 'Fires of Resistance',
     'First Order Loyalist': 'Fires of Resistance',
     'Seasoned Adventurer':  'Fires of Resistance',
 
-    # Heroes on Both Sides
-    'Temple Guardian':      'Heroes on Both Sides',
+    # [S6] Heroes on Both Sides
+    'Temple Guardian': 'Heroes on Both Sides',
 
-    # Blockade Runner Folio (reSpecialized sub-project)
-    'Blockade Runner':      'Blockade Runner Folio',
-
-    # For Light and Life
-    'RDC Navigator':        'For Light and Life',
-    'RDC Officer':          'For Light and Life',
-    'RDC Peacekeeper':      'For Light and Life',
-
-    # Jedi career (fan-made - no official FFG career named Jedi)
-    'Jedi Archivist':       'Jedi Career (fan-made)',
-    'Jedi Explorer':        'Jedi Career (fan-made)',
-    'Jedi Wayseeker':       'Jedi Career (fan-made)',
-    'Knight':               'Jedi Career (fan-made)',
-    'Master':               'Jedi Career (fan-made)',
-    'Padawan':              'Jedi Career (fan-made)',
-    'Padawan Survivor':     'Jedi Career (fan-made)',
-
-    # High Republic fan content
-    'Shipwright (High Republic)': 'High Republic fan supplement',
-    'Trader (High Republic)':     'High Republic fan supplement',
-
-    # NOTE: Colossus (KoF), Force Adherent (DoR), Imperial Academy Cadet (DoR),
-    # Magus (Unlimited Power), Retired Clone Trooper (DoR) are all confirmed official FFG.
+    # [S7/S8/S9] For Light and Life: An Era Sourcebook
+    'RDC Navigator':           'For Light and Life',
+    'RDC Officer':             'For Light and Life',
+    'RDC Peacekeeper':         'For Light and Life',
+    'Jedi Archivist':          'For Light and Life',
+    'Jedi Explorer':           'For Light and Life',
+    'Jedi Wayseeker':          'For Light and Life',
+    'Shipwright (High Republic)': 'For Light and Life',
+    'Trader (High Republic)':     'For Light and Life',
 }
 
-flagged = 0
+# Reset all flags, then apply only the authoritative list
 for sp in specs:
-    if sp.get('is_respec'):
-        sp['homebrew'] = True
-        sp['homebrew_source'] = 'The reSpecialized Project'
-        flagged += 1
-    elif sp['name'] in HOMEBREW:
+    if sp['name'] in HOMEBREW:
         sp['homebrew'] = True
         sp['homebrew_source'] = HOMEBREW[sp['name']]
-        flagged += 1
     else:
         sp['homebrew'] = False
         sp['homebrew_source'] = ''
 
+flagged = sum(1 for s in specs if s['homebrew'])
 print(f'Flagged {flagged} homebrew specs out of {len(specs)} total')
 
 with open('data/specializations.json', 'w', encoding='utf-8') as f:

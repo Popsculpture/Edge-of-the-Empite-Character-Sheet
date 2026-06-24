@@ -1507,7 +1507,7 @@
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Blockade Runner Folio"
+    "homebrew_source": "The reSpecialized Project / Blockade Runner Folio"
   },
   {
     "key": "bodyguard",
@@ -5609,7 +5609,7 @@
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "jedi_explorer",
@@ -5673,7 +5673,7 @@
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "jedi_wayseeker",
@@ -5737,7 +5737,7 @@
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "juyo_berserker",
@@ -5868,8 +5868,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "lord",
@@ -6586,8 +6586,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mechanic",
@@ -7574,8 +7574,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "padawan_survivor",
@@ -7631,8 +7631,8 @@
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "pathfinder",
@@ -10560,7 +10560,7 @@
       }
     ],
     "homebrew": true,
-    "homebrew_source": "High Republic fan supplement"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "skip_tracer",
@@ -11876,7 +11876,7 @@
       }
     ],
     "homebrew": true,
-    "homebrew_source": "High Republic fan supplement"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "trader_respec",

@@ -1508,7 +1508,7 @@ window.SW.specializations = [
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Blockade Runner Folio"
+    "homebrew_source": "The reSpecialized Project / Blockade Runner Folio"
   },
   {
     "key": "bodyguard",
@@ -5610,7 +5610,7 @@ window.SW.specializations = [
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "jedi_explorer",
@@ -5674,7 +5674,7 @@ window.SW.specializations = [
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "jedi_wayseeker",
@@ -5738,7 +5738,7 @@ window.SW.specializations = [
       }
     ],
     "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "juyo_berserker",
@@ -5869,8 +5869,8 @@ window.SW.specializations = [
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "lord",
@@ -6587,8 +6587,8 @@ window.SW.specializations = [
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "mechanic",
@@ -7575,8 +7575,8 @@ window.SW.specializations = [
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "padawan_survivor",
@@ -7632,8 +7632,8 @@ window.SW.specializations = [
         ]
       }
     ],
-    "homebrew": true,
-    "homebrew_source": "Jedi Career (fan-made)"
+    "homebrew": false,
+    "homebrew_source": ""
   },
   {
     "key": "pathfinder",
@@ -10561,7 +10561,7 @@ window.SW.specializations = [
       }
     ],
     "homebrew": true,
-    "homebrew_source": "High Republic fan supplement"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "skip_tracer",
@@ -11877,7 +11877,7 @@ window.SW.specializations = [
       }
     ],
     "homebrew": true,
-    "homebrew_source": "High Republic fan supplement"
+    "homebrew_source": "For Light and Life"
   },
   {
     "key": "trader_respec",
