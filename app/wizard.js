@@ -89,10 +89,15 @@ const Wizard = (() => {
       player: '',
       background: '',
       motivation: '',
-      obligation:      { type: '', magnitude: 10, bonusType: '' },
-      duty:            { type: '', deficit: 0, bonusType: '' },
-      morality:        { strength: '', weakness: '', score: 50 },
-      talentPurchases: {},
+      obligation:         { type: '', magnitude: 10, bonusType: '' },
+      duty:               { type: '', deficit: 0, bonusType: '' },
+      morality:           { strength: '', weakness: '', score: 50 },
+      talentPurchases:    {},
+      beginnings:         '',
+      forceAttitude:      '',
+      reasonForAdventure: '',
+      motivationType:     '',
+      motivationSpecific: '',
     };
   }
 
@@ -1256,24 +1261,67 @@ const Wizard = (() => {
 
   function renderDetails() {
     const c = $('#step-content');
+
+    function opts(items, selected, empty='-- Select --') {
+      return `<option value="">${empty}</option>` +
+        items.map(i => `<option value="${esc(i.key)}"${i.key===selected?' selected':''}>${esc(i.name)}</option>`).join('');
+    }
+
+    function specificOpts(parentName, selected) {
+      const list = parentName ? (SW.specificMotivations||[]).filter(s => s.parent === parentName) : [];
+      if (!list.length) return '<option value="">Select a type first</option>';
+      return `<option value="">-- Select --</option>` +
+        list.map(s => `<option value="${esc(s.key)}"${s.key===selected?' selected':''}>${esc(s.name)}</option>`).join('');
+    }
+
+    const motivName = state.motivationType
+      ? ((SW.motivations||[]).find(m => m.key === state.motivationType)||{}).name : '';
+
     c.innerHTML = `
       <div class="step-header"><h2>Identity</h2>
-        <p>Name your character and fill in their background.</p></div>
-      <div style="max-width:560px">
+        <p>Name your character and define their history and motivations.</p></div>
+      <div style="max-width:640px">
         <div class="form-section-title">Identity</div>
-        <div class="form-group"><label>Character Name *</label>
-          <input type="text" id="f-name" placeholder="Enter name..." value="${esc(state.name)}"></div>
-        <div class="form-group"><label>Player Name</label>
-          <input type="text" id="f-player" placeholder="Your name..." value="${esc(state.player)}"></div>
-        <div class="form-group"><label>Motivation / Goal</label>
-          <input type="text" id="f-motiv" placeholder="What drives your character?" value="${esc(state.motivation)}"></div>
+        <div class="details-layout">
+          <div class="form-group"><label>Character Name *</label>
+            <input type="text" id="f-name" placeholder="Enter name..." value="${esc(state.name)}"></div>
+          <div class="form-group"><label>Player Name</label>
+            <input type="text" id="f-player" placeholder="Your name..." value="${esc(state.player)}"></div>
+        </div>
+
+        <div class="form-section-title">Game Mechanics</div>
+        <div class="form-group"><label>Beginnings</label>
+          <select id="f-beginnings">${opts(SW.hooks||[], state.beginnings)}</select></div>
+        <div class="form-group"><label>Attitude Toward the Force</label>
+          <select id="f-attitude">${opts(SW.attitudes||[], state.forceAttitude)}</select></div>
+        <div class="form-group"><label>Reason for Adventure</label>
+          <input type="text" id="f-reason" placeholder="What draws your character into danger?"
+            value="${esc(state.reasonForAdventure)}"></div>
+        <div class="details-layout">
+          <div class="form-group"><label>Motivation Type</label>
+            <select id="f-motiv-type">${opts(SW.motivations||[], state.motivationType)}</select></div>
+          <div class="form-group"><label>Motivation</label>
+            <select id="f-motiv-specific">${specificOpts(motivName, state.motivationSpecific)}</select></div>
+        </div>
+
+        <div class="form-section-title">Background</div>
         <div class="form-group"><label>Background</label>
           <textarea id="f-bg" placeholder="History, personality, appearance...">${esc(state.background)}</textarea></div>
       </div>`;
 
     $('#f-name').addEventListener('input', e => { state.name = e.target.value; saveState(); renderNav(); });
     $('#f-player').addEventListener('input', e => { state.player = e.target.value; saveState(); });
-    $('#f-motiv').addEventListener('input', e => { state.motivation = e.target.value; saveState(); });
+    $('#f-beginnings').addEventListener('change', e => { state.beginnings = e.target.value; saveState(); });
+    $('#f-attitude').addEventListener('change', e => { state.forceAttitude = e.target.value; saveState(); });
+    $('#f-reason').addEventListener('input', e => { state.reasonForAdventure = e.target.value; saveState(); });
+    $('#f-motiv-type').addEventListener('change', e => {
+      state.motivationType = e.target.value;
+      state.motivationSpecific = '';
+      saveState();
+      const parentName = ((SW.motivations||[]).find(m => m.key === state.motivationType)||{}).name || '';
+      $('#f-motiv-specific').innerHTML = specificOpts(parentName, '');
+    });
+    $('#f-motiv-specific').addEventListener('change', e => { state.motivationSpecific = e.target.value; saveState(); });
     $('#f-bg').addEventListener('input', e => { state.background = e.target.value; saveState(); });
   }
 
