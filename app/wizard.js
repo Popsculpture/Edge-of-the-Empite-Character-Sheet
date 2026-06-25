@@ -48,6 +48,8 @@ const Wizard = (() => {
         </div>
         <div class="settings-actions">
           <button class="btn btn-secondary btn-sm" data-settings-act="print">Print / Save as PDF</button>
+          <button class="btn btn-secondary btn-sm" data-settings-act="export">Export Character</button>
+          <button class="btn btn-secondary btn-sm" data-settings-act="import">Import Character</button>
           <button class="btn btn-secondary btn-sm" data-settings-act="new">+ New Character</button>
         </div>
         <div class="settings-section-label">Color Theme</div>
@@ -78,8 +80,10 @@ const Wizard = (() => {
       const act = e.target.closest('[data-settings-act]');
       if (act) {
         const which = act.dataset.settingsAct;
-        if (which === 'print') { exportCharacterPdf(act, close); return; }
-        if (which === 'new')   { close(); newCharacter(); return; }
+        if (which === 'print')  { exportCharacterPdf(act, close); return; }
+        if (which === 'export') { close(); exportCharacterJson(); return; }
+        if (which === 'import') { close(); importCharacterJson(); return; }
+        if (which === 'new')    { close(); newCharacter(); return; }
       }
       if (e.target === modal || e.target.closest('#theme-close')) close();
     }
@@ -2561,6 +2565,58 @@ const Wizard = (() => {
       .then(() => { if (done) done(); })
       .catch(err => { console.error(err); alert('Could not generate the PDF: ' + ((err && err.message) || err)); })
       .finally(() => { if (btn) { btn.textContent = original; btn.disabled = false; } });
+  }
+
+  // Download the current character as a JSON save file (backup / share / transfer).
+  function exportCharacterJson() {
+    try {
+      const envelope = { app: 'eote-character-sheet', version: 1, savedAt: new Date().toISOString(), character: state };
+      const blob = new Blob([JSON.stringify(envelope, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const base = (state.name || 'character').trim().replace(/[^\w]+/g, '_') || 'character';
+      const a = document.createElement('a');
+      a.href = url; a.download = base + '_character.json';
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    } catch (err) {
+      console.error(err);
+      alert('Could not export the character: ' + ((err && err.message) || err));
+    }
+  }
+
+  // Load a character from a JSON save file, replacing the current one.
+  function importCharacterJson() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.addEventListener('change', () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        let incoming;
+        try {
+          const data = JSON.parse(reader.result);
+          incoming = (data && typeof data === 'object' && data.character) ? data.character : data;
+        } catch (e) {
+          alert('That file is not valid JSON, so it cannot be imported.');
+          return;
+        }
+        const SIG = ['game', 'characteristics', 'careerKey', 'speciesKey', 'equipment', 'talentPurchases'];
+        if (!incoming || typeof incoming !== 'object' || !SIG.some(k => k in incoming)) {
+          alert('That file does not look like a saved character.');
+          return;
+        }
+        if (!confirm('Import this character? Your current character will be replaced.')) return;
+        state = Object.assign(defaultState(), incoming);
+        // Repair structures that may be missing from older save files.
+        state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
+        state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
+        saveState(); render(); window.scrollTo(0, 0);
+      };
+      reader.readAsText(file);
+    });
+    input.click();
   }
 
   function next() {
