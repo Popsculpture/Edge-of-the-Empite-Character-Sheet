@@ -305,8 +305,9 @@ const Engine = (() => {
     const effChars = Object.assign({}, chars);
     const dedTotal  = rk('Dedication');
     const dedChoices = (state.dedicationChoices || []).slice(0, dedTotal);
+    const charBonuses = {};   // characteristic -> Dedication bonus (for the sheet to flag)
     for (const ck of dedChoices) {
-      if (ck) effChars[ck] = Math.min(6, (effChars[ck] || 0) + 1);
+      if (ck) { effChars[ck] = Math.min(6, (effChars[ck] || 0) + 1); charBonuses[ck] = (charBonuses[ck] || 0) + 1; }
     }
 
     const woundBonus  = rk('Toughened') * 2;
@@ -355,6 +356,8 @@ const Engine = (() => {
       defense_ranged:   armorDefense + defRBonus,
       defense_melee:    armorDefense + defMBonus,
       force_rating:     forceRating,
+      armor_soak:       armorSoak,
+      soak_brawn:       (effChars.brawn || 1),
       starting_xp:      startingXp,
       xp_spent:         xpSpent,
       xp_remaining:     xpRemaining,
@@ -372,6 +375,7 @@ const Engine = (() => {
       talents:           talentList,
       talent_stat_bonuses: { wound: woundBonus, strain: strainBonus, soak: soakBonus,
                              defenseRanged: defRBonus, defenseMelee: defMBonus, forceRating: forceRating },
+      characteristic_bonuses: charBonuses,
       dedication_total:  dedTotal,
     };
   }

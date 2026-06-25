@@ -12,7 +12,7 @@ const Wizard = (() => {
     jedi:     { title:'Episode VI',    sub:'Return of the Jedi',      bg:'#0c0e0b', surface:'#141e10', surface2:'#1c2c18', border:'#364A5C', text:'#DDD7D8', muted:'#418A45', accent:'#80B972', accentBg:'rgba(128,185,114,0.08)', accentBorder:'rgba(128,185,114,0.4)'  },
     force:    { title:'The Force Awakens', sub:'Episode VII',         bg:'#020202', surface:'#0e0808', surface2:'#180e0e', border:'#2d1010', text:'#EBE6E9', muted:'#ABA49E', accent:'#CC463C', accentBg:'rgba(204,70,60,0.08)',   accentBorder:'rgba(204,70,60,0.4)'    },
     lastjedi: { title:'The Last Jedi', sub:'Episode VIII',            bg:'#050405', surface:'#130808', surface2:'#1f0f0f', border:'#761F14', text:'#FFFFFF', muted:'#79808C', accent:'#C03927', accentBg:'rgba(192,57,39,0.08)',   accentBorder:'rgba(192,57,39,0.4)'    },
-    rogueone: { title:'Rogue One',     sub:'A Star Wars Story',       bg:'#0c1215', surface:'#141e25', surface2:'#1c2c35', border:'#2C4E61', text:'#DFDDD4', muted:'#73A9C7', accent:'#4B7B92', accentBg:'rgba(75,123,146,0.08)',  accentBorder:'rgba(75,123,146,0.4)'   },
+    rogueone: { title:'Rogue One',     sub:'A Star Wars Story',       bg:'#0c1215', surface:'#141e25', surface2:'#1c2c35', border:'#2C4E61', text:'#DFDDD4', muted:'#73A9C7', accent:'#5FC2EC', accentBg:'rgba(95,194,236,0.12)',  accentBorder:'rgba(95,194,236,0.5)'   },
     solo:     { title:'Solo',          sub:'A Star Wars Story',       bg:'#0d0810', surface:'#180e20', surface2:'#221530', border:'#3d1a50', text:'#EFD34B', muted:'#DF7DAF', accent:'#783891', accentBg:'rgba(120,56,145,0.08)',  accentBorder:'rgba(120,56,145,0.4)'   },
   };
 
@@ -37,13 +37,20 @@ const Wizard = (() => {
 
   function openThemePanel() {
     const modal = $('#theme-modal');
+    // Drop any handler from a previous open so re-opening never stacks listeners.
+    if (modal._settingsHandler) { modal.removeEventListener('click', modal._settingsHandler); modal._settingsHandler = null; }
     const current = localStorage.getItem('sw_theme') || 'crawl';
     modal.innerHTML = `
       <div class="theme-modal-inner">
         <div class="theme-modal-header">
-          <h3>Color Theme</h3>
+          <h3>Settings</h3>
           <button class="theme-close-btn" id="theme-close">&#x2715;</button>
         </div>
+        <div class="settings-actions">
+          <button class="btn btn-secondary btn-sm" data-settings-act="print">Print / Save as PDF</button>
+          <button class="btn btn-secondary btn-sm" data-settings-act="new">+ New Character</button>
+        </div>
+        <div class="settings-section-label">Color Theme</div>
         <div class="theme-swatches">
           ${Object.entries(THEMES).map(([key, t]) => `
             <div class="theme-swatch${key === current ? ' ts-active' : ''}" data-theme="${key}">
@@ -60,19 +67,25 @@ const Wizard = (() => {
             </div>`).join('')}
         </div>
       </div>`;
-    modal.classList.remove('hidden');
-    modal.addEventListener('click', function handler(e) {
+    function close() { modal.classList.add('hidden'); modal.removeEventListener('click', handler); modal._settingsHandler = null; }
+    function handler(e) {
       const sw = e.target.closest('[data-theme]');
       if (sw) {
         applyTheme(sw.dataset.theme);
         modal.querySelectorAll('.theme-swatch').forEach(el =>
           el.classList.toggle('ts-active', el.dataset.theme === sw.dataset.theme));
       }
-      if (e.target === modal || e.target.closest('#theme-close')) {
-        modal.classList.add('hidden');
-        modal.removeEventListener('click', handler);
+      const act = e.target.closest('[data-settings-act]');
+      if (act) {
+        const which = act.dataset.settingsAct;
+        if (which === 'print') { exportCharacterPdf(act, close); return; }
+        if (which === 'new')   { close(); newCharacter(); return; }
       }
-    });
+      if (e.target === modal || e.target.closest('#theme-close')) close();
+    }
+    modal.classList.remove('hidden');
+    modal._settingsHandler = handler;
+    modal.addEventListener('click', handler);
   }
 
   // ── State ─────────────────────────────────────────────────────────────────
@@ -95,6 +108,8 @@ const Wizard = (() => {
       morality:           { strength: '', weakness: '', score: 50 },
       talentPurchases:    {},
       dedicationChoices:  [],
+      woundCur:           0,
+      strainCur:          0,
       beginnings:         '',
       forceAttitude:      '',
       reasonForAdventure: '',
@@ -617,12 +632,24 @@ const Wizard = (() => {
     document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
   }
 
+  // A step is reachable by clicking if it is the current/earlier step (going back
+  // is always allowed) or every gate between here and there passes (same rule as
+  // pressing Next repeatedly), so a jump never lands on an unmet-prerequisite screen.
+  function canJumpTo(target) {
+    if (target <= state.step) return true;
+    for (let k = state.step; k < target; k++) {
+      if (!STEPS[k].valid()) return false;
+    }
+    return true;
+  }
+
   function renderProgress() {
     const container = $('#progress-steps');
     container.innerHTML = STEPS.map((step, i) => {
       const cls = i < state.step ? 'done' : i === state.step ? 'active' : '';
+      const reach = i === state.step ? '' : canJumpTo(i) ? 'clickable' : 'locked';
       const tab = typeof step.tab === 'function' ? step.tab() : step.tab;
-      return `<div class="progress-step ${cls}">${tab}</div>`;
+      return `<div class="progress-step ${cls} ${reach}" data-step="${i}">${tab}</div>`;
     }).join('');
   }
 
@@ -633,9 +660,11 @@ const Wizard = (() => {
     const isLast  = state.step === STEPS.length - 1;
 
     btnBack.disabled = state.step === 0;
-    btnNext.innerHTML = isLast ? '+ New Character' : 'Next &#8594;';
-    btnNext.disabled  = !isLast && !STEPS[state.step].valid();
+    // The last step (Sheet) has no Next; "New Character" lives in the settings panel.
+    btnNext.classList.toggle('hidden', isLast);
+    if (!isLast) { btnNext.innerHTML = 'Next &#8594;'; btnNext.disabled = !STEPS[state.step].valid(); }
     status.textContent = `Step ${state.step + 1} of ${STEPS.length}`;
+    renderProgress();   // keep tab reachability (clickable/locked) in sync with validity
   }
 
   function renderHeaderXp() {
@@ -1945,8 +1974,10 @@ const Wizard = (() => {
   }
   function pruneSets() {
     const bag = eqBag('weapon');
-    const owned = k => bag[k] && bag[k].qty;
-    state.equipment.weaponSets = weaponSetsArr().filter(s => owned(s.a) && owned(s.b));
+    const owned = k => !!(bag[k] && bag[k].qty);
+    // A same-weapon pair needs 2 copies; a mixed pair needs one of each.
+    state.equipment.weaponSets = weaponSetsArr().filter(s =>
+      s.a === s.b ? (bag[s.a] && bag[s.a].qty >= 2) : (owned(s.a) && owned(s.b)));
   }
 
   function drawCart() {
@@ -2000,7 +2031,9 @@ const Wizard = (() => {
     const wbag = eqBag('weapon');
     const wKeys = Object.keys(wbag).filter(k => wbag[k] && wbag[k].qty);
     const sets = weaponSetsArr();
-    if (wKeys.length >= 2 || sets.length) {
+    // You can pair two weapons if you own 2+ distinct weapons, or 2+ of the same one.
+    const canPair = wKeys.length >= 2 || wKeys.some(k => wbag[k].qty >= 2);
+    if (canPair || sets.length) {
       const setRows = sets.map((s, i) => {
         const a = Engine.getWeapon(s.a), b = Engine.getWeapon(s.b);
         return `<div class="tws-row"><span>${esc(a ? a.name : '?')} <i>+</i> ${esc(b ? b.name : '?')}</span>
@@ -2010,8 +2043,8 @@ const Wizard = (() => {
       sections += `
         <div class="cart-section">
           <div class="cart-section-title">Two-Weapon Sets</div>
-          ${setRows || '<div class="tws-empty">Pair two weapons to dual-wield.</div>'}
-          ${wKeys.length >= 2 ? `<div class="tws-add">
+          ${setRows || '<div class="tws-empty">Pair two weapons to dual-wield (pick the same weapon twice if you own 2+).</div>'}
+          ${canPair ? `<div class="tws-add">
             <select id="tws-a">${opts}</select><span class="tws-plus">+</span><select id="tws-b">${opts}</select>
             <button class="btn btn-secondary btn-sm" data-set-act="add">Pair</button>
           </div>` : ''}
@@ -2123,6 +2156,7 @@ const Wizard = (() => {
   }
 
   function afterEquipChange() {
+    pruneSets();   // drop now-invalid weapon sets BEFORE persisting
     saveState();
     drawCart();
     drawDetail();
@@ -2511,13 +2545,26 @@ const Wizard = (() => {
   }
 
   // ── Navigation ────────────────────────────────────────────────────────────
-  function next() {
-    if (state.step === STEPS.length - 1) {
-      if (confirm('Start a new character? Current character will be cleared.')) {
-        state = defaultState(); saveState(); render();
-      }
-      return;
+  function newCharacter() {
+    if (confirm('Start a new character? Current character will be cleared.')) {
+      state = defaultState(); saveState(); render(); window.scrollTo(0, 0);
     }
+  }
+
+  // Fill the official FFG sheet PDFs with this character and download them.
+  function exportCharacterPdf(btn, done) {
+    if (typeof PdfExport === 'undefined') { alert('PDF export is unavailable.'); if (done) done(); return; }
+    const original = btn ? btn.textContent : '';
+    if (btn) { btn.textContent = 'Generating PDF…'; btn.disabled = true; }
+    Promise.resolve()
+      .then(() => PdfExport.exportSheet(state))
+      .then(() => { if (done) done(); })
+      .catch(err => { console.error(err); alert('Could not generate the PDF: ' + ((err && err.message) || err)); })
+      .finally(() => { if (btn) { btn.textContent = original; btn.disabled = false; } });
+  }
+
+  function next() {
+    if (state.step === STEPS.length - 1) { newCharacter(); return; }
     if (!STEPS[state.step].valid()) return;
     state.step++;
     saveState(); render();
@@ -2538,6 +2585,50 @@ const Wizard = (() => {
     $('#btn-next').addEventListener('click', next);
     $('#btn-back').addEventListener('click', back);
     $('#btn-settings').addEventListener('click', openThemePanel);
+    $('#progress-steps').addEventListener('click', e => {
+      const el = e.target.closest('.progress-step');
+      if (!el) return;
+      const target = +el.dataset.step;
+      if (target === state.step || !canJumpTo(target)) return;
+      state.step = target;
+      saveState(); render();
+      window.scrollTo(0, 0);
+    });
+    // Editable weapon nickname on the sheet (no re-render so focus is kept).
+    $('#step-content').addEventListener('input', e => {
+      const el = e.target.closest('[data-wpn-key]');
+      if (!el) return;
+      const key = el.dataset.wpnKey;
+      const bag = state.equipment && state.equipment.weapon;
+      if (!bag || !bag[key]) return;   // only annotate an existing owned weapon
+      bag[key].nickname = el.value;
+      saveState();
+    });
+    // Wound / strain trackers on the sheet (clamped to 0..threshold).
+    $('#step-content').addEventListener('click', e => {
+      // Tap an enhanced (green) stat value to reveal its "+N from talents" note.
+      const enh = e.target.closest('[data-enhance]');
+      if (enh) {
+        const cell = enh.closest('.derived-cell, .strip-cell');
+        if (cell) cell.classList.toggle('reveal-enhance');
+        return;
+      }
+      // Tap a two-weapon set's name to expand/collapse its rules + weapon details.
+      const dualToggle = e.target.closest('[data-dual-toggle]');
+      if (dualToggle) {
+        const card = dualToggle.closest('.wpn-card-dual');
+        if (card) card.classList.toggle('expanded');
+        return;
+      }
+      const t = e.target.closest('[data-track]');
+      if (!t) return;
+      const key = t.dataset.track;            // 'woundCur' | 'strainCur'
+      const d = Engine.derive(state);
+      const max = key === 'woundCur' ? (d ? d.wound_threshold : 0) : (d ? d.strain_threshold : 0);
+      state[key] = Math.max(0, Math.min(max, (state[key] || 0) + (+t.dataset.d)));
+      saveState();
+      renderSheet();
+    });
     render();
   }
 
