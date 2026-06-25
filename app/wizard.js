@@ -46,11 +46,15 @@ const Wizard = (() => {
           <h3>Settings</h3>
           <button class="theme-close-btn" id="theme-close">&#x2715;</button>
         </div>
-        <div class="settings-actions">
-          <button class="btn btn-secondary btn-sm" data-settings-act="print">Print / Save as PDF</button>
-          <button class="btn btn-secondary btn-sm" data-settings-act="export">Export Character</button>
-          <button class="btn btn-secondary btn-sm" data-settings-act="import">Import Character</button>
-          <button class="btn btn-secondary btn-sm" data-settings-act="new">+ New Character</button>
+        <div class="settings-section-label">Characters</div>
+        <div class="roster-bar">
+          <select class="roster-select" id="roster-select">${rosterOptionsHtml()}</select>
+          <button class="btn btn-secondary btn-sm" data-settings-act="load">Load</button>
+          <button class="btn btn-secondary btn-sm" data-settings-act="new">New</button>
+          <button class="btn btn-primary btn-sm" data-settings-act="save">Save</button>
+          <button class="btn btn-secondary btn-sm" data-settings-act="del">Delete</button>
+          <button class="btn btn-secondary btn-sm" data-settings-act="export">Export</button>
+          <button class="btn btn-secondary btn-sm" data-settings-act="import">Import</button>
         </div>
         <div class="settings-section-label">Color Theme</div>
         <div class="theme-swatches">
@@ -80,10 +84,12 @@ const Wizard = (() => {
       const act = e.target.closest('[data-settings-act]');
       if (act) {
         const which = act.dataset.settingsAct;
-        if (which === 'print')  { exportCharacterPdf(act, close); return; }
+        if (which === 'load')   { rosterLoad(modal, close); return; }
+        if (which === 'new')    { close(); newCharacter(); return; }
+        if (which === 'save')   { if (saveToRoster()) { refreshRosterSelect(); flashBtn(act, 'Saved ✓'); } return; }
+        if (which === 'del')    { rosterDelete(modal); return; }
         if (which === 'export') { close(); exportCharacterJson(); return; }
         if (which === 'import') { close(); importCharacterJson(); return; }
-        if (which === 'new')    { close(); newCharacter(); return; }
       }
       if (e.target === modal || e.target.closest('#theme-close')) close();
     }
@@ -95,6 +101,7 @@ const Wizard = (() => {
   // ── State ─────────────────────────────────────────────────────────────────
   function defaultState() {
     return {
+      id: genId(),
       step: 0,
       game: null,
       speciesKey: null,
@@ -156,7 +163,7 @@ const Wizard = (() => {
   function loadState() {
     try {
       const s = localStorage.getItem('sw_char_v1');
-      if (s) state = Object.assign(defaultState(), JSON.parse(s));
+      if (s) { state = Object.assign(defaultState(), JSON.parse(s)); saveState(); }
     } catch(e) {}
   }
 
@@ -2555,16 +2562,79 @@ const Wizard = (() => {
     }
   }
 
-  // Fill the official FFG sheet PDFs with this character and download them.
-  function exportCharacterPdf(btn, done) {
-    if (typeof PdfExport === 'undefined') { alert('PDF export is unavailable.'); if (done) done(); return; }
-    const original = btn ? btn.textContent : '';
-    if (btn) { btn.textContent = 'Generating PDF…'; btn.disabled = true; }
-    Promise.resolve()
-      .then(() => PdfExport.exportSheet(state))
-      .then(() => { if (done) done(); })
-      .catch(err => { console.error(err); alert('Could not generate the PDF: ' + ((err && err.message) || err)); })
-      .finally(() => { if (btn) { btn.textContent = original; btn.disabled = false; } });
+  // ── Character roster (multiple saved characters) ───────────────────────────
+  const ROSTER_KEY = 'sw_roster_v1';
+  function genId() { return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function getRoster() { try { return JSON.parse(localStorage.getItem(ROSTER_KEY)) || []; } catch (e) { return []; } }
+  function setRoster(ix) { try { localStorage.setItem(ROSTER_KEY, JSON.stringify(ix)); } catch (e) {} }
+
+  function rosterOptionsHtml() {
+    const ix = getRoster();
+    if (!ix.length) return '<option value="">No saved characters</option>';
+    return ix.map(e => {
+      const bits = [esc(e.name || 'Unnamed')];
+      if (e.species) bits.push(esc(e.species));
+      if (e.line) bits.push(String(e.line).toUpperCase());
+      return `<option value="${esc(e.id)}"${e.id === state.id ? ' selected' : ''}>${bits.join(' · ')}</option>`;
+    }).join('');
+  }
+  function refreshRosterSelect() {
+    const sel = document.getElementById('roster-select');
+    if (sel) sel.innerHTML = rosterOptionsHtml();
+  }
+  function flashBtn(btn, text) {
+    if (!btn) return;
+    const orig = btn.dataset._orig || btn.textContent;
+    btn.dataset._orig = orig;
+    btn.textContent = text;
+    clearTimeout(btn._flashT);
+    btn._flashT = setTimeout(() => { btn.textContent = btn.dataset._orig; }, 1300);
+  }
+
+  // Save the working character into the roster, creating or updating its slot.
+  function saveToRoster() {
+    if (!state.id) state.id = genId();
+    try { localStorage.setItem('sw_saved_v1_' + state.id, JSON.stringify(state)); }
+    catch (e) { alert('Could not save the character (browser storage may be full).'); return false; }
+    const species = Engine.getSpecies(state.speciesKey);
+    const entry = {
+      id: state.id, name: (state.name || '').trim() || 'Unnamed',
+      species: species ? species.name : '', line: state.game || '', savedAt: new Date().toISOString(),
+    };
+    setRoster([entry, ...getRoster().filter(e => e.id !== state.id)]);
+    saveState();   // keep the autosaved working copy in sync (now carries the id)
+    return true;
+  }
+
+  function loadFromRoster(id) {
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem('sw_saved_v1_' + id)); } catch (e) {}
+    if (!saved) { alert('That saved character could not be found.'); return; }
+    state = Object.assign(defaultState(), saved);
+    state.id = id;
+    state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
+    state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
+    saveState(); render(); window.scrollTo(0, 0);
+  }
+
+  function rosterLoad(modal, close) {
+    const sel = modal.querySelector('#roster-select');
+    const id = sel && sel.value;
+    if (!id) { alert('Pick a saved character to load.'); return; }
+    if (id === state.id) { close(); return; }   // already the working character
+    if (!confirm('Load this character? Any unsaved changes to your current character will be lost.')) return;
+    close(); loadFromRoster(id);
+  }
+
+  function rosterDelete(modal) {
+    const sel = modal.querySelector('#roster-select');
+    const id = sel && sel.value;
+    if (!id) { alert('Pick a saved character to delete.'); return; }
+    const ent = getRoster().find(e => e.id === id);
+    if (!confirm('Delete the saved character "' + ((ent && ent.name) || 'Unnamed') + '"? This cannot be undone.')) return;
+    try { localStorage.removeItem('sw_saved_v1_' + id); } catch (e) {}
+    setRoster(getRoster().filter(e => e.id !== id));
+    refreshRosterSelect();
   }
 
   // Download the current character as a JSON save file (backup / share / transfer).
@@ -2609,6 +2679,7 @@ const Wizard = (() => {
         }
         if (!confirm('Import this character? Your current character will be replaced.')) return;
         state = Object.assign(defaultState(), incoming);
+        state.id = genId();   // treat an imported character as a new roster entry
         // Repair structures that may be missing from older save files.
         state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
         state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
