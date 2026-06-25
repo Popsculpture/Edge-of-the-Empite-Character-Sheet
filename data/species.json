@@ -1,53 +1,5 @@
 [
   {
-    "key": "abednedo",
-    "name": "Abednedo",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 3,
-    "cunning": 1,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 9,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 12,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Abednedo begin with one rank in Education. They still may not train this skill above rank 2 at character creation.",
-      "Tunneler Ancestors: Abednedo may remove one setback die due to darkness."
-    ],
-    "sources": [
-      "Fires of Resistance: An Unofficial Era Sourcebook (Page 2)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Fires of Resistance (unofficial)"
-  },
-  {
-    "key": "aki_aki",
-    "name": "Aki-Aki",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 1,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 3,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 11,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Aki-Aki begin with one rank in Coordination or Negotiation. They still may not train this skill above rank 2 at character creation. They also start the game with one rank in the Kill With Kindness talent.",
-      "Vibration sensitivity: Once per encounter as a maneuver, Aki-Aki can stop to sense the relative location of anything moving within medium range."
-    ],
-    "sources": [
-      "Fires of Resistance: An Unofficial Era Sourcebook (Page 2-4)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Fires of Resistance (unofficial)"
-  },
-  {
     "key": "aleena",
     "name": "Aleena",
     "brawn": 1,
@@ -314,30 +266,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "caarite",
-    "name": "Caarite",
-    "brawn": 1,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 3,
-    "wound_threshold": 8,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Caarites begin the game with one rank in Negotiation or Streetwise. They still may not train  Negotiation or Streetwise above rank 2 during character creation. Caarites are smaller than average and count as silhouette 0.",
-      "Sauna Life: When making skill checks, Caarites may remove a setback die imposed due to hot environmental conditions. However, inexperience with cooler temperatures mean that any cold environment imposes a setback die to the character’s checks. With their GM’s approval a player with a Caarite character may spend 5 XP during creation to remove this disadvantage from their character."
-    ],
-    "sources": [
-      "The Living Force: A Sourcebook for the Cularin System (Page 85)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Living Force: A Sourcebook for the Cularin System (likely fan)"
-  },
-  {
     "key": "cerean",
     "name": "Cerean",
     "brawn": 2,
@@ -553,31 +481,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "dashade",
-    "name": "Dashade",
-    "brawn": 3,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 12,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 9,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 75,
-    "special_abilities": [
-      "Special Abilities: Dashade begin the game with one rank in Athletics or Resilience. They still may not train Athletics or Resilience above rank 2 during character creation.",
-      "Force Resistance: Upgrade the difficulty of Force power skill checks targeting a Dashade once.",
-      "Dissipating Hide: Dashade remove a setback die imposed due to hot or radioactive environments. They add two setback dice to any checks made to detect them with thermal sensors."
-    ],
-    "sources": [
-      "The Old Republic: An Era Sourcebook (Page 6)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "dathomirian",
@@ -797,30 +700,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "echani",
-    "name": "Echani",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 11,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Echani begin the game with one rank in Brawl or Melee. They still may not train Brawl or Melee above rank 2 during character creation.",
-      "Communication by Combat: Echani may spend two advantage results from a Brawl, Melee or Lightsaber check to discover their targets motivation or gain insight into their emotional state."
-    ],
-    "sources": [
-      "The Old Republic: An Era Sourcebook (Page 7)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Old Republic: An Era Sourcebook"
-  },
-  {
     "key": "elom",
     "name": "Elom",
     "brawn": 3,
@@ -866,30 +745,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "evereni",
-    "name": "Evereni",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 3,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Evereni begin the game with one rank in either Deception or Skulduggery. They still may not train Deception or Skulduggery above rank 2 during character creation.",
-      "Distrustful: Evereni add a setback die to all Charm checks they make. Other characters add a setback die to all Social checks they make when targeting Evereni."
-    ],
-    "sources": [
-      "For Light and Life: An Era Sourcebook (Page 14-16)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "For Light and Life"
   },
   {
     "key": "ewok",
@@ -939,31 +794,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "filordi",
-    "name": "Filordi",
-    "brawn": 3,
-    "agility": 1,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 12,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 75,
-    "special_abilities": [
-      "Special Abilities: Filordi begin the game with one rank in Perception or Vigilance. They still may not train Perception or Vigilance above rank 2 during character creation.",
-      "Additional Limbs: Filord have six limbs: two legs and four arms. As a result, they gain an additional free maneuver per turn, although they still may not perform more than two maneuvers per turn.",
-      "Pincer Feet: When a Filordi makes Brawl checks to deal damage to an opponent, they deal +1 damage and have a Critical Rating of 3."
-    ],
-    "sources": [
-      "The Living Force: A Sourcebook for the Cularin System (Page 86)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Living Force: A Sourcebook for the Cularin System (likely fan)"
   },
   {
     "key": "gand",
@@ -1112,30 +942,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "gozzo",
-    "name": "Gozzo",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 1,
-    "presence": 3,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 11,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Gozzo begin with one rank in Negotiation. They still may not train this skill above rank 2 at character creation.",
-      "Who Dares, Gains: Once per encounter, during a check, you may upgrade the difficulty of the check to add a success and advantage result to your final result."
-    ],
-    "sources": [
-      "Fires of Resistance: An Unofficial Era Sourcebook (Page 4-5)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Fires of Resistance (unofficial)"
-  },
-  {
     "key": "gran",
     "name": "Gran",
     "brawn": 2,
@@ -1230,30 +1036,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "human_onderonian",
-    "name": "Human (Onderonian)",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 110,
-    "special_abilities": [
-      "Special Abilities: Onderonians begin the game with one rank in Survival.",
-      "Natural Animal Handlers: Due to their homeworld's strong beast-riding traditions, Onderonian Humans may train Survival up to rank 3 during character creation."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 269)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "hutt",
@@ -1399,54 +1181,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "kage",
-    "name": "Kage",
-    "brawn": 2,
-    "agility": 3,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 11,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 90,
-    "special_abilities": [
-      "Special Abilities: Kage begin the game with one rank in either Brawl or Coordination. They still may not train these skills above rank 2 during character creation.",
-      "Martial Tradition: Kage begin the game with one rank in the Iron Body talent."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 269)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
-  },
-  {
-    "key": "kaleesh",
-    "name": "Kaleesh",
-    "brawn": 3,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 12,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 9,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 90,
-    "special_abilities": [
-      "Special Abilities: Kaleesh begin the game with one rank in either Coercion or Melee. They still may not train these skills above rank 2 during character creation.",
-      "War Mask: Because of their fierce appearance, Kaleesh suffer a setback die on all Charm and Negotiation checks."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 270)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
   },
   {
     "key": "kalleran",
@@ -1736,30 +1470,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "miraluka",
-    "name": "Miraluka",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 3,
-    "presence": 1,
-    "wound_threshold": 9,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Miraluka begin the game with one rank in Discipline. They still may not train Discipline above rank 2 during character creation.",
-      "Force Sight: Miraluka are blind from birth but rely on the Force to perceive their environment. They remove any setback die added to their checks as a result of smoke, darkness or concealment, but add two setback dice to any checks that require precise investigation. They may never benefit from equipment that relies on the user's vision. Should a Miraluka become disconnected from the Force, they lose any benefits of Force Sight and incur all penalties of the \"Blinded\" Critical Injury."
-    ],
-    "sources": [
-      "The Old Republic: An Era Sourcebook (Page 8)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Old Republic: An Era Sourcebook"
-  },
-  {
     "key": "mirialan",
     "name": "Mirialan",
     "brawn": 2,
@@ -1949,29 +1659,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "noghri",
-    "name": "Noghri",
-    "brawn": 2,
-    "agility": 3,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 11,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 90,
-    "special_abilities": [
-      "Special Abilities: Noghri gain a free rank in the Stalker Talent."
-    ],
-    "sources": [
-      "The Thrawn Trilogy: An Era Sourcebook (Page 58)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Thrawn Trilogy: An Era Sourcebook (fan supplement)"
-  },
-  {
     "key": "pantoran",
     "name": "Pantoran",
     "brawn": 2,
@@ -1996,31 +1683,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "patrolian",
-    "name": "Patrolian",
-    "brawn": 1,
-    "agility": 2,
-    "intellect": 3,
-    "cunning": 3,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 9,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 11,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 90,
-    "special_abilities": [
-      "Special Abilities: Patrolians are smaller than average and count as Silhouette 0. Patrolians begin the game with one rank in either Computers or Skulduggery. They still may not train these skills above rank 2 during character creation.",
-      "Amphibious: Patrolians can breathe underwater without penalty and never suffer movement penalties for traveling through water.",
-      "Slicer By Nature: Patrolians being the game with one rank in the Bypass Security talent."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 270)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
-  },
-  {
     "key": "pau_an",
     "name": "Pau'an",
     "brawn": 1,
@@ -2043,32 +1705,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "phrogg",
-    "name": "Phrogg",
-    "brawn": 3,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 9,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "1 rank in Discipline or Charm",
-      "Amphibian: Can breath underwater and remove penalties for being underwater. Remove a setback die from humidity and heat, add a setback die for dry or cold conditions.",
-      "Prehensile Tongue: May pick up items within Short range as an incidental",
-      "Leaping Lizards: Upgrade Athletic and Coordination checks once if they involve jumping."
-    ],
-    "sources": [
-      "Adventures in Babysitting: A Source Book for \"The Mandalorian\" Seasons 1 and 2 (Page 18)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Adventures in Babysitting (fan supplement)"
   },
   {
     "key": "phydolon",
@@ -2121,30 +1757,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "pyke",
-    "name": "Pyke",
-    "brawn": 1,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 3,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 90,
-    "special_abilities": [
-      "Special Abilities: Pykes begin the game with one rank in Streetwise. They still may not train this skill above rank 2 during character creation.",
-      "Family Business: Pykes begin the game with one rank in the Black Market Contacts talent and adds a boost die to any Knowledge checks relating to the illegal spice trade."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 271)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
-  },
-  {
     "key": "quarren",
     "name": "Quarren",
     "brawn": 2,
@@ -2192,30 +1804,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "rattataki",
-    "name": "Rattataki",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 12,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 9,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Rattataki begin the game with one rank in a combat skill of their choice. They still may not train this skill above rank 2 during character creation.",
-      "Culture of Violence: For their violent nature, Rattataki are poorly regarded across the galaxy. They add a setback die to any Charm, Deception, Leadership and Negotiation checks they make, but they add a boost die to any Coercion checks. This does not apply when interacting with other Rattataki."
-    ],
-    "sources": [
-      "The Old Republic: An Era Sourcebook (Page 9)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Old Republic: An Era Sourcebook"
   },
   {
     "key": "rodian",
@@ -2288,30 +1876,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "selkath",
-    "name": "Selkath",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 3,
-    "cunning": 2,
-    "willpower": 1,
-    "presence": 2,
-    "wound_threshold": 11,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 9,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Selkath begin the game with one rank in Medicine. They still may not train this skill above rank 2 during character creation.",
-      "Amphibious: Selkath can breathe underwater without penalty and never suffer movement penalties for traveling through water."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 271)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
-  },
-  {
     "key": "selonian",
     "name": "Selonian",
     "brawn": 2,
@@ -2360,29 +1924,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "sith_pureblood",
-    "name": "Sith Pureblood",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 3,
-    "willpower": 1,
-    "presence": 2,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 11,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 95,
-    "special_abilities": [
-      "Special Abilities: Sith Purebloods begin the game with one rank in Knowledge (Lore) or Leadership. They still may not train Knowledge (Lore) or Leadership above rank 2 during character creation."
-    ],
-    "sources": [
-      "The Old Republic: An Era Sourcebook (Page 10)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Old Republic: An Era Sourcebook"
-  },
-  {
     "key": "skakoan",
     "name": "Skakoan",
     "brawn": 2,
@@ -2405,106 +1946,6 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "talpini",
-    "name": "Talpini",
-    "brawn": 1,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 3,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Willpower",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Talpini begin the game with one rank in Mechanics. They still may not train Mechanics above rank 2 during character creation.",
-      "Harsh Upbringing: Talpini begin the game with one rank in the Inventor talent.",
-      "Darksight: Talpini may see in low light without any penalty."
-    ],
-    "sources": [
-      "For Light and Life: An Era Sourcebook (Page 16)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "For Light and Life"
-  },
-  {
-    "key": "talz",
-    "name": "Talz",
-    "brawn": 3,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 13,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 9,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Talz begin the game with one rank in Resilience. They still may not train this skill above rank 2 during character creation.",
-      "Tundra Dwellers: When making skill checks, Talz may remove setback die imposed due to cold environmental conditions.",
-      "Primitive: Talz upgrade the difficulty of any checks involving advanced technology once. This counts as any technology not available on the Talz's home planet, though individual pieces of technology they become familiar with over an extended period of time can become exempt from this at the GM's discretion. Talz can spend 10 XP at character creation to remove this penalty permanently."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 272)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
-  },
-  {
-    "key": "tarasin",
-    "name": "Tarasin",
-    "brawn": 1,
-    "agility": 2,
-    "intellect": 3,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 2,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 9,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 100,
-    "special_abilities": [
-      "Special Abilities: Tarasin begin the game with one rank in Stealth. They still may not train Stealth above rank 2 during character creation.",
-      "Insulated: The Tarasin’s thick hide and scales allow their body to remain at a constant temperature against outside influence. Adapted to the hot climate of Cularin, they remove up to two setback dice imposed by hot environments and other heat hazards.",
-      "Silent Communication: The Tarasin’s colour shifting skin allows them to blend into their environment, but it can also be finely controlled to communicate with other Tarasin silently. The patterns and their meaning can be learnt by non-Tarasin if they apply themselves. However, these shifting colors also reflect on the emotional state of the individual, potentially betraying their intentions. Tarasin upgrade the difficulty of Deception checks once (this may also apply to other checks where the Tarasin’s intention makes the interaction harder)."
-    ],
-    "sources": [
-      "The Living Force: A Sourcebook for the Cularin System (Page 30-32)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "The Living Force: A Sourcebook for the Cularin System (likely fan)"
-  },
-  {
-    "key": "teedo",
-    "name": "Teedo",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 3,
-    "willpower": 1,
-    "presence": 1,
-    "wound_threshold": 9,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 110,
-    "special_abilities": [
-      "Special Abilities: Teedo begin with one rank in Survival or Mechanics. They still may not train this skill above rank 2 at character creation.",
-      "Small: Teedo are smaller than average and count as silhouette 0.",
-      "Not This Teedo: Once per check as an incidental, the character may suffer 3 strain to upgrade the ability of a check using a non-career skill once."
-    ],
-    "sources": [
-      "Fires of Resistance: An Unofficial Era Sourcebook (Page 5-6)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Fires of Resistance (unofficial)"
   },
   {
     "key": "thisspiasian",
@@ -2703,31 +2144,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "ugor",
-    "name": "Ugor",
-    "brawn": 1,
-    "agility": 1,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 1,
-    "presence": 1,
-    "wound_threshold": 11,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 11,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 150,
-    "special_abilities": [
-      "Special Abilities: Ugor begin the game with one rank in Mechanics. They still may not train Mechanics above rank 2 during character creation.",
-      "Bad Reputation: Unfortunately, Ugor have a poor reputation in certain close-minded areas of the Clone Wars. All Ugor must add an additional setback die to any Social checks in the Core Worlds.",
-      "Highly Adaptable: Because of their unique biology, Ugor are able to take on two strain in exchange for temporarily boosting any skill for one round. An Ugor may temporarily grow pseudopodia into a bunch of eyestalks to increase their Perception or grow extra limbs to increase their Athletics skill. However, no attribute may be boosted higher than rank 3."
-    ],
-    "sources": [
-      "For Light and Life: An Era Sourcebook (Page 13-14)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "For Light and Life"
-  },
-  {
     "key": "umbaran",
     "name": "Umbaran",
     "brawn": 2,
@@ -2900,31 +2316,6 @@
     "homebrew_source": ""
   },
   {
-    "key": "yahk_tosh",
-    "name": "Yahk-Tosh",
-    "brawn": 3,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 2,
-    "presence": 1,
-    "wound_threshold": 12,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 75,
-    "special_abilities": [
-      "Special Abilities: Yahk-Tosh begin the game with one rank in Athletics or Discipline. They still may not train these skills above rank 2 during character creation.",
-      "Additional Limbs: Yahk-Tosh have multiple sets of arms. As a result, they gain an additional free maneuver per turn, though still may not perform more than two maneuvers per turn.",
-      "Droid Telepathy: The mild telepathic abilities of the Yahk-Tosh allows them to take control of droids with their minds. Yahk-Tosh begin the game with one rank of Speaks Binary and can direct droids without audible speech when within medium range of them."
-    ],
-    "sources": [
-      "Neo-Crusader's Arc of Doom: Adventure Module (Page 13)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Neo-Crusader's Arc of Doom (fan module)"
-  },
-  {
     "key": "zabrak",
     "name": "Zabrak",
     "brawn": 2,
@@ -2947,30 +2338,5 @@
     ],
     "homebrew": false,
     "homebrew_source": ""
-  },
-  {
-    "key": "zygerrian",
-    "name": "Zygerrian",
-    "brawn": 2,
-    "agility": 2,
-    "intellect": 2,
-    "cunning": 2,
-    "willpower": 3,
-    "presence": 1,
-    "wound_threshold": 10,
-    "wound_threshold_stat": "Brawn",
-    "strain_threshold": 10,
-    "strain_threshold_stat": "Willpower",
-    "starting_xp": 90,
-    "special_abilities": [
-      "Special Abilities: Zygerrians begin the game with one rank in Coercion. They still may not train this skill above rank 2 during character creation.",
-      "Long Live Zygerria: Zygerrians begin the game with one rank in the Confidence talent.",
-      "Always Alert: Zygerrians add a boost die to hearing-based Perception and Vigilance checks."
-    ],
-    "sources": [
-      "Heroes on Both Sides: The Unofficial Collection of Clone Wars Heroes & Villains (Page 272)"
-    ],
-    "homebrew": true,
-    "homebrew_source": "Heroes on Both Sides (unofficial)"
   }
 ]

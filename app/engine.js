@@ -89,6 +89,79 @@ const Engine = (() => {
   function getSkill(key)    { return SW.skills.find(s => s.key === key); }
   function getTalent(name)  { return SW.talents.find(t => t.name.toLowerCase() === name.toLowerCase()); }
 
+  // Talents that flatly, always-on modify a printed character-sheet stat per rank.
+  // Verified against EotE/AoR/FaD rules; conditional/active talents are deliberately
+  // excluded (they are resolved at the table, not baked into the sheet).
+  const TALENT_EFFECTS = {
+    'Toughened':         { stat: 'wound',         delta: 2 },
+    'Grit':              { stat: 'strain',        delta: 1 },
+    'Enduring':          { stat: 'soak',          delta: 1 },
+    'Superior Reflexes': { stat: 'defenseMelee',  delta: 1 },
+    'Sixth Sense':       { stat: 'defenseRanged', delta: 1 },
+    'Force Rating':      { stat: 'forceRating',   delta: 1 },
+    'Witchcraft':        { stat: 'forceRating',   delta: 1 },
+    'Dedication':        { stat: 'characteristic', delta: 1, needsChoice: true },
+  };
+  function talentEffect(name) { return TALENT_EFFECTS[name] || null; }
+
+  // Talents that remove setback dice from EVERY check of a named skill, per rank
+  // (verified whole-skill removers; conditional-subset removers are excluded so
+  // they do not paint a blanket glyph). 'ALL_KNOWLEDGE' = every Knowledge skill.
+  const SETBACK_SKILL_TALENTS = {
+    'Commanding Presence':   ['Leadership', 'Cool'],
+    'Conditioned':           ['Athletics', 'Coordination'],
+    'Convincing Demeanor':   ['Deception', 'Skulduggery'],
+    'Galaxy Mapper':         ['Astrogation'],
+    'Gearhead':              ['Mechanics'],
+    'Iron Body':             ['Coordination', 'Resilience'],
+    'Keen Eyed':             ['Perception', 'Vigilance'],
+    'Kill With Kindness':    ['Charm', 'Leadership'],
+    'Leverage':              ['Cool', 'Negotiation'],
+    'Plausible Deniability': ['Coercion', 'Deception'],
+    'Researcher':            ['ALL_KNOWLEDGE'],
+    'Savvy Negotiator':      ['Negotiation', 'Streetwise'],
+    'Secret Lore':           ['Lore'],
+    'Skilled Jockey':        ['Piloting - Planetary', 'Piloting - Space'],
+    'Steady Nerves':         ['Cool', 'Skulduggery'],
+    'Street Smarts':         ['Streetwise', 'Underworld'],
+  };
+
+  // Count purchased ranks per talent name in the current specialization tree.
+  // Scoped to state.specKey to match how talent XP is counted (single active spec).
+  function purchasedTalentCounts(state) {
+    const counts = {};
+    const spec   = getSpec(state.specKey);
+    const bought = (state.talentPurchases || {})[state.specKey];
+    if (!spec || !spec.talent_tree || !bought) return counts;
+    const names = [];
+    for (const row of spec.talent_tree) for (const n of (row.talents || [])) names.push(n);
+    for (let i = 0; i < names.length; i++) {
+      if (bought[i] && names[i]) counts[names[i]] = (counts[names[i]] || 0) + 1;
+    }
+    return counts;
+  }
+
+  // Talent ranks a species grants for free, parsed from its special-abilities text
+  // (e.g. "one rank in the Convincing Demeanor talent"). Names are canonicalized
+  // to match talents.js. These are free (no XP) but still apply their effects.
+  const NUM_WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6 };
+  function speciesTalentGrants(species) {
+    const out = {};
+    if (!species) return out;
+    const re = /(\w+)\s+ranks?\s+(?:of|in)\s+(?:the\s+)?(.+?)\s+talent\b/i;
+    for (const ab of (species.special_abilities || [])) {
+      for (const sentence of String(ab).split('.')) {
+        const m = sentence.match(re);
+        if (!m) continue;
+        const n = NUM_WORDS[m[1].toLowerCase()] || parseInt(m[1], 10) || 1;
+        const t = getTalent(m[2].trim());
+        const name = t ? t.name : m[2].trim();
+        out[name] = (out[name] || 0) + n;
+      }
+    }
+    return out;
+  }
+
   // Equipment lookups (lazy key maps for speed across ~1,100 items)
   let _eqMaps = null;
   function eqMaps() {
@@ -218,12 +291,70 @@ const Engine = (() => {
       skillRanks[key] = Math.min(2, (skillRanks[key] || 0) + 1);
     }
 
+    // ── Talent stat bonuses (always-on passive talents) ───────────────────
+    // Character's talents = specialization-tree purchases + species-granted ranks.
+    const treeCounts  = purchasedTalentCounts(state);
+    const grantCounts = speciesTalentGrants(species);
+    const talentCounts = {};
+    for (const [n, r] of Object.entries(treeCounts))  talentCounts[n] = (talentCounts[n] || 0) + r;
+    for (const [n, r] of Object.entries(grantCounts)) talentCounts[n] = (talentCounts[n] || 0) + r;
+    const rk = name => talentCounts[name] || 0;
+
+    // Dedication: +1 to a chosen characteristic per rank (capped at 6). Applied
+    // to an effective copy so it flows into thresholds, soak, and skill dice.
+    const effChars = Object.assign({}, chars);
+    const dedTotal  = rk('Dedication');
+    const dedChoices = (state.dedicationChoices || []).slice(0, dedTotal);
+    for (const ck of dedChoices) {
+      if (ck) effChars[ck] = Math.min(6, (effChars[ck] || 0) + 1);
+    }
+
+    const woundBonus  = rk('Toughened') * 2;
+    const strainBonus = rk('Grit');
+    const soakBonus   = rk('Enduring');
+    const defMBonus   = rk('Superior Reflexes');
+    const defRBonus   = rk('Sixth Sense');
+    const forceRating = rk('Force Rating') + rk('Witchcraft');
+
+    // Per-skill setback dice removed by always-on whole-skill talents. Resolved
+    // to skill keys so the sheet can draw a "removed setback" glyph on each row.
+    const skillSetbackRemoved = {};
+    const knowledgeKeys = (SW.skills || []).filter(s => (s.type || '') === 'Knowledge').map(s => s.key);
+    for (const [tname, skillNames] of Object.entries(SETBACK_SKILL_TALENTS)) {
+      const amount = rk(tname);   // perRank is 1 for every confirmed talent
+      if (!amount) continue;
+      for (const sn of skillNames) {
+        const keys = sn === 'ALL_KNOWLEDGE' ? knowledgeKeys : [nameToKey(sn)].filter(Boolean);
+        for (const k of keys) skillSetbackRemoved[k] = (skillSetbackRemoved[k] || 0) + amount;
+      }
+    }
+
+    // Talent list for the sheet (name, rank, source, activation, effect, setback).
+    const talentList = Object.keys(talentCounts).sort().map(name => {
+      const t    = getTalent(name);
+      const eff  = TALENT_EFFECTS[name];
+      const rank = talentCounts[name];
+      const fromTree    = !!treeCounts[name];
+      const fromSpecies = !!grantCounts[name];
+      const setbackSkills = SETBACK_SKILL_TALENTS[name] || null;
+      return {
+        name, rank,
+        ranked:      t ? !!t.ranked : false,
+        activation:  t ? (t.activation  || '') : '',
+        description: t ? (t.description || '') : '',
+        source:      fromTree && fromSpecies ? 'both' : fromSpecies ? 'species' : 'tree',
+        effect: eff ? { stat: eff.stat, delta: eff.delta, total: eff.delta * rank, needsChoice: !!eff.needsChoice } : null,
+        setback: setbackSkills ? { skills: setbackSkills, perRank: 1, total: rank } : null,
+      };
+    });
+
     return {
-      wound_threshold:  (species.wound_threshold  || 10) + (chars[wtStat]  || 2),
-      strain_threshold: (species.strain_threshold || 10) + (chars[stStat] || 2),
-      soak:             (chars.brawn || 1) + armorSoak,
-      defense_ranged:   armorDefense,
-      defense_melee:    armorDefense,
+      wound_threshold:  (species.wound_threshold  || 10) + (effChars[wtStat]  || 2) + woundBonus,
+      strain_threshold: (species.strain_threshold || 10) + (effChars[stStat] || 2) + strainBonus,
+      soak:             (effChars.brawn || 1) + armorSoak + soakBonus,
+      defense_ranged:   armorDefense + defRBonus,
+      defense_melee:    armorDefense + defMBonus,
+      force_rating:     forceRating,
       starting_xp:      startingXp,
       xp_spent:         xpSpent,
       xp_remaining:     xpRemaining,
@@ -231,11 +362,17 @@ const Engine = (() => {
       credits_spent:     creditsSpent,
       credits_remaining: creditsRemaining,
       encumbrance:           encumbrance,
-      encumbrance_threshold: (chars.brawn || 0) + 5,
+      encumbrance_threshold: (effChars.brawn || 0) + 5,
       worn_armor:        wornArmor ? wornArmor.key : null,
       career_skill_keys: careerSkillKeys,
       bonus_skill_keys:  bonusSkillKeys,
       skill_ranks:       skillRanks,
+      skill_setback_removed: skillSetbackRemoved,
+      characteristics:   effChars,
+      talents:           talentList,
+      talent_stat_bonuses: { wound: woundBonus, strain: strainBonus, soak: soakBonus,
+                             defenseRanged: defRBonus, defenseMelee: defMBonus, forceRating: forceRating },
+      dedication_total:  dedTotal,
     };
   }
 
@@ -246,6 +383,7 @@ const Engine = (() => {
     getSpecies, getCareer, getSpec, getSkill, getTalent,
     getWeapon, getArmor, getGear, getItem,
     getVehicle, getVehicleWeapon, getVehicleWeaponMap,
+    talentEffect, purchasedTalentCounts,
     creditBonusFor,
     specBonusSkillKeys,
     derive,

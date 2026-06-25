@@ -94,6 +94,7 @@ const Wizard = (() => {
       duty:               { type: '', deficit: 0, bonusType: '' },
       morality:           { strength: '', weakness: '', score: 50 },
       talentPurchases:    {},
+      dedicationChoices:  [],
       beginnings:         '',
       forceAttitude:      '',
       reasonForAdventure: '',
@@ -767,9 +768,6 @@ const Wizard = (() => {
           <option value="">All Books</option>
           ${bookOptions}
         </select>
-        <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--muted);white-space:nowrap;cursor:pointer">
-          <input type="checkbox" id="sp-show-homebrew"> Show homebrew
-        </label>
       </div>
       <div class="arch-pills" id="sp-arch">${archPills}</div>
       <div class="species-grid" id="sp-grid"></div>`;
@@ -779,9 +777,8 @@ const Wizard = (() => {
       const search = ($('#sp-search').value || '').toLowerCase();
       grid.innerHTML = '';
 
-      const showSpHomebrew = $('#sp-show-homebrew').checked;
       const list = SW.species.filter(sp => {
-        if (sp.homebrew && !showSpHomebrew) return false;
+        if (sp.homebrew) return false;
         if (search && !sp.name.toLowerCase().includes(search)) return false;
         if (_spBook) {
           const spBooks = (sp.sources || []).map(sourceBookName);
@@ -816,7 +813,6 @@ const Wizard = (() => {
         card.innerHTML = `
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
             <h3 style="margin:0">${sp.name}</h3>
-            ${sp.homebrew ? `<span class="homebrew-badge" title="${sp.homebrew_source}">Homebrew</span>` : ''}
           </div>
           <div class="char-pips">${pips}</div>
           <div class="sp-stats">${statRows}</div>`;
@@ -840,7 +836,6 @@ const Wizard = (() => {
     draw();
     $('#sp-search').addEventListener('input', draw);
     $('#sp-book').addEventListener('change', e => { _spBook = e.target.value; draw(); });
-    $('#sp-show-homebrew').addEventListener('change', draw);
     $('#sp-arch').addEventListener('click', e => {
       const pill = e.target.closest('[data-arch]');
       if (!pill) return;
@@ -902,9 +897,6 @@ const Wizard = (() => {
         <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--muted);white-space:nowrap;cursor:pointer">
           <input type="checkbox" id="career-only" checked> Career only
         </label>
-        <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--muted);white-space:nowrap;cursor:pointer">
-          <input type="checkbox" id="show-homebrew"> Show homebrew
-        </label>
       </div>
       <div class="spec-grid" id="spec-grid"></div>`;
 
@@ -915,9 +907,8 @@ const Wizard = (() => {
       const cName      = career ? career.name : '';
       grid.innerHTML   = '';
 
-      const showHomebrew = $('#show-homebrew').checked;
       const list = SW.specializations.filter(s => {
-        if (s.homebrew && !showHomebrew) return false;
+        if (s.homebrew) return false;
         if (filter && !s.name.toLowerCase().includes(filter)) return false;
         if (careerOnly && !s.careers.includes(cName)) return false;
         return true;
@@ -950,7 +941,6 @@ const Wizard = (() => {
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:${blurb ? '4px' : '8px'}">
             <h3>${sp.name}</h3>
             ${!inCareer ? '<span style="font-size:0.68rem;color:var(--muted);border:1px solid var(--border);padding:1px 5px;border-radius:3px">Out-of-career</span>' : ''}
-            ${sp.homebrew ? `<span class="homebrew-badge" title="${sp.homebrew_source}">Homebrew</span>` : ''}
           </div>
           ${blurb ? `<p class="career-blurb" style="margin-bottom:10px">${blurb}</p>` : ''}
           <div class="skill-tags" style="margin-bottom:10px">${bonusTags}</div>
@@ -967,7 +957,6 @@ const Wizard = (() => {
     draw();
     $('#spec-search').addEventListener('input', draw);
     $('#career-only').addEventListener('change', draw);
-    $('#show-homebrew').addEventListener('change', draw);
     initTipListeners($('#spec-grid'));
   }
 
@@ -1625,6 +1614,35 @@ const Wizard = (() => {
       }
     }
 
+    // Dedication grants +1 to a characteristic of the player's choice per rank.
+    // Surface a picker for each purchased rank so the bonus has a target.
+    let dedCount = 0;
+    for (let i = 0; i < 20; i++) if (purchases[i] && names[i] === 'Dedication') dedCount++;
+    if (!Array.isArray(state.dedicationChoices)) state.dedicationChoices = [];
+    if (state.dedicationChoices.length !== dedCount) {
+      state.dedicationChoices = state.dedicationChoices.slice(0, dedCount);
+      while (state.dedicationChoices.length < dedCount) state.dedicationChoices.push('');
+      saveState();
+    }
+    let dedSection = '';
+    if (dedCount > 0) {
+      const opt = (sel) => Engine.CHAR_STATS.map(st =>
+        `<option value="${st}"${sel === st ? ' selected' : ''}>${st.charAt(0).toUpperCase() + st.slice(1)}</option>`).join('');
+      const rows = [];
+      for (let k = 0; k < dedCount; k++) {
+        rows.push(`<label class="ded-choice-row">
+          <span>Dedication rank ${k + 1}: +1 to</span>
+          <select class="ded-choice" data-k="${k}"><option value="">— choose —</option>${opt(state.dedicationChoices[k])}</select>
+        </label>`);
+      }
+      dedSection = `
+        <div class="ded-choices">
+          <div class="ded-choices-title">Dedication: characteristic increase</div>
+          ${rows.join('')}
+          <p class="ded-choices-note">Each rank permanently raises the chosen characteristic by one (max 6). This flows into your thresholds, soak, and dice pools on the sheet.</p>
+        </div>`;
+    }
+
     c.innerHTML = `
       <div class="step-header">
         <h2>${spec.name}</h2>
@@ -1634,7 +1652,17 @@ const Wizard = (() => {
       </div>
       <div class="talent-tree-wrap">
         <div class="tt-grid" id="talent-tree-grid">${cells}</div>
-      </div>`;
+      </div>
+      ${dedSection}`;
+
+    // Dedication characteristic pickers
+    c.querySelectorAll('.ded-choice').forEach(sel => {
+      sel.addEventListener('change', () => {
+        const k = +sel.dataset.k;
+        state.dedicationChoices[k] = sel.value;
+        saveState();
+      });
+    });
 
     // Tooltip on hover (mouseenter/leave only — click is reserved for purchase)
     const grid = $('#talent-tree-grid');

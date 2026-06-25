@@ -1,31 +1,10 @@
 [
   {
-    "key": "ORELSE",
-    "name": "...Or Else",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
-  },
-  {
-    "key": "ALESSONINPAI",
-    "name": "A Lesson in Pain",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per session, suffer a Critical Injury to reroll a failed check; the GM may allow sacrificing something personally significant instead."
-  },
-  {
     "key": "ASTEPAHEAD",
     "name": "A Step Ahead",
     "ranked": false,
     "activation": "Incidental",
     "description": "Once per session, the character may suffer two strain in order to count [their] Cunning as one higher than normal for the remainder of the encounter."
-  },
-  {
-    "key": "ACCOMPLISHED",
-    "name": "Accomplished Accomplice",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "ACKLAYSCST",
@@ -51,13 +30,6 @@
   {
     "key": "AAO",
     "name": "Against All Odds",
-    "ranked": false,
-    "activation": "Action",
-    "description": "Force talent. Once per session, if the character is incapacitated due to exceeding [their] wound threshold, [they] may perform the Against All Odds action (this action may be performed even though characters are normally barred from performing actions when incapacitated). The character makes a Hard difficulty Resilience check, rolling a number of Force dice equal to [their] Force rating as part of the check. If successful, the character heals wounds equal to success results. The character may spend Force points to add success results to the result."
-  },
-  {
-    "name": "Against The Odds",
-    "key": "AGAINSTTHEOD",
     "ranked": false,
     "activation": "Action",
     "description": "Force talent. Once per session, if the character is incapacitated due to exceeding [their] wound threshold, [they] may perform the Against All Odds action (this action may be performed even though characters are normally barred from performing actions when incapacitated). The character makes a Hard difficulty Resilience check, rolling a number of Force dice equal to [their] Force rating as part of the check. If successful, the character heals wounds equal to success results. The character may spend Force points to add success results to the result."
@@ -89,13 +61,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "Once per session the character may take the Altered Deal action and make Hard difficulty Coercion check to radically change a previously agreed upon deal or bargain to a version much more advantageous to the character. The player must narratively explain what happened, including the details of how the character arranged for the deal to be changed as well as the specifics of the new deal."
-  },
-  {
-    "key": "ALWAYSPREPAR",
-    "name": "Always Prepared",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "AMBUSH",
@@ -182,32 +147,11 @@
     "description": "The character may make an Easy difficulty Knowledge (Lore) check (instead of Discipline or Cool) to heal strain at the end of an encounter. A triumph result may be spent to heal all strain."
   },
   {
-    "name": "Ask Questions Later",
-    "key": "ASKQUESTIONS",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "The character removes a setback die per rank of Plausible Deniability from [their] Coercion and Deception checks. The character may make a Hard difficulty Coercion check to perform the Improved Plausible Deniability action. If [they] succeed, [they] convince one uninvolved bystander NPC per rank of Plausible Deniability to leave the scene without asking questions. If interrogated about the matter later, these NPCs deny having seen anything or have forgotten anything of importance."
-  },
-  {
-    "key": "ASSASSINATE",
-    "name": "Assassinate",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "ASSAULTDR",
     "name": "Assault Drop",
     "ranked": false,
     "activation": "Incidental",
     "description": "Once per session while piloting a vehicle or ship, the character may perform the Assault Drop incidental. All passengers aboard or allies engaged with the vehicle or ship may immediately disembark or embark as an out-of-turn incidental."
-  },
-  {
-    "key": "ASTUTEOBSERV",
-    "name": "Astute Observation",
-    "ranked": true,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "ATANYCOST",
@@ -222,13 +166,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "Force talent. When making a Lightsaber skill check, the character may use Agility instead of Brawn."
-  },
-  {
-    "key": "AUTHORITYONT",
-    "name": "Authority on the Subject",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "BACKROOM",
@@ -256,7 +193,7 @@
     "name": "Bad Motivator",
     "ranked": false,
     "activation": "Action",
-    "description": "Once per game session, the character may take a Bad Motivator action to make a Hard difficulty Mechanics check. If successful, one device (subject to the GM's approval) spontaneously fails due to the character's involvement, or because it was about to fail anyway and the character noticed it (this is the character's decision). The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "Once per game session, the character may take a Bad Motivator action to make a Hard difficulty Mechanics check. If successful, one device (subject to the GM's approval) spontaneously fails due to the character's involvement, or because it was about to fail anyway and the character noticed it (this is the character's decision)."
   },
   {
     "key": "BADPRESS",
@@ -278,13 +215,6 @@
     "ranked": false,
     "activation": "Incidental (Out of Turn)",
     "description": "Force talent. When targeted by a combat check made by an enemy within medium range, the character may spend a Destiny Point to upgrade the difficulty of the check a number of times equal to [their] ranks of Coercion. A character who has purchased this talent automatically gains 1 Conflict at the beginning of each session."
-  },
-  {
-    "key": "BARGAINHUNTE",
-    "name": "Bargain Hunter",
-    "ranked": true,
-    "activation": "Passive",
-    "description": ""
   },
   {
     "key": "BAR",
@@ -357,13 +287,6 @@
     "description": "Once per session, the character may take a Biggest Fan action to make a Hard difficulty Charm check. If successful, on NPC of the character's choice in the current encounter turns out to be the character's self-proclaimed \"biggest fan.\" The exact effects of this vary depending on the NPC and the situation. They can include drastically decreasing the difficulty of Social Interaction skill checks the character makes targeting [their] biggest fan, the fan being willing to perform minor or even significant favors for the character, or the character even becoming a reoccurring ally in the narrative. At the GM's discretion, this talent may not be able to target certain NPCs whose adversarial nature is vital to the plot, or NPCs who would be unable to appreciate the character's work such as non-sentient creatures, labor droids, and Imperial Stormtroopers."
   },
   {
-    "name": "Binary Companions",
-    "key": "BINARYCOMPAN",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "#REDIRECT Binary Companions talent"
-  },
-  {
     "key": "BLA",
     "name": "Black Market Contacts",
     "ranked": true,
@@ -406,13 +329,6 @@
     "description": "The character may take the Improved Blooded action, making a Hard difficulty Resilience check. If they succeed, they immediately recover from the effects of all poisons and the side effects or after effects of all drugs. Reduce the difficulty of the check once per rank of Blooded, to a minimum of Simple."
   },
   {
-    "key": "BLOODLUST",
-    "name": "Bloodlust",
-    "ranked": true,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "BOD",
     "name": "Body Guard",
     "ranked": true,
@@ -439,13 +355,6 @@
     "ranked": true,
     "activation": "Maneuver",
     "description": "Once per round on the character's turn, the character may perform a Body Guard maneuver to protect one ally with whom [they] are engaged. [The character] then suffers a number of strain no greater than [their] ranks in Body Guard. Until the start of the character's next turn, upgrade the difficulty of all combat checks targeting the protected ally a number of times equal to the strain suffered by the character."
-  },
-  {
-    "key": "BOLSTER",
-    "name": "Bolster",
-    "ranked": true,
-    "activation": "Active (Maneuver)",
-    "description": ""
   },
   {
     "key": "BOLSTARMOR",
@@ -490,13 +399,6 @@
     "description": "When the character performs the Brace maneuver, the benefits apply to all allies within short range."
   },
   {
-    "key": "BRAINWASH",
-    "name": "Brainwash",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Hard Leadership check; one short-range ally suffers 2 strain and upgrades their next check. Improved lets you suffer 1 strain to use it as a maneuver instead."
-  },
-  {
     "key": "BRI",
     "name": "Brilliant Evasion",
     "ranked": false,
@@ -529,7 +431,7 @@
     "name": "Bypass Security",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character removes a setback die per rank of Bypass Security from [their] Skulduggery and Computers skill checks made to disable a security device or open a locked door. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character removes a setback die per rank of Bypass Security from [their] Skulduggery and Computers skill checks made to disable a security device or open a locked door."
   },
   {
     "key": "CALLEM",
@@ -560,53 +462,11 @@
     "description": "Force talent. The character may spend a maneuver and suffer 2 strain to extend the effects of Calming Aura to a number of allies within short range equal to [their] Willpower. This lasts until the beginning of [their] next turn."
   },
   {
-    "key": "CANNIBALIZE",
-    "name": "Cannibalize",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
-    "key": "CAPTIVEAUDIE",
-    "name": "Captive Audience",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "CAREPLAN",
     "name": "Careful Planning",
     "ranked": false,
     "activation": "Action",
     "description": "Once per game session, the character can choose to introduce a \"fact\" or additional context directly into the narrative as if they had spent a Destiny Point."
-  },
-  {
-    "name": "Cargo Drop",
-    "key": "CARGODROP",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per encounter, dump cargo with a Hard Skulduggery check. Nearby foes equal to successes must slow to speed 1 or suffer a major collision; Advantage/Triumph can trigger cargo-specific effects."
-  },
-  {
-    "key": "CARTELLICENS",
-    "name": "Cartel License",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "On civilized worlds, you avoid legal trouble for merely possessing restricted gear, though unlawful use can still get you punished."
-  },
-  {
-    "key": "CEASEHOSTILI",
-    "name": "Cease Hostilities!",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per encounter, opposed Coercion vs Discipline to stagger a Rival or Minion in short range. Improved allows twice per encounter and can target a Nemesis by spending a Destiny Point."
-  },
-  {
-    "key": "CENTEROFATTE",
-    "name": "Center of Attention",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "CENTBEING",
@@ -700,13 +560,6 @@
     "description": "Once per session, the character can take the Commanding Presence action to choose a target minion, minion group, or rival and make a Cool check opposed by the target's Discipline. If the check is successful, the target adversary or group removes itself from the encounter for the duration of the encounter. The target will not attack or otherwise engaged the PCs, nor perform any hostile or overt action. However, it will defend itself if attacked. Attacking the target ends the effect. The Commanding Presence action can be used in narrative encounters. The specific details of its effect are at the GM's discretion, but could include commanding a guard to let the PCs pass or causing political opponents to remove themselves from a debate."
   },
   {
-    "key": "COMPELLINGCO",
-    "name": "Compelling Counterpart",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "COMPTECH",
     "name": "Comprehend Technology",
     "ranked": false,
@@ -725,7 +578,7 @@
     "name": "Conditioned",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character removes a setback dice per rank of Conditioned from their Athletics and Coordination checks. They reduce the damage and strain suffered from falling by 1 per rank of Conditioned. While the Force and Destiny Roleplaying Game: Core Rulebook refers to \"per rank of Coordination\", the Errata (Page 1) corrects this to \"per rank of Conditioned\". The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character removes a setback dice per rank of Conditioned from their Athletics and Coordination checks. They reduce the damage and strain suffered from falling by 1 per rank of Conditioned. While the Force and Destiny Roleplaying Game: Core Rulebook refers to \"per rank of Coordination\", the Errata (Page 1) corrects this to \"per rank of Conditioned\"."
   },
   {
     "key": "CONF",
@@ -917,27 +770,6 @@
     "description": "The character removes a setback die per rank of Cyberneticist from [their] checks to build, repair, and install cybernetic implants. In addition, cybernetics and any materials used to craft cybernetics cost the character 50% less (this does not decrease with additional ranks of Cyberneticist)."
   },
   {
-    "key": "DARASUUMKOTE",
-    "name": "Darasuum Kote",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": "Once per encounter after an enemy wounds you, spend a Destiny Point to automatically hit that enemy with a wielded weapon if they are in range."
-  },
-  {
-    "key": "DARKESTSECRE",
-    "name": "Darkest Secret",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per encounter, make a Daunting Knowledge check. On success, you may add a Despair to one adversary check if it relates to the information uncovered."
-  },
-  {
-    "key": "DAZZLINGFLOU",
-    "name": "Dazzling Flourish",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "DEAD",
     "name": "Dead to Rights",
     "ranked": false,
@@ -1036,32 +868,11 @@
     "description": "When the character wields a Lightsaber weapon, Melee weapon, or Brawl weapon, that weapon gains ranks in the Defensive item quality equal to the character's ranks in Defensive Training (this replaces any ranks in Defensive the weapon already has)."
   },
   {
-    "key": "DEFERREDBLAM",
-    "name": "Deferred Blame",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, make an Average Deception check to shift blame for your mistake onto someone else."
-  },
-  {
     "key": "DEFTMAKER",
     "name": "Deft Maker",
     "ranked": true,
     "activation": "Passive",
     "description": "The character removes a setback die per rank of Deft Maker from [their] checks to repair, modify, construct, and program droids. In addition, materials to craft droids cost the character 50% less (this does not decrease with additional ranks of Deft Maker)."
-  },
-  {
-    "key": "DEFYFATE",
-    "name": "Defy Fate",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per session when you roll a Despair, spend a Destiny Point to cancel the Despair when it would be spent. Improved lets allies use it once per session."
-  },
-  {
-    "key": "DELAYEDRESPO",
-    "name": "Delayed Response",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "DESFLAW",
@@ -1078,39 +889,11 @@
     "description": "Once per session, the character may make a Hard difficulty Mechanics check targeting one engaged droid. If the character succeeds, the droid becomes staggered and immobilized until the end of its next turn. At the end of its next turn, the droid heals all strain and one Critical Injury with a severity rating no greater than Hard. If the character is a droid, it may perform this action on itself."
   },
   {
-    "key": "DESPERATESCR",
-    "name": "Desperate Scramble",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "DIAGNOSTICIA",
-    "name": "Diagnostician",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "DIPLOMATICIM",
     "name": "Diplomatic Immunity",
     "ranked": false,
     "activation": "Active (Incidental, Out of Turn)",
     "description": "Once per encounter, the character may perform the Diplomatic Immunity incidental. The character spends one Destiny Point, and adversaries cannot choose the character as the target of a combat check until after the end of the character's next turn. This effect ends if the character makes a combat check."
-  },
-  {
-    "key": "DIRECTIVE",
-    "name": "Directive",
-    "ranked": true,
-    "activation": "Active (Maneuver)",
-    "description": ""
-  },
-  {
-    "key": "DIRTYTRICKS",
-    "name": "Dirty Tricks",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "DISARMSMILE",
@@ -1155,13 +938,6 @@
     "description": "After missing an opponent with a Lightsaber combat check, the character may choose to spend two advantage results or a triumph result to disorient [their] foe for three rounds. Disoriented opponents add a setback die to all skill checks."
   },
   {
-    "key": "DISRUPTIVE",
-    "name": "Disruptive",
-    "ranked": true,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
-  },
-  {
     "key": "DISRUPSTRIKE",
     "name": "Disruptive Strike",
     "ranked": false,
@@ -1190,25 +966,11 @@
     "description": "Force talent. After using the Reflect incidental, the character may spend one Destiny Point to perform a Move maneuver as an out of turn incidental to move closer to or engage an opponent. This incidental may be performed once per round."
   },
   {
-    "key": "DONOHARM",
-    "name": "Do No Harm",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "DOCKEXP",
     "name": "Dockyard Expertise",
     "ranked": true,
     "activation": "Action",
     "description": "The character may make an Average difficulty Knowledge (Education) check when at a dry dock with suitable personnel and equipment to conduct repairs to a starship, or to add attachments or modifications to one. If successful, the cost and time for repairs is reduced by 20% for each rank of Dockyard Expertise to a minimum of 100 credits and one day."
-  },
-  {
-    "key": "DOCTORSORDER",
-    "name": "Doctor's Orders",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
   },
   {
     "key": "DODGE",
@@ -1237,13 +999,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "Difficulty for training this beast is not upgraded."
-  },
-  {
-    "key": "DOMINATION",
-    "name": "Domination",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Suffer 2 strain to make a Leadership check using Willpower instead of Presence."
   },
   {
     "key": "DONTSHOOT",
@@ -1302,13 +1057,6 @@
     "description": "Once per encounter, the character may perform Field Commander as a maneuver instead of an action. All affected allies must be droids."
   },
   {
-    "key": "DROIDCOMPANI",
-    "name": "Droid Companion",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "DUELTRAIN",
     "name": "Duelist's Training",
     "ranked": false,
@@ -1335,13 +1083,6 @@
     "ranked": true,
     "activation": "Incidental",
     "description": "After making a successful Brawl, Lightsaber, or Melee combat check, the character may spend one Destiny Point and then gain Conflict equal to the number of dark side Destiny Points in the Destiny pool to add an equal amount of damage to one hit of the attack. The character may use this ability once per encounter for each rank of Embrace Your Hate. A character who has purchased one or more ranks of this talent automatically gains 1 Conflict at the beginning of a game session."
-  },
-  {
-    "key": "EMERGENCYBYP",
-    "name": "Emergency Bypass",
-    "ranked": false,
-    "activation": "Active (Incidental, Out-of-turn)",
-    "description": ""
   },
   {
     "key": "EMPTYSOUL",
@@ -1384,13 +1125,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "Once per session, the character may upgrade the ability of a Mass Combat check (if they are the commander of the acting force) or the difficulty of a Mass Combat check (if they are commander of the enemy force) even if the character is not present or is prevented from communicating with their troops."
-  },
-  {
-    "key": "ENERGYSIPHON",
-    "name": "Energy Siphon",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "ENERGTRANS",
@@ -1474,14 +1208,7 @@
     "name": "Expert Tracker",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character removes a setback dice per rank of Expert Tracker from [their] checks to find or follow tracks. Survival checks made to track targets take 50% less time than normal (this does not decrease with additional ranks of Expert Tracker). The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
-  },
-  {
-    "key": "EXPLOSIVESUR",
-    "name": "Explosive Surprise",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
+    "description": "The character removes a setback dice per rank of Expert Tracker from [their] checks to find or follow tracks. Survival checks made to track targets take 50% less time than normal (this does not decrease with additional ranks of Expert Tracker)."
   },
   {
     "key": "EXTENDEDREAC",
@@ -1496,13 +1223,6 @@
     "ranked": true,
     "activation": "Incidental",
     "description": "After rolling the dice pool for a Mechanics or Computers check but before interpreting the results, the character may voluntarily suffer a number of strain no greater than ranks in Eye for Detail to convert that many success results into advantage results. (The character must still have at least one success in the results at the end to succeed on the check.)"
-  },
-  {
-    "key": "EYEOFTHESTOR",
-    "name": "Eye of the Storm",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": ""
   },
   {
     "key": "FALLBACK",
@@ -1547,18 +1267,11 @@
     "description": "Force talent. The character may perform the Fear the Shadows action. [They] make a Hard difficulty Deception check targeting a single minion group or rival within long range. If [they] succeed, that minion group or rival flees the encounter. At the GM's discretion, these NPCs may not flee due to extenuating circumstances (such as if there is no realistic path or means to leave the encounter, or if the only way to leave the encounter may result in their deaths from a dangerous fall or lethal atmosphere). A character who has purchased this talent automatically gains 1 Conflict at the beginning of a game session."
   },
   {
-    "key": "FEARLESSJUMP",
-    "name": "Fearless Jump",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "FEARSOME",
     "name": "Fearsome",
     "ranked": true,
     "activation": "Passive",
-    "description": "When an adversary becomes engaged with the character, the character may force the adversary to make a fear check, with the difficulty equal to the character's ranks in Fearsome. At the GM's discretion, some adversaries may be immune to this talent based on the type of adversary or the ongoing circumstances. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "When an adversary becomes engaged with the character, the character may force the adversary to make a fear check, with the difficulty equal to the character's ranks in Fearsome. At the GM's discretion, some adversaries may be immune to this talent based on the type of adversary or the ongoing circumstances."
   },
   {
     "key": "FEARSOMEREP",
@@ -1596,25 +1309,11 @@
     "description": "When taking a Field Commander action, the character may affect allies equal to twice [their] Presence. In addition, they may spend  a triumph result generated on [their] Leadership checks to allow one ally to suffer one strain to perform an action, rather than a maneuver."
   },
   {
-    "key": "FIELDRESEARC",
-    "name": "Field Researcher",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
-    "key": "FIGHTWHATYOU",
-    "name": "Fight What You Hate",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per encounter, suffer 3 strain and choose a long-range adversary; checks between you and that adversary have reduced critical rating."
-  },
-  {
     "key": "FINETUN",
     "name": "Fine Tuning",
     "ranked": true,
     "activation": "Passive",
-    "description": "Whenever the character repairs system strain on a starship or vehicle, [they] repair one additional system strain per rank of Fine Tuning. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "Whenever the character repairs system strain on a starship or vehicle, [they] repair one additional system strain per rank of Fine Tuning."
   },
   {
     "key": "FIRECON",
@@ -1652,25 +1351,11 @@
     "description": "Force talent. Once per round, the character may perform the Flows through all Things maneuver to recover strain equal to their Force rating."
   },
   {
-    "name": "Fly Casual",
-    "key": "FLYCASUAL",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per encounter while aboard or piloting a familiar craft, spend a Destiny Point to add Setback equal to Cunning to attempts to identify, scan, or inspect the craft or cargo."
-  },
-  {
     "key": "MOUNTFLY",
     "name": "Flyer",
     "ranked": false,
     "activation": "Passive",
     "description": "This mount can fly.  When on the ground, it's Speed is reduced to 1."
-  },
-  {
-    "key": "FOLLOWMYLEAD",
-    "name": "Follow My Lead",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
   },
   {
     "key": "FONTPOW",
@@ -1729,13 +1414,6 @@
     "description": "Force talent. Each rank permanently increases the character's Force Rating by one."
   },
   {
-    "key": "FORCEFULEXPU",
-    "name": "Forceful Expulsion",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "FOREWARN",
     "name": "Forewarning",
     "ranked": true,
@@ -1771,13 +1449,6 @@
     "description": "Once per game session, as an out of turn incidental, the character may suffer two strain to flip one dark side Destiny point to a light side Destiny Point (this cannot be used to interrupt the spending of a Destiny Point)."
   },
   {
-    "key": "FREEDOMINVIC",
-    "name": "Freedom in Victory",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Force talent. Commit a Force die; when you would become immobilized or staggered, suffer 2 strain to ignore it."
-  },
-  {
     "key": "FREERUN",
     "name": "Freerunning",
     "ranked": false,
@@ -1797,20 +1468,6 @@
     "ranked": true,
     "activation": "Incidental",
     "description": "When making a Melee or Brawl combat check, the character may suffer a number of strain, then upgrade the ability of [their] combat check by that number. This number cannot exceed [their] ranks in Frenzied Attack."
-  },
-  {
-    "key": "FRIENDSINLOW",
-    "name": "Friends in Low Places",
-    "ranked": true,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
-    "key": "FROMTHESHADO",
-    "name": "From the Shadows",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
   },
   {
     "key": "FULLSTOP",
@@ -1848,13 +1505,6 @@
     "description": "The character removes a setback die per rank of Galaxy Mapper from [their] Astrogation checks. In addition, Astrogation checks take 50% less time (this does not increase with additional ranks of Galaxy Mapper)."
   },
   {
-    "key": "GATHERER",
-    "name": "Gatherer",
-    "ranked": true,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "GEARHD",
     "name": "Gearhead",
     "ranked": true,
@@ -1867,20 +1517,6 @@
     "ranked": false,
     "activation": "Active (Incidental)",
     "description": "Once per session, the character and any number of allies in the current encounter may add success results equal to the character's ranks in Stealth to a check to determine Initiative order. The player must explain how their character's stealthy approach helps the PCs to get the drop on their opponents."
-  },
-  {
-    "key": "GHOSTINTHEMA",
-    "name": "Ghost in the Machine",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
-    "key": "GLIDINGSTEP",
-    "name": "Gliding Step",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
   },
   {
     "key": "GOWITHOUT",
@@ -1908,7 +1544,7 @@
     "name": "Greased Palms",
     "ranked": true,
     "activation": "Maneuver",
-    "description": "Before making a social interaction check, the character may perform a Greased Palms maneuver and spend up to 50 credits per rank of Greased Palms. For every 50 credits spent, the character upgrades the ability of the skill check once. How the money accomplishes this can be up to the player and GM, but could take the form of bribes, buying gifts, or even purchasing information that gives the character an advantage in the ensuing interaction. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "Before making a social interaction check, the character may perform a Greased Palms maneuver and spend up to 50 credits per rank of Greased Palms. For every 50 credits spent, the character upgrades the ability of the skill check once. How the money accomplishes this can be up to the player and GM, but could take the form of bribes, buying gifts, or even purchasing information that gives the character an advantage in the ensuing interaction."
   },
   {
     "key": "GRIT",
@@ -1929,7 +1565,7 @@
     "name": "Guns Blazing",
     "ranked": false,
     "activation": "Incidental",
-    "description": "When making a combined combat check with two Ranged (Light) weapons, the character may suffer 2 strain in order to refrain from increasing the difficulty of the check for attacking with two weapons. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "When making a combined combat check with two Ranged (Light) weapons, the character may suffer 2 strain in order to refrain from increasing the difficulty of the check for attacking with two weapons."
   },
   {
     "key": "HARASS",
@@ -1974,13 +1610,6 @@
     "description": "Once per encounter, the character may perform the Headbutt incidental. The character suffers 2 wounds and selects one engaged non-vehicle target with a silhouette of up to one higher than the character's. The target is knocked prone and is disoriented until the end of the next round."
   },
   {
-    "key": "HEALTHYSELF",
-    "name": "Heal Thyself",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "HEALTRANCE",
     "name": "Healing Trance",
     "ranked": true,
@@ -2023,13 +1652,6 @@
     "description": "Immediately after being hit by a successful combat check but before damage is calculated, the character may spend one Destiny Point to increase [their] soak by a number equal to [their] ranks in Resilience."
   },
   {
-    "key": "HIDDENFEATUR",
-    "name": "Hidden Feature",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "HIDD",
     "name": "Hidden Storage",
     "ranked": true,
@@ -2058,32 +1680,11 @@
     "description": "The character may voluntarily increase the difficulty of a Gunnery combat check once to inflict a hindering shot on a vehicle. If [they] succeed and deal damage to the target vehicle's hull trauma threshold, the vehicle suffers system strain equal to its current speed whenever it moves until the end of the encounter."
   },
   {
-    "key": "HIREDHELP",
-    "name": "Hired Help",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "HISTORIAN",
-    "name": "Historian",
-    "ranked": true,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "HITANDRUN",
     "name": "Hit And Run",
     "ranked": false,
     "activation": "Active (Incidental)",
     "description": "While the character is using a jetpack, after they complete an attack targeting an opponent they are engaged with, the character may immediately disengage as an incidental."
-  },
-  {
-    "key": "HITTHEDECK",
-    "name": "Hit The Deck",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "HOLDTOG",
@@ -2100,18 +1701,11 @@
     "description": "Force talent. When making an Astrogation skill check, the character may spend one Destiny Point to remove a despair result, or remove threat results equal to [their] ranks in Perception."
   },
   {
-    "key": "HOTSWAP",
-    "name": "Hot Swap",
-    "ranked": true,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "HUNT",
     "name": "Hunter",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character adds a boost die per rank of Hunter to all skill checks when interacting with wild beasts and animals, including combat checks. The character adds +10 per rank of Hunter to all of [their] Critical Injury rolls against animals. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character adds a boost die per rank of Hunter to all skill checks when interacting with wild beasts and animals, including combat checks. The character adds +10 per rank of Hunter to all of [their] Critical Injury rolls against animals."
   },
   {
     "key": "HUNTERQUARRY",
@@ -2177,13 +1771,6 @@
     "description": "Force talent. The character may take the Imbue Item maneuver, suffering 1 strain and committing a Force die. [They] then grant one weapon or item within short range a temporary enhancement chosen from the following options: increase weapon's damage by 1, decrease the advantage cost for its Critical Hit or for any other single effect by 1, to a minimum of 1, or increase a piece of armor's ranged or melee defense by 1. Alternatively, the character can decrease an item's encumbrance by 2, to a minimum of 1. The character suffers 1 strain at the beginning of each of [their] turns in which [they] keep this die commited."
   },
   {
-    "key": "IMPERIALVALO",
-    "name": "Imperial Valor",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per encounter, Hard Discipline check; on success, you and allies in short range equal to successes increase strain threshold by 1 for the encounter."
-  },
-  {
     "key": "IMPOSFALL",
     "name": "Impossible Fall",
     "ranked": false,
@@ -2203,27 +1790,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "When wearing armor with a soak value of two or higher, the character increases their defense by one."
-  },
-  {
-    "key": "IMPROVEDASSA",
-    "name": "Improved Assassinate",
-    "ranked": false,
-    "activation": "Action (Incidental)",
-    "description": "Before rolling a combat check while undetected by the target, suffer a number of strain up to the number of boost dice in the dice pool to remove that many boost dice and add that many advantage results to the pool. Additionally, when inflicting a critical injury on a rival while undetected by the target, spend three additional advantage results or a triumph result to incapacitate or kill the rival. Assassinate may affect nemesis foes at Game Master discretion."
-  },
-  {
-    "key": "IMPROVEDASTU",
-    "name": "Improved Astute Observations",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": "Once per session, if an ally would fail a check, spend 1 Destiny Point to make a Perception check using the original difficulty. On success, the ally's check succeeds with the same results as the Perception check. When doing so, the character must justify how their observation of the situation actively turned a failure into a successful outcome."
-  },
-  {
-    "key": "IMPROVEDBADM",
-    "name": "Improved Bad Motivator",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Once per session when taking the Bad Motivator action, the character may choose a trigger or circumstance under which the device will fail, rather than it failing immediately. The device functions normally until that circumstance occurs."
   },
   {
     "key": "IMPROVEDBARR",
@@ -2254,13 +1820,6 @@
     "description": "Once per session, when an ally protected by the character's Body Guard maneuver would suffer a hit from a combat check, the character may choose to suffer that hit instead of the ally."
   },
   {
-    "key": "IMPROVEDBOLS",
-    "name": "Improved Bolster",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "The benefits of the Bolster maneuver apply to all allies within short range as long as they remain within short range of the character."
-  },
-  {
     "key": "IMPROVEDBRAC",
     "name": "Improved Brace",
     "ranked": false,
@@ -2268,32 +1827,11 @@
     "description": "When the character performs the Brace maneuver, they may choose one environmental circumstance. The benefits of Brace apply to that circumstance until the end of the encounter. (This benefit is not cumulative with further uses of the Brace maneuver, although the character may select additional circumstances with subsequent uses.)"
   },
   {
-    "key": "IMPROVEDBRAI",
-    "name": "Improved Brainwash",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Suffer 1 strain to take the Brainwash action as a maneuver."
-  },
-  {
-    "key": "IMPROVEDBYPA",
-    "name": "Improved Bypass Security",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "The character may spend three advantage results or a triumph result from checks to unlock doors or disable a security device to add boost dice equal to ranks of Bypass Security to similar checks in the same system or location this session. The Game Master determines how similar a check must be to qualify."
-  },
-  {
     "key": "IMPROVEDCALM",
     "name": "Improved Calming Aura",
     "ranked": false,
     "activation": "Active (Maneuver)",
     "description": "Force talent. The character may spend a maneuver and suffer 2 strain to extend the effects of Calming Aura to a number of allies within short range equal to [their] Willpower. This lasts until the beginning of [their] next turn."
-  },
-  {
-    "key": "IMPROVEDCEAS",
-    "name": "Improved Cease Hostilities!",
-    "ranked": false,
-    "activation": "Active",
-    "description": "Force talent. May use the Cease Hostilities talent twice per encounter, and may spend a Destiny Point to target an enemy Nemesis instead."
   },
   {
     "key": "IMPROVEDCENT",
@@ -2322,13 +1860,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "Whenever the character takes the Comrades in Arms action, [they] may spend three advantage results or a triumph result to also gain +1 soak or to give one affected ally +1 soak."
-  },
-  {
-    "key": "IMPROVEDCOND",
-    "name": "Improved Conditioned",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per session while falling, spend a Destiny point to reduce range bands fallen by ranks of Conditioned, to a minimum of short. This affects the effective damage and strain suffered from the fall, not the fall distance itself."
   },
   {
     "key": "IMPROVEDCONF",
@@ -2366,27 +1897,6 @@
     "description": "When attempting to defend a computer system against intrusion, the character upgrades the difficulty of an opponent's dice pool a number of times equal to [their] rank of Defensive Slicing. This replaces the usual benefits from Defensive Slicing."
   },
   {
-    "key": "IMPROVEDDEFY",
-    "name": "Improved Defy Fate",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "A number of allies equal to ranks in Discipline may also use Defy Fate. Each ally may only use this talent once per session."
-  },
-  {
-    "key": "IMPROVEDDIRE",
-    "name": "Improved Directive",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Once per encounter when performing the Directive maneuver, may affect an additional allied droid per rank of Directive, and the range of Directive increases to medium."
-  },
-  {
-    "key": "IMPROVEDDISR",
-    "name": "Improved Disruptive",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Spend two advantage results from a Computers Check or two threat results when opposing a foe's computers check to add a failure result equal to the character's ranks of Disruptive to a foe's next Computers check in that system."
-  },
-  {
     "key": "IMPROVEDDIST",
     "name": "Improved Distracting Behavior",
     "ranked": false,
@@ -2415,39 +1925,11 @@
     "description": "When the character takes the Exceed Specifications incidental, upgrade the ability of the check once instead of adding a boost die."
   },
   {
-    "key": "IMPROVEDEXPE",
-    "name": "Improved Expert Tracker",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, make a Formidable difficulty Survival or Perception check to find a minor item lost by a tracked target. This might identify the target or indicate destination, bearing, or mode of travel. Decrease the Difficulty once per rank of Expert Tracker. Spend a triumph result to find a major item instead, which might prevent the target from escaping or avoiding capture."
-  },
-  {
-    "key": "IMPROVEDFEAR",
-    "name": "Improved Fearsome",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Spend two advantage results from Coercion checks or two threat results from foes' Discipline checks to have the target or foe suffer strain equal to ranks of Fearsome."
-  },
-  {
     "key": "IMPROVEDFIEL",
     "name": "Improved Field Commander",
     "ranked": false,
     "activation": "Passive",
     "description": "When taking a Field Commander action, the character may affect allies equal to twice [their] Presence. In addition, they may spend a triumph result generated on [their] Leadership checks to allow one ally to suffer one strain to perform an action, rather than a maneuver."
-  },
-  {
-    "key": "IMPROVEDFIGH",
-    "name": "Improved Fight What You Hate",
-    "ranked": false,
-    "activation": "Active Passive",
-    "description": "Whenever The characters affected by Fight What You Hate make a combat check against the other, the check generates two automatic success results, and each two threat results generated is automatically converted into a despair result."
-  },
-  {
-    "key": "IMPROVEDFINE",
-    "name": "Improved Fine Tuning",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per encounter while engaged with or repairing a starship or vehicle, make a Hard difficulty Mechanics check to increase the system strain threshold of an the vessel by a number equal to the character's ranks in Fine Tuning for the rest of the encounter. Spend three advantage results or a triumph result to have that vessel recover system strain equal to ranks in Fine Tuning."
   },
   {
     "key": "IMPROVEDFORM",
@@ -2471,20 +1953,6 @@
     "description": "The character may voluntarily suffer one strain to attempt Full Throttle as a maneuver. In addition, the difficulty of Full Throttle is reduced to Average."
   },
   {
-    "key": "IMPROVEDGREA",
-    "name": "Improved Greased Palms",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Once per session, the character may reroll a social check by paying credits equal to 100 times the difficulty of the check. The player must justify why the credits or something of value is allowing them another opportunity on this check."
-  },
-  {
-    "key": "IMPROVEDGUNS",
-    "name": "Improved Guns Blazing",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Once per encounter after the character makes a successful combined check with two Ranged (Light) weapons, may spend four advantage results or a triumph result to generate an additional hit of the primary weapon, which must be allocated to different enemy from the original target."
-  },
-  {
     "key": "IMPROVEDHARD",
     "name": "Improved Hard Headed",
     "ranked": false,
@@ -2506,34 +1974,6 @@
     "description": "The character may use Hidden Storage to store an item within their own suitably modified body (such as through cybernetics, surgery, or prosthetic replacements)."
   },
   {
-    "key": "IMPROVEDHIRE",
-    "name": "Improved Hired Help",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per encounter, spend a Destiny Point to have an engaged Hired Help NPC stead, they may have the Hired Help suffer the legal or public consequences for something the character did or orchestrated during the scene. Remove the Hired Help NPC(s) from the scene."
-  },
-  {
-    "key": "IMPROVEDHIST",
-    "name": "Improved Historian",
-    "ranked": false,
-    "activation": "Active (Incidental, Out-of-Turn)",
-    "description": "Once per session when interacting with ancient or abandoned places or things, the character may spend a Destiny Point to cancel a single despair result or threat results equal to ranks of Historian from a check the character or an ally makes."
-  },
-  {
-    "key": "IMPROVEDHITT",
-    "name": "Improved Hit The Deck",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": "When activating Hit The Deck, allies within short range of the character equal to Cool or Vigilance may also perform a Move maneuver as an incidental to move into cover out of a blast radius of a weapon or explosion."
-  },
-  {
-    "key": "IMPROVEDHUNT",
-    "name": "Improved Hunter",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": "After the character inflicts a critical injury on or incapacitates a foe with an attack or another effect, the character may perform a maneuver as an incidental. They may not perform more than 2 maneuvers on their turn, but may make a maneuver out-of-turn."
-  },
-  {
     "key": "IMPROVEDHUNT",
     "name": "Improved Hunter's Quarry",
     "ranked": false,
@@ -2548,18 +1988,11 @@
     "description": "The weapon affected by the character's Ichor Blade talent also gains the Sunder and Defensive 1 item qualities, and increases its damage by 2."
   },
   {
-    "key": "IMPROVEDIMPE",
-    "name": "Improved Imperial Valor",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "May spend two advantage results to increase strain threshold of one ally affected by Imperial Valor by 1 for the remainder of the encounter."
-  },
-  {
     "key": "IMPROVEDIMPR",
     "name": "Improved Improvised Detonation",
     "ranked": false,
     "activation": "Active (Action)",
-    "description": "Reduce the difficulty of Improvised Detonation's check to Average and increase the damage dealt by the explosive to ranks in Intellect plus twice the character's ranks in Mechanics plus success results on the initial check (this includes the damage dealt on a premature detonation triggered by a despair result). The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "Reduce the difficulty of Improvised Detonation's check to Average and increase the damage dealt by the explosive to ranks in Intellect plus twice the character's ranks in Mechanics plus success results on the initial check (this includes the damage dealt on a premature detonation triggered by a despair result)."
   },
   {
     "key": "IMPROVEDINTH",
@@ -2583,20 +2016,6 @@
     "description": "Each ally affected by Inspiring Rhetoric gains a boost dice on all skill checks for a number of rounds equal to the character's ranks in Leadership; this does not stack with itself."
   },
   {
-    "key": "IMPROVEDKEEN",
-    "name": "Improved Keen Eyed",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, make a Formidable difficulty Perception or Vigilance check to add a success result to next checks they and allies make to act on the observation. Decrease difficulty of the check once per rank of Keen Eyed."
-  },
-  {
-    "key": "IMPROVEDKILL",
-    "name": "Improved Kill With Kindness",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per encounter, make a Hard difficulty Charm or Leadership check. On success, a number of characters equal to the character's ranks of Kill With Kindness add an advantage result or a threat result to checks they make this encounter, chosen separately for each character. Spend a triumph result to double the number of advantage or threat results added this way."
-  },
-  {
     "key": "IMPROVEDKNOW",
     "name": "Improved Know Their Weakness",
     "ranked": false,
@@ -2611,60 +2030,11 @@
     "description": "Allies affected by Known Programming also upgrade the ability of their checks targeting the chosen droid model once."
   },
   {
-    "key": "IMPROVEDMACH",
-    "name": "Improved Machine Mender",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "When making a check to repair a droid, the character may spend two advantage results a number of times up to rank of Machine Mender to increase any combination the droid's melee or ranged defense once per two advantage results spent until the end of the session, and may spend a triumph result to increase its Soak by 1. A droid may only be improved this way once per session."
-  },
-  {
-    "key": "IMPROVEDMAKE",
-    "name": "Improved Make It Dangerous",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Suffer 1 strain to decrease the difficulty of Make it Dangerous to Average difficulty. Spend four advantage results or triumph result so that all critical injuries inflicted by an attack using this weapon result in a Crippled effect, unless the roll would result in a more grievous injury. This effect lasts until Make It Dangerous expires."
-  },
-  {
-    "key": "IMPROVEDMARK",
-    "name": "Improved Market Connections",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "The character may use Market Connections to locate a seller of an illegal good by substituting Knowledge (Underworld) instead of the required skill and upgrading the difficulty of the check once."
-  },
-  {
-    "key": "IMPROVEDMAST",
-    "name": "Improved Master of Arms",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Once per encounter, when using the Master of Arms action, spend two advantage results or a triumph result to immediately take an additional action."
-  },
-  {
-    "key": "IMPROVEDMERC",
-    "name": "Improved Merciful Shot",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "While making an attack benefiting from Merciful Shot, spend four advantage results or a triumph result to stagger or immobilize the target until the end of their next turn."
-  },
-  {
-    "key": "IMPROVEDMORE",
-    "name": "Improved More Machine Than Man",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Before making a check, suffer strain up to half of the the number of character's installed cybernetics, rounded up, to add that many boost dice to check. The player must specify how one or more of their cybernetics are aiding them for this check."
-  },
-  {
     "key": "IMPROVEDNOBO",
     "name": "Improved Nobody's Fool",
     "ranked": false,
     "activation": "Active (Incidental, Out of Turn)",
     "description": "When targeted by a Charm, Coercion, or Deception check, the character may spend a despair result or three threat results from the check to inflict strain on the opponent equal to the character's ranks in Nobody's Fool."
-  },
-  {
-    "key": "IMPROVEDNOWH",
-    "name": "Improved Nowhere Is Safe",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "After the character makes a successful attack against a defenseless target, suffer 3 strain to add a triumph result to the check. A character is considered defenseless if they have no melee defense if the attack is melee, no ranged defense if the attack is ranged, and aren't benefiting from defense gained from cover or the Guarded Stance maneuver."
   },
   {
     "key": "IMPROVEDOVER",
@@ -2688,20 +2058,6 @@
     "description": "Whenever an engaged enemy makes a combat check, after the attack is resolved, the character may spend three threat or a despair results to disarm the attack, and may equip the used weapon. If not equipping the weapon, it falls within short range at a location of the player's choice."
   },
   {
-    "key": "IMPROVEDPERS",
-    "name": "Improved Persistent Targeting",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "After the character makes one or more successful combat checks against a target allies within short range of the character add a boost die to combat checks against that target for the remainder of the encounter."
-  },
-  {
-    "key": "IMPROVEDPERS",
-    "name": "Improved Personal Body Guard",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": "Once per session when performing Body Guard, spend a Destiny Point. All attacks targeting one guarded ally target the character instead until the end of the character's next turn, and the effects of Body Guard affect the character instead."
-  },
-  {
     "key": "IMPROVEDPLAU",
     "name": "Improved Plausible Deniability",
     "ranked": false,
@@ -2714,13 +2070,6 @@
     "ranked": false,
     "activation": "Active (Action)",
     "description": "Once per session, if no PC's Duty has triggered, the character may perform the Improved Positive Spin action by making a Daunting difficulty Charm check with the difficulty decreased once per rank of Positive Spin. If the character succeeds, one other chosen PC's Duty counts as having triggered this session. When the Propagandist does this, the player must explain what event [they] engineered to highlight [their] comrade's contributions to the cause. Not that this only triggers the mechanical effects of Duty, and the GM decides what narrative impact this has."
-  },
-  {
-    "key": "IMPROVEDPREC",
-    "name": "Improved Precise Aim",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "When performing the Precise Aim maneuver, all non-Gunnery attacks made by the character this round have their Pierce rating increased by ranks in Precise Aim."
   },
   {
     "key": "IMPROVEDPREC",
@@ -2737,25 +2086,11 @@
     "description": "While inside [their] Pride and Joy vessel, the character recovers one additional strain whenever [they] recover strain and may spend an advantage result on checks made to recover strain to allow an ally also within the vessel to recover one strain."
   },
   {
-    "key": "IMPROVEDPROG",
-    "name": "Improved Programmed",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "When taking the Programmed incidental, may flip a destiny point to instead upgrade the ability of the next check for each 2 strain suffered this way."
-  },
-  {
     "key": "IMPROVEDQUIC",
     "name": "Improved Quick Draw",
     "ranked": false,
     "activation": "Passive",
     "description": "The character may activate the Quick Draw talent twice per round (instead of just once per round)."
-  },
-  {
-    "key": "IMPROVEDREAD",
-    "name": "Improved Read The Wind",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": "The character may suffer 2 strain to perform the Read The Wind action as a maneuver."
   },
   {
     "key": "IMPROVEDREAD",
@@ -2770,13 +2105,6 @@
     "ranked": false,
     "activation": "Active (Incidental, Out of Turn)",
     "description": "Force talent. When the character suffers a hit from a Ranged (Light), Ranged (Heavy), or Gunnery combat check and uses the Reflect incidental to reduce the damage from that hit, after the attack is resolved, the character may spend a despair [result] or three threat [results] to automatically hit one target within medium range, dealing the same damage as the hit from the initial ranged attack. The initial ranged attack's hit must be one that can be reflected and redirected (generally only blaster weapons or other energy attacks fall into this category; anything else is subject to GM oversight). This talent may not be used if the original attack incapacitates the character."
-  },
-  {
-    "key": "IMPROVEDRESE",
-    "name": "Improved Research",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "When the character makes a successful Knowledge check to gain information, they and their allies gain automatic advantage results per rank of Researcher to checks they make to act on that knowledge until the end of their next turn."
   },
   {
     "key": "IMPROVEDRESE",
@@ -2842,27 +2170,6 @@
     "description": "When the character performs a Side Step maneuver, until the start of their next turn, they may spend three threat results or a despair result from a combat check targeting them to inflict one hit on that attacker from a Ranged (Heavy) or Ranged (Light) weapon the character is currently wielding. The hit deals its base damage plus any damage from applicable talents or abilities. This talent may not be used if the original attack incapacitates the character."
   },
   {
-    "key": "IMPROVEDSIGN",
-    "name": "Improved Signature Vehicle",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "The character's Signature Vehicle may have a Silhouette of 5 or less. Increase the character's Signature Vehicle's top speed by 1, to a maximum of Speed 6."
-  },
-  {
-    "key": "IMPROVEDSOLI",
-    "name": "Improved Solid Repairs",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per encounter, the character may make a Hard difficulty Mechanics check to increase the armor of an engaged starship or vehicle by 1 until the end of the encounter. Spend three advantage results or a triumph result to have that vessel recover hull trauma equal to the character's ranks of Solid Repairs."
-  },
-  {
-    "key": "IMPROVEDSOUN",
-    "name": "Improved Sound Investments",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "At the beginning of each session, may invest all Sound Investment credits and make a Formidable difficulty Knowledge (Core Worlds) or Knowledge (Underworld) check, decreased by ranks of Sound Investments, to gain a return on the investment. On success, gain 100 additional credits plus 10% of the initial investments for each success result past the first. On failure, lose half of the initial investment. A triumph result may be spent to double the number of successes on a successful check, or recover 75% of initial investment on a failed check."
-  },
-  {
     "key": "IMPROVEDSPEA",
     "name": "Improved Speaks Binary",
     "ranked": false,
@@ -2877,25 +2184,11 @@
     "description": "The character may voluntarily suffer 1 strain to attempt Spur as a maneuver. In addition, the difficulty of Spur is reduced to Average."
   },
   {
-    "key": "IMPROVEDSTAK",
-    "name": "Improved Stakeout",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "When using the Stakeout action, spend advantage results to extend this benefit to 1 ally per advantage result spent, and spend a triumph result to add a success result to the checks of one character affected by Stakeout."
-  },
-  {
     "key": "IMPROVEDSTAN",
     "name": "Improved Stand Firm!",
     "ranked": false,
     "activation": "Active (Action)",
     "description": "Allies affected by Stand Firm! also increase their strain threshold by an amount equal to the character's Presence rating. (Multiple uses of this talent are not cumulative.)"
-  },
-  {
-    "key": "IMPROVEDSTEA",
-    "name": "Improved Steady Nerves",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per encounter when making a precise and/or dangerous technical check, suffer strain up to ranks of Steady Nerves to downgrade the difficulty of the check that many times."
   },
   {
     "key": "IMPROVEDSTIM",
@@ -2912,13 +2205,6 @@
     "description": "Once per session, the character may perform the Improved Street Smarts action. [They] make a Formidable difficulty Streetwise or Knowledge (Underworld) check, reducing the difficulty once per rank of Street Smarts. If successful, the GM must reveal one vital clue pertaining to a current mystery the character is attempting to solve. The clue could be something that the character could not normally find out, but does not have to be the full answer to the mystery (it should be something that cancels a false lead and otherwise helps move the story along). The GM should tailor the information depending on the skill used; Streetwise may mean the character learns about the information from an ad hoc network of street urchins, while Knowledge (Underworld) may mean the character draws on [their] own vast knowledge about criminal enterprise to discover a previously unseen clue."
   },
   {
-    "key": "IMPROVEDSTRO",
-    "name": "Improved Stronger Than Flesh",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "The character may use Stronger Than Flesh to avoid Hard or Daunting severity critical injuries."
-  },
-  {
     "key": "IMPROVEDSTUN",
     "name": "Improved Stunning Blow",
     "ranked": false,
@@ -2933,32 +2219,11 @@
     "description": "Each advantage result a character spends to activate a weapon's Sunder quality damages the target item two steps instead of one."
   },
   {
-    "key": "IMPROVEDSUPP",
-    "name": "Improved Suppressing Fire",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Foes who suffer strain from the effects of the character's Suppressing Fire and foes within short range of the target character upgrade the difficulty of their next check once."
-  },
-  {
-    "key": "IMPROVEDSURG",
-    "name": "Improved Surgeon",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "When performing a Medicine check, suffer strain up to their ranks of Surgeon, then choose either to remove that many setback dice or add that many boost dice to the check."
-  },
-  {
     "key": "IMPROVEDTACT",
     "name": "Improved Tactical Advance",
     "ranked": false,
     "activation": "Active (Incidental, Out of Turn)",
     "description": "The character may spend two advantage results from any check they make, or two threat results from a combat check targeting them to perform the Tactical Advance incidental (instead of suffering strain)."
-  },
-  {
-    "key": "IMPROVEDTARG",
-    "name": "Improved Target Acquired",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "When taking the Target Acquired Action, add a boost die per status effect affecting the target. Spend a triumph result to Stagger an affected foe. Disorient, burn, involuntary prone, immobilized, staggered, and suffering from Crippling Blow are all status effects, but GMs may include other non-named effects."
   },
   {
     "key": "IMPROVEDTERR",
@@ -2982,13 +2247,6 @@
     "description": "Once per session, the character may heal a number of wounds equal to their ranks in Toughened."
   },
   {
-    "key": "IMPROVEDUNAR",
-    "name": "Improved Unarmed Parry",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Whenever an engaged enemy makes a combat check, after the attack is resolved, the character may spend three threat or a despair results to disarm the attack, and may equip the used weapon. If not equipping the weapon, it falls within short range at a location of the player's choice."
-  },
-  {
     "key": "IMPROVEDUNRE",
     "name": "Improved Unrelenting Skeptic",
     "ranked": false,
@@ -3001,13 +2259,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "Once per session when the character performs a Utility Belt incidental, they may produce up to five functionally identical items."
-  },
-  {
-    "key": "IMPROVEDWHEE",
-    "name": "Improved Wheel and Deal",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "When selling good illegally, may upgrade the difficulty of the check once to gain 10% more credits per rank of Wheel and Deal. This includes locally restricted goods, stolen, and otherwise illegal goods."
   },
   {
     "key": "IMPROVEDWISE",
@@ -3042,7 +2293,7 @@
     "name": "Improvised Detonation (Improved)",
     "ranked": false,
     "activation": "Passive",
-    "description": "Reduce the difficulty of Improvised Detonation's check to Average and increase the damage dealt by the explosive to ranks in Intellect plus twice the character's ranks in Mechanics plus success results on the initial check (this includes the damage dealt on a premature detonation triggered by a despair result). The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "Reduce the difficulty of Improvised Detonation's check to Average and increase the damage dealt by the explosive to ranks in Intellect plus twice the character's ranks in Mechanics plus success results on the initial check (this includes the damage dealt on a premature detonation triggered by a despair result)."
   },
   {
     "key": "IMPPOS",
@@ -3269,20 +2520,6 @@
     "description": "If a character is carrying items that total 2 encumbrance or less (after factoring in reductions such as for armor being worn), at the end of the encounter [they] heal all strain that [they] are currently suffering. If a character normally carries items that total more than 2 encumbrance but discards or otherwise loses those items temporarily, the GM can rule that the character still does not gain the benefits of Iron Soul."
   },
   {
-    "name": "It's A Bargain!",
-    "key": "ITSABARGAIN",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "#REDIRECT It's A Bargain talent!"
-  },
-  {
-    "name": "It's A Steal!",
-    "key": "ITSASTEAL",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "#REDIRECT It's A Steal! talent"
-  },
-  {
     "key": "ITSNOTTHATBAD",
     "name": "It's Not that Bad",
     "ranked": false,
@@ -3290,25 +2527,11 @@
     "description": "Once per game session, when an ally is about to suffer a critical injury, the character can take an It's Not That Bad incidental to make a Hard difficulty Medicine check. If successful, the ally does not gain the Critical Injury and does not suffer any of its normal effects."
   },
   {
-    "key": "JACKOFALLTRA",
-    "name": "Jack Of All Trades",
-    "ranked": true,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "JETPACKEXPER",
     "name": "Jetpack Expertise",
     "ranked": false,
     "activation": "Active (Incidental)",
     "description": "The character may spend an advantage result from checks they make to remove 1 system strain from a jetpack they are equipped with. (They may choose this effect multiple times when spending advantage [results].)"
-  },
-  {
-    "key": "JUGGERNAUT",
-    "name": "Juggernaut",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "JUMP",
@@ -3332,13 +2555,6 @@
     "description": "Once per round as an incidental, when the character or any of [their] allies in short range generates a despair on a social skill check, the character may spend one Destiny Point to convert a single despair generated on the check to a failure result. When [they] do this, [they] must explain what [they] say or does to smooth things over after the verbal misstep."
   },
   {
-    "key": "JUSTLIKENEW",
-    "name": "Just Like New",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "JUYOSAV",
     "name": "Juyo Savagery",
     "ranked": false,
@@ -3350,42 +2566,14 @@
     "name": "Keen Eyed",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character removes a setback die per rank of Keen Eyed from [their] Perception and Vigilance checks. Checks made to search a specific area take 50% less time than normal. This does not decrease with additional ranks of Keen Eyed. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
-  },
-  {
-    "key": "KEENINSIGHT",
-    "name": "Keen Insight",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "Add one Boost die per rank of Keen Insight to Perception checks."
-  },
-  {
-    "key": "KILLCONFIRME",
-    "name": "Kill Confirmed",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
-    "key": "KILLORBEKILL",
-    "name": "Kill Or Be Killed",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
+    "description": "The character removes a setback die per rank of Keen Eyed from [their] Perception and Vigilance checks. Checks made to search a specific area take 50% less time than normal. This does not decrease with additional ranks of Keen Eyed."
   },
   {
     "key": "KILL",
     "name": "Kill With Kindness",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character removes a setback die per rank of Kill with Kindness from [their] Charm and Leadership checks. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
-  },
-  {
-    "key": "KILLERINSTIN",
-    "name": "Killer Instinct",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
+    "description": "The character removes a setback die per rank of Kill with Kindness from [their] Charm and Leadership checks."
   },
   {
     "key": "KNOCK",
@@ -3423,25 +2611,11 @@
     "description": "The character may extend the effects of Know Their Weakness to a number of enemy characters within short range equal to [their] rating of Presence."
   },
   {
-    "key": "KNOWYOURPREY",
-    "name": "Know Your Prey",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "KNOWALL",
     "name": "Know-It-All",
     "ranked": false,
     "activation": "Incidental",
     "description": "Once per session, the character may, as if [they] had spent a Destiny Point, perfectly recall one important fact [they] previously learned. If the character's controlling player does not remember the specifics of the fact the player wishes to have the character recall, the Game Master should remind [them] of the relevant facts (provided the character has actually encountered the information)."
-  },
-  {
-    "key": "KNOWLEDGEINA",
-    "name": "Knowledge in Action",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "KNOWPOW",
@@ -3456,13 +2630,6 @@
     "ranked": false,
     "activation": "Active (Incidental)",
     "description": "Force talent. Once per session, when making a check, the character may increase their Force rating by their ranks in Knowledge (Warfare) for the duration of the check. [A] character who has purchased this talent gains 1 Conflict at the beginning of each game session."
-  },
-  {
-    "name": "Knowledge Specialisation",
-    "key": "KNOWLEDGESPE",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "When the character first acquires this talent, [they] may choose one Knowledge skill. When making checks with that skill, [they] may spend a triumph result to gain additional success results equal to [their] ranks in Knowledge Specialization."
   },
   {
     "key": "KNOWSPEC",
@@ -3563,34 +2730,6 @@
     "description": "The character removes a setback die per rank of Leverage from their Cool and Negotiation checks."
   },
   {
-    "key": "LIGHTENTHEMO",
-    "name": "Lighten the Mood",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "LOCALBUSINES",
-    "name": "Local Businesses",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, Hard Knowledge Underworld check to locate a friendly nearby black market and know how to access it."
-  },
-  {
-    "key": "LOCKANDLOAD",
-    "name": "Lock And Load",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
-    "key": "LOGICBOMB",
-    "name": "Logic Bomb",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "LOOM",
     "name": "Loom",
     "ranked": false,
@@ -3609,7 +2748,7 @@
     "name": "Machine Mender",
     "ranked": true,
     "activation": "Passive",
-    "description": "When this character makes a Mechanics check to help a character heal wounds, the target heals one additional wound per rank of Machine Mender. (Typically, only droids can be healed with Mechanics check.) The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "When this character makes a Mechanics check to help a character heal wounds, the target heals one additional wound per rank of Machine Mender. (Typically, only droids can be healed with Mechanics check.)"
   },
   {
     "key": "MADEYOUTALK",
@@ -3640,32 +2779,11 @@
     "description": "Force talent. When making a check using the Lightsaber skill, the character may use Presence instead of Brawn."
   },
   {
-    "key": "MAKEITDANGER",
-    "name": "Make It Dangerous",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": ""
-  },
-  {
-    "key": "MAKINGADOOR",
-    "name": "Making A Door",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "MARKDEATH",
     "name": "Marked for Death",
     "ranked": false,
     "activation": "Maneuver",
     "description": "Force talent. The character may take the Marked for Death maneuver, selecting one target and committing a Force die. The character adds two automatic advantage results to combat checks against that target while a Force die remains committed, but cannot use the Marked for Death talent again until the character uncommits Force dice, the original target is incapacitated, or the session ends. Advantage results gained in this way cannot be used to recover strain."
-  },
-  {
-    "key": "MARKETCONNEC",
-    "name": "Market Connections",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "MARTIALGRACE",
@@ -3675,25 +2793,11 @@
     "description": "Once per round, the character may suffer 2 strain to add additional damage equal to ranks in Coordination to one hit of a successful Brawl combat check."
   },
   {
-    "key": "MARTIALPROWE",
-    "name": "Martial Prowess",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "MASTART",
     "name": "Master Artisan",
     "ranked": false,
     "activation": "Incidental",
     "description": "Once per round, the character may voluntarily suffer 2 strain to decrease the difficulty of [their] next Mechanics check (or [their] next check to build or mod an item) by one, to a minimum of Easy."
-  },
-  {
-    "key": "MASTERCYBERN",
-    "name": "Master Cyberneticist",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "MASTDEMO",
@@ -3738,32 +2842,11 @@
     "description": "Once per round, the character may suffer two strain to decrease the difficulty of [their] next Leadership check by one, to a minimum of Easy difficulty."
   },
   {
-    "key": "MASTERMANIPU",
-    "name": "Master Manipulator",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "MASMERC",
     "name": "Master Merchant",
     "ranked": false,
     "activation": "Incidental",
     "description": "Before making a check when buying or selling items, (or undertaking or paying off obligation,) the character may choose to suffer two strain. If the check succeeds, [they] sell the item for 25% more than base cost or buy it for 25% less(, pays off an additional 1 obligation point or undertakes one less obligation point)."
-  },
-  {
-    "key": "MASTEROFARMS",
-    "name": "Master of Arms",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "MASTEROFNONE",
-    "name": "Master Of None",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "MASSHAD",
@@ -3843,13 +2926,6 @@
     "description": "Force talent. The character always counts as having the right tools for the job when performing Mechanics checks."
   },
   {
-    "key": "MERCIFULSHOT",
-    "name": "Merciful Shot",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "MINDBLEED",
     "name": "Mind Bleed",
     "ranked": false,
@@ -3882,7 +2958,7 @@
     "name": "More Machine Than Man",
     "ranked": true,
     "activation": "Passive",
-    "description": "Each rank of More Machine than Man increases the character's cybernetic implant cap by 1. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "Each rank of More Machine than Man increases the character's cybernetic implant cap by 1."
   },
   {
     "key": "MOSTIMPRESSI",
@@ -3913,13 +2989,6 @@
     "description": "Once per game session, the character may take an action to make a Hard difficulty Knowledge (Education) check regarding a single relic, ruin, or piece of galactic history (subject to the GM's approval). If successful, the character knows an amount of information about the item based on the number of success results rolled."
   },
   {
-    "name": "Mustafar Special",
-    "key": "MUSTAFARSPEC",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per round while piloting, make opposed Piloting against a close craft. On success, inflict system strain equal to Cunning plus successes; 2 Advantage can affect another close craft."
-  },
-  {
     "key": "NATATHL",
     "name": "Natural Athlete",
     "ranked": false,
@@ -3939,13 +3008,6 @@
     "ranked": false,
     "activation": "Incidental",
     "description": "Once per game session, the character may reroll any one Brawl or Melee check."
-  },
-  {
-    "key": "NATURALCAMOU",
-    "name": "Natural Camouflage",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "NATURALCHAMP",
@@ -4067,13 +3129,6 @@
     "description": "Once per game session, the character may reroll any one Computers or Astrogation check."
   },
   {
-    "key": "NATURALREMED",
-    "name": "Natural Remedy",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "NATROG",
     "name": "Natural Rogue",
     "ranked": false,
@@ -4116,20 +3171,6 @@
     "description": "Force talent. When making a Coercion check, the character may spend two advantage results to cause one enemy within short range to lose [their] free maneuver during [their] next turn. When a foe within short range makes a Fear check, the character may spend two threat results from that check to cause that enemy to lose [their] free maneuver during [their] next turn."
   },
   {
-    "key": "NOTIMETOBLEE",
-    "name": "No Time To Bleed",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": ""
-  },
-  {
-    "key": "NOWITNESSES",
-    "name": "No Witnesses",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "NOBFOOL",
     "name": "Nobody's Fool",
     "ranked": true,
@@ -4158,20 +3199,6 @@
     "description": "Force talent. Once per session the character may take the Now You See Me action, making a Hard difficulty Deception check. If successful, a number of NPCs equal to [their] Cunning within medium range forget any interactions they had with the character during the last thirty minutes. At the GM's discretion, multiple threat or despair results may give the NPCs in question unpleasant side effects, such as confusion, nightmares, or a persistent and maddening suspicion that they've forgotten something important."
   },
   {
-    "key": "NOWHEREISSAF",
-    "name": "Nowhere Is Safe",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
-    "key": "ODDJOB",
-    "name": "Odd-Job",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "OFFDRIVE",
     "name": "Offensive Driving",
     "ranked": false,
@@ -4179,25 +3206,11 @@
     "description": "As a maneuver, the character may inflict a number of system strain on [their] vehicle no greater than its highest defense value and choose a vehicle within close range. If the character does so, upgrade the difficulty of the next Piloting (Planetary) or Piloting (Space) check that vehicle's pilot makes before the end of the encounter for each system strain inflicted on [their] craft this way."
   },
   {
-    "key": "OLDBUDDY",
-    "name": "Old Buddy",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, Hard Streetwise check to establish a prior relationship with an NPC; extra results shape how helpful or hostile that relationship is."
-  },
-  {
     "key": "ONORDER",
     "name": "On My Order",
     "ranked": false,
     "activation": "Action",
     "description": "The character may take the On My Order action, making a Hard difficulty Leadership check. If the check succeeds, the character chooses a number of crew aboard their ship equal to their Presence. Those crew members upgrade the ability of their next Gunnery check once, plus one time for every additional two success results on the check."
-  },
-  {
-    "key": "ONTHELOOKOUT",
-    "name": "On The Lookout",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "ONCELEARN",
@@ -4270,13 +3283,6 @@
     "description": "Once per round when using the Overcharge action, the character may spend two advantage results or a triumph result from the Mechanics check to immediately take one additional action."
   },
   {
-    "key": "OVERKILL",
-    "name": "Overkill",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "OVERAMMO",
     "name": "Overstocked Ammo",
     "ranked": true,
@@ -4333,39 +3339,11 @@
     "description": "Force talent. If the user did not make a combat check during [their] previous turn, [they] suffer 1 strain when taking the Parry incidental, instead of 3."
   },
   {
-    "key": "PASSIONOVERP",
-    "name": "Passion Over Peace",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Once per round, recover strain equal to dark side Destiny Points in the pool. Purchasing this talent adds 1 Conflict at session start."
-  },
-  {
-    "key": "PATHSUNCHART",
-    "name": "Paths Uncharted",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "PERCUSSIVEMA",
-    "name": "Percussive Maintenance",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": ""
-  },
-  {
     "key": "PERSISTENTTA",
     "name": "Persistent Targeting",
     "ranked": false,
     "activation": "Passive",
-    "description": "After making one or more successful combat checks against a target, the character adds a boost die to combat checks against that same target for the remainder of the encounter. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
-  },
-  {
-    "key": "PERSONALBODY",
-    "name": "Personal Body Guard",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
+    "description": "After making one or more successful combat checks against a target, the character adds a boost die to combat checks against that same target for the remainder of the encounter."
   },
   {
     "key": "PHYSTRAIN",
@@ -4473,13 +3451,6 @@
     "description": "Once per session during a mass combat or combat encounter, the character may take the Practiced Strategist action, making an opposed Knowledge (Warfare) versus Knowledge (Warfare) check targeting the leader of the enemy forces. If the check succeeds, the character (or player) reveals a narrative advantage provided by their strategic planning, such as the timely arrival of reinforcements, sabotage of the enemy's equipment, or a spy planted within the enemy ranks. The exact nature of the revelation is ultimately at the GM's discretion, but it should provide the character and their allies with a significant advantage in the encounter or session."
   },
   {
-    "key": "PRAGMATIC",
-    "name": "Pragmatic",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "Add one Boost die per rank of Pragmatic to Cool and Streetwise checks."
-  },
-  {
     "name": "Pre-emptive Avoidance",
     "key": "PREEMPTIVEAV",
     "ranked": false,
@@ -4491,7 +3462,7 @@
     "name": "Precise Aim",
     "ranked": true,
     "activation": "Maneuver",
-    "description": "Once per round on the character’s turn, the character may perform a Precise Aim maneuver before attempting a combat check and suffer a number of strain. The number of strain cannot exceed their ranks in Precise Aim. They then decreases the target’s defense (ranged and melee) by one per strain suffered for that combat check. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "Once per round on the character’s turn, the character may perform a Precise Aim maneuver before attempting a combat check and suffer a number of strain. The number of strain cannot exceed their ranks in Precise Aim. They then decreases the target’s defense (ranged and melee) by one per strain suffered for that combat check."
   },
   {
     "key": "PRECSTR",
@@ -4527,13 +3498,6 @@
     "ranked": false,
     "activation": "Active (Incidental, Out of Turn)",
     "description": "Force talent. Immediately after an opponent moves to engage an ally within short range of the character, the character may spend one Destiny Point to engage that opponent as an out-of-turn incidental."
-  },
-  {
-    "key": "PREPAREFORTU",
-    "name": "Prepare for Turbulence",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "PREPARETOBEB",
@@ -4578,25 +3542,11 @@
     "description": "When the character or an ally within short range takes cover, the character taking cover increases their soak by one per rank of Prime Positions against ranged attacks until they leave that cover."
   },
   {
-    "key": "PROGRAMMED",
-    "name": "Programmed",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "When making a check, suffer strain up to twice your Discipline ranks; gain one Boost die for every 2 strain suffered. Improved can upgrade dice instead by flipping a Destiny Point."
-  },
-  {
     "key": "PROPAIM",
     "name": "Prophetic Aim",
     "ranked": false,
     "activation": "Passive",
     "description": "Force talent. While the character is benefiting from an aim maneuver, a despair result from [their] Ranged (Heavy) and Ranged (Light) checks cannot be spent to cause [their] attacks to hit any of [their] allies who are engaged with the target."
-  },
-  {
-    "key": "PULLINGSTRIN",
-    "name": "Pulling Strings",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "PUSHASIDE",
@@ -4611,13 +3561,6 @@
     "ranked": false,
     "activation": "Action",
     "description": "The character may perform the Push the Specs action when in a starship or vehicle, attempting an Average difficulty Knowledge (Education) check. If the character succeeds, the ship's top speed increases by one for a number of rounds equal to the character's Intellect. The character may spend an advantage result and have the ship suffer 2 system strain to extend this effect for an additional round, and may do so multiple times. The ship still cannot perform actions or maneuvers it couldn't perform normally (e.g., actions that have a minimum speed requirement)."
-  },
-  {
-    "key": "QUESTIONABLE",
-    "name": "Questionable Ethics",
-    "ranked": true,
-    "activation": "Active (Incidental)",
-    "description": "Once per round before a Medicine or Coercion check, suffer strain and Conflict up to ranks in Questionable Ethics to add an equal number of Success or Advantage results."
   },
   {
     "key": "QUICKDR",
@@ -4648,25 +3591,11 @@
     "description": "Force talent. Before making a non-Force power check during structured gameplay, the character may suffer 2 strain to add Force dice no greater than Force rating to the check. The character may spend two Force points generated during the check to perform one free Move maneuver after the check is finished. This Move maneuver may be in addition to any other maneuvers performed this turn and can allow the character to perform three maneuvers in a turn."
   },
   {
-    "key": "QUICKPICKUP",
-    "name": "Quick Pickup",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "QUICKST",
     "name": "Quick Strike",
     "ranked": true,
     "activation": "Passive",
     "description": "The character adds a boost die per rank of Quick Strike to [their] combat checks made against any target that has not yet acted in the encounter."
-  },
-  {
-    "key": "QUICKSTUDY",
-    "name": "Quick Study",
-    "ranked": true,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "RAINDEATH",
@@ -4704,27 +3633,6 @@
     "description": "Force talent. Once per encounter, the character may suffer 3 strain to add Force dice up to their current Force rating to a combat check targeting an engaged opponent. The character may spend Force points to add successes or advantages to the results of the check. A character who has purchased this talent gains 1 Conflict at the beginning of each game session."
   },
   {
-    "key": "RDCSPECIALIS",
-    "name": "RDC Specialised Training",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Choose one career skill when this talent is acquired; when using that skill, add Boost dice equal to your ranks in that skill."
-  },
-  {
-    "key": "REACHFORTHES",
-    "name": "Reach for the Sky",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "READTHEWIND",
-    "name": "Read The Wind",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "READANY",
     "name": "Ready for Anything",
     "ranked": true,
@@ -4737,27 +3645,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "When making Cool or Vigilance checks to determine Initiative order, the character may spend a triumph result to add additional success results equal to ranks in Ready for Anything."
-  },
-  {
-    "key": "REASSURINGPR",
-    "name": "Reassuring Presence",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "At the end of each encounter, allies equal to your Cool ranks each recover 1 additional strain."
-  },
-  {
-    "key": "RECKLESSCHAR",
-    "name": "Reckless Charge",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "After maneuvering to engage an enemy, suffer 2 strain to add 2 Success and 2 Threat to your next Brawl, Melee, or Lightsaber check that turn."
-  },
-  {
-    "key": "RECKLESSZEAL",
-    "name": "Reckless Zeal",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per session, suffer 2 strain and 2 wounds to reroll a failed check."
   },
   {
     "key": "RECSCENE",
@@ -4807,13 +3694,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "The character add the Massive 1 rule to [their] Signature Vehicle (when making an attack targeting the starship or vehicle, the Critical rating of any weapon used counts as 1 higher)."
-  },
-  {
-    "key": "RELENTLESS",
-    "name": "Relentless",
-    "ranked": true,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "RENFORM",
@@ -4907,13 +3787,6 @@
     "description": "The character downgrades the difficulty of checks to interact with institutions of learning by one per rank of Respected Scholar."
   },
   {
-    "key": "RULEBYFEAR",
-    "name": "Rule By Fear",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "Remove one Setback die per rank from Leadership and Coercion checks."
-  },
-  {
     "key": "SABERSW",
     "name": "Saber Swarm",
     "ranked": false,
@@ -4949,20 +3822,6 @@
     "description": "Force talent. The character may take the Sarlacc Sweep action, making a Lightsaber combat check with +1 difficulty against one engaged target. The character may spend two advantage results generated by this combat check to hit one additional target [they] are engaged with. [They] may do this once per engaged target, paying two advantage results for each additional hit. When performing a Sarlacc Sweep action, the character must always target the opponent with the highest difficulty and highest defense (if two targets have the same difficulty and defense, the GM chooses which target is the initial target)."
   },
   {
-    "key": "SAVAGERESPON",
-    "name": "Savage Response",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
-  },
-  {
-    "key": "SAVEWHATYOUL",
-    "name": "Save What You Love",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": "Once per session, prevent a short-range ally from being incapacitated by a hit; you then suffer 5 wounds and a Critical Injury at +20."
-  },
-  {
     "key": "SAVVY",
     "name": "Savvy",
     "ranked": true,
@@ -4982,20 +3841,6 @@
     "ranked": false,
     "activation": "Action",
     "description": "While engaged in a debate or argument, the character may take a Savvy Negotiator action to make a Hard difficulty Negotiation check. If the check is successful, one bystander or observer per rank of Savvy Negotiator sees one of the opponent's points (chosen by the character) as maliciously unreasonable. The GM has the final say as to whether bystanders could see a point as unreasonable, based on who those bystanders are and what the point is (for example, an Imperial officer would not likely see the argument that the Rebel Alliance needs to be defeated militarily as unreasonable). In these cases, the GM can suggest a modified version of that argument that would be more believable (said Imperial officer may still want to defeat the Alliance, but may concede that using weapons like the Death Star is barbaric)."
-  },
-  {
-    "key": "SAWITCOMING",
-    "name": "Saw It Coming",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "SCAPEGOAT",
-    "name": "Scapegoat",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, Hard Deception check to avoid blame for your decision or action and place it on someone else."
   },
   {
     "key": "SCATH",
@@ -5089,13 +3934,6 @@
     "description": "When using weapons with the Blast quality or explosive devices, the character may spend an advantage result to exclude one target that would normally be affected by the explosion. Multiple targets may be excluded in this manner, but the total number may not exceed [their] ranks in Selective Detonation. The character may also spend a triumph result to exclude multiple targets, as long as the total number of targets excluded does not exceed [their] ranks in Selective Detonation."
   },
   {
-    "key": "SENDINGAMESS",
-    "name": "Sending A Message",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "SENSEADV",
     "name": "Sense Advantage",
     "ranked": false,
@@ -5122,27 +3960,6 @@
     "ranked": false,
     "activation": "Action",
     "description": "Force talent. Once per session, the character may perform the Sense the Scene action. [They] make a Hard difficulty Perception check while present at a single crime scene (or similar location), adding Force dice no greater than [their] Force rating to the check. If [they] succeed and generate a Force point, [they] may identify the emotional state of one person involved in the crime (such as the perpetrator or victim). [They] may spend an additional Force point to identify the emotional state of one additional person involved in the crime, and may do so multiple times."
-  },
-  {
-    "key": "SENTINELOFTH",
-    "name": "Sentinel of the Order",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": "As a maneuver, suffer 3 strain to give your equipped weapon Defensive 1 and Deflection 1 until the end of the next round, or increase those ratings if already present."
-  },
-  {
-    "key": "SENTRYSREST",
-    "name": "Sentry's Rest",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Use waking meditation instead of sleep, remaining conscious and alert while resting."
-  },
-  {
-    "key": "SHADOWFEEDSE",
-    "name": "Shadowfeed Secret",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "SHAREPAIN",
@@ -5201,25 +4018,11 @@
     "description": "Once per round on the character's turn, the character may perform a Side Step maneuver to try to avoid incoming ranged attacks. [They] then suffer a number of strain no greater than [their] ranks in Side Step. Until the start of the character's next turn, upgrade the difficulty of all ranged combat checks targeting the character a number of times equal to the strain suffered by the target."
   },
   {
-    "key": "SIDEARMDIPLO",
-    "name": "Sidearm Diplomacy",
-    "ranked": true,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
-    "key": "SIGNATURESUP",
-    "name": "Signature Superiority",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "SIGVEH",
     "name": "Signature Vehicle",
     "ranked": false,
     "activation": "Passive",
-    "description": "The character choose one starship or vehicle with a silhouette of 3 or lower that [they] own. This starship or vehicle is the character's \"Signature Vehicle.\" [They] upgrade the ability of all Mechanics checks made to work on the vehicle once. If the starship or vehicle is ever lost or destroyed, the character may apply Signature Vehicle to a new starship or vehicle that meets the requirements. The process of modifying and acclimating to the new vehicle may take some time, at the GM's discretion. No two characters can have the same vehicle as their Signature Vehicle. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character choose one starship or vehicle with a silhouette of 3 or lower that [they] own. This starship or vehicle is the character's \"Signature Vehicle.\" [They] upgrade the ability of all Mechanics checks made to work on the vehicle once. If the starship or vehicle is ever lost or destroyed, the character may apply Signature Vehicle to a new starship or vehicle that meets the requirements. The process of modifying and acclimating to the new vehicle may take some time, at the GM's discretion. No two characters can have the same vehicle as their Signature Vehicle."
   },
   {
     "key": "SINFLAT",
@@ -5248,13 +4051,6 @@
     "ranked": true,
     "activation": "Passive",
     "description": "The character removes setback dice per rank of Skilled Jockey from [their] Piloting (Planetary) and Piloting (Space) checks."
-  },
-  {
-    "key": "SKILLEDORATO",
-    "name": "Skilled Orator",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
   },
   {
     "key": "SKILLSLIC",
@@ -5292,25 +4088,11 @@
     "description": "Once per session, while aboard a starship of silhouette 4 or higher, the character may take the Smart Handling action; making a Hard difficulty Knowledge (Education) check. If the check is successful, until the start of the next round, the ship's handling increases by two plus one per advantage result scored on the check to a maximum handling of +4. A triumph result can be spent to extend the effect until the end of the encounter."
   },
   {
-    "key": "SMOOTHOPERAT",
-    "name": "Smooth Operator",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "SMOOTHTALK",
     "name": "Smooth Talker",
     "ranked": true,
     "activation": "Incidental",
     "description": "When a character first acquires this talent, [they] choose one skill: Charm, Coercion, Negotiation, or Deception. When making checks with that skill, [they] may spend a triumph result to gain additional success results equal to [their] ranks in Smooth Talker."
-  },
-  {
-    "key": "SNAPOUTOFIT",
-    "name": "Snap Out Of It",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, Daunting Discipline check to recover strain equal to half your current strain, rounded down."
   },
   {
     "key": "SNIPSHOT",
@@ -5331,14 +4113,7 @@
     "name": "Solid Repairs",
     "ranked": true,
     "activation": "Passive",
-    "description": "Whenever the character repairs hull trauma on a starship or vehicle, [they] repair one additional hull trauma per rank of Solid Repairs. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
-  },
-  {
-    "key": "SOMETHINGMOR",
-    "name": "Something More Real",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
+    "description": "Whenever the character repairs hull trauma on a starship or vehicle, [they] repair one additional hull trauma per rank of Solid Repairs."
   },
   {
     "key": "SOMEPROVE",
@@ -5373,7 +4148,7 @@
     "name": "Sound Investments",
     "ranked": true,
     "activation": "Passive",
-    "description": "At the beginning of each game session, the character gains credits equal to [their] ranks in Sound Investments times 100. How this money is earned is up to the player and GM, and could be actual investments, business dealings, or even a small legal or illegal side business. The GM can also decide that the current events of the adventure may make these funds unavailable. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "At the beginning of each game session, the character gains credits equal to [their] ranks in Sound Investments times 100. How this money is earned is up to the player and GM, and could be actual investments, business dealings, or even a small legal or illegal side business. The GM can also decide that the current events of the adventure may make these funds unavailable."
   },
   {
     "key": "SPARECL",
@@ -5404,13 +4179,6 @@
     "description": "Once per encounter, the character may perform the Speaks Binary maneuver, choosing one skill. Until the beginning of their next turn, a number of Non-Player Character, non-minion droids up to their ranks in Speaks Binary may use the character's ranks in the chosen skill (rather than their own ranks in that skill)."
   },
   {
-    "key": "SPECIALMODIF",
-    "name": "Special Modifications",
-    "ranked": false,
-    "activation": "Passive",
-    "description": ""
-  },
-  {
     "key": "SPITFIRE",
     "name": "Spitfire",
     "ranked": false,
@@ -5439,25 +4207,11 @@
     "description": "The beast the character is riding suffers 1 strain to maintain Spur's effects instead of the normal 2."
   },
   {
-    "key": "STAKEOUT",
-    "name": "Stakeout",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "STALK",
     "name": "Stalker",
     "ranked": true,
     "activation": "Passive",
     "description": "The character adds a boost dice per rank of Stalker to [their] Coordination and Stealth checks."
-  },
-  {
-    "key": "STALWART",
-    "name": "Stalwart",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Enemy checks opposed by your Discipline suffer automatic Failure and Threat results."
   },
   {
     "key": "STANDFIRM",
@@ -5478,7 +4232,7 @@
     "name": "Steady Nerves",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character removes a setback die per rank of Steady Nerves from Cool or Skulduggery checks. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character removes a setback die per rank of Steady Nerves from Cool or Skulduggery checks."
   },
   {
     "key": "STNERV",
@@ -5486,13 +4240,6 @@
     "ranked": false,
     "activation": "Incidental",
     "description": "The character may spend one Destiny Point to ignore the effects of ongoing Critical Injuries on any Presence or Willpower related checks until the end of the encounter. [They] still suffer from the injury itself."
-  },
-  {
-    "key": "STERNERSTUFF",
-    "name": "Sterner Stuff",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
   },
   {
     "key": "STIMAP",
@@ -5530,13 +4277,6 @@
     "description": "Force talent. While wielding a Lightsaber weapon, the character may take the Strategic Form action, making a Hard difficulty Lightsaber (Intellect) check and rolling Force dice no greater than Force rating as part of the check. For each success result, one target within short range of the character may only make combat checks if those combat checks target the character until the end of the following round. The character may spend a Force point to cause Strategic Form to affect a target for one additional round. The effects of Strategic Form end if the character is incapacitated."
   },
   {
-    "name": "Street Smart",
-    "key": "STREETSMART",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "The character removes a setback dice per rank of Street Smarts from [their] Streetwise and Knowledge (Underworld) checks."
-  },
-  {
     "key": "STRSMART",
     "name": "Street Smarts",
     "ranked": true,
@@ -5551,13 +4291,6 @@
     "description": "Once per session, the character may perform the Improved Street Smarts action. [They] make a Formidable difficulty Streetwise or Knowledge (Underworld) check, reducing the difficulty once per rank of Street Smarts. If successful, the GM must reveal one vital clue pertaining to a current mystery the character is attempting to solve. The clue could be something that the character could not normally find out, but does not have to be the full answer to the mystery (it should be something that cancels a false lead and otherwise helps move the story along). The GM should tailor the information depending on the skill used; Streetwise may mean the character learns about the information from an ad hoc network of street urchins, while Knowledge (Underworld) may mean the character draws on [their] own vast knowledge about criminal enterprise to discover a previously unseen clue."
   },
   {
-    "key": "STRENGTHFROM",
-    "name": "Strength From Passion",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per session, spend a Destiny Point to add successes and threats equal to dark side Destiny Points in the pool. Purchasing this talent adds 1 Conflict at session start."
-  },
-  {
     "key": "STRGEN",
     "name": "Stroke of Genius",
     "ranked": false,
@@ -5570,13 +4303,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "Characters with the Strong Arm talent treat thrown weapons as if they had one step greater range, to a maximum of medium range."
-  },
-  {
-    "key": "STRONGERTHAN",
-    "name": "Stronger Than Flesh",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "MOUNTSTUBBORN",
@@ -5649,18 +4375,11 @@
     "description": "When the character assists an ally with a Charm, Deception, Leadership, or Negotiation check, that ally adds an automatic advantage result to the results of the check per rank of Supporting Evidence."
   },
   {
-    "name": "Suppresing Fire",
-    "key": "SUPPRESINGFI",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "The character and each ally within short range may spend an advantage result on their failed combat checks to inflict 1 strain on their respective targets per rank of Suppressing Fire. Each character can only activate this effect once per round. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
-  },
-  {
     "key": "SUPPRFIRE",
     "name": "Suppressing Fire",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character and each ally within short range may spend an advantage result on their failed combat checks to inflict 1 strain on their respective targets per rank of Suppressing Fire. Each character can only activate this effect once per round. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character and each ally within short range may spend an advantage result on their failed combat checks to inflict 1 strain on their respective targets per rank of Suppressing Fire. Each character can only activate this effect once per round."
   },
   {
     "key": "SUPREMEARMOR",
@@ -5698,13 +4417,6 @@
     "description": "Force talent. When the character performs the Center of Being maneuver, until the beginning of their next turn, ranged weapons also treat their critical rating as one higher per rank of Center of Being when attacking the character."
   },
   {
-    "key": "SUPREMEDIREC",
-    "name": "Supreme Directive",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, choose a skill and make a Hard difficulty Leadership check. On success, a number of allied droids within medium range up to ranks of Directive may treat their ranks of that skill as equal the character's ranks until end of character's next turn. Spend a triumph result to extend this effect 1 round."
-  },
-  {
     "key": "SUPREMEDOUBL",
     "name": "Supreme Double or Nothing",
     "ranked": false,
@@ -5726,46 +4438,11 @@
     "description": "When the character successfully performs Full Throttle, the ship's top speed increases by two for a number of rounds equal to [their] Cunning, instead of one."
   },
   {
-    "key": "SUPREMEHIRED",
-    "name": "Supreme Hired Help",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "The Hired Help action may now target enemy Minions and Rivals. The credit price to target them is doubled. The Game Master has ultimate say whether these minions or Rivals can be swayed by money."
-  },
-  {
-    "key": "SUPREMEHUNTE",
-    "name": "Supreme Hunter",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": "Before making a combat check against a non-sentient creature as a maneuver, suffer strain up to the target's silhouette to reduce that attack's critical rating by the same amount, to a minimum of 1."
-  },
-  {
-    "key": "SUPREMEIMPRO",
-    "name": "Supreme Improvised Detonation",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "When taking the Improvised Detonation action, the character may add Burn +1, Concussive +1, Ensnare +1, Ion, Knockdown, Pierce +2, Stun +2, and/or Stun Damage qualities to the explosive, upgrading the difficulty of the check once for each quality chosen. Any number of qualities may be chosen, but each ranked option may only be chosen three times."
-  },
-  {
     "key": "SUPREMEINSPI",
     "name": "Supreme Inspiring Rhetoric",
     "ranked": false,
     "activation": "Active (Incidental)",
     "description": "The character may voluntarily suffer 1 strain to perform Inspiring Rhetoric as a maneuver instead of an action."
-  },
-  {
-    "key": "SUPREMEMARKE",
-    "name": "Supreme Market Connections",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "Spend three advantage results or a triumph result from Market Connections action to have the seller include a related item with a value or rarity no greater than half that of the original item, rounded down, at no additional cost. The Game Master determines what item is appropriate to be included."
-  },
-  {
-    "key": "SUPREMEMASTE",
-    "name": "Supreme Master of Arms",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "When making the Master of Arms action, choose any number of additional carried weapons to increase an existing quality's rating of each of those weapons by 2, and may choose a different quality for each affected weapon. Upgrade the difficulty once for each chosen weapon beyond the first. Each of the chosen qualities cost one less advantage result to activate, to a minimum of 1. Qualities that do not have a rating, such as Auto-Fire, are not applicable for the reduction."
   },
   {
     "key": "OVERCHARGESUP",
@@ -5794,13 +4471,6 @@
     "ranked": false,
     "activation": "Active (Incidental)",
     "description": "While inside [their] Pride and Joy vessel, once per session the character may reduce this vessel's silhouette by two (to a minimum of 0) for the remainder of the round and the following round. This lowered silhouette is used only for purposes of combat and movement; it does not physically reduce the size of the vessel."
-  },
-  {
-    "key": "SUPREMEREADT",
-    "name": "Supreme Read The Wind",
-    "ranked": false,
-    "activation": "Active (Incidental, Out-of-Turn)",
-    "description": "Once per round, the character may suffer a number of strain up to their ranks in Perception to remove up to that many setback dice imposed due to environmental conditions from an enemy's check, adding an equal number of failure or threat results to that check. If four or more setback dice are removed this way, add a single despair result to the check instead of failure or threat results."
   },
   {
     "key": "SUPREMEREFLE",
@@ -5838,18 +4508,11 @@
     "description": "When performing the Stim Application action, each triumph result may be spent to increase an additional characteristic by one."
   },
   {
-    "key": "SUPREMESTRON",
-    "name": "Supreme Stronger Than Flesh",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": "Immediately after being successfully attacked but before suffering damage, spend 1 Destiny Point to increase the character's Soak by half the number of installed cybernetics, rounded up."
-  },
-  {
     "key": "SURG",
     "name": "Surgeon",
     "ranked": true,
     "activation": "Passive",
-    "description": "When this character makes a Medicine check to help a character heal wounds, the target heals one additional wound per rank of Surgeon. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "When this character makes a Medicine check to help a character heal wounds, the target heals one additional wound per rank of Surgeon."
   },
   {
     "key": "SURVFIT",
@@ -5908,25 +4571,11 @@
     "description": "Once per game session when performing an activity that requires a skill check, the character may choose to substitute a Knowledge (Warfare) check for the skill check that would normally apply. When they do this, they must explain how their tactical foresight is helping them overcome the challenge."
   },
   {
-    "name": "Take the Initiative",
-    "key": "TAKETHEINITI",
-    "ranked": false,
-    "activation": "Active (Maneuver)",
-    "description": "Once per game session, the character may leap forward to create a daring distraction on the battlefield by performing the Seize the Initiative maneuver. [They] make a Hard difficulty Athletics check. If [they] succeed, any number of other PCs who have yet not acted this round may immediately take their turns as if there were that many PC slots at that point in the Initiative order. Each PC who acts this way counts as having acted for this round (and thus cannot act again this round. The Initiative order returns to its previous order at the beginning of the next round."
-  },
-  {
     "key": "TALKTALK",
     "name": "Talk the Talk",
     "ranked": false,
     "activation": "Incidental",
     "description": "When making a Knowledge skill check, the character may spend one Destiny Point to substitute Knowledge (Underworld) or Streetwise for the required skill. The GM may suitably embellish any information gathered due to a success on the check to reflect its criminal and underworld origins."
-  },
-  {
-    "key": "TARGETACQUIR",
-    "name": "Target Acquired",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "TARGBL",
@@ -5978,13 +4627,6 @@
     "description": "Force talent. The character may spend one Destiny Point to perform a Terrifying Kill maneuver immediately after conducting a successful attack where the target is incapacitated or suffers a Critical Injury (the character must still be able to perform maneuvers, and may not perform more than two maneuvers in a turn). The character rolls Force dice no greater than [their] Force rating, and may spend a Force point to inflict 1 strain on any characters within short range of that target (and may do so multiple times). A character who has purchased this talent automatically gains 1 Conflict at the beginning of a game session."
   },
   {
-    "key": "THANKTHEMAKE",
-    "name": "Thank The Maker!",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
-  },
-  {
     "key": "THATHOWDONE",
     "name": "That's How It's Done",
     "ranked": true,
@@ -5997,20 +4639,6 @@
     "ranked": false,
     "activation": "Incidental",
     "description": "Force talent. Once per session, the character may suffer 2 strain to perform a Force power action as a maneuver."
-  },
-  {
-    "key": "THELANDPROVI",
-    "name": "The Land Provides",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
-    "key": "THEPERFECTCR",
-    "name": "The Perfect Crime",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
   },
   {
     "key": "THEREISNOTRY",
@@ -6052,7 +4680,7 @@
     "name": "Tinkerer",
     "ranked": true,
     "activation": "Passive",
-    "description": "The character makes one piece of equipment more modifiable. They choose one piece of equipment and increases its number of hard points by one. They can only do this once per piece of equipment, but can modify a number of pieces of equipment equal to their ranks in Tinkerer. If they lose a modified piece of equipment, they may apply Tinkerer to a new one. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character makes one piece of equipment more modifiable. They choose one piece of equipment and increases its number of hard points by one. They can only do this once per piece of equipment, but can modify a number of pieces of equipment equal to their ranks in Tinkerer. If they lose a modified piece of equipment, they may apply Tinkerer to a new one."
   },
   {
     "key": "TOTHEDEATH",
@@ -6067,13 +4695,6 @@
     "ranked": false,
     "activation": "Incidental",
     "description": "Force talent. Once per game session, the character may add two boost dice to any one skill check."
-  },
-  {
-    "key": "TOUCHEDBYDAR",
-    "name": "Touched by Darkness",
-    "ranked": true,
-    "activation": "Passive",
-    "description": "Whenever the GM spends a Destiny Point, recover 1 strain and 1 wound per rank before the effect resolves."
   },
   {
     "key": "TOUGH",
@@ -6153,18 +4774,11 @@
     "description": "When the character is targeted by a social check, the character may spend a despair result or two threat results and suffer 1 strain as an incidental to inflict a number of strain equal to their ranks in Coercion on the character who made the check."
   },
   {
-    "key": "ULTIMATUM",
-    "name": "Ultimatum",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "UNARMPARRY",
     "name": "Unarmed Parry",
     "ranked": false,
     "activation": "Passive",
-    "description": "The character may perform the Parry incidental while unarmed. When the character performs the Parry incidental while unarmed, reduce the strain they suffer from the Parry incidental by one, to a minimum of 1. The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
+    "description": "The character may perform the Parry incidental while unarmed. When the character performs the Parry incidental while unarmed, reduce the strain they suffer from the Parry incidental by one, to a minimum of 1."
   },
   {
     "key": "UNCANREAC",
@@ -6181,32 +4795,11 @@
     "description": "Force talent. The character adds a boost die per rank of Uncanny Senses to [their] Perception checks."
   },
   {
-    "key": "UNEARTHTHEAN",
-    "name": "Unearth the Answer",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
-  },
-  {
     "key": "UNITYASSAULT",
     "name": "Unity Assault",
     "ranked": false,
     "activation": "Maneuver",
     "description": "Force talent. Whenever the character misses an opponent with a combat check and generates a triumph result or three advantage results, the character may spend this to perform a Force power action that targets one or more allies as a maneuver ([they] must still be able to perform maneuvers, and may not perform more than two maneuvers in a turn)."
-  },
-  {
-    "key": "UNLOCKEDPOTE",
-    "name": "Unlocked Potential",
-    "ranked": false,
-    "activation": "Active (Incidental, Out-of-Turn)",
-    "description": ""
-  },
-  {
-    "key": "UNQUESTIONED",
-    "name": "Unquestioned Authority",
-    "ranked": true,
-    "activation": "Passive",
-    "description": ""
   },
   {
     "key": "UNRELSKEP",
@@ -6228,13 +4821,6 @@
     "ranked": false,
     "activation": "Passive",
     "description": "If the percentile roll made when the character receives a Critical Injury is 1 or is reduced to 1, the character does not receive the Critical Injury and suffers none of the effects."
-  },
-  {
-    "key": "UNYIELDING",
-    "name": "Unyielding",
-    "ranked": false,
-    "activation": "Active (Incidental, Out of Turn)",
-    "description": ""
   },
   {
     "key": "UPANTE",
@@ -6286,39 +4872,11 @@
     "description": "Gunnery and Piloting (Planetary) become career skills."
   },
   {
-    "key": "VICTORYFROMS",
-    "name": "Victory From Strength",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": "Once per session before a non-combat check, spend a Destiny Point to automatically succeed with one success and no other results."
-  },
-  {
-    "key": "VOICEOFREASO",
-    "name": "Voice of Reason",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "key": "WALKWALK",
     "name": "Walk the Walk",
     "ranked": false,
     "activation": "Incidental",
     "description": "The character may spend one Destiny Point to add damage equal to [their] ranks in Streetwise to one hit of a successful Brawl check."
-  },
-  {
-    "key": "WATCHTHIS",
-    "name": "Watch This",
-    "ranked": true,
-    "activation": "Active (Incidental)",
-    "description": "Once per encounter on a Daunting or harder check, add successes equal to ranks of Watch This."
-  },
-  {
-    "name": "Watch Your Step!",
-    "key": "WATCHYOURSTE",
-    "ranked": false,
-    "activation": "Passive",
-    "description": "#REDIRECT Watch Your Step! talent"
   },
   {
     "key": "WEAKFOUND",
@@ -6349,13 +4907,6 @@
     "description": "Knowledge (Core Worlds) and Knowledge (Outer Rim) become career skills."
   },
   {
-    "key": "WELLCONNECTE",
-    "name": "Well-Connected",
-    "ranked": false,
-    "activation": "Active (Incidental)",
-    "description": ""
-  },
-  {
     "name": "Well-Traveled",
     "key": "WELLTRAVELED",
     "ranked": false,
@@ -6367,14 +4918,7 @@
     "name": "Wheel and Deal",
     "ranked": true,
     "activation": "Passive",
-    "description": "When [they] sell legal goods to a reputable merchant or business, the character gains an additional 10% credits per rank of Wheel and Deal (based on the original selling price of the good or item). The following is a homebrew expansion of this talent from a community-produced homebrew sourcebook!"
-  },
-  {
-    "key": "WHEREITHURTS",
-    "name": "Where It Hurts",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": ""
+    "description": "When [they] sell legal goods to a reputable merchant or business, the character gains an additional 10% credits per rank of Wheel and Deal (based on the original selling price of the good or item)."
   },
   {
     "key": "WILLFORCE",
@@ -6417,12 +4961,5 @@
     "ranked": false,
     "activation": "Incidental",
     "description": "Once per game session, the character can choose to make one skill check using Presence, rather than the characteristic linked to that skill. When [they] do this, [they] must explain how, in this particular instance, [their] social ability is helping [them] overcome this challenge."
-  },
-  {
-    "name": "Wretched Hive",
-    "key": "WRETCHEDHIVE",
-    "ranked": false,
-    "activation": "Active (Action)",
-    "description": "Once per session, make a Hard Astrogation or Knowledge Underworld check to locate the nearest Shadowport; upgrade checks to reach or interact with it this session."
   }
 ]

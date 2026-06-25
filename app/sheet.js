@@ -11,7 +11,8 @@ const Sheet = (() => {
     const species = Engine.getSpecies(state.speciesKey);
     const career  = Engine.getCareer(state.careerKey);
     const spec    = Engine.getSpec(state.specKey);
-    const chars   = state.characteristics || {};
+    // Effective characteristics include always-on talent bonuses (e.g. Dedication).
+    const chars   = (derived && derived.characteristics) || state.characteristics || {};
     const vBlock  = vehicleBlock(state);
 
     container.innerHTML = `
@@ -20,10 +21,11 @@ const Sheet = (() => {
         ${charsBlock(chars)}
         ${derivedBlock(derived)}
         ${abilitiesBlock(species, state)}
-        ${skillsBlock(derived)}
+        ${skillsBlock(derived, chars)}
+        ${talentsBlock(derived)}
         ${equipmentBlock(state, derived)}
         ${vBlock}
-        ${spec ? treeBlock(spec) : ''}
+        ${spec ? treeBlock(spec, state) : ''}
         <div class="print-btn">
           <button class="btn btn-secondary btn-sm" onclick="window.print()">Print / Save as PDF</button>
         </div>
@@ -69,23 +71,29 @@ const Sheet = (() => {
   }
 
   function derivedBlock(d) {
+    const tb = d.talent_stat_bonuses || {};
+    // Small "+N" note when a talent boosts the stat, so the source is visible.
+    const note = n => (n ? `<div class="derived-box-note">+${n} from talents</div>` : '');
     const boxes = [
-      ['Wound Threshold',  d.wound_threshold],
-      ['Strain Threshold', d.strain_threshold],
-      ['Soak Value',       d.soak],
-      ['Defense (Rng)',    d.defense_ranged],
-      ['Defense (Mel)',    d.defense_melee],
-      ['XP Remaining',     d.xp_remaining],
-    ].map(([label, val]) => `
+      ['Wound Threshold',  d.wound_threshold,  note(tb.wound)],
+      ['Strain Threshold', d.strain_threshold, note(tb.strain)],
+      ['Soak Value',       d.soak,             note(tb.soak)],
+      ['Defense (Rng)',    d.defense_ranged,    note(tb.defenseRanged)],
+      ['Defense (Mel)',    d.defense_melee,     note(tb.defenseMelee)],
+      ['XP Remaining',     d.xp_remaining,      ''],
+    ];
+    if (d.force_rating > 0) boxes.push(['Force Rating', d.force_rating, note(tb.forceRating)]);
+    const html = boxes.map(([label, val, n]) => `
       <div class="derived-box">
         <div class="derived-box-label">${label}</div>
         <div class="derived-box-value">${val}</div>
+        ${n}
       </div>`).join('');
 
     return `
       <div class="sheet-panel">
         <div class="sheet-panel-title">Derived Stats</div>
-        <div class="derived-grid">${boxes}</div>
+        <div class="derived-grid">${html}</div>
       </div>`;
   }
 
@@ -111,10 +119,40 @@ const Sheet = (() => {
       </div>`;
   }
 
-  function skillsBlock(derived) {
+  // FFG narrative dice glyphs (Edge of the Empire Core, p.102):
+  // a skill check rolls max(characteristic, rank) dice, with min(characteristic,
+  // rank) of them upgraded from green Ability (d8) to yellow Proficiency (d12).
+  const DIE_ABILITY = '<svg class="die die-ability" viewBox="0 0 20 20" aria-hidden="true"><polygon points="10,1 19,10 10,19 1,10"/></svg>';
+  const DIE_PROF    = '<svg class="die die-prof" viewBox="0 0 20 20" aria-hidden="true"><polygon points="19,10 14.5,2.2 5.5,2.2 1,10 5.5,17.8 14.5,17.8"/></svg>';
+  // A black Setback die (d6) struck out in red = "remove one setback" from a talent.
+  const DIE_SETBACK_OUT = '<svg class="die die-setback-out" viewBox="0 0 20 20" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5"/><line x1="2.6" y1="10" x2="17.4" y2="10"/></svg>';
+
+  // Build the dice-pool glyphs for a characteristic value + skill rank.
+  // removedSetback appends that many struck-out setback dice (talent benefit).
+  function dicePool(charVal, rank, removedSetback) {
+    const c = Math.max(0, Number(charVal) || 0);
+    const r = Math.max(0, Number(rank)    || 0);
+    const rsb = Math.max(0, Number(removedSetback) || 0);
+    const total = Math.max(c, r);
+    const setbackGlyphs = rsb
+      ? `<span class="skill-setback-set" title="Talent removes ${rsb} setback ${rsb === 1 ? 'die' : 'dice'} from this skill">${DIE_SETBACK_OUT.repeat(rsb)}</span>`
+      : '';
+    if (total <= 0) return `<span class="skill-dice-none">&mdash;</span>${setbackGlyphs}`;
+    const yellow = Math.min(c, r);      // Proficiency dice
+    const green  = total - yellow;      // Ability dice
+    const parts = [];
+    if (yellow) parts.push(`${yellow} Proficiency`);
+    if (green)  parts.push(`${green} Ability`);
+    const glyphs = DIE_PROF.repeat(yellow) + DIE_ABILITY.repeat(green);
+    return `<span class="skill-dice-set" title="${parts.join(', ')}">${glyphs}</span>${setbackGlyphs}`;
+  }
+
+  function skillsBlock(derived, chars) {
+    chars = chars || {};
     const careerKeys = derived.career_skill_keys || [];
     const bonusKeys  = derived.bonus_skill_keys  || [];
     const ranks      = derived.skill_ranks        || {};
+    const setbackOut = derived.skill_setback_removed || {};
 
     const groups = {};
     for (const skill of SW.skills) {
@@ -129,20 +167,19 @@ const Sheet = (() => {
       const list = groups[gname] || [];
       if (!list.length) continue;
       html += `<div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin:10px 0 4px;padding-top:6px;border-top:1px solid var(--border);break-inside:avoid">${gname} Skills</div>`;
+      let zi = 0;
       for (const skill of list) {
         const rank     = ranks[skill.key] || 0;
+        const charVal  = chars[skill.characteristic.toLowerCase()] || 0;
         const isCareer = careerKeys.includes(skill.key);
         const isBonus  = bonusKeys.includes(skill.key);
         const nameCol  = (isCareer || isBonus) ? 'color:var(--accent)' : '';
-        const pips = Array.from({length: 5}, (_, i) => {
-          const filled = i < rank;
-          return `<div class="rank-pip${filled ? ' filled' : ''}${isCareer ? ' career' : ''}"></div>`;
-        }).join('');
+        const zebra    = (zi++ % 2 === 1) ? ' zebra' : '';
         html += `
-          <div class="sheet-skill-row">
+          <div class="sheet-skill-row${zebra}">
             <span class="sheet-skill-name" style="${nameCol}">${skill.name}</span>
             <span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span>
-            <div class="rank-pips">${pips}</div>
+            <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key])}</div>
           </div>`;
       }
     }
@@ -150,17 +187,77 @@ const Sheet = (() => {
     return `
       <div class="sheet-panel" style="grid-column:1/-1">
         <div class="sheet-panel-title">Skills <span style="font-size:0.7em;font-weight:400;color:var(--muted)">(highlighted = career/spec skill)</span></div>
+        <div class="skill-dice-legend">
+          <span>${DIE_PROF} Proficiency (d12)</span>
+          <span>${DIE_ABILITY} Ability (d8)</span>
+          ${Object.keys(setbackOut).length ? `<span>${DIE_SETBACK_OUT} Setback removed by talent</span>` : ''}
+          <span class="skill-dice-legend-note">pool = higher of characteristic or rank; ranks upgrade green to yellow</span>
+        </div>
         <div class="sheet-skills-list">${html}</div>
       </div>`;
   }
 
-  function treeBlock(spec) {
+  // Human-readable summary of a flat talent effect, e.g. "+4 Wound Threshold".
+  const STAT_LABELS = {
+    wound: 'Wound Threshold', strain: 'Strain Threshold', soak: 'Soak',
+    defenseMelee: 'Melee Defense', defenseRanged: 'Ranged Defense',
+    forceRating: 'Force Rating', characteristic: 'Characteristic',
+  };
+  function effectBadge(effect) {
+    if (!effect) return '';
+    const label = STAT_LABELS[effect.stat] || effect.stat;
+    const suffix = effect.needsChoice ? ' (your choice)' : '';
+    return `<span class="talent-effect">+${effect.total} ${label}${suffix}</span>`;
+  }
+  // Badge for whole-skill setback removal, e.g. "−1 setback: Deception, Skulduggery".
+  function setbackBadge(setback) {
+    if (!setback) return '';
+    const skills = setback.skills.map(s => s === 'ALL_KNOWLEDGE' ? 'Knowledge' : s).join(', ');
+    return `<span class="talent-effect setback">&minus;${setback.total} setback: ${esc(skills)}</span>`;
+  }
+
+  // Panel listing every purchased talent with its rank, type, effect, and rules text.
+  function talentsBlock(d) {
+    const list = (d && d.talents) || [];
+    if (!list.length) return '';
+
+    const cards = list.map(t => {
+      const isActive = t.activation && !t.activation.toLowerCase().includes('passive');
+      const typeTag  = `<span class="talent-type ${isActive ? 'active' : 'passive'}">${esc(t.activation || (isActive ? 'Active' : 'Passive'))}</span>`;
+      const rankTag  = t.ranked ? `<span class="talent-rank">Rank ${t.rank}</span>` : '';
+      const srcTag   = (t.source === 'species' || t.source === 'both')
+        ? '<span class="talent-source">Species</span>' : '';
+      const desc     = t.description
+        ? `<div class="talent-desc">${esc(t.description)}</div>`
+        : `<div class="talent-desc talent-desc-empty">No description on file.</div>`;
+      return `
+        <div class="talent-card">
+          <div class="talent-card-head">
+            <span class="talent-name">${esc(t.name)}</span>
+            ${rankTag}${srcTag}${effectBadge(t.effect)}${setbackBadge(t.setback)}${typeTag}
+          </div>
+          ${desc}
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="sheet-panel" style="grid-column:1/-1">
+        <div class="sheet-panel-title">Talents <span style="font-size:0.7em;font-weight:400;color:var(--muted)">(${list.length} purchased)</span></div>
+        <div class="talent-cards">${cards}</div>
+      </div>`;
+  }
+
+  function treeBlock(spec, state) {
+    // Map each tree position to whether it was purchased (row-major, 5×4).
+    const bought = (state && state.talentPurchases && state.talentPurchases[state.specKey]) || [];
+    let idx = 0;
     const rows = (spec.talent_tree || []).map(row => `
       <div class="tree-row">
         <div class="tree-cost">${row.cost}</div>
-        ${(row.talents || []).map(t =>
-          `<div class="tree-cell${t ? '' : ' empty'}">${esc(t) || '—'}</div>`
-        ).join('')}
+        ${(row.talents || []).map(t => {
+          const owned = !!bought[idx++];
+          return `<div class="tree-cell${t ? '' : ' empty'}${owned ? ' owned' : ''}">${esc(t) || '—'}${owned ? '<span class="tree-cell-check">&#10003;</span>' : ''}</div>`;
+        }).join('')}
       </div>`).join('');
 
     return `
@@ -169,7 +266,7 @@ const Sheet = (() => {
         <div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px">
           Bonus career skills: <strong style="color:var(--text)">${(spec.bonus_career_skills||[]).join(', ')}</strong></div>
         <div class="sheet-tree-display">${rows}</div>
-        <p style="margin-top:10px;font-size:0.75rem;color:var(--muted)">Talent connection topology not yet encoded — purchase order shown by tier cost only.</p>
+        <p style="margin-top:10px;font-size:0.75rem;color:var(--muted)">Highlighted cells are purchased. Tier cost shown at left of each row.</p>
       </div>`;
   }
 
