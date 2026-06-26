@@ -519,8 +519,12 @@ const Wizard = (() => {
   };
 
   // ── Tooltip engine ────────────────────────────────────────────────────────
+  // Pop-outs are tap-to-open / tap-to-close, with no hover anywhere. showTooltip
+  // records the anchor so re-tapping the same trigger toggles it shut; tapping
+  // the pop-out itself or anywhere outside a trigger dismisses it (see the global
+  // handler wired up by initTooltipDismiss in init()).
   let _tooltipEl = null;
-  let _tooltipHideTimer = null;
+  let _tipAnchor = null;
 
   function ensureTooltip() {
     if (_tooltipEl) return _tooltipEl;
@@ -529,14 +533,12 @@ const Wizard = (() => {
     _tooltipEl.className = 'sw-tooltip';
     _tooltipEl.style.display = 'none';
     document.body.appendChild(_tooltipEl);
-    _tooltipEl.addEventListener('mouseenter', () => clearTimeout(_tooltipHideTimer));
-    _tooltipEl.addEventListener('mouseleave', hideTooltip);
     return _tooltipEl;
   }
 
   function showTooltip(anchor, html) {
-    clearTimeout(_tooltipHideTimer);
     const tt = ensureTooltip();
+    _tipAnchor = anchor;
     tt.innerHTML = html;
     tt.style.display = 'block';
     tt.style.opacity = '0';
@@ -556,9 +558,20 @@ const Wizard = (() => {
   }
 
   function hideTooltip() {
-    _tooltipHideTimer = setTimeout(() => {
-      if (_tooltipEl) _tooltipEl.style.display = 'none';
-    }, 120);
+    if (_tooltipEl) _tooltipEl.style.display = 'none';
+    _tipAnchor = null;
+  }
+
+  // Dismiss the open pop-out on any tap that is not on a tip trigger or a talent
+  // node (those manage their own pop-out). Bound once. Because triggers
+  // stopPropagation their own taps, opening a pop-out never reaches this handler,
+  // so the pop-out stays open while you move between triggers.
+  function initTooltipDismiss() {
+    document.addEventListener('click', e => {
+      if (!_tooltipEl || _tooltipEl.style.display === 'none') return;
+      if (e.target.closest('[data-tip-type]') || e.target.closest('.tt-node')) return;
+      hideTooltip();
+    });
   }
 
   function tooltipContent(type, name, spKey) {
@@ -596,26 +609,18 @@ const Wizard = (() => {
     return `<div class="tt-title">${name}</div>`;
   }
 
+  // Tap a tip element (skill tag, talent cell, tip-link, etc.) to toggle its
+  // pop-out. No hover. Capture phase + stopPropagation so the tap opens the
+  // description without also triggering the surrounding card/row selection;
+  // re-tapping the same trigger closes it. Used for every tip container,
+  // including ones whose elements are themselves selection targets.
   function initTipListeners(container) {
-    container.addEventListener('mouseenter', e => {
-      const link = e.target.closest('[data-tip-type]');
-      if (!link) return;
-      showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
-    }, true);
-    container.addEventListener('mouseleave', e => {
-      if (e.target.closest('[data-tip-type]')) hideTooltip();
-    }, true);
-    // Capture phase: this runs before the descendant card's own click handler, so
-    // on touch the stopPropagation below actually prevents the card from being
-    // selected when the user taps a tip element just to read it. A bubble-phase
-    // handler here would fire too late (after the card already selected). On a
-    // mouse we leave propagation alone so existing behavior is unchanged.
     container.addEventListener('click', e => {
       const link = e.target.closest('[data-tip-type]');
       if (!link) return;
-      if (isTouch()) e.stopPropagation();
+      e.stopPropagation();
       const tt = ensureTooltip();
-      if (tt.style.display !== 'none') { hideTooltip(); return; }
+      if (tt.style.display !== 'none' && _tipAnchor === link) { hideTooltip(); return; }
       showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
     }, true);
   }
@@ -623,38 +628,6 @@ const Wizard = (() => {
   function tipLink(type, name, spKey, label) {
     const sp = spKey ? ` data-tip-sp="${spKey}"` : '';
     return `<span class="tip-link" data-tip-type="${type}" data-tip-name="${name}"${sp}>${label || name}</span>`;
-  }
-
-  // True when the primary pointer cannot hover (phones / touch tablets).
-  function isTouch() {
-    return !!(window.matchMedia && window.matchMedia('(hover: none)').matches);
-  }
-
-  // Hover-only tooltips for containers whose elements are themselves click
-  // targets, so on a mouse a tap selects without popping a stray tooltip. On
-  // touch there is no hover, so we add a tap-to-toggle path (guarded to coarse
-  // pointers) that opens the tooltip without triggering the row's selection.
-  function initHoverTips(container) {
-    container.addEventListener('mouseenter', e => {
-      const link = e.target.closest('[data-tip-type]');
-      if (link) showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
-    }, true);
-    container.addEventListener('mouseleave', e => {
-      if (e.target.closest('[data-tip-type]')) hideTooltip();
-    }, true);
-    // Capture phase so that on touch we intercept the tap before the row's own
-    // click handler (bound to the descendant row element) runs; stopPropagation
-    // then prevents the tap from toggling the skill pick while we show its
-    // description instead. On a mouse we bail out so the row still selects.
-    container.addEventListener('click', e => {
-      if (!isTouch()) return;                 // mouse: let the tap select the row
-      const link = e.target.closest('[data-tip-type]');
-      if (!link) return;
-      e.stopPropagation();
-      const tt = ensureTooltip();
-      if (tt.style.display !== 'none') { hideTooltip(); return; }
-      showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
-    }, true);
   }
 
   function getArchetype(sp) {
@@ -1302,7 +1275,7 @@ const Wizard = (() => {
     }
 
     refresh();
-    initHoverTips($('.skills-layout'));
+    initTipListeners($('.skills-layout'));
   }
 
   // ── Step: OMS (Obligation / Duty / Morality) ──────────────────────────────
@@ -1887,27 +1860,18 @@ const Wizard = (() => {
       });
     });
 
-    // Tooltip on hover (mouseenter/leave only — click is reserved for purchase)
+    // No hover: the first tap of a node previews it (shows its rules text and
+    // arms it, marked by the tt-armed outline); a second tap on the same node
+    // commits the buy/refund. Tapping a different node previews that one; tapping
+    // the pop-out or anywhere outside dismisses it. This exposes descriptions
+    // without hover and prevents accidental purchases, on every pointer.
     const grid = $('#talent-tree-grid');
-    grid.addEventListener('mouseenter', e => {
-      const node = e.target.closest('.tt-node');
-      if (!node || !node.dataset.tipName) return;
-      showTooltip(node, tooltipContent('talent', node.dataset.tipName));
-    }, true);
-    grid.addEventListener('mouseleave', e => {
-      if (e.target.closest('.tt-node')) hideTooltip();
-    }, true);
-
-    // On touch, the first tap of a node previews it (shows its rules text, which
-    // is otherwise hover-only) and arms it; a second tap on the same node commits
-    // the buy/refund. This exposes descriptions and prevents accidental purchases.
-    // A mouse buys on the first click as before.
     let armed = null;
     grid.addEventListener('click', e => {
       const node = e.target.closest('.tt-node');
       if (!node) { hideTooltip(); armed = null; return; }
       const r = +node.dataset.r, col = +node.dataset.c, idx = r*4+col;
-      if (isTouch() && node.dataset.tipName && armed !== node.dataset.tipName) {
+      if (node.dataset.tipName && armed !== node.dataset.tipName) {
         armed = node.dataset.tipName;
         grid.querySelectorAll('.tt-armed').forEach(n => n.classList.remove('tt-armed'));
         node.classList.add('tt-armed');
@@ -2910,6 +2874,7 @@ const Wizard = (() => {
   function init() {
     initTheme();
     initViewMode();
+    initTooltipDismiss();
     loadState();
     $('#btn-next').addEventListener('click', next);
     $('#btn-back').addEventListener('click', back);

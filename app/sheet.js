@@ -70,7 +70,7 @@ const Sheet = (() => {
     }).join('');
 
     return `
-      <div class="sheet-panel char-strip" style="grid-column:1/-1;display:grid;grid-template-columns:auto repeat(6,1fr);padding:0;overflow:hidden">
+      <div class="sheet-panel char-strip" style="grid-column:1/-1">
         <div class="derived-strip-label"><span>Characteristics</span></div>
         ${rows}
       </div>`;

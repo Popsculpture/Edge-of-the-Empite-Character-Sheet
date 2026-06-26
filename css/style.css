@@ -335,6 +335,7 @@ body.on-sheet #wizard-nav {
   padding: 10px 13px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.6);
   pointer-events: auto;
+  cursor: pointer;   /* tap the pop-out to dismiss it */
   transition: opacity 0.12s;
 }
 .tt-title {
@@ -1095,11 +1096,18 @@ body.on-sheet #wizard-nav {
 .track-btn:active { transform: translateY(1px); }
 
 /* ── Derived Stats strip (mirrors the Characteristics panel) ──────────── */
-/* Column count comes from --cells (set inline by derivedBlock); kept in CSS so
-   the phone breakpoint can reflow the strip instead of clipping it. */
+/* Grid lives in CSS (not inline) so the phone breakpoint can reflow the strip
+   instead of clipping it. The derived strip's column count comes from --cells
+   (set inline by derivedBlock); the characteristic strip is always 6 cells. */
 .derived-strip {
   display: grid;
   grid-template-columns: auto repeat(var(--cells, 4), 1fr);
+  padding: 0;
+  overflow: hidden;
+}
+.char-strip {
+  display: grid;
+  grid-template-columns: auto repeat(6, 1fr);
   padding: 0;
   overflow: hidden;
 }
@@ -2549,11 +2557,20 @@ html.vp-mobile {
   .char-cost-hint { grid-column: 1 / -1; text-align: left; font-size: 0.85rem; color: var(--text); }
   .derived-panel { position: static; top: auto; }
 
-  /* Derived stats strip: reflow to 2 columns, drop the rotated label */
+  /* Derived stats strip: 2 columns, rotated label dropped. Reorder so Soak and
+     Defense are the top row and Wounds and Strain sit beneath them. */
   .derived-strip { grid-template-columns: 1fr 1fr; overflow: visible; }
   .derived-strip-label { display: none; }
-  .derived-cell { border-right: none; border-bottom: 1px solid var(--border); }
+  .derived-cell { border-right: none; border-bottom: 1px solid var(--border); order: 5; }
+  .derived-cell:nth-child(2) { order: 1; }   /* Soak    -> top-left  */
+  .derived-cell:nth-child(5) { order: 2; }   /* Defense -> top-right */
+  .derived-cell:nth-child(3) { order: 3; }   /* Wounds  -> below Soak */
+  .derived-cell:nth-child(4) { order: 4; }   /* Strain  -> below Defense */
   .derived-cell-sub, .derived-cell-label { font-size: 0.66rem; }
+
+  /* Characteristic strip: its rotated label is hidden too, so drop the phantom
+     label column and let the six attributes fill the width evenly. */
+  .char-strip { grid-template-columns: repeat(6, 1fr); overflow: visible; }
 
   /* Sheet header: stack so a long name does not collide with the meta */
   .sheet-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 16px; }
@@ -2587,10 +2604,16 @@ html.vp-mobile {
   .sveh-stat { flex: 1 0 33%; border-bottom: 1px solid var(--border); }
   .sveh-stat:nth-child(3n) { border-right: none; }
 
-  /* Dice tray: bigger chips/pills, full-width actions, taller bottom reserve */
+  /* Dice tray: stack pool / difficulty / actions, put the hint above the dice,
+     and center the dice and difficulty rows. Bigger chips, taller reserve. */
   .dc-inner { padding: 8px 12px 10px; }
+  .dc-top { flex-direction: column; align-items: stretch; gap: 12px; }
+  .dc-pool { justify-content: center; }
+  .dc-empty { flex: 1 0 100%; text-align: center; margin-bottom: 2px; }
   .dc-chip { width: 44px; height: 44px; border-radius: 11px; }
   .dc-cnt { font-size: 1.05rem; }
+  .dc-diff { justify-content: center; }
+  .dc-diff-lab { text-align: center; }
   .dc-diff button { padding: 9px 12px; font-size: 0.8rem; min-height: 40px; flex: 1 1 28%; }
   .dc-actions { width: 100%; }
   .dc-actions .dc-btn { flex: 1 1 auto; }
