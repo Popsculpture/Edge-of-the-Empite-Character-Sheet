@@ -133,8 +133,10 @@ const Sheet = (() => {
     ];
     if (d.force_rating > 0) cells.push(cell('Force Pool', bigVal(enh(d.force_rating, tb.forceRating)), note(tb.forceRating)));
 
+    // Column count is exposed as --cells so the phone breakpoint can reflow the
+    // strip (the base grid lives in .derived-strip in the stylesheet).
     return `
-      <div class="sheet-panel derived-strip" style="grid-column:1/-1;display:grid;grid-template-columns:auto repeat(${cells.length},1fr);padding:0;overflow:hidden">
+      <div class="sheet-panel derived-strip" style="grid-column:1/-1;--cells:${cells.length}">
         <div class="derived-strip-label"><span>Derived Stats</span></div>
         ${cells.join('')}
       </div>`;

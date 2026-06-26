@@ -10,6 +10,19 @@ window.SW.blurbs = {
     ONEFORCE:        "The Living Force flows through everything -- the hum of a city, the silence of deep space, the grief of a stranger. You move through the galaxy as part of something larger than yourself.",
   },
 
+  beginnings: {
+    DOWNOUT:          "You came up with nothing -- a hardscrabble world, the under-levels, a childhood spent simply surviving. You learned early that the galaxy owes you nothing, and that whatever you want you will have to build or take for yourself.",
+    MIDCLASS:         "You grew up with enough, but never extra. Your family worked long hours for modest comfort, and you know the worth of a steady job and an honest credit -- which makes the leap into a dangerous life feel that much further from home.",
+    HIGHMIGHTY:       "You were born to wealth and rank, and once moved through rooms where doors opened on your name alone. Something tore you out of that world -- scandal, ruin, betrayal -- and now you are learning what you are worth without the title.",
+    OUTSIDER:         "You come from somewhere the galaxy forgot -- an isolated world, a closed community, a place off every chart. What most people take for granted is strange to you, and the wider galaxy regards you the same way in return.",
+    IMPCITIZEN:       "You grew up believing in the order the Empire promised -- safe streets, steady work, a place for everyone. Then you saw what that order costs the people it decides it does not need, and the belief did not survive the seeing.",
+    OCCUPIEDWORLD:    "Your homeworld lived under the boot -- garrisons in the streets, quotas on the harvest, neighbors who simply stopped being seen. You learned to keep your head down and your anger quiet, and you carry both with you still.",
+    BORNSERVICE:      "Yours was a family or a world that sent its children to serve -- a fleet, a militia, a planetary guard. Duty was taught before you were old enough to question it, and even now, out of uniform, the habits of the line have not let go.",
+    HIDDENGIFT:       "Something in you reached out to the world in ways you could not explain, and in the age of the Inquisitors that was a dangerous thing to be. You learned to bury it deep and pass as ordinary -- but it never stopped waiting.",
+    LOSTMENTOR:       "Someone saw what you were and began, quietly, to teach you. Then they were taken -- arrested, killed, vanished -- and left you with half-finished lessons and the certainty that the galaxy hunts people like you.",
+    TOUCHEDUNKNOWING: "All your life you have been lucky in ways that unsettle people -- the shot that should have landed, the fall you should not have walked away from. You never had a word for it, and you are only now starting to suspect the truth about yourself.",
+  },
+
   hooks: {
     OPP:             "You weren't looking for adventure -- a job fell into your lap and it changed the trajectory of your life. You're in now, for better or worse, and the door back to ordinary closed behind you.",
     HIGH:            "Something bigger than personal gain drives you -- a cause, a belief, a vision of the galaxy as it should be. Most people can't see it clearly enough to act on it. You can, and you can't look away.",

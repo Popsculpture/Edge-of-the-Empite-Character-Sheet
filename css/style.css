@@ -149,6 +149,13 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 90;
+}
+
+body.on-sheet #wizard-nav {
+  position: static;
 }
 
 #nav-status { color: var(--muted); font-size: 0.85rem; }
@@ -874,6 +881,10 @@ body {
   background: var(--accent-bg);
 }
 
+/* Armed for purchase on touch: first tap previews, this outline signals that a
+   second tap on the same node will commit the buy/refund. */
+.tt-node.tt-armed { outline: 2px solid var(--accent); outline-offset: -2px; }
+
 .tt-node.tt-active .tt-meta { color: #c0392b; }
 .tt-node.tt-purchased.tt-active .tt-meta { color: #e57373; }
 
@@ -1084,6 +1095,14 @@ body {
 .track-btn:active { transform: translateY(1px); }
 
 /* ── Derived Stats strip (mirrors the Characteristics panel) ──────────── */
+/* Column count comes from --cells (set inline by derivedBlock); kept in CSS so
+   the phone breakpoint can reflow the strip instead of clipping it. */
+.derived-strip {
+  display: grid;
+  grid-template-columns: auto repeat(var(--cells, 4), 1fr);
+  padding: 0;
+  overflow: hidden;
+}
 .derived-strip-label {
   background: var(--surface2); display: flex; align-items: center; justify-content: center;
   padding: 10px 14px; border-right: 1px solid var(--border);
@@ -1343,6 +1362,28 @@ body {
   font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em;
   color: var(--muted); font-weight: 700; margin-bottom: 8px;
 }
+
+/* Display (view mode) toggle */
+.view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.view-mode-btn {
+  padding: 9px 18px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.view-mode-btn + .view-mode-btn { border-left: 1px solid var(--border); }
+.view-mode-btn:hover { color: var(--text); }
+.view-mode-btn.active { background: var(--accent); color: var(--bg); }
+.view-toggle-note { font-size: 0.72rem; color: var(--muted); margin: 6px 0 16px; line-height: 1.4; }
 
 .theme-swatches {
   display: grid;
@@ -2053,6 +2094,38 @@ svg.sym { display: block; }
 #obl-detail { width: 100%; max-width: 520px; }
 
 /* ── Vehicle Fleet step ─────────────────────────────────────────────── */
+/* The fleet toolbar had no rule at all, so its search box and selects rendered
+   with default browser layout. Mirror the equipment toolbar. */
+.veh-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.veh-toolbar input[type="search"] {
+  flex: 1;
+  min-width: 140px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  outline: none;
+}
+.veh-toolbar input[type="search"]:focus { border-color: var(--accent-border); }
+.veh-toolbar select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  outline: none;
+}
+
 .veh-main {
   display: grid;
   grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
@@ -2373,13 +2446,16 @@ svg.sym { display: block; }
 .sveh-arc-cell.arc-stbd { grid-column:3; grid-row:2; }
 .sveh-arc-cell.arc-aft  { grid-column:2; grid-row:3; }
 
-.sveh-details { padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; }
+.sveh-details { padding: 4px 12px; display: flex; flex-direction: column; gap: 0; }
 .sveh-detail-row {
   display: flex;
   justify-content: space-between;
   font-size: 0.74rem;
   gap: 8px;
+  padding: 3px 4px;
+  border-radius: 3px;
 }
+.sveh-detail-row:nth-child(even) { background: var(--surface2); }
 .sveh-detail-row span { color: var(--muted); }
 .sveh-detail-row strong { color: var(--text); }
 
@@ -2391,3 +2467,154 @@ svg.sym { display: block; }
 .sveh-weapon-row:last-child { border-bottom: none; }
 .sveh-meta { color: var(--muted); font-size: 0.7rem; }
 .sveh-notes { padding: 8px 14px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   MOBILE / TOUCH OPTIMIZATION
+   Trailing block so these rules win the cascade at phone widths.
+     1. @media (hover: none)   surface hover-gated controls + add tap feedback
+     2. html.vp-mobile         the main phone layout pass
+     3. html.vp-xnarrow        tightest-screen grid drops
+   The layout passes key off vp-mobile / vp-xnarrow classes (set on <html> by
+   the Display setting; 'auto' tracks the viewport) instead of raw media queries
+   so the user can force Mobile or Desktop. Uses native CSS nesting. The touch
+   pass stays a media query: it follows the actual pointer, not the layout choice.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Touch pointers ──────────────────────────────────────────────────────── */
+@media (hover: none) {
+  /* The per-skill roll button was only visible on row :hover. */
+  .skill-roll { opacity: 0.85; }
+  /* The dice-pool decrement badge was display:none until :hover. */
+  .dc-step .dc-mn {
+    display: block;
+    width: 26px; height: 26px; line-height: 24px;
+    top: -9px; right: -9px; font-size: 1.05rem;
+  }
+  /* Persistent "tap me for a description" cues (were hover-only). */
+  .skill-pick-name[data-tip-type] {
+    text-decoration: underline dotted var(--muted);
+    text-underline-offset: 3px;
+  }
+  .skill-tag[data-tip-type] { border-style: dashed; }
+  /* Press feedback in place of :hover (which never fires on touch). */
+  .btn:active,
+  .game-card:active, .species-card:active, .career-card:active, .spec-card:active,
+  .oms-tile:active, .morality-pair-card:active, .arch-pill:active,
+  .equip-tab:active, .tt-node:active, .skill-pick-row:active,
+  .veh-row:active, .eq-row:active, .theme-swatch:active {
+    filter: brightness(1.15);
+  }
+}
+
+/* 2. Main phone layout pass ──────────────────────────────────────────────── */
+html.vp-mobile {
+  /* Chrome: reclaim horizontal + vertical space */
+  #step-content { padding: 18px 12px; }
+  #site-header { padding: 8px 12px; }
+  .site-title { font-size: 1.05rem; letter-spacing: 0.08em; }
+  #wizard-nav { padding: 10px 12px; }
+  .header-xp, .header-credits { gap: 16px; padding: 5px 12px; flex-wrap: wrap; }
+  .btn-settings { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Progress tabs: a real swipeable strip (active tab is centered by JS) */
+  #progress-track { padding: 0 8px; }
+  #progress-steps { gap: 2px; -webkit-overflow-scrolling: touch; }
+  .progress-step { flex: 0 0 auto; min-width: 58px; padding: 11px 12px; font-size: 0.66rem; }
+
+  /* Kill iOS Safari zoom-on-focus: every text control >= 16px */
+  .form-group input, .form-group textarea, .form-group select,
+  .blurb-textarea, .filter-bar input, .filter-bar select,
+  .equip-toolbar input[type="search"], .equip-toolbar select,
+  .veh-toolbar input[type="search"], .veh-toolbar select,
+  .roster-bar .roster-select, .oms-select, .ded-choice, .wpn-name {
+    font-size: 16px;
+  }
+
+  /* Tap targets: lift undersized controls toward 40px+ */
+  .char-adj-btn { width: 44px; height: 44px; font-size: 1.25rem; }
+  .track-btn { width: 40px; height: 38px; font-size: 1.2rem; }
+  .track-row { gap: 10px; }
+  .skill-pick-check { width: 24px; height: 24px; font-size: 0.85rem; }
+  .skill-pick-row { padding: 11px 12px; margin-bottom: 6px; }
+  .cart-qty button { width: 34px; height: 34px; font-size: 1rem; }
+  .cart-qty span { min-width: 30px; }
+  .cart-x, .theme-close-btn { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+  .arch-pill { min-height: 40px; display: inline-flex; align-items: center; padding: 8px 16px; font-size: 0.82rem; }
+  .btn-sm { padding: 9px 14px; font-size: 0.85rem; min-height: 40px; }
+  .skill-roll { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; padding: 0; }
+  .sheet-skill-row { padding: 5px 6px; }
+
+  /* Characteristic stepper row: flexible label, cost hint on its own line */
+  .char-row-adj { grid-template-columns: 1fr 44px 52px 44px; row-gap: 6px; }
+  .char-cost-hint { grid-column: 1 / -1; text-align: left; font-size: 0.85rem; color: var(--text); }
+  .derived-panel { position: static; top: auto; }
+
+  /* Derived stats strip: reflow to 2 columns, drop the rotated label */
+  .derived-strip { grid-template-columns: 1fr 1fr; overflow: visible; }
+  .derived-strip-label { display: none; }
+  .derived-cell { border-right: none; border-bottom: 1px solid var(--border); }
+  .derived-cell-sub, .derived-cell-label { font-size: 0.66rem; }
+
+  /* Sheet header: stack so a long name does not collide with the meta */
+  .sheet-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 16px; }
+  .sheet-header-right { text-align: left; line-height: 1.6; }
+  .sheet-header-left h1 { font-size: 1.5rem; word-break: break-word; }
+
+  /* OMS tiles: one clean column instead of a 2 + 1 orphan */
+  .oms-bonus-tiles { flex-direction: column; gap: 10px; }
+  .oms-bonus-tiles .oms-tile { min-width: 0; width: 100%; }
+
+  /* Equipment: keep the cart reachable, enlarge cramped controls */
+  .equip-cart { position: static; top: auto; }
+  .equip-list { max-height: 50vh; }
+  .equip-toolbar input[type="search"] { flex: 1 1 100%; }
+  .eq-mode { margin-left: 0; flex: 1 1 100%; }
+  .eq-mode-btn { flex: 1; }
+  .cart-row-ctl { gap: 10px; }
+  .cart-flag, .cart-freebox { padding: 7px 9px; }
+  .cart-flag input, .cart-freebox input { width: 16px; height: 16px; }
+
+  /* Fleet: single-column details, no nested-scroll trap once stacked */
+  .veh-toolbar input[type="search"] { flex: 1 1 100%; }
+  .veh-detail-grid { grid-template-columns: 1fr; }
+  .veh-detail-row strong { text-align: left; }
+  .veh-fleet-cards { grid-template-columns: 1fr; }
+
+  /* Vehicle block on the sheet: long values get full width */
+  .sveh-detail-row { flex-direction: column; align-items: flex-start; gap: 0; }
+  .sveh-detail-row strong { text-align: left; }
+  .sveh-primary-stats { flex-wrap: wrap; }
+  .sveh-stat { flex: 1 0 33%; border-bottom: 1px solid var(--border); }
+  .sveh-stat:nth-child(3n) { border-right: none; }
+
+  /* Dice tray: bigger chips/pills, full-width actions, taller bottom reserve */
+  .dc-inner { padding: 8px 12px 10px; }
+  .dc-chip { width: 44px; height: 44px; border-radius: 11px; }
+  .dc-cnt { font-size: 1.05rem; }
+  .dc-diff button { padding: 9px 12px; font-size: 0.8rem; min-height: 40px; flex: 1 1 28%; }
+  .dc-actions { width: 100%; }
+  .dc-actions .dc-btn { flex: 1 1 auto; }
+  .dc-results { max-height: 32vh; }
+  body.on-sheet #app { padding-bottom: 300px; }
+
+  /* Modals: even button grid, responsive swatches */
+  .theme-modal { padding: 8px; }
+  .theme-modal-inner { padding: 16px; max-width: calc(100vw - 16px); max-height: 92vh; }
+  .theme-swatches { grid-template-columns: repeat(2, 1fr); }
+  .roster-bar .roster-select { flex: 1 1 100%; min-height: 40px; }
+  .roster-bar .btn, .settings-actions .btn { flex: 1 1 calc(33.333% - 6px); min-height: 40px; }
+
+  /* Skill pool + talent tree legibility */
+  .skill-dice { max-width: 55%; }
+  .tt-grid { grid-template-columns: 1fr 18px 1fr 18px 1fr 18px 1fr; min-width: 440px; }
+  .talent-tree-wrap { -webkit-overflow-scrolling: touch; }
+  .tt-node.tt-locked { opacity: 0.55; }
+  .sw-tooltip { max-width: calc(100vw - 24px); }
+}
+
+/* 3. Tightest screens ────────────────────────────────────────────────────── */
+html.vp-xnarrow {
+  .chars-display { grid-template-columns: repeat(2, 1fr); }
+  .dc-diff button { flex: 1 1 45%; }
+  .roster-bar .btn, .settings-actions .btn { flex: 1 1 calc(50% - 6px); }
+}

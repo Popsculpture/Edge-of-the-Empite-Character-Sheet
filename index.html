@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Star Wars RPG - Character Creator</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Apply the saved Display mode to <html> before first paint so the mobile
+    // layout never flashes. 'auto' (default) follows the viewport; wizard.js keeps
+    // this in sync on resize and when the user changes the setting.
+    (function () {
+      try {
+        var m = localStorage.getItem('sw_viewmode') || 'auto';
+        var mobile, xnarrow;
+        if (m === 'mobile')       { mobile = true;  xnarrow = true; }
+        else if (m === 'desktop') { mobile = false; xnarrow = false; }
+        else { mobile = matchMedia('(max-width: 600px)').matches; xnarrow = matchMedia('(max-width: 400px)').matches; }
+        var c = document.documentElement.classList;
+        if (mobile)  c.add('vp-mobile');
+        if (xnarrow) c.add('vp-xnarrow');
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <div id="app">

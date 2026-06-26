@@ -35,11 +35,42 @@ const Wizard = (() => {
     applyTheme(localStorage.getItem('sw_theme') || 'crawl');
   }
 
+  // ── View mode (mobile / desktop layout) ─────────────────────────────────────
+  // The mobile layout is driven by the vp-mobile / vp-xnarrow classes on <html>
+  // rather than raw media queries, so the user can force a mode. 'auto' (default)
+  // tracks the viewport. An inline <head> script applies this before first paint
+  // to avoid a flash; this keeps it in sync on resize and when the user toggles.
+  const VIEW_KEY = 'sw_viewmode';
+  function getViewMode() { return localStorage.getItem(VIEW_KEY) || 'auto'; }
+  function applyViewMode() {
+    const mode = getViewMode();
+    let mobile, xnarrow;
+    if (mode === 'mobile')       { mobile = true;  xnarrow = true; }
+    else if (mode === 'desktop') { mobile = false; xnarrow = false; }
+    else { // auto: follow the viewport
+      mobile  = window.matchMedia('(max-width: 600px)').matches;
+      xnarrow = window.matchMedia('(max-width: 400px)').matches;
+    }
+    const c = document.documentElement.classList;
+    c.toggle('vp-mobile', mobile);
+    c.toggle('vp-xnarrow', xnarrow);
+  }
+  function setViewMode(mode) {
+    localStorage.setItem(VIEW_KEY, mode);
+    applyViewMode();
+  }
+  function initViewMode() {
+    applyViewMode();
+    // Keep 'auto' in sync as the window resizes; a no-op when a mode is forced.
+    window.addEventListener('resize', () => { if (getViewMode() === 'auto') applyViewMode(); });
+  }
+
   function openThemePanel() {
     const modal = $('#theme-modal');
     // Drop any handler from a previous open so re-opening never stacks listeners.
     if (modal._settingsHandler) { modal.removeEventListener('click', modal._settingsHandler); modal._settingsHandler = null; }
     const current = localStorage.getItem('sw_theme') || 'crawl';
+    const viewMode = getViewMode();
     modal.innerHTML = `
       <div class="theme-modal-inner">
         <div class="theme-modal-header">
@@ -56,6 +87,13 @@ const Wizard = (() => {
           <button class="btn btn-secondary btn-sm" data-settings-act="export">Export</button>
           <button class="btn btn-secondary btn-sm" data-settings-act="import">Import</button>
         </div>
+        <div class="settings-section-label">Display</div>
+        <div class="view-toggle" id="view-toggle">
+          <button class="view-mode-btn${viewMode === 'auto' ? ' active' : ''}" data-view="auto">Auto</button>
+          <button class="view-mode-btn${viewMode === 'mobile' ? ' active' : ''}" data-view="mobile">Mobile</button>
+          <button class="view-mode-btn${viewMode === 'desktop' ? ' active' : ''}" data-view="desktop">Desktop</button>
+        </div>
+        <div class="view-toggle-note">Auto follows your screen size. Mobile or Desktop forces that layout everywhere.</div>
         <div class="settings-section-label">Color Theme</div>
         <div class="theme-swatches">
           ${Object.entries(THEMES).map(([key, t]) => `
@@ -80,6 +118,13 @@ const Wizard = (() => {
         applyTheme(sw.dataset.theme);
         modal.querySelectorAll('.theme-swatch').forEach(el =>
           el.classList.toggle('ts-active', el.dataset.theme === sw.dataset.theme));
+      }
+      const vb = e.target.closest('[data-view]');
+      if (vb) {
+        setViewMode(vb.dataset.view);
+        modal.querySelectorAll('.view-mode-btn').forEach(el =>
+          el.classList.toggle('active', el.dataset.view === vb.dataset.view));
+        return;
       }
       const act = e.target.closest('[data-settings-act]');
       if (act) {
@@ -129,6 +174,7 @@ const Wizard = (() => {
       motivationSpecific: '',
       beginningsText:     '',
       forceAttitudeText:  '',
+      reasonText:         '',
       motivationText:     '',
       equipment:          { weapon: {}, armor: {}, gear: {}, weaponSets: [] },
       vehicles:           [],
@@ -157,6 +203,26 @@ const Wizard = (() => {
   };
   const _EQ_CAP = 200;      // max rows rendered per storefront (perf guard)
 
+  // Older saves stored an adventure hook in the "beginnings" field. Beginnings now
+  // holds a social background, so move a hook value to Reason for Adventure, keeping
+  // any prior free-text reason in the background notes. Idempotent and safe to
+  // re-run: it only fires when "beginnings" still holds a hook key.
+  function migrateDetails(s) {
+    if (!s) return;
+    const hookKeys = new Set((SW.hooks || []).map(h => h.key));
+    const begKeys  = new Set((SW.beginnings || []).map(b => b.key));
+    if (s.beginnings && hookKeys.has(s.beginnings) && !begKeys.has(s.beginnings)) {
+      if (s.reasonForAdventure && !hookKeys.has(s.reasonForAdventure)) {
+        const note = 'Reason for adventure: ' + s.reasonForAdventure;
+        s.background = s.background ? (s.background + '\n\n' + note) : note;
+      }
+      s.reasonForAdventure = s.beginnings;
+      s.reasonText = s.beginningsText || '';
+      s.beginnings = '';
+      s.beginningsText = '';
+    }
+  }
+
   function saveState() {
     try { localStorage.setItem('sw_char_v1', JSON.stringify(state)); } catch(e) {}
   }
@@ -164,7 +230,7 @@ const Wizard = (() => {
   function loadState() {
     try {
       const s = localStorage.getItem('sw_char_v1');
-      if (s) { state = Object.assign(defaultState(), JSON.parse(s)); saveState(); }
+      if (s) { state = Object.assign(defaultState(), JSON.parse(s)); migrateDetails(state); saveState(); }
     } catch(e) {}
   }
 
@@ -539,13 +605,19 @@ const Wizard = (() => {
     container.addEventListener('mouseleave', e => {
       if (e.target.closest('[data-tip-type]')) hideTooltip();
     }, true);
+    // Capture phase: this runs before the descendant card's own click handler, so
+    // on touch the stopPropagation below actually prevents the card from being
+    // selected when the user taps a tip element just to read it. A bubble-phase
+    // handler here would fire too late (after the card already selected). On a
+    // mouse we leave propagation alone so existing behavior is unchanged.
     container.addEventListener('click', e => {
       const link = e.target.closest('[data-tip-type]');
       if (!link) return;
+      if (isTouch()) e.stopPropagation();
       const tt = ensureTooltip();
       if (tt.style.display !== 'none') { hideTooltip(); return; }
       showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
-    });
+    }, true);
   }
 
   function tipLink(type, name, spKey, label) {
@@ -553,8 +625,15 @@ const Wizard = (() => {
     return `<span class="tip-link" data-tip-type="${type}" data-tip-name="${name}"${sp}>${label || name}</span>`;
   }
 
-  // Hover-only tooltips (no click-toggle) for containers whose elements are
-  // themselves click targets, so a tap selects without popping a stray tooltip.
+  // True when the primary pointer cannot hover (phones / touch tablets).
+  function isTouch() {
+    return !!(window.matchMedia && window.matchMedia('(hover: none)').matches);
+  }
+
+  // Hover-only tooltips for containers whose elements are themselves click
+  // targets, so on a mouse a tap selects without popping a stray tooltip. On
+  // touch there is no hover, so we add a tap-to-toggle path (guarded to coarse
+  // pointers) that opens the tooltip without triggering the row's selection.
   function initHoverTips(container) {
     container.addEventListener('mouseenter', e => {
       const link = e.target.closest('[data-tip-type]');
@@ -562,6 +641,19 @@ const Wizard = (() => {
     }, true);
     container.addEventListener('mouseleave', e => {
       if (e.target.closest('[data-tip-type]')) hideTooltip();
+    }, true);
+    // Capture phase so that on touch we intercept the tap before the row's own
+    // click handler (bound to the descendant row element) runs; stopPropagation
+    // then prevents the tap from toggling the skill pick while we show its
+    // description instead. On a mouse we bail out so the row still selects.
+    container.addEventListener('click', e => {
+      if (!isTouch()) return;                 // mouse: let the tap select the row
+      const link = e.target.closest('[data-tip-type]');
+      if (!link) return;
+      e.stopPropagation();
+      const tt = ensureTooltip();
+      if (tt.style.display !== 'none') { hideTooltip(); return; }
+      showTooltip(link, tooltipContent(link.dataset.tipType, link.dataset.tipName, link.dataset.tipSp));
     }, true);
   }
 
@@ -663,6 +755,12 @@ const Wizard = (() => {
       const tab = typeof step.tab === 'function' ? step.tab() : step.tab;
       return `<div class="progress-step ${cls} ${reach}" data-step="${i}">${tab}</div>`;
     }).join('');
+    // On narrow screens the 12-tab strip scrolls horizontally; keep the active
+    // tab centered in view so the user never loses their place after Next/Back.
+    const act = container.querySelector('.progress-step.active');
+    if (act && act.scrollIntoView) {
+      requestAnimationFrame(() => act.scrollIntoView({ inline: 'center', block: 'nearest' }));
+    }
   }
 
   function renderNav() {
@@ -671,7 +769,7 @@ const Wizard = (() => {
     const status  = $('#nav-status');
     const isLast  = state.step === STEPS.length - 1;
 
-    btnBack.disabled = state.step === 0;
+    btnBack.classList.toggle('hidden', state.step === 0);
     // The last step (Sheet) has no Next; "New Character" lives in the settings panel.
     btnNext.classList.toggle('hidden', isLast);
     if (!isLast) { btnNext.innerHTML = 'Next &#8594;'; btnNext.disabled = !STEPS[state.step].valid(); }
@@ -1489,6 +1587,7 @@ const Wizard = (() => {
 
   function renderDetails() {
     const c = $('#step-content');
+    migrateDetails(state);   // move any legacy hook out of Beginnings before render
 
     function opts(items, selected, empty='-- Select --') {
       return `<option value="">${empty}</option>` +
@@ -1514,7 +1613,9 @@ const Wizard = (() => {
 
     // Pre-fill blurb text for pre-existing selections (first visit or state upgrade)
     if (!state.beginningsText && state.beginnings)
-      state.beginningsText = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.beginnings]) || '';
+      state.beginningsText = (SW.blurbs && SW.blurbs.beginnings && SW.blurbs.beginnings[state.beginnings]) || '';
+    if (!state.reasonText && state.reasonForAdventure)
+      state.reasonText = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.reasonForAdventure]) || '';
     if (!state.forceAttitudeText && state.forceAttitude)
       state.forceAttitudeText = (SW.blurbs && SW.blurbs.attitudes && SW.blurbs.attitudes[state.forceAttitude]) || '';
     if (!state.motivationText && state.motivationType)
@@ -1537,14 +1638,14 @@ const Wizard = (() => {
 
         <div class="form-section-title">Game Mechanics</div>
         <div class="form-group"><label>Beginnings</label>
-          <select id="f-beginnings">${opts(SW.hooks||[], state.beginnings)}</select>
+          <select id="f-beginnings">${opts(SW.beginnings||[], state.beginnings)}</select>
           <textarea id="f-beginnings-text" class="blurb-textarea" placeholder="Auto-fills from your Beginnings choice -- edit freely">${esc(state.beginningsText)}</textarea></div>
         <div class="form-group"><label>Attitude Toward the Force</label>
           <select id="f-attitude">${opts(SW.attitudes||[], state.forceAttitude)}</select>
           <textarea id="f-attitude-text" class="blurb-textarea" placeholder="Auto-fills from your Force Attitude choice -- edit freely">${esc(state.forceAttitudeText)}</textarea></div>
         <div class="form-group"><label>Reason for Adventure</label>
-          <input type="text" id="f-reason" placeholder="What draws your character into danger?"
-            value="${esc(state.reasonForAdventure)}"></div>
+          <select id="f-reason">${opts(SW.hooks||[], state.reasonForAdventure)}</select>
+          <textarea id="f-reason-text" class="blurb-textarea" placeholder="Auto-fills from your Reason for Adventure choice -- edit freely">${esc(state.reasonText)}</textarea></div>
         <div class="details-layout">
           <div class="form-group"><label>Motivation Type</label>
             <select id="f-motiv-type">${opts(SW.motivations||[], state.motivationType)}</select></div>
@@ -1563,10 +1664,10 @@ const Wizard = (() => {
     $('#f-player').addEventListener('input', e => { state.player = e.target.value; saveState(); });
 
     $('#f-beginnings').addEventListener('change', e => {
-      const oldBlurb = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.beginnings]) || '';
+      const oldBlurb = (SW.blurbs && SW.blurbs.beginnings && SW.blurbs.beginnings[state.beginnings]) || '';
       state.beginnings = e.target.value;
       if (!state.beginningsText || state.beginningsText === oldBlurb) {
-        state.beginningsText = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.beginnings]) || '';
+        state.beginningsText = (SW.blurbs && SW.blurbs.beginnings && SW.blurbs.beginnings[state.beginnings]) || '';
         $('#f-beginnings-text').value = state.beginningsText;
       }
       saveState();
@@ -1584,7 +1685,16 @@ const Wizard = (() => {
     });
     $('#f-attitude-text').addEventListener('input', e => { state.forceAttitudeText = e.target.value; saveState(); });
 
-    $('#f-reason').addEventListener('input', e => { state.reasonForAdventure = e.target.value; saveState(); });
+    $('#f-reason').addEventListener('change', e => {
+      const oldBlurb = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.reasonForAdventure]) || '';
+      state.reasonForAdventure = e.target.value;
+      if (!state.reasonText || state.reasonText === oldBlurb) {
+        state.reasonText = (SW.blurbs && SW.blurbs.hooks && SW.blurbs.hooks[state.reasonForAdventure]) || '';
+        $('#f-reason-text').value = state.reasonText;
+      }
+      saveState();
+    });
+    $('#f-reason-text').addEventListener('input', e => { state.reasonText = e.target.value; saveState(); });
 
     $('#f-motiv-type').addEventListener('change', e => {
       const oldBlurb = getMotivBlurb();
@@ -1788,11 +1898,24 @@ const Wizard = (() => {
       if (e.target.closest('.tt-node')) hideTooltip();
     }, true);
 
+    // On touch, the first tap of a node previews it (shows its rules text, which
+    // is otherwise hover-only) and arms it; a second tap on the same node commits
+    // the buy/refund. This exposes descriptions and prevents accidental purchases.
+    // A mouse buys on the first click as before.
+    let armed = null;
     grid.addEventListener('click', e => {
-      hideTooltip();
       const node = e.target.closest('.tt-node');
-      if (!node) return;
+      if (!node) { hideTooltip(); armed = null; return; }
       const r = +node.dataset.r, col = +node.dataset.c, idx = r*4+col;
+      if (isTouch() && node.dataset.tipName && armed !== node.dataset.tipName) {
+        armed = node.dataset.tipName;
+        grid.querySelectorAll('.tt-armed').forEach(n => n.classList.remove('tt-armed'));
+        node.classList.add('tt-armed');
+        showTooltip(node, tooltipContent('talent', node.dataset.tipName));
+        return;
+      }
+      armed = null;
+      hideTooltip();
       if (purchases[idx]) {
         if (canSell(r,col)) { purchases[idx]=false; saveState(); renderTalents(); renderHeaderXp(); }
       } else {
@@ -2689,6 +2812,7 @@ const Wizard = (() => {
     state = Object.assign(defaultState(), saved);
     state.id = id;
     state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
+    migrateDetails(state);
     state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
     saveState(); render(); window.scrollTo(0, 0);
   }
@@ -2758,6 +2882,7 @@ const Wizard = (() => {
         state.id = genId();   // treat an imported character as a new roster entry
         // Repair structures that may be missing from older save files.
         state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
+        migrateDetails(state);
         state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
         saveState(); render(); window.scrollTo(0, 0);
       };
@@ -2784,6 +2909,7 @@ const Wizard = (() => {
   // ── Init ──────────────────────────────────────────────────────────────────
   function init() {
     initTheme();
+    initViewMode();
     loadState();
     $('#btn-next').addEventListener('click', next);
     $('#btn-back').addEventListener('click', back);

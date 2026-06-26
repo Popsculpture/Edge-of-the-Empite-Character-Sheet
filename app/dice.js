@@ -65,6 +65,14 @@ const Dice = (() => {
         <div class="dc-results" id="dc-results"></div>
       </div>`;
     document.body.appendChild(el);
+    // In mobile layout the tray starts collapsed so it does not cover the sheet;
+    // tapping a skill or weapon die (setPoolFromUpgrade -> flash) expands it. The
+    // vp-mobile class is set on <html> before this runs (inline head script).
+    if (document.documentElement.classList.contains('vp-mobile')) {
+      el.classList.add('min');
+      const btn = el.querySelector('[data-dc="toggle"]');
+      if (btn) btn.innerHTML = '&#9652; Dice';
+    }
     renderPool();
   }
 
@@ -74,9 +82,9 @@ const Dice = (() => {
     const total = ORDER.reduce((a, d) => a + pool[d], 0);
     let h = ORDER.map(d => `
       <div class="dc-step">
-        <div class="dc-chip" data-dc-die="${d}" data-add="1" title="${DICE[d].label} — click +1, right-click −1">
+        <div class="dc-chip" data-dc-die="${d}" data-add="1" title="Add ${DICE[d].label} (tap the minus to remove one)">
           <span class="dc-cnt">${pool[d]}</span>
-          <span class="dc-mn" data-dc-die="${d}" data-add="-1">–</span>
+          <span class="dc-mn" data-dc-die="${d}" data-add="-1">&minus;</span>
         </div>
         <span class="dc-die-lbl">${DICE[d].label}</span>
       </div>`).join('');
@@ -121,6 +129,9 @@ const Dice = (() => {
     const c = document.getElementById('dc-console');
     if (!c) return;
     c.classList.remove('min');
+    // Keep the collapse toggle's glyph in sync now that the tray is expanded.
+    const tg = c.querySelector('[data-dc="toggle"]');
+    if (tg) tg.innerHTML = '&#9662; Dice';
     c.classList.add('dc-flash');
     setTimeout(() => c.classList.remove('dc-flash'), 350);
   }

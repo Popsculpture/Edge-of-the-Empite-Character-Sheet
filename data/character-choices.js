@@ -8,6 +8,25 @@ window.SW.attitudes = [
   { key: 'ONEFORCE',        name: 'One with the Force'  },
 ];
 
+// Character "Beginnings" = social background / origin (where you came from),
+// distinct from the adventure "hooks" below (why you left that life; these now
+// populate the Reason for Adventure field). The first four are the Edge of the
+// Empire Core Rulebook's social backgrounds (Step 1: Character Backgrounds,
+// p.36-37). The Age of Rebellion and Force and Destiny origins are adapted from
+// those settings' themes -- their core books have no parallel social-class table.
+window.SW.beginnings = [
+  { key: 'DOWNOUT',          name: 'The Down and Out'       },  // EotE Core
+  { key: 'MIDCLASS',         name: 'Middle Class Struggles' },  // EotE Core
+  { key: 'HIGHMIGHTY',       name: 'The High and Mighty'    },  // EotE Core
+  { key: 'OUTSIDER',         name: 'The Outsider'           },  // EotE Core
+  { key: 'IMPCITIZEN',       name: 'Imperial Citizen'       },  // AoR-themed
+  { key: 'OCCUPIEDWORLD',    name: 'Occupied World'         },  // AoR-themed
+  { key: 'BORNSERVICE',      name: 'Born to Service'        },  // AoR-themed
+  { key: 'HIDDENGIFT',       name: 'The Hidden Gift'        },  // FaD-themed
+  { key: 'LOSTMENTOR',       name: 'The Lost Mentor'        },  // FaD-themed
+  { key: 'TOUCHEDUNKNOWING', name: 'Touched Unknowing'      },  // FaD-themed
+];
+
 window.SW.hooks = [
   { key: 'OPP',             name: 'Opportunity Knocks'       },
   { key: 'HIGH',            name: 'A Higher Calling'          },
