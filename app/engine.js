@@ -199,6 +199,14 @@ const Engine = (() => {
   }
   const BASE_STARTING_CREDITS = 500;
 
+  // The campaign mechanic a character actually uses. Defaults to the game line's
+  // native mechanic, but a character may override it (e.g. a Force and Destiny PC
+  // running on Obligation so a mixed-line party can share one mechanic).
+  const NATIVE_MECHANIC = { eote: 'obligation', aor: 'duty', fad: 'morality' };
+  function activeMechanic(state) {
+    return (state && state.mechanic) || NATIVE_MECHANIC[state && state.game] || 'obligation';
+  }
+
   // Get spec bonus skill keys (converting display names to keys)
   function specBonusSkillKeys(spec) {
     if (!spec) return [];
@@ -219,14 +227,15 @@ const Engine = (() => {
     const wtStat = (species.wound_threshold_stat  || 'Brawn').toLowerCase();
     const stStat = (species.strain_threshold_stat || 'Willpower').toLowerCase();
 
+    const mech = activeMechanic(state);
     let omsXpBonus = 0;
-    if (state.game === 'eote') {
+    if (mech === 'obligation') {
       const obl = state.obligation || {};
       if (obl.bonusType === 'xp') omsXpBonus = (obl.magnitude || 10) - 10;
-    } else if (state.game === 'aor') {
+    } else if (mech === 'duty') {
       const duty = state.duty || {};
       if (duty.bonusType === 'xp') omsXpBonus = duty.deficit || 0;
-    } else if (state.game === 'fad') {
+    } else if (mech === 'morality') {
       const score = (state.morality || {}).score || 50;
       if (score <= 30) omsXpBonus = 10;
       else if (score >= 70) omsXpBonus = -10;
@@ -242,17 +251,19 @@ const Engine = (() => {
 
     // ── Starting credits + equipment spend ───────────────────────────────
     let omsCreditBonus = 0;
-    if (state.game === 'eote') {
+    if (mech === 'obligation') {
       const obl = state.obligation || {};
       if (obl.bonusType === 'credits') omsCreditBonus = creditBonusFor((obl.magnitude || 10) - 10);
-    } else if (state.game === 'aor') {
+    } else if (mech === 'duty') {
       const duty = state.duty || {};
       if (duty.bonusType === 'credits') omsCreditBonus = creditBonusFor(duty.deficit || 0);
     }
     const startingCredits = BASE_STARTING_CREDITS + omsCreditBonus;
 
     const eq = state.equipment || {};
-    let creditsSpent = 0, encumbrance = 0, wornArmor = null;
+    let creditsSpent = 0, encumbrance = 0, wornArmor = null, wornArmorLine = null;
+    let wpnDefMelee = 0, wpnDefRanged = 0, encThresholdBonus = 0, cyberSoak = 0;
+    const cyberChar = {};   // characteristic -> flat bonus from installed cybernetics
     for (const cat of ['weapon', 'armor', 'gear']) {
       const bag = eq[cat] || {};
       for (const key of Object.keys(bag)) {
@@ -263,9 +274,36 @@ const Engine = (() => {
         const price = typeof item.price === 'number' ? item.price : 0;
         const enc   = typeof item.encumbrance === 'number' ? item.encumbrance : 0;
         if (!line.free) creditsSpent += price * line.qty;
-        if (line.carry !== false) encumbrance += enc * line.qty;
-        if (cat === 'armor' && line.equip && (!wornArmor || (item.soak || 0) > (wornArmor.soak || 0))) wornArmor = item;
+        if (line.carry !== false) {
+          encumbrance += enc * line.qty;
+          // Worn carrying gear (utility belt, wizard pouch) raises the encumbrance threshold.
+          if (cat === 'gear' && typeof item.encThreshold === 'number') encThresholdBonus += item.encThreshold * line.qty;
+        }
+        // Installed cybernetics grant always-on flat bonuses (EotE Core p.172-174): a soak
+        // bonus and/or a characteristic bonus. Applied once per implant (bonuses never stack
+        // from owning multiples), and cyberlegs only count when a full pair is installed.
+        if (cat === 'gear') {
+          if (typeof item.soakMod === 'number') cyberSoak += item.soakMod;
+          if (item.charMod && (item.charModPair ? line.qty >= 2 : line.qty >= 1)) {
+            for (const ck of Object.keys(item.charMod)) cyberChar[ck] = (cyberChar[ck] || 0) + item.charMod[ck];
+          }
+        }
+        // A wielded weapon grants defense via its Defensive (melee) / Deflection (ranged)
+        // qualities (EotE Core p.156). You benefit from the best of each, not the sum.
+        if (cat === 'weapon' && line.equip) {
+          for (const q of (item.qualities || [])) {
+            if (q.key === 'DEFENSIVE')  wpnDefMelee  = Math.max(wpnDefMelee,  q.count || 1);
+            if (q.key === 'DEFLECTION') wpnDefRanged = Math.max(wpnDefRanged, q.count || 1);
+          }
+        }
+        if (cat === 'armor' && line.equip && (!wornArmor || (item.soak || 0) > (wornArmor.soak || 0))) { wornArmor = item; wornArmorLine = line; }
       }
+    }
+    // A worn suit of armor has its encumbrance reduced by 3, min 0 (EotE Core p.165).
+    // The loop counted the worn suit in full above, so back out the reduction once.
+    if (wornArmor && wornArmorLine && wornArmorLine.carry !== false) {
+      const wornEnc = typeof wornArmor.encumbrance === 'number' ? wornArmor.encumbrance : 0;
+      encumbrance -= Math.min(3, wornEnc);
     }
     for (const entry of (state.vehicles || [])) {
       if (!entry.purchased) continue;
@@ -305,9 +343,21 @@ const Engine = (() => {
     const effChars = Object.assign({}, chars);
     const dedTotal  = rk('Dedication');
     const dedChoices = (state.dedicationChoices || []).slice(0, dedTotal);
-    const charBonuses = {};   // characteristic -> Dedication bonus (for the sheet to flag)
+    const charBonuses = {};    // characteristic -> total flat bonus (for the sheet to flag)
+    const charBonusSrc = {};   // characteristic -> label of the bonus source(s)
     for (const ck of dedChoices) {
-      if (ck) { effChars[ck] = Math.min(6, (effChars[ck] || 0) + 1); charBonuses[ck] = (charBonuses[ck] || 0) + 1; }
+      if (ck) { effChars[ck] = Math.min(6, (effChars[ck] || 0) + 1); charBonuses[ck] = (charBonuses[ck] || 0) + 1; charBonusSrc[ck] = 'Dedication'; }
+    }
+    // Cybernetic characteristic enhancements apply after Dedication and may raise a
+    // characteristic to a maximum of 7 (one above the normal cap; EotE Core p.172).
+    for (const ck of Object.keys(cyberChar)) {
+      const before = effChars[ck] || 0;
+      effChars[ck] = Math.min(7, before + cyberChar[ck]);
+      const applied = effChars[ck] - before;
+      if (applied > 0) {
+        charBonuses[ck] = (charBonuses[ck] || 0) + applied;
+        charBonusSrc[ck] = charBonusSrc[ck] ? charBonusSrc[ck] + ' + Cybernetics' : 'Cybernetics';
+      }
     }
 
     const woundBonus  = rk('Toughened') * 2;
@@ -352,11 +402,15 @@ const Engine = (() => {
     return {
       wound_threshold:  (species.wound_threshold  || 10) + (effChars[wtStat]  || 2) + woundBonus,
       strain_threshold: (species.strain_threshold || 10) + (effChars[stStat] || 2) + strainBonus,
-      soak:             (effChars.brawn || 1) + armorSoak + soakBonus,
-      defense_ranged:   armorDefense + defRBonus,
-      defense_melee:    armorDefense + defMBonus,
+      soak:             (effChars.brawn || 1) + armorSoak + soakBonus + cyberSoak,
+      defense_ranged:   armorDefense + defRBonus + wpnDefRanged,
+      defense_melee:    armorDefense + defMBonus + wpnDefMelee,
       force_rating:     forceRating,
       armor_soak:       armorSoak,
+      cyber_soak:       cyberSoak,
+      armor_defense:    armorDefense,
+      defense_weapon_melee:  wpnDefMelee,
+      defense_weapon_ranged: wpnDefRanged,
       soak_brawn:       (effChars.brawn || 1),
       starting_xp:      startingXp,
       xp_spent:         xpSpent,
@@ -365,7 +419,8 @@ const Engine = (() => {
       credits_spent:     creditsSpent,
       credits_remaining: creditsRemaining,
       encumbrance:           encumbrance,
-      encumbrance_threshold: (effChars.brawn || 0) + 5,
+      encumbrance_threshold: (effChars.brawn || 0) + 5 + encThresholdBonus,
+      enc_threshold_bonus:   encThresholdBonus,
       worn_armor:        wornArmor ? wornArmor.key : null,
       career_skill_keys: careerSkillKeys,
       bonus_skill_keys:  bonusSkillKeys,
@@ -376,6 +431,7 @@ const Engine = (() => {
       talent_stat_bonuses: { wound: woundBonus, strain: strainBonus, soak: soakBonus,
                              defenseRanged: defRBonus, defenseMelee: defMBonus, forceRating: forceRating },
       characteristic_bonuses: charBonuses,
+      characteristic_bonus_src: charBonusSrc,
       dedication_total:  dedTotal,
     };
   }
@@ -388,7 +444,7 @@ const Engine = (() => {
     getWeapon, getArmor, getGear, getItem,
     getVehicle, getVehicleWeapon, getVehicleWeaponMap,
     talentEffect, purchasedTalentCounts,
-    creditBonusFor,
+    creditBonusFor, activeMechanic,
     specBonusSkillKeys,
     derive,
   };

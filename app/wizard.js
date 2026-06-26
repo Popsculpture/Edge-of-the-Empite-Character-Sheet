@@ -104,6 +104,7 @@ const Wizard = (() => {
       id: genId(),
       step: 0,
       game: null,
+      mechanic: null,          // null = use the game line's native mechanic; or 'obligation' | 'duty' | 'morality'
       speciesKey: null,
       careerKey: null,
       specKey: null,
@@ -608,8 +609,8 @@ const Wizard = (() => {
                        return (state.freeCareerSkillPicks || []).length === 4
                            && (state.specBonusSkillPicks || []).length === need;
                      } },
-    { id: 'oms',     label: () => state.game === 'eote' ? 'Obligation' : state.game === 'aor' ? 'Duty' : 'Morality',
-                     tab:   () => state.game === 'eote' ? 'Oblig.'     : state.game === 'aor' ? 'Duty' : 'Morality',
+    { id: 'oms',     label: () => ({ obligation: 'Obligation', duty: 'Duty', morality: 'Morality' })[Engine.activeMechanic(state)],
+                     tab:   () => ({ obligation: 'Oblig.',     duty: 'Duty', morality: 'Morality' })[Engine.activeMechanic(state)],
                      valid: () => true },
     { id: 'chars',   label: 'Characteristics', tab: 'Attrs',    valid: () => true },
     { id: 'talents', label: 'Talents',         tab: 'Talents',  valid: () => true },
@@ -722,12 +723,20 @@ const Wizard = (() => {
   }
 
   // ── Step: Game ─────────────────────────────────────────────────────────────
+  const MECH_META = {
+    obligation: { label: 'Obligation' },
+    duty:       { label: 'Duty' },
+    morality:   { label: 'Morality' },
+  };
+  const NATIVE_MECH = { eote: 'obligation', aor: 'duty', fad: 'morality' };
+
   function renderGame() {
     const c = $('#step-content');
     c.innerHTML = `
       <div class="step-header"><h2>Choose Your Game</h2>
         <p>Select which Star Wars RPG system you are playing.</p></div>
-      <div class="game-cards" id="game-cards"></div>`;
+      <div class="game-cards" id="game-cards"></div>
+      <div id="mechanic-override"></div>`;
 
     for (const [id, g] of Object.entries(GAMES)) {
       const sel = state.game === id;
@@ -741,13 +750,43 @@ const Wizard = (() => {
           Mechanic: <strong style="color:var(--text)">${g.mechanic}</strong></div>`;
       card.addEventListener('click', () => {
         if (state.game !== id) {
-          state.game = id; state.careerKey = null;
+          state.game = id; state.mechanic = null; state.careerKey = null;
           state.specKey = null; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = [];
         }
         saveState(); render();
       });
       $('#game-cards').appendChild(card);
     }
+    renderMechanicOverride();
+  }
+
+  // A mixed-line party can agree to share one campaign mechanic instead of running all
+  // three at once (an officially supported option). This selector lets a character run on
+  // a mechanic other than its game line's default, e.g. a Force and Destiny PC on Obligation.
+  function renderMechanicOverride() {
+    const host = $('#mechanic-override');
+    if (!host) return;
+    if (!state.game) { host.innerHTML = ''; return; }
+    const native = NATIVE_MECH[state.game];
+    const active = Engine.activeMechanic(state);
+    const pills = Object.keys(MECH_META).map(m =>
+      `<span class="arch-pill${m === active ? ' active' : ''}" data-mech="${m}">${MECH_META[m].label}${m === native ? ' <em style="font-style:normal;opacity:0.65">(default)</em>' : ''}</span>`
+    ).join('');
+    host.innerHTML = `
+      <div class="form-group" style="margin-top:8px;max-width:760px">
+        <div class="form-section-title">Campaign Mechanic</div>
+        <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Your line uses <strong>${MECH_META[native].label}</strong> by default. For a mixed-line party that wants everyone on one mechanic, choose a different one here.${active !== native ? ` This character will use the <strong>${MECH_META[active].label}</strong> rules for session events and the starting-resource tradeoff.` : ''}</p>
+        <div class="arch-pills" id="mech-pills">${pills}</div>
+        ${state.game === 'fad' && active !== 'morality'
+          ? `<p style="margin:10px 0 0;font-size:0.78rem;color:var(--muted)">As a Force and Destiny character you can still record a Morality (light/dark and Conflict) on the next step; it just will not drive your starting XP.</p>`
+          : ''}
+      </div>`;
+    $('#mech-pills').addEventListener('click', e => {
+      const pill = e.target.closest('.arch-pill');
+      if (!pill) return;
+      state.mechanic = pill.dataset.mech === native ? null : pill.dataset.mech;   // store null when it matches native
+      saveState(); render();
+    });
   }
 
   // ── Species ability parser ────────────────────────────────────────────────
@@ -1207,9 +1246,9 @@ const Wizard = (() => {
 
   function renderOMS() {
     const c = $('#step-content');
-    const g = state.game;
+    const mech = Engine.activeMechanic(state);
 
-    if (g === 'eote') {
+    if (mech === 'obligation') {
       const mag   = state.obligation.magnitude || 10;
       const extra = mag - 10;
       const btype = state.obligation.bonusType || '';
@@ -1280,7 +1319,7 @@ const Wizard = (() => {
           r.addEventListener('change', e => { state.obligation.bonusType = e.target.value; saveState(); renderHeaderXp(); }));
       }
 
-    } else if (g === 'aor') {
+    } else if (mech === 'duty') {
       const deficit = state.duty.deficit || 0;
       const btype   = state.duty.bonusType || '';
       c.innerHTML = `
@@ -1347,30 +1386,35 @@ const Wizard = (() => {
       }
 
     } else {
-      const strength = state.morality.strength || '';
-      const weakness = state.morality.weakness || '';
-      const score    = state.morality.score || 50;
-      c.innerHTML = `
-        <div class="step-header">
+      renderMorality(c, true);
+    }
+
+    // A Force and Destiny character running a different campaign mechanic can still
+    // track Morality (light/dark standing + Conflict); it does not affect starting XP.
+    if (state.game === 'fad' && mech !== 'morality') {
+      const extra = document.createElement('div');
+      c.appendChild(extra);
+      renderMorality(extra, false);
+    }
+  }
+
+  // primary=true: Morality is the active campaign mechanic (full step, with the XP tradeoff).
+  // primary=false: a secondary Force-side tracker for a FaD PC running another mechanic; the
+  // score is recorded for play (light/dark, Conflict) but does not change starting XP.
+  function renderMorality(host, primary) {
+    const strength = state.morality.strength || '';
+    const weakness = state.morality.weakness || '';
+    const score    = state.morality.score || 50;
+    const otherMech = ({ obligation: 'Obligation', duty: 'Duty' })[Engine.activeMechanic(state)] || 'chosen';
+    const header = primary
+      ? `<div class="step-header">
           <h2>Choose Your Morality</h2>
           <p>Every Force and Destiny character has a Morality score reflecting their emotional balance between light and dark. It starts at 50 and shifts based on actions and Conflict throughout play.</p>
-        </div>
-        <div class="form-group">
-          <div class="form-section-title">Emotional Strength &amp; Weakness</div>
-          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Select the emotional pair that defines your character's inner nature. The strength guides your highest moments; the weakness pulls at you under pressure.</p>
-          <div class="morality-pairs" id="morality-pairs">
-            ${MORALITY_PAIRS.map(([str, wk]) => `
-              <div class="morality-pair-card${strength === str && weakness === wk ? ' selected' : ''}" data-str="${str}" data-wk="${wk}">
-                <div class="morality-pair-strength">${str}</div>
-                <div class="morality-pair-weakness">/ ${wk}</div>
-              </div>`).join('')}
-          </div>
-        </div>
-        <div class="form-group" style="margin-top:20px">
-          <div class="form-section-title">Starting Score</div>
-          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Morality thresholds trigger at 30 (dark side) and 70 (light side). Adjust your starting position for an XP tradeoff.</p>
-          <div class="oms-bonus-tiles">
-            <div class="oms-tile${score >= 70 ? ' selected' : ''}" data-mscore="70">
+        </div>`
+      : `<div class="form-section-title" style="margin-top:28px;padding-top:18px;border-top:1px solid var(--border)">Force Morality <span style="font-weight:400;color:var(--muted);font-size:0.85em">(optional)</span></div>
+         <p style="margin:4px 0 14px;font-size:0.82rem;color:var(--muted)">You are running on the ${otherMech} mechanic, but as a Force user you can still track light/dark standing and Conflict here. This does not change your starting XP.</p>`;
+    const scoreTiles = primary
+      ? `<div class="oms-tile${score >= 70 ? ' selected' : ''}" data-mscore="70">
               <div class="oms-tile-title">Morality 70</div>
               <div class="oms-tile-sub">Start light-aligned</div>
               <div class="oms-tile-bonus oms-tile-cost">-10 Starting XP</div>
@@ -1383,27 +1427,56 @@ const Wizard = (() => {
               <div class="oms-tile-title">Morality 30</div>
               <div class="oms-tile-sub">Start dark-aligned</div>
               <div class="oms-tile-bonus">+10 Starting XP</div>
+            </div>`
+      : `<div class="oms-tile${score >= 70 ? ' selected' : ''}" data-mscore="70">
+              <div class="oms-tile-title">Morality 70</div>
+              <div class="oms-tile-sub">Light-aligned</div>
             </div>
+            <div class="oms-tile${score > 30 && score < 70 ? ' selected' : ''}" data-mscore="50">
+              <div class="oms-tile-title">Morality 50</div>
+              <div class="oms-tile-sub">Balanced</div>
+            </div>
+            <div class="oms-tile${score <= 30 ? ' selected' : ''}" data-mscore="30">
+              <div class="oms-tile-title">Morality 30</div>
+              <div class="oms-tile-sub">Dark-aligned</div>
+            </div>`;
+    host.innerHTML = `
+        ${header}
+        <div class="form-group">
+          <div class="form-section-title">Emotional Strength &amp; Weakness</div>
+          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Select the emotional pair that defines your character's inner nature. The strength guides your highest moments; the weakness pulls at you under pressure.</p>
+          <div class="morality-pairs">
+            ${MORALITY_PAIRS.map(([str, wk]) => `
+              <div class="morality-pair-card${strength === str && weakness === wk ? ' selected' : ''}" data-str="${str}" data-wk="${wk}">
+                <div class="morality-pair-strength">${str}</div>
+                <div class="morality-pair-weakness">/ ${wk}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:20px">
+          <div class="form-section-title">Starting Score</div>
+          <p style="margin:4px 0 12px;font-size:0.82rem;color:var(--muted)">Morality thresholds trigger at 30 (dark side) and 70 (light side).${primary ? ' Adjust your starting position for an XP tradeoff.' : ''}</p>
+          <div class="oms-bonus-tiles">
+            ${scoreTiles}
           </div>
         </div>`;
 
-      $('#morality-pairs').addEventListener('click', e => {
-        const card = e.target.closest('.morality-pair-card');
-        if (!card) return;
-        const same = state.morality.strength === card.dataset.str && state.morality.weakness === card.dataset.wk;
-        state.morality.strength = same ? '' : card.dataset.str;
-        state.morality.weakness = same ? '' : card.dataset.wk;
-        saveState();
-        document.querySelectorAll('.morality-pair-card').forEach(cd =>
-          cd.classList.toggle('selected', cd.dataset.str === state.morality.strength && cd.dataset.wk === state.morality.weakness));
+    host.querySelector('.morality-pairs').addEventListener('click', e => {
+      const card = e.target.closest('.morality-pair-card');
+      if (!card) return;
+      const same = state.morality.strength === card.dataset.str && state.morality.weakness === card.dataset.wk;
+      state.morality.strength = same ? '' : card.dataset.str;
+      state.morality.weakness = same ? '' : card.dataset.wk;
+      saveState();
+      host.querySelectorAll('.morality-pair-card').forEach(cd =>
+        cd.classList.toggle('selected', cd.dataset.str === state.morality.strength && cd.dataset.wk === state.morality.weakness));
+    });
+    host.querySelectorAll('.oms-tile[data-mscore]').forEach(tile => {
+      tile.addEventListener('click', () => {
+        state.morality.score = +tile.dataset.mscore;
+        saveState(); renderOMS(); renderHeaderXp();
       });
-      c.querySelectorAll('.oms-tile[data-mscore]').forEach(tile => {
-        tile.addEventListener('click', () => {
-          state.morality.score = +tile.dataset.mscore;
-          saveState(); renderOMS(); renderHeaderXp();
-        });
-      });
-    }
+    });
   }
 
   // ── Step: Details ─────────────────────────────────────────────────────────
@@ -2063,6 +2136,8 @@ const Wizard = (() => {
     }
 
     const encOver = d && d.encumbrance > d.encumbrance_threshold;
+    const encExcess = encOver ? d.encumbrance - d.encumbrance_threshold : 0;
+    const encBrawn = (d && d.characteristics && d.characteristics.brawn) || 0;
     el.innerHTML = `
       <div class="cart-head">Loadout <span class="cart-legend">E=equip &middot; C=carry &middot; S=show</span></div>
       ${sections || '<div class="cart-empty">Nothing acquired yet.<br>Add items from the shop to build your loadout.</div>'}
@@ -2072,6 +2147,7 @@ const Wizard = (() => {
         <div class="cart-total-row${encOver ? ' cart-warn' : ''}"><span>Encumbrance</span><strong>${d ? d.encumbrance : 0} / ${d ? d.encumbrance_threshold : 5}</strong></div>
       </div>
       ${restrictedOwned ? `<div class="cart-note">${restrictedOwned} restricted item${restrictedOwned > 1 ? 's' : ''} purchased &mdash; normally needs GM approval.</div>` : ''}
+      ${encOver ? `<div class="cart-note cart-note-warn">Encumbered: +${encExcess} setback to all Brawn &amp; Agility checks${encExcess >= encBrawn && encBrawn > 0 ? '; you also lose your free maneuver each turn (maneuvers cost 2 strain).' : '.'}</div>` : ''}
       ${d && d.credits_remaining < 0 ? '<div class="cart-note cart-note-warn">You are over budget. Remove items or mark some as free.</div>' : ''}`;
   }
 

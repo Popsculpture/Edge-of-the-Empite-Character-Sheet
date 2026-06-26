@@ -53,12 +53,13 @@ const Sheet = (() => {
 
   function charsBlock(chars, derived) {
     const cb = (derived && derived.characteristic_bonuses) || {};
+    const cbsrc = (derived && derived.characteristic_bonus_src) || {};
     const rows = Engine.CHAR_STATS.map(stat => {
       const bonus = cb[stat] || 0;
       const valHtml = bonus
         ? `<span class="enh" data-enhance>${chars[stat] ?? '—'}</span>`
         : `${chars[stat] ?? '—'}`;
-      const note = bonus ? `<div class="enhance-note">+${bonus} from talents</div>` : '';
+      const note = bonus ? `<div class="enhance-note">+${bonus} from ${cbsrc[stat] || 'talents'}</div>` : '';
       return `
       <div class="strip-cell">
         <div class="strip-cell-abbr">${Engine.CHAR_ABBR[stat]}</div>
@@ -110,13 +111,25 @@ const Sheet = (() => {
 
     const soakParts = [`Brawn ${d.soak_brawn}`, `Armor ${d.armor_soak || 0}`];
     if (tb.soak) soakParts.push(`Enduring ${tb.soak}`);
-    const defBonus = (tb.defenseMelee || 0) + (tb.defenseRanged || 0);
+    if (d.cyber_soak) soakParts.push(`Implant ${d.cyber_soak}`);
+    const soakEnh = (tb.soak || 0) + (d.cyber_soak || 0);
+
+    // Defense sources: armor (both), Superior Reflexes (melee), Sixth Sense (ranged),
+    // and wielded-weapon Defensive (melee) / Deflection (ranged).
+    const defParts = [];
+    if (d.armor_defense)         defParts.push(`Armor ${d.armor_defense}`);
+    if (tb.defenseMelee)         defParts.push(`Superior Reflexes ${tb.defenseMelee} (M)`);
+    if (tb.defenseRanged)        defParts.push(`Sixth Sense ${tb.defenseRanged} (R)`);
+    if (d.defense_weapon_melee)  defParts.push(`Defensive ${d.defense_weapon_melee} (M)`);
+    if (d.defense_weapon_ranged) defParts.push(`Deflection ${d.defense_weapon_ranged} (R)`);
+    const defBonus = (tb.defenseMelee || 0) + (tb.defenseRanged || 0)
+                   + (d.defense_weapon_melee || 0) + (d.defense_weapon_ranged || 0);
 
     const cells = [
-      cell('Soak',   bigVal(enh(d.soak, tb.soak)), sub(soakParts.join(' + ')) + note(tb.soak)),
+      cell('Soak',   bigVal(enh(d.soak, soakEnh)), sub(soakParts.join(' + '))),
       cell('Wounds', tracker((state && state.woundCur) || 0, d.wound_threshold, '#d6493a', 'woundCur', tb.wound), note(tb.wound)),
       cell('Strain', tracker((state && state.strainCur) || 0, d.strain_threshold, '#e0a93a', 'strainCur', tb.strain), note(tb.strain)),
-      cell('Defense', bigVal(enh(`${d.defense_melee} / ${d.defense_ranged}`, defBonus)), sub('melee / ranged') + note(defBonus)),
+      cell('Defense', bigVal(enh(`${d.defense_melee} / ${d.defense_ranged}`, defBonus)), sub('melee / ranged') + (defParts.length ? sub(defParts.join(' + ')) : '')),
     ];
     if (d.force_rating > 0) cells.push(cell('Force Pool', bigVal(enh(d.force_rating, tb.forceRating)), note(tb.forceRating)));
 
@@ -573,21 +586,23 @@ const Sheet = (() => {
   }
 
   function mechanicLine(state) {
-    if (state.game === 'eote' && state.obligation.type) {
-      return `Obligation: <strong>${esc(state.obligation.type)} (${state.obligation.magnitude})</strong>`;
-    }
-    if (state.game === 'aor' && state.duty.type) {
+    const mech = Engine.activeMechanic(state);
+    const parts = [];
+    if (mech === 'obligation' && state.obligation.type) {
+      parts.push(`Obligation: <strong>${esc(state.obligation.type)} (${state.obligation.magnitude})</strong>`);
+    } else if (mech === 'duty' && state.duty.type) {
       const def = state.duty.deficit || 0;
-      return `Duty: <strong>${esc(state.duty.type)}${def ? ` (deficit: ${def})` : ''}</strong>`;
-    }
-    if (state.game === 'fad') {
-      const parts = [];
+      parts.push(`Duty: <strong>${esc(state.duty.type)}${def ? ` (deficit: ${def})` : ''}</strong>`);
+    } else if (mech === 'morality') {
       if (state.morality.strength) parts.push(`Strength: <strong>${esc(state.morality.strength)}</strong>`);
       if (state.morality.weakness) parts.push(`Weakness: <strong>${esc(state.morality.weakness)}</strong>`);
       parts.push(`Morality: <strong>${state.morality.score}</strong>`);
-      return parts.join('<br>');
     }
-    return '';
+    // A Force and Destiny character on a non-Morality mechanic still tracks Morality.
+    if (state.game === 'fad' && mech !== 'morality' && (state.morality.strength || state.morality.weakness)) {
+      parts.push(`Morality: <strong>${state.morality.score}</strong> (${esc(state.morality.strength || '?')} / ${esc(state.morality.weakness || '?')})`);
+    }
+    return parts.join('<br>');
   }
 
   function esc(s) {
