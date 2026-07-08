@@ -158,6 +158,13 @@ body.on-sheet #wizard-nav {
   position: static;
 }
 
+/* Play mode replaces the linear wizard's Back/Next with direct tab navigation
+   (the trimmed tab strip is the only way to move around), so the nav bar is
+   dropped entirely rather than left showing a meaningless step count. */
+body.play-mode #wizard-nav {
+  display: none;
+}
+
 #nav-status { color: var(--muted); font-size: 0.85rem; }
 
 /* ── Buttons ───────────────────────────────────────────────────── */

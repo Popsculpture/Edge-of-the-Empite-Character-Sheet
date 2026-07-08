@@ -65,12 +65,43 @@ const Wizard = (() => {
     window.addEventListener('resize', () => { if (getViewMode() === 'auto') applyViewMode(); });
   }
 
+  // Play mode trims the tab strip and hides the wizard nav so a completed
+  // character reads as a play aid (Sheet, Talents, Gear, Fleet, Reference)
+  // instead of a linear build wizard. A global preference like Display/Theme,
+  // not tied to any one character, so switching characters keeps it.
+  const PLAY_KEY = 'sw_playmode';
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'equip', 'vehicle', 'reference'];
+  function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
+  function setPlayMode(mode) {
+    localStorage.setItem(PLAY_KEY, mode);
+    if (mode === 'play') {
+      const sheetIx = STEPS.findIndex(s => s.id === 'sheet');
+      if (sheetIx >= 0) state.step = sheetIx;
+      saveState();
+    }
+    render();
+  }
+  // Whenever Play mode is active, state.step must be one of PLAY_TAB_IDS: that
+  // trimmed strip is the only navigation (the nav bar is hidden), so landing
+  // outside it leaves no tab marked active and no way back in. setPlayMode()
+  // keeps this true when the toggle itself is flipped; loading a different
+  // character wholesale (roster load / import) replaces state.step from
+  // outside that invariant, so re-check it wherever that happens too.
+  function ensurePlayStepValid() {
+    if (getPlayMode() !== 'play') return;
+    const step = STEPS[state.step];
+    if (step && PLAY_TAB_IDS.includes(step.id)) return;
+    const sheetIx = STEPS.findIndex(s => s.id === 'sheet');
+    if (sheetIx >= 0) state.step = sheetIx;
+  }
+
   function openThemePanel() {
     const modal = $('#theme-modal');
     // Drop any handler from a previous open so re-opening never stacks listeners.
     if (modal._settingsHandler) { modal.removeEventListener('click', modal._settingsHandler); modal._settingsHandler = null; }
     const current = localStorage.getItem('sw_theme') || 'crawl';
     const viewMode = getViewMode();
+    const playMode = getPlayMode();
     modal.innerHTML = `
       <div class="theme-modal-inner">
         <div class="theme-modal-header">
@@ -87,6 +118,12 @@ const Wizard = (() => {
           <button class="btn btn-secondary btn-sm" data-settings-act="export">Export</button>
           <button class="btn btn-secondary btn-sm" data-settings-act="import">Import</button>
         </div>
+        <div class="settings-section-label">Mode</div>
+        <div class="view-toggle" id="mode-toggle">
+          <button class="view-mode-btn${playMode === 'creation' ? ' active' : ''}" data-mode="creation">Creation</button>
+          <button class="view-mode-btn${playMode === 'play' ? ' active' : ''}" data-mode="play">Play</button>
+        </div>
+        <div class="view-toggle-note">Creation walks through building a character, tab by tab. Play trims the tabs to Sheet, Talents, Gear, Fleet, and Reference for running the character at the table.</div>
         <div class="settings-section-label">Display</div>
         <div class="view-toggle" id="view-toggle">
           <button class="view-mode-btn${viewMode === 'auto' ? ' active' : ''}" data-view="auto">Auto</button>
@@ -122,8 +159,15 @@ const Wizard = (() => {
       const vb = e.target.closest('[data-view]');
       if (vb) {
         setViewMode(vb.dataset.view);
-        modal.querySelectorAll('.view-mode-btn').forEach(el =>
+        modal.querySelectorAll('#view-toggle .view-mode-btn').forEach(el =>
           el.classList.toggle('active', el.dataset.view === vb.dataset.view));
+        return;
+      }
+      const mb = e.target.closest('[data-mode]');
+      if (mb) {
+        setPlayMode(mb.dataset.mode);
+        modal.querySelectorAll('#mode-toggle .view-mode-btn').forEach(el =>
+          el.classList.toggle('active', el.dataset.mode === mb.dataset.mode));
         return;
       }
       const act = e.target.closest('[data-settings-act]');
@@ -720,6 +764,7 @@ const Wizard = (() => {
     renderHeaderXp();
     renderHeaderCredits();
     document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
+    document.body.classList.toggle('play-mode', getPlayMode() === 'play');
   }
 
   // A step is reachable by clicking if it is the current/earlier step (going back
@@ -730,6 +775,10 @@ const Wizard = (() => {
     // The Reference tab is static rules with no prerequisites, so it is always
     // reachable (you should be able to check the rules at any point).
     if (STEPS[target] && STEPS[target].id === 'reference') return true;
+    // In Play mode the tab strip only ever renders the play tabs (Sheet, Talents,
+    // Gear, Fleet, Reference), which are all valid()=>true already; skip the gate
+    // walk so an incomplete build step hidden behind them can never lock one out.
+    if (getPlayMode() === 'play') return true;
     for (let k = state.step; k < target; k++) {
       if (!STEPS[k].valid()) return false;
     }
@@ -738,13 +787,24 @@ const Wizard = (() => {
 
   function renderProgress() {
     const container = $('#progress-steps');
-    container.innerHTML = STEPS.map((step, i) => {
-      const cls = i < state.step ? 'done' : i === state.step ? 'active' : '';
+    const inPlay = getPlayMode() === 'play';
+    // Play mode shows only the play tabs, in their own fixed order, rather than
+    // every build step; "done" (an earlier-step checkmark) only means something
+    // for the linear creation order, so Play mode marks just the active tab.
+    const indices = inPlay
+      ? PLAY_TAB_IDS.map(id => STEPS.findIndex(s => s.id === id)).filter(i => i >= 0)
+      : STEPS.map((_, i) => i);
+    container.innerHTML = indices.map(i => {
+      const step = STEPS[i];
+      // Require valid() too, not just position: Play mode's forced jump to Sheet
+      // (setPlayMode) can leave state.step past build steps that were never
+      // actually filled in, and "done" should never contradict "not valid yet".
+      const cls = i === state.step ? 'active' : inPlay ? '' : (i < state.step && step.valid() ? 'done' : '');
       const reach = i === state.step ? '' : canJumpTo(i) ? 'clickable' : 'locked';
       const tab = typeof step.tab === 'function' ? step.tab() : step.tab;
       return `<div class="progress-step ${cls} ${reach}" data-step="${i}">${tab}</div>`;
     }).join('');
-    // On narrow screens the 12-tab strip scrolls horizontally; keep the active
+    // On narrow screens the tab strip scrolls horizontally; keep the active
     // tab centered in view so the user never loses their place after Next/Back.
     const act = container.querySelector('.progress-step.active');
     if (act && act.scrollIntoView) {
@@ -2752,6 +2812,9 @@ const Wizard = (() => {
   // ── Navigation ────────────────────────────────────────────────────────────
   function newCharacter() {
     if (confirm('Start a new character? Current character will be cleared.')) {
+      // A blank character has nothing to show in Play mode's trimmed tabs, so
+      // drop back to Creation regardless of what the last character used.
+      localStorage.setItem(PLAY_KEY, 'creation');
       state = defaultState(); saveState(); render(); window.scrollTo(0, 0);
     }
   }
@@ -2809,6 +2872,7 @@ const Wizard = (() => {
     state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
     migrateDetails(state);
     state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
+    ensurePlayStepValid();
     saveState(); render(); window.scrollTo(0, 0);
   }
 
@@ -2879,6 +2943,7 @@ const Wizard = (() => {
         state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
         migrateDetails(state);
         state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
+        ensurePlayStepValid();
         saveState(); render(); window.scrollTo(0, 0);
       };
       reader.readAsText(file);
