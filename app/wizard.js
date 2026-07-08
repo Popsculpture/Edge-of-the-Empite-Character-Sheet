@@ -463,41 +463,41 @@ const Wizard = (() => {
 
   // ── Tooltip data ──────────────────────────────────────────────────────────
   const SKILL_DESCS = {
-    'Astrogation':           'Plan hyperspace jumps and navigate between star systems.',
-    'Athletics':             'Run, jump, climb, swim, and perform feats of physical endurance.',
-    'Brawl':                 'Unarmed combat: punches, kicks, grappling, and improvised strikes.',
-    'Charm':                 'Persuade through likability, flattery, and personal appeal.',
-    'Coercion':              'Intimidate, threaten, and force compliance through fear or pain.',
-    'Computers':             'Slice systems, hack networks, and interface with computers.',
-    'Cool':                  'Stay calm under pressure and act first in social conflicts.',
-    'Coordination':          'Acrobatics, balance, contortion, and nimble physical maneuvers.',
-    'Core Worlds':           'Politics, culture, history, and geography of the inner galaxy.',
-    'Deception':             'Lie convincingly, bluff, and create false impressions.',
-    'Discipline':            'Resist fear, mental coercion, and stay focused under stress.',
-    'Education':             'Broad formal academic knowledge across scholarly fields.',
-    'Gunnery':               'Operate vehicle-mounted and starship weapon systems.',
-    'Leadership':            'Inspire, direct, and command allies and groups effectively.',
-    'Lightsaber':            'Wield a lightsaber in combat. Uses Brawn as its characteristic.',
-    'Lore':                  'Ancient history, legends, Force lore, and obscure knowledge.',
-    'Mechanics':             'Repair, modify, and build mechanical and electronic devices.',
-    'Medicine':              'Treat wounds, diagnose illness, and perform surgery.',
-    'Melee':                 'Armed close-quarters combat with hand-held weapons.',
-    'Negotiation':           'Strike deals, barter prices, and reach mutually beneficial agreements.',
-    'Outer Rim':             'Fringe worlds, criminal territories, and outer-rim geography.',
-    'Perception':            'Notice hidden things, detect ambushes, and spot important details.',
-    'Piloting - Planetary':  'Pilot landspeeders, airspeeders, and atmospheric craft.',
-    'Piloting - Space':      'Pilot starships and space vessels through the void.',
-    'Ranged - Heavy':        'Fire large blasters, rifles, and heavy ranged weapons.',
-    'Ranged - Light':        'Fire pistols, hold-outs, and light ranged weapons.',
-    'Resilience':            'Endure physical hardship, resist toxins, and shake off strain.',
-    'Skulduggery':           'Pick locks, pickpocket, palm objects, and defeat security systems.',
-    'Stealth':               'Move silently, hide in shadows, and avoid detection.',
-    'Streetwise':            'Navigate city underworlds, find contacts, and gather street intel.',
-    'Survival':              'Forage, track, navigate wilderness, and endure harsh environments.',
-    'Underworld':            'Criminal organizations, black markets, and illegal operations.',
-    'Vigilance':             'Stay alert, detect danger, and act first in ambushes.',
-    'Xenology':              'Knowledge of alien species, cultures, biology, and history.',
-    'Warfare':               'Military history, strategy, tactics, and organizational doctrine.',
+    'Astrogation':           'Calculating hyperspace routes and plotting jumps. Use it to program a navicomputer, find faster or safer routes, avoid hazards like gravity wells and mass shadows, and recover when a jump goes wrong. Good rolls shave travel time; a bad one can strand you light-years off course.',
+    'Athletics':             'Raw physical exertion: running, jumping, climbing, swimming, and lifting. Use it to scale a wall, leap a gap, sprint from danger, or hold on when the deck pitches. The catch-all for feats of strength and stamina that are not a straight fight.',
+    'Brawl':                 'Unarmed and improvised close combat: punches, kicks, grapples, and hitting someone with whatever is in reach. Also covers knuckle plates and similar simple weapons. Your fallback when you are disarmed or want to take a target alive.',
+    'Charm':                 'Winning people over with warmth, friendliness, and likability. Use it to make a good first impression, coax a favor, calm a tense room, or get a stranger to open up. It persuades rather than pressures, and works best when the target has no strong reason to distrust you.',
+    'Coercion':              'Getting your way through fear, threats, and intimidation. Use it to interrogate a prisoner, back down a crowd, or force cooperation when charm will not do. Fast and effective, but it breeds resentment and can escalate a situation.',
+    'Computers':             'Operating, programming, and slicing computer systems and networks. Use it to bypass security, pull or plant data, disable alarms, control droids and building systems remotely, and cover your digital tracks. The core skill for hacking and information warfare.',
+    'Cool':                  'Staying composed and ready when you saw trouble coming. It sets your initiative when you are prepared for a fight or expecting a confrontation, and helps you resist attempts to rattle or provoke you. Its counterpart, Vigilance, covers being caught by surprise.',
+    'Coordination':          'Balance, agility, and fine full-body control: tumbling, contortion, tightrope walking, and landing safely. Use it to slip free of bonds, squeeze through tight spaces, keep your feet on unstable ground, or reduce damage from a fall.',
+    'Core Worlds':           'Knowledge of the wealthy, densely settled heart of the galaxy: its politics, high society, corporations, history, and customs. Use it to recall who holds power on a Core world, navigate elite circles, or judge the weight of a noble house or trade guild.',
+    'Deception':             'Lying, misdirection, disguise, and trickery. Use it to bluff past a checkpoint, feint in conversation, plant a false idea, or run a con. Where Charm makes people like you, Deception makes them believe something untrue.',
+    'Discipline':            'Mental toughness and self-control. Use it to resist fear, shake off intimidation and mind tricks, push through pain or exhaustion, and master your own darker impulses. Also governs staying focused under psychological pressure.',
+    'Education':             'Formal book learning: science, mathematics, law, history, and the knowledge taught in academies and universities. Use it to recall established facts, analyze data, or reason about how the wider, official galaxy works.',
+    'Gunnery':               'Firing heavy, mounted, and vehicle-scale weapons: starship cannons, turrets, vehicle guns, and emplaced heavy weapons. This is what you roll from the gunner\'s chair or behind a heavy blaster, as opposed to personal firearms.',
+    'Leadership':            'Directing, inspiring, and coordinating other people. Use it to rally allies, give orders that stick, keep a group calm and organized under fire, or command followers. The skill of getting people to act together and follow your lead.',
+    'Lightsaber':            'Fighting with a lightsaber or similar energy blade, including strikes, parries, and deflecting blaster bolts. It defaults to Brawn, but certain talents let you swap in a different characteristic to attack with it.',
+    'Lore':                  'The obscure and the hidden: myth, legend, ancient history, secret societies, and Force traditions. Use it to recognize an old symbol, recall a forgotten tale, or know something about the Jedi, the Sith, or mysteries most dismiss as superstition.',
+    'Mechanics':             'Building, repairing, and modifying machinery, vehicles, droids, weapons, and gear. Use it to patch a hull breach, jury-rig a fix, install upgrades and attachments, disable a device, or keep a battered ship flying. The engineer\'s core skill.',
+    'Medicine':              'Diagnosing and treating injury and illness: first aid, surgery, stabilizing the dying, curing poison and disease, and using stimpacks and medical gear. Use it to heal wounds and strain and to keep a badly hurt ally alive.',
+    'Melee':                 'Fighting with hand-held weapons: vibroblades, clubs, staves, swords, and improvised gear. Covers armed close-quarters combat other than lightsabers, and rewards both strength and a good weapon.',
+    'Negotiation':           'Bargaining, dealmaking, and diplomacy. Use it to haggle a price, broker an agreement, mediate a dispute, or trade concessions. Unlike Charm or Coercion, both sides expect to walk away with something; it is about finding terms.',
+    'Outer Rim':             'Knowledge of the lawless frontier: its worlds, spaceports, smuggling routes, local powers, and how things really work far from the Core. Use it to recall a backwater\'s dangers, know who runs a fringe settlement, or find the unofficial channels.',
+    'Perception':            'Actively noticing things: spotting a hidden object, catching a faint sound, reading a room, or searching for what is out of place. Use it whenever you are deliberately looking or listening for detail.',
+    'Piloting - Planetary':  'Operating atmospheric and ground vehicles: landspeeders, airspeeders, swoops, walkers, and watercraft. Use it for chases, evasive flying, and hard maneuvers within a planet\'s atmosphere or on its surface.',
+    'Piloting - Space':      'Flying starships and spacecraft in the void: dogfights, docking, evasive action, and pushing a ship to its limits. The skill for everything from a quiet freighter run to a starfighter duel.',
+    'Ranged - Heavy':        'Firing large personal ranged weapons: blaster rifles, bowcasters, disruptors, and other long-arms carried by hand. Your main combat skill at range with a rifle-class weapon.',
+    'Ranged - Light':        'Firing small personal ranged weapons: blaster pistols, hold-outs, and thrown weapons like grenades and knives. The skill for sidearms and anything you can throw.',
+    'Resilience':            'Physical endurance and toughness: resisting fatigue, hunger, thirst, harsh environments, toxins, and the strain of hard exertion. Use it to keep going when your body wants to quit and to shrug off environmental hardship.',
+    'Skulduggery':           'The hands-on side of crime: picking locks, disabling mechanical security, pickpocketing, palming objects, and sleight of hand. Use it to break in the physical way or lift something without being noticed.',
+    'Stealth':               'Moving unseen and unheard: hiding, sneaking, tailing a target, and staying out of sight. Use it to avoid detection, slip past guards, or set up an ambush. It is opposed by an observer\'s Perception or Vigilance.',
+    'Streetwise':            'Knowing how to operate in the urban underbelly: finding contacts, reading the mood of a district, locating black-market goods and services, and picking up rumors. Use it to get the lay of a rough neighborhood and know who to ask.',
+    'Survival':              'Handling the wilderness and the untamed: foraging, tracking, finding shelter and water, handling animals, and enduring the elements. Use it to stay alive off the grid and read the natural world.',
+    'Underworld':            'Knowledge of organized crime and the criminal galaxy: syndicates, gangs, black markets, bounty networks, and how illicit business is done. Use it to recall who runs a cartel, understand criminal etiquette, or know the going rate for illegal work.',
+    'Vigilance':             'Baseline alertness to danger you did not see coming. It sets your initiative when a fight breaks out by surprise, and reflects how quickly you react to an ambush. Its counterpart, Cool, covers the times you were ready and waiting.',
+    'Xenology':              'Knowledge of alien species and life: their biology, cultures, languages, customs, and history. Use it to recall how a species thinks, avoid a cultural blunder, or exploit a creature\'s weakness.',
+    'Warfare':               'Military knowledge: strategy, tactics, doctrine, chains of command, fortifications, and the history of armed conflict. Use it to plan an operation, anticipate an enemy\'s moves, or understand how a fighting force is organized.',
   };
 
   const TALENT_DESCS = {
@@ -682,6 +682,7 @@ const Wizard = (() => {
     { id: 'equip',   label: 'Equipment',       tab: 'Gear',     valid: () => true },
     { id: 'vehicle', label: 'Fleet',           tab: 'Fleet',    valid: () => true },
     { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',    valid: () => true },
+    { id: 'reference', label: 'Reference',     tab: 'Ref.',     valid: () => true },
   ];
 
   // ── DOM helpers ────────────────────────────────────────────────────────────
@@ -714,6 +715,9 @@ const Wizard = (() => {
   // pressing Next repeatedly), so a jump never lands on an unmet-prerequisite screen.
   function canJumpTo(target) {
     if (target <= state.step) return true;
+    // The Reference tab is static rules with no prerequisites, so it is always
+    // reachable (you should be able to check the rules at any point).
+    if (STEPS[target] && STEPS[target].id === 'reference') return true;
     for (let k = state.step; k < target; k++) {
       if (!STEPS[k].valid()) return false;
     }
@@ -789,7 +793,7 @@ const Wizard = (() => {
     const fns = { game: renderGame, species: renderSpecies, career: renderCareer,
                   spec: renderSpec, skills: renderSkills, oms: renderOMS, chars: renderChars,
                   talents: renderTalents, details: renderDetails, equip: renderEquip,
-                  vehicle: renderVehicle, sheet: renderSheet };
+                  vehicle: renderVehicle, sheet: renderSheet, reference: renderReference };
     fns[STEPS[state.step].id]();
   }
 
@@ -2716,6 +2720,15 @@ const Wizard = (() => {
     const d = Engine.derive(state);
     if (!d) { c.innerHTML = '<div class="empty-state">Complete all steps to view the sheet.</div>'; return; }
     Sheet.render(c, state, d);
+    // Tap a skill name (or any tip element on the sheet) to pop out its description.
+    // Attach to the freshly rendered .sheet-root so listeners do not accumulate.
+    const root = c.querySelector('.sheet-root');
+    if (root) initTipListeners(root);
+  }
+
+  // Static rules reference (no character state needed).
+  function renderReference() {
+    Reference.render($('#step-content'));
   }
 
   // ── Navigation ────────────────────────────────────────────────────────────

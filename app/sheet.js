@@ -231,7 +231,7 @@ const Sheet = (() => {
         const prof = Math.min(c, r), abil = Math.max(c, r) - prof;   // dice pool for the roller
         html += `
           <div class="sheet-skill-row${zebra}">
-            <span class="sheet-skill-name" style="${nameCol}">${skill.name}<span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span></span>
+            <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span></span>
             <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key])}</div>
             <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="${esc(skill.name)} check" title="Send ${abil} ability + ${prof} proficiency to the dice pool">&#127922;</button>
           </div>`;

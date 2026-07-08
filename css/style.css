@@ -1212,10 +1212,18 @@ body.on-sheet #wizard-nav {
 .sheet-skill-row.zebra { background: var(--surface2); }
 
 .sheet-skill-name { flex: 1; color: var(--text); min-width: 0; }
+/* Tap a skill name for its description; a faint dotted underline hints at this. */
+.sheet-skill-name[data-tip-type] {
+  cursor: help;
+  text-decoration: underline dotted var(--border);
+  text-underline-offset: 3px;
+}
 .sheet-skill-char {
   color: var(--muted); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.04em;
   margin-left: 6px; vertical-align: 1px;
 }
+/* Keep the dotted underline off the characteristic tag. */
+.sheet-skill-name[data-tip-type] .sheet-skill-char { display: inline-block; text-decoration: none; }
 .skill-roll {
   flex: none; background: transparent; border: 0; cursor: pointer;
   font-size: 0.82rem; line-height: 1; padding: 0 2px; opacity: 0.35;
@@ -2641,3 +2649,68 @@ html.vp-xnarrow {
   .dc-diff button { flex: 1 1 45%; }
   .roster-bar .btn, .settings-actions .btn { flex: 1 1 calc(50% - 6px); }
 }
+
+
+/* ================= EotE symbol font + Reference tab ================= */
+@font-face {
+  font-family: 'EotE Symbol';
+  src: url(data:font/otf;base64,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) format('opentype');
+  font-display: swap;
+}
+/* A single dice/result symbol from the EotE Symbol font. A faint outline keeps
+   dark glyphs (e.g. the Setback die) legible on the dark theme. */
+.es {
+  font-family: 'EotE Symbol';
+  font-style: normal;
+  line-height: 1;
+  -webkit-text-stroke: 0.5px rgba(180, 196, 216, 0.55);
+  text-stroke: 0.5px rgba(180, 196, 216, 0.55);
+}
+.es-inline { font-size: 1.05em; vertical-align: -0.12em; margin: 0 1px; }
+
+/* ── Reference tab ─────────────────────────────────────────────────── */
+.ref-root { display: flex; flex-direction: column; gap: 16px; max-width: 1000px; margin: 0 auto; }
+.ref-lead { color: var(--muted); font-size: 0.92rem; line-height: 1.6; }
+.ref-lead strong { color: var(--text); }
+.ref-sub {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
+  font-weight: 700; margin: 14px 0 8px;
+}
+.ref-p { font-size: 0.85rem; color: var(--muted); line-height: 1.55; margin: 8px 0; }
+.ref-p strong { color: var(--text); }
+
+/* Dice / symbol legend cards */
+.ref-legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.ref-item {
+  display: flex; align-items: flex-start; gap: 11px;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 9px 11px;
+}
+.ref-item .es { font-size: 1.9rem; flex: none; width: 30px; text-align: center; }
+.ref-item-name { font-weight: 700; color: var(--text); font-size: 0.86rem; }
+.ref-item-desc { font-size: 0.74rem; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+
+/* Numbered "make a check" steps */
+.ref-steps { list-style: none; counter-reset: refstep; display: flex; flex-direction: column; gap: 8px; }
+.ref-steps li {
+  counter-increment: refstep; position: relative; padding-left: 34px;
+  font-size: 0.85rem; color: var(--text); line-height: 1.5;
+}
+.ref-steps li::before {
+  content: counter(refstep); position: absolute; left: 0; top: 0;
+  width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #000;
+  font-weight: 800; font-size: 0.78rem; display: flex; align-items: center; justify-content: center;
+}
+.ref-steps small { color: var(--muted); }
+
+/* Reference tables */
+.ref-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+.ref-table th {
+  text-align: left; padding: 6px 10px; color: var(--muted);
+  text-transform: uppercase; font-size: 0.62rem; letter-spacing: 0.08em; border-bottom: 1px solid var(--border);
+}
+.ref-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+.ref-table tr:last-child td { border-bottom: none; }
+.ref-table td:first-child { font-weight: 600; }
+.ref-table .es { font-size: 1.05rem; margin: 0 1px; }
+.ref-tables-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; align-items: start; }
+@media (max-width: 700px) { .ref-tables-2 { grid-template-columns: 1fr; } }
