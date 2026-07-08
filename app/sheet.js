@@ -22,12 +22,11 @@ const Sheet = (() => {
         ${derivedBlock(derived, state)}
         ${skillsBlock(derived, chars)}
         ${talentsBlock(derived, species)}
-        ${omsBlock(state)}
         ${backgroundBlock(state)}
         ${weaponBlock(state, derived)}
         ${equipmentBlock(state, derived)}
         ${vBlock}
-        ${spec ? treeBlock(spec, state, derived) : ''}
+        ${omsBlock(state)}
         ${notesBlock(state)}
         ${contactsBlock(state)}
       </div>`;
@@ -336,29 +335,6 @@ const Sheet = (() => {
       <div class="sheet-panel" style="grid-column:1/-1">
         <div class="sheet-panel-title">Talents &amp; Abilities ${list.length ? `<span style="font-size:0.7em;font-weight:400;color:var(--muted)">(${list.length} talent${list.length === 1 ? '' : 's'})</span>` : ''}</div>
         <div class="talent-cards">${speciesCards}${cards}</div>
-      </div>`;
-  }
-
-  function treeBlock(spec, state, derived) {
-    // Map each tree position to whether it was purchased (row-major, 5×4).
-    const bought = (state && state.talentPurchases && state.talentPurchases[state.specKey]) || [];
-    let idx = 0;
-    const rows = (spec.talent_tree || []).map(row => `
-      <div class="tree-row">
-        <div class="tree-cost">${row.cost}</div>
-        ${(row.talents || []).map(t => {
-          const owned = !!bought[idx++];
-          return `<div class="tree-cell${t ? '' : ' empty'}${owned ? ' owned' : ''}">${esc(t) || '—'}${owned ? '<span class="tree-cell-check">&#10003;</span>' : ''}</div>`;
-        }).join('')}
-      </div>`).join('');
-
-    return `
-      <div class="sheet-panel" style="grid-column:1/-1">
-        <div class="sheet-panel-title">Talent Tree — ${esc(spec.name)}</div>
-        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px">
-          Bonus career skills: <strong style="color:var(--text)">${(spec.bonus_career_skills||[]).join(', ')}</strong></div>
-        <div class="sheet-tree-display">${rows}</div>
-        <p style="margin-top:10px;font-size:0.75rem;color:var(--muted)">Highlighted cells are purchased. Tier cost shown at left of each row.</p>
       </div>`;
   }
 

@@ -561,13 +561,6 @@ body.play-mode .site-subtitle {
 
 .tree-cell:last-child { border-right: none; }
 .tree-cell.purchased { background: var(--accent-bg); color: var(--accent); }
-.tree-cell.owned {
-  background: var(--accent-bg);
-  color: var(--accent);
-  font-weight: 600;
-  justify-content: space-between;
-}
-.tree-cell-check { color: var(--success); font-weight: 800; margin-left: 4px; }
 .tree-cell.empty { color: var(--muted); font-style: italic; }
 .tree-cell[data-tip-type] { cursor: help; }
 .tree-cell[data-tip-type]:hover { background: var(--accent-bg); color: var(--accent); }
@@ -1262,14 +1255,6 @@ body.play-mode .site-subtitle {
 .skill-dice-legend span { display: inline-flex; align-items: center; gap: 4px; }
 .skill-dice-legend .die { width: 12px; height: 12px; }
 .skill-dice-legend-note { font-style: italic; opacity: 0.85; }
-
-.sheet-tree-display {
-  font-size: 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  grid-column: 1 / -1;
-}
 
 .sheet-abilities { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
 .sheet-abilities p + p { margin-top: 8px; }
