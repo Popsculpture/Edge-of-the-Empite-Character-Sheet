@@ -1442,7 +1442,7 @@ body.on-sheet #wizard-nav {
 
 /* ── Dice roller console (Sheet step) ──────────────────────────────── */
 .dc-console {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 54; display: none;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 95; display: none;
   background: var(--surface); /* fallback for engines without color-mix() */
   background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 96%, transparent), var(--bg));
   border-top: 1px solid var(--line2, var(--border));
@@ -1450,8 +1450,11 @@ body.on-sheet #wizard-nav {
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
 body.on-sheet .dc-console { display: block; }
-/* The nav scrolls in normal flow now; reserve space below it so it clears the
-   fixed console (≈160px at its base height) when scrolled to the very bottom. */
+/* The console sits above the nav (z-index) so it is never obscured. The nav
+   scrolls in normal flow; reserve space below it so, at rest, it clears the
+   collapsed/base console when scrolled to the very bottom. When the console is
+   expanded with a rolled result it grows taller and floats over the nav, which
+   is fine: the console collapses from its own toggle and the top tabs navigate. */
 body.on-sheet #app { padding-bottom: 200px; }
 .dc-console.dc-flash { box-shadow: 0 -10px 50px rgba(95,194,236,.4); }
 
