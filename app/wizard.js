@@ -606,6 +606,18 @@ const Wizard = (() => {
       return `<div class="tt-title">${name}</div>
               ${body ? `<div class="tt-body">${body}</div>` : ''}`;
     }
+    if (type === 'quality') {
+      // data-tip-name carries the quality key (e.g. "ACCURATE"); fall back to a
+      // name match so a display name still resolves.
+      const q = (SW.weaponQualities || {})[name] ||
+        Object.values(SW.weaponQualities || {}).find(x => x.name.toLowerCase() === name.toLowerCase());
+      if (!q) return `<div class="tt-title">${esc(name)}</div>`;
+      const glyph = (typeof Reference !== 'undefined' && Reference.symbols)
+        ? Reference.symbols(q.desc || '') : glyphify(q.desc || '');
+      return `<div class="tt-title">${q.name}</div>
+              <div class="tt-meta">Weapon Quality &bull; ${q.ranked ? 'Ranked' : 'Not Ranked'}</div>
+              ${glyph ? `<div class="tt-body">${glyph}</div>` : ''}`;
+    }
     return `<div class="tt-title">${name}</div>`;
   }
 
@@ -1997,6 +2009,12 @@ const Wizard = (() => {
       if (btn) addItem(btn.dataset.addCat || _eqCat, btn.dataset.add);
     });
 
+    // Tap a weapon-quality chip to pop out its description. Bound once on the
+    // persistent list/detail containers so it survives their inner re-renders;
+    // the capture-phase handler stops the tap before row selection fires.
+    initTipListeners($('#eq-list'));
+    initTipListeners($('#eq-detail'));
+
     $('#eq-cart').addEventListener('click', e => {
       const setEl = e.target.closest('[data-set-act]');
       if (setEl) { handleSetAction(setEl.dataset.setAct, setEl.dataset.setI); return; }
@@ -2097,7 +2115,7 @@ const Wizard = (() => {
     let stats = '';
     if (cat === 'weapon') {
       const quals = (it.qualities || []).map(q =>
-        `<span class="eq-qual" title="${esc(glyphify((SW.weaponQualities[q.key]||{}).desc || ''))}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('');
+        `<span class="qual-chip" data-tip-type="quality" data-tip-name="${esc(q.key)}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('');
       stats = `
         ${statChip('Dmg', dmgDisplay(it))}
         ${statChip('Crit', it.crit ?? '—')}
@@ -2275,7 +2293,7 @@ const Wizard = (() => {
       `<div class="eq-detail-stat"><span>${k}</span><strong>${esc(String(v))}</strong></div>`).join('');
     const quals = cat === 'weapon' && (it.qualities || []).length
       ? `<div class="eq-detail-quals">${it.qualities.map(q =>
-          `<span class="eq-qual" title="${esc(glyphify((SW.weaponQualities[q.key] || {}).desc || ''))}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('')}</div>`
+          `<span class="qual-chip" data-tip-type="quality" data-tip-name="${esc(q.key)}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('')}</div>`
       : '';
     const srcTxt = (it.sources || []).length
       ? 'Please see ' + it.sources.map(s => `page ${s.page} of the ${s.book}`).join(', ') + ' for details.'

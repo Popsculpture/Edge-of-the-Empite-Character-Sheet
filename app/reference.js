@@ -36,6 +36,17 @@ const Reference = (() => {
       TOKENS[k] ? `<span class="es es-inline" style="color:${TOKENS[k][1]}">${TOKENS[k][0]}</span>` : m);
   }
 
+  // Public token converter shared with the rest of the app. Turns dice/result
+  // symbol tokens in EITHER notation into inline glyphs: the reference content
+  // uses @BOOST@, while the weapon-quality data uses [BOOST]. Unknown tokens are
+  // left untouched so a typo stays visible instead of vanishing.
+  function symbols(text) {
+    return String(text || '').replace(/@([A-Z]+)@|\[([A-Z]+)\]/g, (m, a, b) => {
+      const k = a || b;
+      return TOKENS[k] ? `<span class="es es-inline" style="color:${TOKENS[k][1]}">${TOKENS[k][0]}</span>` : m;
+    });
+  }
+
   // The seven dice. Boost/Setback share a shape (b), Ability/Difficulty share
   // one (d), and Proficiency/Challenge/Force share one (c); color tells them
   // apart, exactly as the physical dice do.
@@ -190,5 +201,5 @@ const Reference = (() => {
       <div class="ref-root">${dice}${symbols}${extra}</div>`;
   }
 
-  return { render };
+  return { render, symbols };
 })();

@@ -408,7 +408,7 @@ const Sheet = (() => {
       const charVal = sk ? (chars[sk.characteristic.toLowerCase()] || 0) : 0;
       const rk = sk ? (ranks[sk.key] || 0) : 0;
       const prof = Math.min(charVal, rk), abil = Math.max(charVal, rk) - prof;
-      const quals = (w.qualities || []).map(q => esc(q.name) + (q.count ? ' ' + q.count : '')).join(', ') || '—';
+      const quals = qualChips(w.qualities);
       const renamed = nick !== w.name ? `<span class="wpn-realname">${esc(w.name)}</span>` : '';
       return `
         <div class="wpn-card">
@@ -425,7 +425,7 @@ const Sheet = (() => {
           </div>
           <div class="wpn-grid wpn-grid2">
             <div class="wpn-field"><label>Encum</label><div class="wpn-val">${w.encumbrance ?? '—'}</div></div>
-            <div class="wpn-field"><label>Special Qualities</label><div class="wpn-val">${quals}</div></div>
+            <div class="wpn-field"><label>Special Qualities</label><div class="wpn-val wpn-quals">${quals}</div></div>
           </div>
         </div>`;
     }).join('');
@@ -436,7 +436,6 @@ const Sheet = (() => {
       if (!sk && w.skill) sk = (SW.skills || []).find(s => s.name === w.skill);
       return { sk, charVal: sk ? (chars[sk.characteristic.toLowerCase()] || 0) : 0, rk: sk ? (ranks[sk.key] || 0) : 0 };
     };
-    const qualsOf = w => (w.qualities || []).map(q => esc(q.name) + (q.count ? ' ' + q.count : '')).join(', ') || '—';
     const validSet = s => s.a === s.b
       ? (bag[s.a] && bag[s.a].qty >= 2)
       : (bag[s.a] && bag[s.a].qty && bag[s.b] && bag[s.b].qty);
@@ -451,7 +450,9 @@ const Sheet = (() => {
       const sameSkill = ia.sk && ib.sk && ia.sk.key === ib.sk.key;
       const penalty = sameSkill ? 1 : 2;   // +1 difficulty if same skill, +2 if different
       const usedSkill = (ia.rk <= ib.rk ? ia.sk : ib.sk) || ia.sk || ib.sk;
-      const wMeta = w => `${esc(w.skill || '—')} &middot; Dmg ${dmg(w)} &middot; Crit ${w.crit ?? '—'} &middot; ${esc(w.range || '—')}${qualsOf(w) !== '—' ? ' &middot; ' + qualsOf(w) : ''}`;
+      const wMeta = w => `${esc(w.skill || '—')} &middot; Dmg ${dmg(w)} &middot; Crit ${w.crit ?? '—'} &middot; ${esc(w.range || '—')}`;
+      const wQuals = w => (w.qualities || []).length
+        ? `<div class="dual-w-quals wpn-quals">${qualChips(w.qualities)}</div>` : '';
       return `
         <div class="wpn-card wpn-card-dual">
           <div class="wpn-head">
@@ -463,8 +464,8 @@ const Sheet = (() => {
             <p>On a hit you strike with <b>${esc(wa.name)}</b>. Spend <span class="dual-cost">2 advantage</span> or a <span class="dual-cost">triumph</span> to also hit with <b>${esc(wb.name)}</b>. Each hit deals base damage <b>+1 per success</b>.</p>
           </div>
           <div class="dual-weapons">
-            <div class="dual-w"><div class="dual-w-label">Primary</div><div class="dual-w-name">${esc(wa.name)}</div><div class="dual-w-meta">${wMeta(wa)}</div></div>
-            <div class="dual-w"><div class="dual-w-label">Secondary</div><div class="dual-w-name">${esc(wb.name)}</div><div class="dual-w-meta">${wMeta(wb)}</div></div>
+            <div class="dual-w"><div class="dual-w-label">Primary</div><div class="dual-w-name">${esc(wa.name)}</div><div class="dual-w-meta">${wMeta(wa)}</div>${wQuals(wa)}</div>
+            <div class="dual-w"><div class="dual-w-label">Secondary</div><div class="dual-w-name">${esc(wb.name)}</div><div class="dual-w-meta">${wMeta(wb)}</div>${wQuals(wb)}</div>
           </div>
         </div>`;
     }).join('');
@@ -499,10 +500,7 @@ const Sheet = (() => {
       const wRows = (v.weapons || []).map(w => {
         const wd = vwMap[w.key] || { name: w.key, damage: '?', crit: '?', range: '?', skill: 'GUNN' };
         const allQ = [...(wd.qualities || []), ...(w.qualities || [])];
-        const quals = allQ.map(q => {
-          const qd = (SW.weaponQualities || {})[q.key];
-          return esc(qd ? qd.name : q.key) + (q.count ? ' ' + q.count : '');
-        }).join(', ') || '—';
+        const quals = qualChips(allQ);
         const count = w.count > 1 ? ` &times;${w.count}` : '';
         const arcs = w.turret
           ? 'All arcs (turret)'
@@ -527,7 +525,7 @@ const Sheet = (() => {
             <div class="wpn-grid wpn-grid-veh2">
               <div class="wpn-field"><label>Firing Arc</label><div class="wpn-val">${esc(arcs)}</div></div>
               <div class="wpn-field"><label>Mount</label><div class="wpn-val">${esc(loc || '—')}</div></div>
-              <div class="wpn-field"><label>Qualities</label><div class="wpn-val">${quals}</div></div>
+              <div class="wpn-field"><label>Qualities</label><div class="wpn-val wpn-quals">${quals}</div></div>
             </div>
           </div>`;
       }).join('');
@@ -609,6 +607,20 @@ const Sheet = (() => {
 
   function esc(s) {
     return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // A tappable weapon-quality chip. The wizard binds initTipListeners on the
+  // sheet root, so data-tip-type="quality" pops out the quality description on
+  // tap. `q` is a {key, name, count} entry; the name is resolved from the
+  // qualities table so vehicle weapons (which store only a key) still label.
+  function qualChip(q) {
+    const qd = SW.weaponQualities && SW.weaponQualities[q.key];
+    const nm = (qd && qd.name) || q.name || q.key;
+    return `<span class="qual-chip" data-tip-type="quality" data-tip-name="${esc(q.key || nm)}">${esc(nm)}${q.count ? ' ' + q.count : ''}</span>`;
+  }
+  function qualChips(list) {
+    const chips = (list || []).map(qualChip).join('');
+    return chips || '<span class="wpn-none">None</span>';
   }
 
   return { render };

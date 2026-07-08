@@ -1767,15 +1767,21 @@ svg.sym { display: block; }
   font-style: italic;
 }
 .eq-quals { display: flex; flex-wrap: wrap; gap: 4px; width: 100%; margin-top: 2px; }
-.eq-qual {
+/* Tappable weapon-quality chip. Used on the sheet weapon cards and in the
+   equipment browser; tapping one pops out the quality description. */
+.qual-chip {
+  display: inline-flex;
+  align-items: center;
   font-size: 0.68rem;
-  padding: 1px 7px;
+  padding: 1px 8px;
   border-radius: 10px;
   background: var(--surface2);
   border: 1px solid var(--border);
-  color: var(--muted);
+  color: var(--text);
   cursor: help;
+  white-space: nowrap;
 }
+.qual-chip:hover { border-color: var(--accent); color: var(--accent); }
 .eq-short {
   font-size: 0.76rem;
   color: var(--muted);
@@ -2030,6 +2036,10 @@ svg.sym { display: block; }
   padding: 6px 9px; font-size: 0.82rem; color: var(--text); min-height: 31px;
   display: flex; align-items: center; line-height: 1.3;
 }
+/* Qualities field: let the chips wrap instead of stretching the row. */
+.wpn-val.wpn-quals { flex-wrap: wrap; gap: 4px; }
+.wpn-none { color: var(--muted); }
+.dual-w-quals { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
 
 /* ── Equipment: selectable rows + detail panel ─────────────────────── */
 .eq-row { cursor: pointer; }
@@ -2512,6 +2522,7 @@ svg.sym { display: block; }
     text-underline-offset: 3px;
   }
   .skill-tag[data-tip-type] { border-style: dashed; }
+  .qual-chip { border-style: dashed; }
   /* Press feedback in place of :hover (which never fires on touch). */
   .btn:active,
   .game-card:active, .species-card:active, .career-card:active, .spec-card:active,
