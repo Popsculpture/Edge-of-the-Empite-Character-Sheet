@@ -169,6 +169,44 @@ body.play-mode .site-subtitle {
   display: none;
 }
 
+/* Belt-and-suspenders while a tab-swipe drag is live: #step-content is
+   translating and briefly extends past the viewport edge mid-drag, so pin
+   the page against picking that up as horizontal scroll/rubber-band. */
+body.swiping-tabs { overflow-x: hidden; }
+
+/* Play mode's mobile swipe: the floating pill previewing the neighboring tab
+   while dragging. Fixed to the screen (not a child of the translating
+   #step-content) so it stays anchored to the edge being dragged toward.
+   Opacity/scale are driven live by JS as the drag approaches the commit
+   threshold; .committed marks having crossed it (release now to confirm). */
+.swipe-indicator {
+  position: fixed;
+  top: 46%;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) scale(var(--swipe-scale, 0.85));
+  visibility: hidden;
+}
+.swipe-indicator.visible { visibility: visible; }
+.swipe-indicator.committed { color: var(--accent); border-color: var(--accent); }
+.swipe-indicator-right { right: 14px; }
+.swipe-indicator-left  { left: 14px; }
+.swipe-indicator-arrow { font-size: 1rem; line-height: 1; }
+
 #nav-status { color: var(--muted); font-size: 0.85rem; }
 
 /* ── Buttons ───────────────────────────────────────────────────── */

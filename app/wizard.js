@@ -109,6 +109,55 @@ const Wizard = (() => {
     saveState(); render();
     window.scrollTo(0, 0);
   }
+  // The neighboring-tab step in the play order, dir away from the current one
+  // (or null at an edge). Used both to gate the swipe gesture and to label
+  // the pre-commit indicator with the tab actually being approached.
+  function playNeighborStep(dir) {
+    const curId = STEPS[state.step] && STEPS[state.step].id;
+    const idx = PLAY_TAB_IDS.indexOf(curId);
+    if (idx < 0) return null;
+    const nextIdx = idx + dir;
+    if (nextIdx < 0 || nextIdx >= PLAY_TAB_IDS.length) return null;
+    return STEPS.find(s => s.id === PLAY_TAB_IDS[nextIdx]) || null;
+  }
+
+  // The floating pill that previews the neighboring tab mid-drag. A single
+  // fixed-position element reused across gestures (not a child of the
+  // translating #step-content, so it stays anchored to the screen edge while
+  // the content slides under/past it).
+  let _swipeIndicatorEl = null;
+  function ensureSwipeIndicator() {
+    if (_swipeIndicatorEl) return _swipeIndicatorEl;
+    const el = document.createElement('div');
+    el.className = 'swipe-indicator';
+    el.innerHTML = '<span class="swipe-indicator-arrow"></span><span class="swipe-indicator-label"></span>';
+    document.body.appendChild(el);
+    _swipeIndicatorEl = el;
+    return el;
+  }
+  function showSwipeIndicator(dir) {
+    const step = playNeighborStep(dir);
+    if (!step) return;
+    const label = typeof step.tab === 'function' ? step.tab() : step.tab;
+    const el = ensureSwipeIndicator();
+    el.querySelector('.swipe-indicator-label').textContent = label;
+    el.querySelector('.swipe-indicator-arrow').innerHTML = dir === 1 ? '&#8594;' : '&#8592;';
+    el.classList.toggle('swipe-indicator-right', dir === 1);
+    el.classList.toggle('swipe-indicator-left', dir === -1);
+    el.classList.remove('committed');
+    el.classList.add('visible');
+  }
+  // progress: 0 at drag start, 1 at (or past) the commit threshold.
+  function updateSwipeIndicator(progress) {
+    if (!_swipeIndicatorEl) return;
+    const p = Math.max(0, Math.min(1, progress));
+    _swipeIndicatorEl.style.opacity = String(0.15 + p * 0.85);
+    _swipeIndicatorEl.style.setProperty('--swipe-scale', String(0.85 + p * 0.15));
+    _swipeIndicatorEl.classList.toggle('committed', p >= 1);
+  }
+  function hideSwipeIndicator() {
+    if (_swipeIndicatorEl) _swipeIndicatorEl.classList.remove('visible', 'committed');
+  }
 
   function openThemePanel() {
     const modal = $('#theme-modal');
@@ -3060,33 +3109,148 @@ const Wizard = (() => {
       saveState(); render();
       window.scrollTo(0, 0);
     });
-    // Play mode's mobile swipe: swipe left/right on the content area to move
-    // to the next/previous play tab. Ignored if the gesture starts in a text
-    // field (so text selection isn't hijacked) or if it stays inside a
-    // horizontally scrollable child (e.g. the Talent Tree) that still has
-    // room to scroll that way, so that scroll gesture isn't hijacked either.
-    let _touchActive = false, _touchStartX = 0, _touchStartY = 0;
+    // Play mode's mobile swipe: dragging the content area left/right previews
+    // the neighboring play tab and commits once the drag crosses a threshold,
+    // like a native swipeable pager. Sequence per gesture:
+    //   1. touchstart arms tracking (gated on Play mode, and not starting in
+    //      a text field, so text selection is never hijacked).
+    //   2. The first move past a small deadzone decides the gesture's AXIS
+    //      only: mostly-vertical, or aimed at a horizontally scrollable child
+    //      (e.g. the Talent Tree) that still has room to scroll that way,
+    //      defers to native scrolling untouched; mostly-horizontal locks
+    //      into "swipe" and follows the finger 1:1 (transform, no
+    //      transition) plus shows the indicator pill.
+    //   3. Direction is NOT locked with the axis: which neighbor is being
+    //      approached is recomputed from the live, signed drag distance on
+    //      every move (matching how native swipeable pagers behave), so
+    //      reversing past the start point re-targets the other neighbor
+    //      instead of freezing the first direction chosen (which could
+    //      otherwise commit to the wrong tab on a large reversal).
+    //   4. touchend/touchcancel either finishes the slide and commits the
+    //      real tab change (past threshold, in whichever direction the drag
+    //      actually ended) or eases back to rest (short of it) - never a
+    //      hard, instant snap either way.
     const stepContentEl = $('#step-content');
+    let _touchActive = false, _touchStartX = 0, _touchStartY = 0;
+    let _axisLocked = null;   // null | 'swipe' | 'scroll'
+    let _shownDir = 0;        // -1 | 1 | 0; which neighbor the indicator currently names
+    let _swipeThreshold = 0;
+    // True from the moment a commit/snap-back settle animation starts until
+    // its deferred swipeChangeTab (or cleanup) actually runs. The real tab
+    // change only happens once that timeout fires, reading state.step fresh
+    // at that moment - so a second gesture started (and released) *before*
+    // it fires would compute its own direction against the still-stale
+    // state.step and could resolve against the wrong tab once both delayed
+    // callbacks eventually run. Block a new gesture from arming until the
+    // previous one has actually settled, same as native swipeable pagers
+    // ignore new touch input mid-page-transition.
+    let _swipeAnimating = false;
+
+    function armStepContent() {
+      stepContentEl.style.willChange = 'transform';
+      document.body.classList.add('swiping-tabs');
+    }
+    function disarmStepContent() {
+      stepContentEl.style.willChange = '';
+      document.body.classList.remove('swiping-tabs');
+    }
+    // dir/committed reflect the gesture's state AT RELEASE, not whatever was
+    // last shown mid-drag, so a reversed gesture always settles correctly.
+    // Also captures which tab was current at release time: the real state.step
+    // change is deferred until this animation finishes, so if a direct tap on
+    // the tab strip navigates elsewhere during that window, this gesture's
+    // shift must not stomp it back to a tab the user didn't choose.
+    function settleSwipe(dir, committed) {
+      const fromId = STEPS[state.step] && STEPS[state.step].id;
+      _swipeAnimating = true;
+      const w = stepContentEl.clientWidth || 1;
+      stepContentEl.style.transition = committed ? 'transform 0.18s ease-in' : 'transform 0.22s cubic-bezier(0.2,0.8,0.2,1)';
+      stepContentEl.style.transform = committed ? `translateX(${dir === 1 ? -w : w}px)` : 'translateX(0)';
+      hideSwipeIndicator();
+      setTimeout(() => {
+        stepContentEl.style.transition = '';
+        stepContentEl.style.transform = '';
+        disarmStepContent();
+        _swipeAnimating = false;
+        const stillOnFromTab = STEPS[state.step] && STEPS[state.step].id === fromId;
+        if (committed && stillOnFromTab) swipeChangeTab(dir);
+      }, committed ? 180 : 220);
+    }
+
     stepContentEl.addEventListener('touchstart', e => {
-      _touchActive = getPlayMode() === 'play' && e.touches.length === 1 &&
+      // A new touch arriving mid-swipe (e.g. a second finger touching down
+      // before the first lifts) would otherwise strand the drag transform,
+      // indicator, and body class with no cleanup and no commit - abandon
+      // that gesture cleanly first.
+      if (_axisLocked === 'swipe') settleSwipe(_shownDir || 1, false);
+      _touchActive = !_swipeAnimating && getPlayMode() === 'play' && e.touches.length === 1 &&
         !e.target.closest('input, textarea, select');
+      _axisLocked = null;
+      _shownDir = 0;
       if (!_touchActive) return;
       _touchStartX = e.touches[0].clientX;
       _touchStartY = e.touches[0].clientY;
+      _swipeThreshold = Math.max(90, stepContentEl.clientWidth * 0.3);
     }, { passive: true });
+
+    stepContentEl.addEventListener('touchmove', e => {
+      if (!_touchActive) return;
+      const t = e.touches[0];
+      const dx = t.clientX - _touchStartX;
+      const dy = t.clientY - _touchStartY;
+      if (_axisLocked === null) {
+        // Deliberately generous: once this locks to 'swipe' the very same
+        // move calls preventDefault(), which (per the touch-event spec)
+        // suppresses the synthetic click for the whole gesture - so an
+        // ordinary tap that jitters sideways must not cross this before its
+        // touchend, or the tap's own click is silently eaten.
+        if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;   // too small to call yet
+        if (Math.abs(dy) > Math.abs(dx) * 1.2) { _axisLocked = 'scroll'; return; }
+        const initialDir = dx < 0 ? 1 : -1;
+        let blocked = false;
+        for (let el = e.target; el && el !== stepContentEl; el = el.parentElement) {
+          if (el.scrollWidth <= el.clientWidth) continue;
+          const canScrollMore = initialDir === 1 ? el.scrollLeft < el.scrollWidth - el.clientWidth - 1 : el.scrollLeft > 1;
+          if (canScrollMore) { blocked = true; break; }
+        }
+        if (blocked) { _axisLocked = 'scroll'; return; }
+        _axisLocked = 'swipe';
+        armStepContent();
+        stepContentEl.style.transition = 'none';
+      }
+      if (_axisLocked !== 'swipe') return;
+      e.preventDefault();   // claimed as a tab-swipe; stop the page scrolling under it
+      // Live direction: whichever way the drag currently points, not whatever
+      // it pointed at first. Falls through to a damped rubber-band with no
+      // indicator when that direction has no neighbor (already at that edge).
+      const dir = dx < 0 ? 1 : dx > 0 ? -1 : _shownDir;
+      const neighbor = dir && playNeighborStep(dir);
+      const w = stepContentEl.clientWidth || 1;
+      if (neighbor) {
+        if (dir !== _shownDir) { _shownDir = dir; showSwipeIndicator(dir); }
+        const clamped = Math.max(-w, Math.min(w, dx));
+        stepContentEl.style.transform = `translateX(${clamped}px)`;
+        updateSwipeIndicator(Math.abs(dx) / _swipeThreshold);
+      } else {
+        if (_shownDir !== 0) { _shownDir = 0; hideSwipeIndicator(); }
+        stepContentEl.style.transform = `translateX(${dx * 0.3}px)`;
+      }
+    }, { passive: false });
+
     stepContentEl.addEventListener('touchend', e => {
       if (!_touchActive) return;
       _touchActive = false;
+      if (_axisLocked !== 'swipe') return;
       const t = e.changedTouches[0];
       const dx = t.clientX - _touchStartX;
-      const dy = t.clientY - _touchStartY;
-      if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      for (let el = e.target; el && el !== stepContentEl; el = el.parentElement) {
-        if (el.scrollWidth <= el.clientWidth) continue;
-        const canScrollMore = dx < 0 ? el.scrollLeft < el.scrollWidth - el.clientWidth - 1 : el.scrollLeft > 1;
-        if (canScrollMore) return;
-      }
-      swipeChangeTab(dx < 0 ? 1 : -1);
+      const dir = dx < 0 ? 1 : dx > 0 ? -1 : 0;
+      const neighbor = dir && playNeighborStep(dir);
+      settleSwipe(dir || 1, !!neighbor && Math.abs(dx) >= _swipeThreshold);
+    }, { passive: true });
+
+    stepContentEl.addEventListener('touchcancel', () => {
+      _touchActive = false;
+      if (_axisLocked === 'swipe') settleSwipe(1, false);
     }, { passive: true });
     // Play mode's deposit/withdraw (credits) and add-XP (talents) controls.
     // Bound once on the persistent header bars; renderHeaderCredits/Xp only
