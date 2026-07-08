@@ -23,23 +23,28 @@ const Dice = (() => {
   const pool = { boost: 0, ability: 0, proficiency: 0, setback: 0, difficulty: 0, challenge: 0, force: 0 };
   let labelText = '';
 
-  const SYM_LABEL = { s: 'Success', a: 'Advantage', tr: 'Triumph', f: 'Failure', h: 'Threat', de: 'Despair', lt: 'Light', dk: 'Dark' };
+  // Result symbols drawn with the Edge of the Empire symbol font (see .es /
+  // @font-face in the stylesheet). Each entry is [glyph letter, canonical
+  // colour]. The letters are fixed by the font: s Success, a Advantage,
+  // f Failure, t Threat, x Triumph, y Despair, z Force pip.
+  const GLYPH = {
+    s:  ['s', '#e9c84a'], a:  ['a', '#4fc0e8'], f:  ['f', '#e0674f'],
+    h:  ['t', '#e0952f'], tr: ['x', '#ffd24a'], de: ['y', '#d6493a'],
+    lt: ['z', '#f4f7fa'], dk: ['z', '#3a3a3a'],
+  };
 
-  // Original glyphs (SVG), not the FFG symbol font.
-  function sym(t, sz) {
-    sz = sz || 13;
-    const c = (p, f) => `<svg class="sym" width="${sz}" height="${sz}" viewBox="0 0 16 16">${p.replace(/FILL/g, f)}</svg>`;
-    switch (t) {
-      case 's':  return c('<path d="M8 1l1.6 4.7L14.5 6 10.6 9l1.4 5L8 11 4 14l1.4-5L1.5 6l4.9-.3z" fill="FILL"/>', '#e9c84a');
-      case 'tr': return c('<path d="M8 0l1.9 4.4L14.7 5 11 8.1l1.3 4.9L8 10.3 3.7 13 5 8.1 1.3 5l4.8-.6z" fill="FILL"/><circle cx="8" cy="8" r="1.5" fill="#fff8e0"/>', '#ffd24a');
-      case 'a':  return c('<path d="M8 2l6 11H2z" fill="FILL"/>', '#45c8d6');
-      case 'f':  return c('<rect x="3.2" y="3.2" width="9.6" height="9.6" transform="rotate(45 8 8)" fill="none" stroke="FILL" stroke-width="2"/>', '#e06a55');
-      case 'de': return c('<circle cx="8" cy="8" r="6.4" fill="FILL"/><path d="M5 5l6 6M11 5l-6 6" stroke="#2a0805" stroke-width="2" stroke-linecap="round"/>', '#d6493a');
-      case 'h':  return c('<path d="M8 14L2 3h12z" fill="FILL"/>', '#e89a3c');
-      case 'lt': return c('<circle cx="8" cy="8" r="6" fill="FILL" stroke="#9fb0c2" stroke-width="1"/>', '#f4f7fa');
-      case 'dk': return c('<circle cx="8" cy="8" r="6" fill="FILL" stroke="#555" stroke-width="1"/>', '#1a1a1a');
-    }
-    return '';
+  // One result glyph. Size is set in CSS by context (.dc-tchip vs .dc-perdie).
+  // Totals chips sit on a neutral background, so each glyph is coloured by symbol.
+  // Per-die boxes ('die' mode) sit on the die's own colour, so the glyph inherits
+  // a contrasting monochrome set per die in CSS. Force pips carry a marker class
+  // (dc-lt / dc-dk) in both modes so light and dark stay distinct: on the white
+  // die and on the dark totals chip alike.
+  function sym(t, mode) {
+    const g = GLYPH[t];
+    if (!g) return '';
+    const pip = t === 'lt' ? ' dc-lt' : t === 'dk' ? ' dc-dk' : '';
+    if (mode === 'die') return `<span class="es dc-sym${pip}">${g[0]}</span>`;
+    return `<span class="es dc-sym${pip}" style="color:${g[1]}">${g[0]}</span>`;
   }
 
   function buildConsole() {
@@ -152,7 +157,7 @@ const Dice = (() => {
   }
 
   function tchip(type, count, label) {
-    return `<span class="dc-tchip">${sym(type, 14)} <span class="dc-c">${count}</span> ${label}</span>`;
+    return `<span class="dc-tchip">${sym(type)} <span class="dc-c">${count}</span> ${label}</span>`;
   }
 
   function renderResults(t, perDie) {
@@ -181,7 +186,7 @@ const Dice = (() => {
 
     const strip = perDie.map(p => {
       const keys = Object.keys(p.f);
-      const inner = keys.map(k => { let o = ''; for (let i = 0; i < p.f[k]; i++) o += sym(k, 11); return o; }).join('');
+      const inner = keys.map(k => { let o = ''; for (let i = 0; i < p.f[k]; i++) o += sym(k, 'die'); return o; }).join('');
       return `<div class="dc-pd ${keys.length ? '' : 'blank'}" data-dc-die="${p.d}">${inner}</div>`;
     }).join('');
 

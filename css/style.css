@@ -1528,9 +1528,27 @@ body.on-sheet #app { padding-bottom: 200px; }
 .dc-pd[data-dc-die="proficiency"] { background: #e6c01f; } .dc-pd[data-dc-die="setback"] { background: #3a3a3a; border-color: #54657a; }
 .dc-pd[data-dc-die="difficulty"] { background: #8a5bb0; } .dc-pd[data-dc-die="challenge"] { background: #c43a2d; }
 .dc-pd[data-dc-die="force"] { background: #eef2f5; border-color: #9fb0c2; }
-.dc-pd.blank::after { content: "–"; opacity: .4; font-size: 0.7rem; }
+.dc-pd.blank::after { content: "-"; opacity: .4; font-size: 0.7rem; }
 .dc-hint { font-size: 0.72rem; color: var(--muted); margin-top: 6px; }
-svg.sym { display: block; }
+
+/* Result glyphs from the EotE symbol font. Totals chips colour each glyph by
+   symbol (neutral background); per-die boxes render a contrasting monochrome
+   glyph on the die's own colour, so the shape stays legible even when a symbol
+   shares its home die's hue (gold Success on the yellow Proficiency die, etc.). */
+.dc-sym { display: inline-block; line-height: 1; }
+.dc-tchip .dc-sym { font-size: 1.2rem; }
+/* The dark Force pip (#3a3a3a) is nearly the chip's own colour, so give it a
+   brighter ring on the totals chip to separate the dark circle from the chip. */
+.dc-tchip .dc-dk { -webkit-text-stroke: 0.8px rgba(206, 216, 230, 0.9); text-stroke: 0.8px rgba(206, 216, 230, 0.9); }
+.dc-perdie .dc-sym { font-size: 0.98rem; -webkit-text-stroke: 0; text-stroke: 0; }
+/* Faces with two symbols grow the box sideways instead of wrapping, so the
+   glyphs stay large; single-symbol and blank faces keep the square minimum. */
+.dc-pd { color: #16170f; width: auto; min-width: 34px; flex-wrap: nowrap; }
+.dc-pd[data-dc-die="setback"],
+.dc-pd[data-dc-die="difficulty"],
+.dc-pd[data-dc-die="challenge"] { color: #eef2f6; }
+.dc-pd .dc-dk { color: #16170f; }
+.dc-pd[data-dc-die="force"] .dc-lt { color: #ffffff; -webkit-text-stroke: 0.6px #6f6f6f; text-stroke: 0.6px #6f6f6f; }
 
 @media print {
   .dc-console { display: none !important; }
