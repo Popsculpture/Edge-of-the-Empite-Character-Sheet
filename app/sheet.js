@@ -153,7 +153,7 @@ const Sheet = (() => {
     if (mech === 'obligation') {
       if (!state.obligation.type) return '';
       return `
-        <div class="sheet-panel">
+        <div class="sheet-panel" style="grid-column:1/-1">
           <div class="sheet-panel-title">Obligation</div>
           <div class="sheet-oms-type">${esc(state.obligation.type)} <span class="sheet-oms-mag">(${state.obligation.magnitude || 10})</span></div>
           <textarea class="blurb-textarea sheet-oms-detail" data-oms-field="obligation-detail" rows="3"
@@ -164,7 +164,7 @@ const Sheet = (() => {
       if (!state.duty.type) return '';
       const def = state.duty.deficit || 0;
       return `
-        <div class="sheet-panel">
+        <div class="sheet-panel" style="grid-column:1/-1">
           <div class="sheet-panel-title">Duty</div>
           <div class="sheet-oms-type">${esc(state.duty.type)}${def ? ` <span class="sheet-oms-mag">(deficit: ${def})</span>` : ''}</div>
         </div>`;
@@ -172,7 +172,7 @@ const Sheet = (() => {
     if (mech === 'morality') {
       if (!state.morality.strength && !state.morality.weakness) return '';
       return `
-        <div class="sheet-panel">
+        <div class="sheet-panel" style="grid-column:1/-1">
           <div class="sheet-panel-title">Morality</div>
           <div class="sheet-oms-type">${esc(state.morality.strength || '?')} / ${esc(state.morality.weakness || '?')} <span class="sheet-oms-mag">(Score ${state.morality.score})</span></div>
         </div>`;
