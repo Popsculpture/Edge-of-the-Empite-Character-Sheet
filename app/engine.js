@@ -247,7 +247,9 @@ const Engine = (() => {
     if (tp) tp.forEach((p, i) => { if (p) talentXp += (Math.floor(i / 4) + 1) * 5; });
 
     const xpSpent     = totalCharXp(species, chars) + talentXp;
-    const xpRemaining = startingXp - xpSpent;
+    // Play mode's "Add XP" control banks session awards here, on top of the
+    // starting allotment; it is real spendable XP, not just a display figure.
+    const xpRemaining = startingXp - xpSpent + (state.xpAdjustment || 0);
 
     // ── Starting credits + equipment spend ───────────────────────────────
     let omsCreditBonus = 0;
@@ -310,7 +312,9 @@ const Engine = (() => {
       const vd = getVehicle(entry.key);
       if (vd && typeof vd.price === 'number') creditsSpent += vd.price;
     }
-    const creditsRemaining = startingCredits - creditsSpent;
+    // Play mode's deposit/withdraw control adjusts this on top of the starting
+    // allotment, so looted or spent credits actually change what you can afford.
+    const creditsRemaining = startingCredits - creditsSpent + (state.creditsAdjustment || 0);
     const armorSoak    = wornArmor ? (wornArmor.soak    || 0) : 0;
     const armorDefense = wornArmor ? (wornArmor.defense || 0) : 0;
 

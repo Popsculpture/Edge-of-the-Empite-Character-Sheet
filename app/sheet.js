@@ -22,11 +22,14 @@ const Sheet = (() => {
         ${derivedBlock(derived, state)}
         ${skillsBlock(derived, chars)}
         ${talentsBlock(derived, species)}
+        ${omsBlock(state)}
         ${backgroundBlock(state)}
         ${weaponBlock(state, derived)}
         ${equipmentBlock(state, derived)}
         ${vBlock}
         ${spec ? treeBlock(spec, state, derived) : ''}
+        ${notesBlock(state)}
+        ${contactsBlock(state)}
       </div>`;
   }
 
@@ -140,6 +143,42 @@ const Sheet = (() => {
         <div class="derived-strip-label"><span>Derived Stats</span></div>
         ${cells.join('')}
       </div>`;
+  }
+
+  // Obligation/Duty/Morality summary. Obligation is the only one of the three
+  // with a freeform detail field, so it is the only part editable here; Duty
+  // and Morality show what already exists (neither has an equivalent text
+  // field anywhere in the app to edit).
+  function omsBlock(state) {
+    const mech = Engine.activeMechanic(state);
+    if (mech === 'obligation') {
+      if (!state.obligation.type) return '';
+      return `
+        <div class="sheet-panel">
+          <div class="sheet-panel-title">Obligation</div>
+          <div class="sheet-oms-type">${esc(state.obligation.type)} <span class="sheet-oms-mag">(${state.obligation.magnitude || 10})</span></div>
+          <textarea class="blurb-textarea sheet-oms-detail" data-oms-field="obligation-detail" rows="3"
+            placeholder="Describe your Obligation.">${esc(state.obligation.detail || '')}</textarea>
+        </div>`;
+    }
+    if (mech === 'duty') {
+      if (!state.duty.type) return '';
+      const def = state.duty.deficit || 0;
+      return `
+        <div class="sheet-panel">
+          <div class="sheet-panel-title">Duty</div>
+          <div class="sheet-oms-type">${esc(state.duty.type)}${def ? ` <span class="sheet-oms-mag">(deficit: ${def})</span>` : ''}</div>
+        </div>`;
+    }
+    if (mech === 'morality') {
+      if (!state.morality.strength && !state.morality.weakness) return '';
+      return `
+        <div class="sheet-panel">
+          <div class="sheet-panel-title">Morality</div>
+          <div class="sheet-oms-type">${esc(state.morality.strength || '?')} / ${esc(state.morality.weakness || '?')} <span class="sheet-oms-mag">(Score ${state.morality.score})</span></div>
+        </div>`;
+    }
+    return '';
   }
 
   // Species abilities are folded into the Talents panel (see talentsBlock); this
@@ -313,23 +352,42 @@ const Sheet = (() => {
         }).join('')}
       </div>`).join('');
 
-    const d = derived || {};
-    const xpItem = (label, val, cls) =>
-      `<span class="tree-xp-item"><span class="tree-xp-label">${label}</span><strong class="${cls || ''}">${val}</strong></span>`;
-    const xpHeader = derived
-      ? `<span class="tree-xp">
-          ${xpItem('Starting XP', d.starting_xp)}
-          ${xpItem('Spent', d.xp_spent)}
-          ${xpItem('Remaining', d.xp_remaining, d.xp_remaining < 0 ? 'xp-neg' : '')}
-        </span>` : '';
-
     return `
       <div class="sheet-panel" style="grid-column:1/-1">
-        <div class="sheet-panel-title tree-title-row"><span>Talent Tree — ${esc(spec.name)}</span>${xpHeader}</div>
+        <div class="sheet-panel-title">Talent Tree — ${esc(spec.name)}</div>
         <div style="font-size:0.75rem;color:var(--muted);margin-bottom:10px">
           Bonus career skills: <strong style="color:var(--text)">${(spec.bonus_career_skills||[]).join(', ')}</strong></div>
         <div class="sheet-tree-display">${rows}</div>
         <p style="margin-top:10px;font-size:0.75rem;color:var(--muted)">Highlighted cells are purchased. Tier cost shown at left of each row.</p>
+      </div>`;
+  }
+
+  // Play mode only, gated on document.body.classList: Sheet has no other
+  // channel to learn the wizard's Play/Creation setting (see render() in
+  // wizard.js, which sets this class before calling Sheet.render()).
+  function notesBlock(state) {
+    if (!document.body.classList.contains('play-mode')) return '';
+    return `
+      <div class="sheet-panel" style="grid-column:1/-1">
+        <div class="sheet-panel-title">Notes</div>
+        <textarea class="blurb-textarea sheet-notes" data-notes rows="4"
+          placeholder="Session notes, plot threads, anything worth remembering.">${esc(state.notes || '')}</textarea>
+      </div>`;
+  }
+
+  function contactsBlock(state) {
+    if (!document.body.classList.contains('play-mode')) return '';
+    const contacts = state.contacts || [];
+    const rows = contacts.map(c => `
+      <div class="contact-row" data-contact-id="${esc(c.id)}">
+        <input class="contact-input contact-name" data-contact-field="name" value="${esc(c.name)}" placeholder="Name">
+        <input class="contact-input contact-note" data-contact-field="note" value="${esc(c.note)}" placeholder="Role, where you met, owes you a favor...">
+        <button class="contact-remove" data-act="remove-contact" title="Remove contact">&times;</button>
+      </div>`).join('');
+    return `
+      <div class="sheet-panel" style="grid-column:1/-1">
+        <div class="sheet-panel-title contacts-title-row"><span>Contacts</span><button class="contacts-add-btn" data-act="add-contact">+ Add</button></div>
+        <div class="contacts-list">${rows || '<div class="contacts-empty">No contacts yet.</div>'}</div>
       </div>`;
   }
 

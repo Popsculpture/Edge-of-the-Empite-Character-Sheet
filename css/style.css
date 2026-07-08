@@ -164,6 +164,10 @@ body.on-sheet #wizard-nav {
 body.play-mode #wizard-nav {
   display: none;
 }
+/* "Character Creator" describes the wizard, not a play aid for a finished one. */
+body.play-mode .site-subtitle {
+  display: none;
+}
 
 #nav-status { color: var(--muted); font-size: 0.85rem; }
 
@@ -1156,14 +1160,6 @@ body.play-mode #wizard-nav {
 .enhance-note { display: none; font-size: 0.56rem; color: var(--success); font-weight: 600; margin-top: 4px; }
 .reveal-enhance .enhance-note { display: block; }
 
-/* XP summary in the Talent Tree header */
-.sheet-panel-title.tree-title-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px; }
-.tree-xp { display: flex; gap: 18px; }
-.tree-xp-item { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.15; }
-.tree-xp-label { font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
-.tree-xp-item strong { font-size: 1.05rem; color: var(--text); font-weight: 800; }
-.tree-xp-item strong.xp-neg { color: #d6493a; }
-
 /* ── Talents panel (purchased talents with effects + rules text) ──────── */
 .talent-cards {
   display: grid;
@@ -1606,6 +1602,31 @@ body.on-sheet #app { padding-bottom: 200px; }
 .header-credits .cr-remain strong { color: var(--success); }
 .header-credits.cr-warn .cr-remain strong { color: var(--danger); }
 
+/* Play mode's bank-a-session-award control, shared by the credits and XP bars. */
+.hdr-adjust { display: flex; align-items: center; gap: 6px; text-transform: none; letter-spacing: 0; }
+.hdr-adjust-amt {
+  width: 80px;
+  padding: 4px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+.hdr-adjust-amt::placeholder { color: var(--muted); }
+.hdr-adjust-btn {
+  padding: 4px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.hdr-adjust-btn:hover { border-color: var(--accent); color: var(--accent); }
+
 /* ── Restricted badge ──────────────────────────────────────────────── */
 .r-badge {
   display: inline-flex;
@@ -1997,6 +2018,47 @@ body.on-sheet #app { padding-bottom: 200px; }
 .sheet-eq-name { display: block; font-size: 0.84rem; font-weight: 600; color: var(--text); }
 .sheet-eq-meta { display: block; font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
 .sheet-eq-free { color: var(--success); font-style: normal; font-size: 0.7rem; }
+
+/* ── Obligation / Duty / Morality summary ──────────────────────────────── */
+.sheet-oms-type { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.sheet-oms-mag { font-size: 0.8rem; font-weight: 400; color: var(--muted); }
+/* Structural properties .blurb-textarea (used inside .form-group elsewhere)
+   relies on .form-group textarea for; these panels have no such ancestor. */
+.sheet-oms-detail, .sheet-notes {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  font-family: inherit;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: var(--radius);
+  outline: none;
+  resize: vertical;
+}
+
+/* ── Notes & Contacts (Play mode) ──────────────────────────────────────── */
+.contacts-title-row { display: flex; align-items: center; justify-content: space-between; }
+.contacts-add-btn {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 5px; padding: 4px 10px; font-size: 0.72rem; font-weight: 700; cursor: pointer;
+}
+.contacts-add-btn:hover { border-color: var(--accent); color: var(--accent); }
+.contacts-empty { font-size: 0.82rem; color: var(--muted); }
+.contacts-list { display: flex; flex-direction: column; gap: 8px; }
+.contact-row { display: flex; align-items: center; gap: 8px; }
+.contact-input {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  border-radius: 5px; padding: 7px 9px; font-size: 0.85rem; outline: none;
+}
+.contact-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-bg); }
+.contact-name { flex: 0 0 160px; font-weight: 600; }
+.contact-note { flex: 1; min-width: 0; }
+.contact-remove {
+  flex: none; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+  border-radius: 5px; font-size: 1rem; line-height: 1; cursor: pointer;
+}
+.contact-remove:hover { border-color: var(--danger); color: var(--danger); }
 
 /* ── Weapon cards (the "weapon window": read-only stats + editable name + attack) ── */
 .wpn-cards {
@@ -2581,9 +2643,14 @@ html.vp-mobile {
   .blurb-textarea, .filter-bar input, .filter-bar select,
   .equip-toolbar input[type="search"], .equip-toolbar select,
   .veh-toolbar input[type="search"], .veh-toolbar select,
-  .roster-bar .roster-select, .oms-select, .ded-choice, .wpn-name {
+  .roster-bar .roster-select, .oms-select, .ded-choice, .wpn-name,
+  .hdr-adjust-amt, .contact-input {
     font-size: 16px;
   }
+  /* Contacts row: name/note stack instead of squeezing onto one line. */
+  .contact-row { flex-wrap: wrap; }
+  .contact-name { flex: 1 1 100%; }
+  .contact-note { flex: 1 1 auto; }
 
   /* Tap targets: lift undersized controls toward 40px+ */
   .char-adj-btn { width: 44px; height: 44px; font-size: 1.25rem; }

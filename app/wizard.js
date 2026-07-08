@@ -222,6 +222,10 @@ const Wizard = (() => {
       motivationText:     '',
       equipment:          { weapon: {}, armor: {}, gear: {}, weaponSets: [] },
       vehicles:           [],
+      creditsAdjustment:  0,   // net credits gained/spent during play, on top of the starting allotment
+      xpAdjustment:       0,   // net XP awarded during play, on top of the starting allotment
+      notes:              '', // freeform session notes (Play mode)
+      contacts:           [], // [{id, name, note}] (Play mode)
     };
   }
 
@@ -758,13 +762,16 @@ const Wizard = (() => {
 
   // ── Main render ────────────────────────────────────────────────────────────
   function render() {
+    // Set body classes before rendering the step: Sheet.render() reads
+    // body.play-mode (via document.body.classList) to decide whether to show
+    // the Play-mode-only Notes & Contacts panel, so it must already be current.
+    document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
+    document.body.classList.toggle('play-mode', getPlayMode() === 'play');
     renderProgress();
     renderStep();
     renderNav();
     renderHeaderXp();
     renderHeaderCredits();
-    document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
-    document.body.classList.toggle('play-mode', getPlayMode() === 'play');
   }
 
   // A step is reachable by clicking if it is the current/earlier step (going back
@@ -833,6 +840,18 @@ const Wizard = (() => {
     const d = Engine.derive(state);
     if (!d) return;
     bar.className = 'header-xp' + (d.xp_remaining < 0 ? ' xp-warn' : '');
+    if (getPlayMode() === 'play') {
+      // Play mode drops the starting/breakdown framing: just the spendable
+      // balance, lifetime spend, and a spot to bank a session's XP award.
+      bar.innerHTML = `
+        <span class="xp-remain">Balance <strong>${d.xp_remaining}</strong></span>
+        <span>Spent <strong>${d.xp_spent}</strong></span>
+        <span class="hdr-adjust">
+          <input type="number" id="xp-adjust-amt" class="hdr-adjust-amt" placeholder="Amount" inputmode="numeric">
+          <button class="hdr-adjust-btn" data-xp-act="add">+ Add XP</button>
+        </span>`;
+      return;
+    }
     bar.innerHTML = `
       <span>Starting XP <strong>${d.starting_xp}</strong></span>
       <span>Spent <strong>${d.xp_spent}</strong></span>
@@ -847,10 +866,52 @@ const Wizard = (() => {
     const d = Engine.derive(state);
     if (!d) { bar.classList.add('hidden'); return; }
     bar.className = 'header-credits' + (d.credits_remaining < 0 ? ' cr-warn' : '');
+    if (getPlayMode() === 'play') {
+      // Play mode drops the starting/breakdown framing: just the spendable
+      // balance and a spot to deposit loot or withdraw for an off-sheet spend.
+      bar.innerHTML = `
+        <span class="cr-remain">Balance <strong>${fmtCr(d.credits_remaining)}</strong></span>
+        <span class="hdr-adjust">
+          <input type="number" id="credits-adjust-amt" class="hdr-adjust-amt" placeholder="Amount" inputmode="numeric">
+          <button class="hdr-adjust-btn" data-credits-act="deposit">+ Deposit</button>
+          <button class="hdr-adjust-btn" data-credits-act="withdraw">&minus; Withdraw</button>
+        </span>`;
+      return;
+    }
     bar.innerHTML = `
       <span>Starting Credits <strong>${fmtCr(d.starting_credits)}</strong></span>
       <span>Spent <strong>${fmtCr(d.credits_spent)}</strong></span>
       <span class="cr-remain">Remaining <strong>${fmtCr(d.credits_remaining)}</strong></span>`;
+  }
+
+  // Play mode: bank a session's credits or XP against the running balance.
+  // The amount input is cleared for free by the header re-render that follows.
+  function applyCreditsAdjust(sign) {
+    const input = $('#credits-adjust-amt');
+    const amt = Math.abs(Math.round(parseFloat(input && input.value) || 0));
+    if (!amt) return;
+    state.creditsAdjustment = (state.creditsAdjustment || 0) + sign * amt;
+    saveState(); render();
+  }
+  function applyXpAdjust() {
+    const input = $('#xp-adjust-amt');
+    const amt = Math.abs(Math.round(parseFloat(input && input.value) || 0));
+    if (!amt) return;
+    state.xpAdjustment = (state.xpAdjustment || 0) + amt;
+    saveState(); render();
+  }
+
+  // Play mode's Contacts list on the sheet. Add/remove change the row count,
+  // so they re-render; typing a name/note is handled by the delegated input
+  // listener below (no re-render, so focus is kept while typing).
+  function addContact() {
+    if (!state.contacts) state.contacts = [];
+    state.contacts.push({ id: genId(), name: '', note: '' });
+    saveState(); render();
+  }
+  function removeContact(id) {
+    state.contacts = (state.contacts || []).filter(c => c.id !== id);
+    saveState(); render();
   }
 
   function fmtCr(n) {
@@ -2984,15 +3045,48 @@ const Wizard = (() => {
       saveState(); render();
       window.scrollTo(0, 0);
     });
+    // Play mode's deposit/withdraw (credits) and add-XP (talents) controls.
+    // Bound once on the persistent header bars; renderHeaderCredits/Xp only
+    // ever replace their innerHTML, so the delegated listener survives.
+    $('#header-credits').addEventListener('click', e => {
+      const btn = e.target.closest('[data-credits-act]');
+      if (!btn) return;
+      applyCreditsAdjust(btn.dataset.creditsAct === 'withdraw' ? -1 : 1);
+    });
+    // No Enter-key shortcut here: unlike XP (add-only), credits can go either
+    // way, and there is no safe default direction to guess at on Enter.
+    $('#header-xp').addEventListener('click', e => {
+      if (e.target.closest('[data-xp-act]')) applyXpAdjust();
+    });
+    $('#header-xp').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target.id === 'xp-adjust-amt') { e.preventDefault(); applyXpAdjust(); }
+    });
     // Editable weapon nickname on the sheet (no re-render so focus is kept).
     $('#step-content').addEventListener('input', e => {
-      const el = e.target.closest('[data-wpn-key]');
-      if (!el) return;
-      const key = el.dataset.wpnKey;
-      const bag = state.equipment && state.equipment.weapon;
-      if (!bag || !bag[key]) return;   // only annotate an existing owned weapon
-      bag[key].nickname = el.value;
-      saveState();
+      const wpn = e.target.closest('[data-wpn-key]');
+      if (wpn) {
+        const key = wpn.dataset.wpnKey;
+        const bag = state.equipment && state.equipment.weapon;
+        if (!bag || !bag[key]) return;   // only annotate an existing owned weapon
+        bag[key].nickname = wpn.value;
+        saveState();
+        return;
+      }
+      // The Obligation detail textarea on the sheet (Duty/Morality have no
+      // equivalent freeform field to edit). No re-render, so focus is kept.
+      const oms = e.target.closest('[data-oms-field="obligation-detail"]');
+      if (oms) { state.obligation.detail = oms.value; saveState(); return; }
+      // Play mode's Notes textarea.
+      const notes = e.target.closest('[data-notes]');
+      if (notes) { state.notes = notes.value; saveState(); return; }
+      // Play mode's Contacts list: a name or note field within a contact row.
+      const cf = e.target.closest('[data-contact-field]');
+      if (cf) {
+        const row = cf.closest('[data-contact-id]');
+        const c = row && (state.contacts || []).find(x => x.id === row.dataset.contactId);
+        if (c) { c[cf.dataset.contactField] = cf.value; saveState(); }
+        return;
+      }
     });
     // Wound / strain trackers on the sheet (clamped to 0..threshold).
     $('#step-content').addEventListener('click', e => {
@@ -3010,6 +3104,10 @@ const Wizard = (() => {
         if (card) card.classList.toggle('expanded');
         return;
       }
+      // Play mode's Contacts list: add a row, or remove one by id.
+      if (e.target.closest('[data-act="add-contact"]')) { addContact(); return; }
+      const rm = e.target.closest('[data-act="remove-contact"]');
+      if (rm) { removeContact(rm.closest('[data-contact-id]').dataset.contactId); return; }
       const t = e.target.closest('[data-track]');
       if (!t) return;
       const key = t.dataset.track;            // 'woundCur' | 'strainCur'
