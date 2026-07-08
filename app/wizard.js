@@ -95,6 +95,21 @@ const Wizard = (() => {
     if (sheetIx >= 0) state.step = sheetIx;
   }
 
+  // Play mode's mobile swipe: move dir (+1/-1) within the play tab order.
+  // Clamped at either end rather than wrapping, matching the old Back/Next.
+  function swipeChangeTab(dir) {
+    const curId = STEPS[state.step] && STEPS[state.step].id;
+    const idx = PLAY_TAB_IDS.indexOf(curId);
+    if (idx < 0) return;
+    const nextIdx = idx + dir;
+    if (nextIdx < 0 || nextIdx >= PLAY_TAB_IDS.length) return;
+    const target = STEPS.findIndex(s => s.id === PLAY_TAB_IDS[nextIdx]);
+    if (target < 0) return;
+    state.step = target;
+    saveState(); render();
+    window.scrollTo(0, 0);
+  }
+
   function openThemePanel() {
     const modal = $('#theme-modal');
     // Drop any handler from a previous open so re-opening never stacks listeners.
@@ -3045,6 +3060,34 @@ const Wizard = (() => {
       saveState(); render();
       window.scrollTo(0, 0);
     });
+    // Play mode's mobile swipe: swipe left/right on the content area to move
+    // to the next/previous play tab. Ignored if the gesture starts in a text
+    // field (so text selection isn't hijacked) or if it stays inside a
+    // horizontally scrollable child (e.g. the Talent Tree) that still has
+    // room to scroll that way, so that scroll gesture isn't hijacked either.
+    let _touchActive = false, _touchStartX = 0, _touchStartY = 0;
+    const stepContentEl = $('#step-content');
+    stepContentEl.addEventListener('touchstart', e => {
+      _touchActive = getPlayMode() === 'play' && e.touches.length === 1 &&
+        !e.target.closest('input, textarea, select');
+      if (!_touchActive) return;
+      _touchStartX = e.touches[0].clientX;
+      _touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    stepContentEl.addEventListener('touchend', e => {
+      if (!_touchActive) return;
+      _touchActive = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - _touchStartX;
+      const dy = t.clientY - _touchStartY;
+      if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      for (let el = e.target; el && el !== stepContentEl; el = el.parentElement) {
+        if (el.scrollWidth <= el.clientWidth) continue;
+        const canScrollMore = dx < 0 ? el.scrollLeft < el.scrollWidth - el.clientWidth - 1 : el.scrollLeft > 1;
+        if (canScrollMore) return;
+      }
+      swipeChangeTab(dx < 0 ? 1 : -1);
+    }, { passive: true });
     // Play mode's deposit/withdraw (credits) and add-XP (talents) controls.
     // Bound once on the persistent header bars; renderHeaderCredits/Xp only
     // ever replace their innerHTML, so the delegated listener survives.
