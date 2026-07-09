@@ -2161,10 +2161,10 @@ const Wizard = (() => {
 
     c.innerHTML = `
       <div class="step-header"><h2>Equipment</h2>
-        <p>Spend your starting credits on weapons, armor, and gear. Each character begins with
+        ${getPlayMode() === 'play' ? '' : `<p>Spend your starting credits on weapons, armor, and gear. Each character begins with
            <strong>500 credits</strong> (plus any granted by Obligation or Duty). Restricted
            <span class="r-badge">R</span> items normally require GM approval &mdash; use
-           <strong>Acquire Free</strong> to add anything without spending credits.</p></div>
+           <strong>Acquire Free</strong> to add anything without spending credits.</p>`}</div>
       <div class="equip-tabs">${tabs}</div>
       <div class="equip-main">
         <div class="equip-shop">
