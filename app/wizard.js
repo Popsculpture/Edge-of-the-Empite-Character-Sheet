@@ -2162,8 +2162,8 @@ const Wizard = (() => {
     c.innerHTML = `
       <div class="step-header"><h2>Equipment</h2>
         ${getPlayMode() === 'play'
-          ? `<p>Spend your credits on weapons, armor, and gear. Restricted
-             <span class="r-badge">R</span> items normally require GM approval.</p>`
+          ? `<p>What you carry into a job can be the difference between a payday and a body bag.
+             Restricted <span class="r-badge">R</span> items still need the GM's approval before they're yours.</p>`
           : `<p>Spend your starting credits on weapons, armor, and gear. Each character begins with
            <strong>500 credits</strong> (plus any granted by Obligation or Duty). Restricted
            <span class="r-badge">R</span> items normally require GM approval &mdash; use
@@ -2913,8 +2913,8 @@ const Wizard = (() => {
     c.innerHTML = `
       <div class="step-header"><h2>Fleet</h2>
         ${getPlayMode() === 'play'
-          ? `<p>Select a ship or vehicle for your character. Restricted <span class="r-badge">R</span> items require
-             GM approval. Vehicles not purchased represent loaned, party-owned, or mission-assigned craft.</p>`
+          ? `<p>A ship of your own answers only to you; one you haven't paid for is borrowed, shared with the crew,
+             or handed to you for the job. Restricted <span class="r-badge">R</span> vessels still need the GM's approval.</p>`
           : `<p>Select a ship or vehicle for your character. Toggle <strong>Purchased</strong> to deduct the cost from
            your starting credits. Restricted <span class="r-badge">R</span> items require GM approval.
            Vehicles not purchased represent loaned, party-owned, or mission-assigned craft.</p>`}</div>
