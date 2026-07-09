@@ -952,8 +952,16 @@ const Wizard = (() => {
   // The amount input is cleared for free by the header re-render that follows.
   function applyCreditsAdjust(sign) {
     const input = $('#credits-adjust-amt');
-    const amt = Math.abs(Math.round(parseFloat(input && input.value) || 0));
+    let amt = Math.abs(Math.round(parseFloat(input && input.value) || 0));
     if (!amt) return;
+    // Real currency: a withdrawal can only take out what is actually there.
+    // (This control only renders in Play mode, so no separate mode check.)
+    if (sign < 0) {
+      const d = Engine.derive(state);
+      const remaining = d ? d.credits_remaining : 0;
+      amt = Math.min(amt, Math.max(0, remaining));
+      if (!amt) return;
+    }
     state.creditsAdjustment = (state.creditsAdjustment || 0) + sign * amt;
     saveState(); render();
   }
@@ -2216,6 +2224,11 @@ const Wizard = (() => {
   }
 
   function drawToolbar() {
+    // Play mode is real currency: no declaring new purchases free. Forcing
+    // this here (render time, every visit) means every downstream read of
+    // _eqMode - the button label, the mode caption, addItem's free flag -
+    // is already correct without special-casing each one.
+    if (getPlayMode() === 'play') _eqMode = false;
     const f = _eqFilter[_eqCat];
     const typeOpts = typeOptionsFor(_eqCat).map(t =>
       `<option value="${esc(t)}"${f.type === t ? ' selected' : ''}>${esc(t)}</option>`).join('');
@@ -2236,10 +2249,11 @@ const Wizard = (() => {
       <label class="eq-check"><input type="checkbox" id="eq-core"${f.core ? ' checked' : ''}> Core only</label>
       <label class="eq-check"><input type="checkbox" id="eq-afford"${f.afford ? ' checked' : ''}> Affordable</label>
       <label class="eq-check"><input type="checkbox" id="eq-hideR"${f.hideR ? ' checked' : ''}> Hide <span class="r-badge">R</span></label>
+      ${getPlayMode() === 'play' ? '' : `
       <div class="eq-mode">
         <button class="eq-mode-btn${!_eqMode ? ' active' : ''}" id="eq-mode-buy">Purchase</button>
         <button class="eq-mode-btn${_eqMode ? ' active' : ''}" id="eq-mode-free">Acquire Free</button>
-      </div>`;
+      </div>`}`;
 
     $('#eq-q').addEventListener('input', e => { f.q = e.target.value; drawList(); });
     if (_eqCat === 'weapon') $('#eq-skill').addEventListener('change', e => { f.skill = e.target.value; drawList(); });
@@ -2248,8 +2262,8 @@ const Wizard = (() => {
     $('#eq-core').addEventListener('change', e => { f.core = e.target.checked; drawList(); });
     $('#eq-afford').addEventListener('change', e => { f.afford = e.target.checked; drawList(); });
     $('#eq-hideR').addEventListener('change', e => { f.hideR = e.target.checked; drawList(); });
-    $('#eq-mode-buy').addEventListener('click', () => { _eqMode = false; syncMode(); });
-    $('#eq-mode-free').addEventListener('click', () => { _eqMode = true; syncMode(); });
+    if ($('#eq-mode-buy')) $('#eq-mode-buy').addEventListener('click', () => { _eqMode = false; syncMode(); });
+    if ($('#eq-mode-free')) $('#eq-mode-free').addEventListener('click', () => { _eqMode = true; syncMode(); });
   }
 
   function syncMode() {
@@ -2337,7 +2351,13 @@ const Wizard = (() => {
       </div>`;
   }
 
-  function equippableCat(cat) { return cat === 'weapon' || cat === 'armor'; }
+  // Weapons and armor are always equippable. Gear items are equippable only
+  // when flagged (the worn carrying gear: Utility Belt, Backpack, etc.) -
+  // most gear (a comlink, a stimpack) has nothing to "wear".
+  function equippableCat(cat, item) {
+    if (cat === 'weapon' || cat === 'armor') return true;
+    return cat === 'gear' && !!(item && item.equippable);
+  }
 
   function weaponSkillOptions() {
     const set = new Set();
@@ -2379,7 +2399,7 @@ const Wizard = (() => {
         const carry = line.carry !== false, show = line.show !== false, equip = !!line.equip;
         const sel = _eqSelected && _eqSelected.cat === cat && _eqSelected.key === key ? ' eq-sel' : '';
         const flags = `
-          ${equippableCat(cat)
+          ${equippableCat(cat, it)
             ? `<label class="cart-flag" title="Equipped (wielded / worn)"><input type="checkbox" data-act="equip" data-cat="${cat}" data-key="${key}"${equip ? ' checked' : ''}><span>E</span></label>`
             : '<span class="cart-flag cart-flag-na">&nbsp;</span>'}
           <label class="cart-flag" title="Carried (counts toward encumbrance)"><input type="checkbox" data-act="carry" data-cat="${cat}" data-key="${key}"${carry ? ' checked' : ''}><span>C</span></label>
@@ -2397,7 +2417,7 @@ const Wizard = (() => {
                 <button data-act="inc" data-cat="${cat}" data-key="${key}">+</button>
               </div>
               <div class="cart-flags">${flags}</div>
-              <label class="cart-freebox" title="Acquire free (no credits)"><input type="checkbox" data-act="free" data-cat="${cat}" data-key="${key}"${line.free ? ' checked' : ''}><span>$0</span></label>
+              ${getPlayMode() === 'play' ? '' : `<label class="cart-freebox" title="Acquire free (no credits)"><input type="checkbox" data-act="free" data-cat="${cat}" data-key="${key}"${line.free ? ' checked' : ''}><span>$0</span></label>`}
               <span class="cart-cost">${lineCost}</span>
             </div>
           </div>`;
@@ -2548,16 +2568,36 @@ const Wizard = (() => {
     const bag = eqBag(cat);
     return Object.keys(bag).some(k => bag[k] && bag[k].qty && bag[k].equip);
   }
+  // Play mode is real currency: spending more than the balance holds is
+  // blocked outright, rather than the over-budget warning Creation mode
+  // allows (a build in progress is expected to go back and forth). Returns
+  // true (and alerts) if this purchase should be blocked.
+  function blockedByBudget(price) {
+    if (getPlayMode() !== 'play' || typeof price !== 'number') return false;
+    const d = Engine.derive(state);
+    const remaining = d ? d.credits_remaining : 0;
+    if (price > remaining) {
+      alert(`Not enough credits. This costs ${fmtCr(price)} cr; you have ${fmtCr(remaining)} cr.`);
+      return true;
+    }
+    return false;
+  }
   function addItem(cat, key) {
     const bag = eqBag(cat);
+    const it = Engine.getItem(cat, key);
+    if (!_eqMode && blockedByBudget(it && priceNum(it))) return;
     if (bag[key] && bag[key].qty) bag[key].qty++;
     else bag[key] = { qty: 1, free: _eqMode, carry: true, show: true,
-                      equip: equippableCat(cat) && !anyEquipped(cat) };
+                      equip: equippableCat(cat, it) && !anyEquipped(cat) };
     afterEquipChange();
   }
   function setQty(cat, key, qty) {
     const bag = eqBag(cat);
     if (!bag[key]) return;
+    if (qty > bag[key].qty && !bag[key].free) {
+      const it = Engine.getItem(cat, key);
+      if (blockedByBudget(it && priceNum(it))) return;
+    }
     if (qty <= 0) delete bag[key];
     else bag[key].qty = qty;
     afterEquipChange();
@@ -2906,7 +2946,12 @@ const Wizard = (() => {
       const el = e.target;
       if (el.dataset.vact === 'toggle-purchased') {
         const entry = ownedVehicle(el.dataset.vkey);
-        if (entry) { entry.purchased = el.checked; saveState(); drawFleet(); renderHeaderCredits(); }
+        if (!entry) return;
+        if (el.checked) {
+          const vd = Engine.getVehicle(el.dataset.vkey);
+          if (blockedByBudget(vd && typeof vd.price === 'number' ? vd.price : null)) { el.checked = false; return; }
+        }
+        entry.purchased = el.checked; saveState(); drawFleet(); renderHeaderCredits();
       }
     });
     $('#veh-fleet').addEventListener('input', e => {
