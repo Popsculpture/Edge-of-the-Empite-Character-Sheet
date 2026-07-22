@@ -70,27 +70,35 @@ const Wizard = (() => {
   // instead of a linear build wizard. A global preference like Display/Theme,
   // not tied to any one character, so switching characters keeps it.
   const PLAY_KEY = 'sw_playmode';
-  const PLAY_TAB_IDS = ['sheet', 'talents', 'equip', 'vehicle', 'reference'];
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'equip', 'vehicle', 'market', 'reference'];
   function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
   function setPlayMode(mode) {
     localStorage.setItem(PLAY_KEY, mode);
     if (mode === 'play') {
       const sheetIx = STEPS.findIndex(s => s.id === 'sheet');
       if (sheetIx >= 0) state.step = sheetIx;
-      saveState();
+    } else {
+      // Leaving play while on a play-only tab: land on the Sheet, which
+      // exists in both modes, rather than a tab the creation strip lacks.
+      ensurePlayStepValid();
     }
+    saveState();
     render();
   }
-  // Whenever Play mode is active, state.step must be one of PLAY_TAB_IDS: that
-  // trimmed strip is the only navigation (the nav bar is hidden), so landing
-  // outside it leaves no tab marked active and no way back in. setPlayMode()
+  // state.step must always name a tab the current mode can actually reach:
+  // in Play mode that is one of PLAY_TAB_IDS (the trimmed strip is the only
+  // navigation; the nav bar is hidden), and in Creation mode it must not be
+  // a play-only step (the creation strip never renders those). setPlayMode()
   // keeps this true when the toggle itself is flipped; loading a different
   // character wholesale (roster load / import) replaces state.step from
   // outside that invariant, so re-check it wherever that happens too.
   function ensurePlayStepValid() {
-    if (getPlayMode() !== 'play') return;
     const step = STEPS[state.step];
-    if (step && PLAY_TAB_IDS.includes(step.id)) return;
+    if (getPlayMode() === 'play') {
+      if (step && PLAY_TAB_IDS.includes(step.id)) return;
+    } else {
+      if (step && step.mode !== 'play') return;
+    }
     const sheetIx = STEPS.findIndex(s => s.id === 'sheet');
     if (sheetIx >= 0) state.step = sheetIx;
   }
@@ -819,11 +827,22 @@ const Wizard = (() => {
                      valid: () => true },
     { id: 'chars',   label: 'Characteristics', tab: 'Attrs',    valid: () => true },
     { id: 'talents', label: 'Talents',         tab: 'Talents',  valid: () => true },
-    { id: 'equip',   label: 'Equipment',       tab: 'Gear',     valid: () => true },
-    { id: 'vehicle', label: 'Fleet',           tab: 'Fleet',    valid: () => true },
+    { id: 'equip',   label: 'Equipment',       tab: 'Gear',     valid: () => true, mode: 'creation' },
+    { id: 'vehicle', label: 'Fleet',           tab: 'Fleet',    valid: () => true, mode: 'creation' },
     { id: 'sheet',   label: 'Sheet',           tab: 'Sheet',    valid: () => true },
     { id: 'reference', label: 'Reference',     tab: 'Ref.',     valid: () => true },
+    // Play-only tabs. APPEND new steps here, never insert above: state.step is
+    // persisted as a raw index (autosave, roster, exports), so inserting
+    // mid-array would silently re-point every existing save. Their on-screen
+    // order comes from PLAY_TAB_IDS, not from their position in this array.
+    { id: 'market',  label: 'Market',          tab: 'Market',   valid: () => true, mode: 'play' },
   ];
+  // The last creation-mode step (nav and step counters never see play tabs;
+  // creation steps are the contiguous run at the front of the array).
+  function lastCreationIx() {
+    for (let i = STEPS.length - 1; i >= 0; i--) if (STEPS[i].mode !== 'play') return i;
+    return STEPS.length - 1;
+  }
 
   // ── DOM helpers ────────────────────────────────────────────────────────────
   const $ = sel => document.querySelector(sel);
@@ -880,7 +899,7 @@ const Wizard = (() => {
     // for the linear creation order, so Play mode marks just the active tab.
     const indices = inPlay
       ? PLAY_TAB_IDS.map(id => STEPS.findIndex(s => s.id === id)).filter(i => i >= 0)
-      : STEPS.map((_, i) => i);
+      : STEPS.map((_, i) => i).filter(i => STEPS[i].mode !== 'play');
     container.innerHTML = indices.map(i => {
       const step = STEPS[i];
       // Require valid() too, not just position: Play mode's forced jump to Sheet
@@ -903,13 +922,16 @@ const Wizard = (() => {
     const btnBack = $('#btn-back');
     const btnNext = $('#btn-next');
     const status  = $('#nav-status');
-    const isLast  = state.step === STEPS.length - 1;
+    // Nav only exists in Creation mode (Play hides #wizard-nav entirely), and
+    // creation steps are the contiguous run before the appended play tabs, so
+    // the raw index doubles as the step position.
+    const isLast  = state.step >= lastCreationIx();
 
     btnBack.classList.toggle('hidden', state.step === 0);
     // The last step (Sheet) has no Next; "New Character" lives in the settings panel.
     btnNext.classList.toggle('hidden', isLast);
     if (!isLast) { btnNext.innerHTML = 'Next &#8594;'; btnNext.disabled = !STEPS[state.step].valid(); }
-    status.textContent = `Step ${state.step + 1} of ${STEPS.length}`;
+    status.textContent = `Step ${Math.min(state.step, lastCreationIx()) + 1} of ${lastCreationIx() + 1}`;
     renderProgress();   // keep tab reachability (clickable/locked) in sync with validity
   }
 
@@ -943,7 +965,12 @@ const Wizard = (() => {
     const bar = $('#header-credits');
     if (!bar) return;
     const stepId = STEPS[state.step].id;
-    if (!state.speciesKey || (stepId !== 'equip' && stepId !== 'vehicle')) { bar.classList.add('hidden'); return; }
+    // Creation shows the bar on its two shopping steps; Play shows it anywhere
+    // credits move: the Market plus every owned-goods management tab.
+    const CREDIT_STEPS = getPlayMode() === 'play'
+      ? ['market', 'play-gear', 'play-fleet', 'companions', 'equip', 'vehicle']
+      : ['equip', 'vehicle'];
+    if (!state.speciesKey || !CREDIT_STEPS.includes(stepId)) { bar.classList.add('hidden'); return; }
     const d = Engine.derive(state);
     if (!d) { bar.classList.add('hidden'); return; }
     bar.className = 'header-credits' + (d.credits_remaining < 0 ? ' cr-warn' : '');
@@ -1017,7 +1044,8 @@ const Wizard = (() => {
     const fns = { game: renderGame, species: renderSpecies, career: renderCareer,
                   spec: renderSpec, skills: renderSkills, oms: renderOMS, chars: renderChars,
                   talents: renderTalents, details: renderDetails, equip: renderEquip,
-                  vehicle: renderVehicle, sheet: renderSheet, reference: renderReference };
+                  vehicle: renderVehicle, sheet: renderSheet, reference: renderReference,
+                  market: renderMarket };
     fns[STEPS[state.step].id]();
   }
 
@@ -2134,12 +2162,45 @@ const Wizard = (() => {
     gear:   { label: 'Gear',    list: () => SW.gear    || [] },
   };
 
+  // ── Market storefront context (Play mode) ────────────────────────────────
+  // The Market reuses the equipment storefront machinery (toolbar, list,
+  // detail panel) against its own category set and filter state. _storeCtx
+  // tells the shared draw functions which of the two steps is on screen.
+  // 'companion' is a virtual category: physically gear, filtered to the
+  // living/mechanical followers that the Companions tab manages.
+  let _storeCtx = 'equip';    // 'equip' (creation step) | 'market' (play step)
+  let _mkCat = 'weapon';      // weapon | armor | gear | companion | ship
+  const _mkFilter = {
+    weapon:    { q: '', type: '', skill: '', rarity: '', core: false, afford: false, hideR: false },
+    armor:     { q: '', type: '', skill: '', rarity: '', core: false, afford: false, hideR: false },
+    gear:      { q: '', type: '', skill: '', rarity: '', core: false, afford: false, hideR: false },
+    companion: { q: '', type: '', skill: '', rarity: '', core: false, afford: false, hideR: false },
+  };
+  const MARKET_STORE = {
+    weapon:    { label: 'Weapons',    list: () => SW.weapons || [] },
+    armor:     { label: 'Armor',      list: () => SW.armor   || [] },
+    gear:      { label: 'Gear',       list: () => (SW.gear || []).filter(g => !Engine.COMPANION_TYPES.has(g.type)) },
+    companion: { label: 'Companions', list: () => (SW.gear || []).filter(g => Engine.COMPANION_TYPES.has(g.type)) },
+    ship:      { label: 'Ships',      list: () => SW.vehicles || [] },
+  };
+  function storeCtxCat()     { return _storeCtx === 'market' ? _mkCat : _eqCat; }
+  function storePhysCat(cat) { return cat === 'companion' ? 'gear' : cat; }
+  function storeDef(cat)     { return _storeCtx === 'market' ? MARKET_STORE[cat] : EQ_STORE[cat]; }
+  function storeFilter(cat)  { return _storeCtx === 'market' ? _mkFilter[cat] : _eqFilter[cat]; }
+
   function eqBag(cat) {
     if (!state.equipment) state.equipment = { weapon: {}, armor: {}, gear: {} };
     if (!state.equipment[cat]) state.equipment[cat] = {};
     return state.equipment[cat];
   }
   function ownedQty(cat, key) { const l = eqBag(cat)[key]; return l ? l.qty : 0; }
+  function mergedQty(cat, key) { const l = Engine.mergedLine(state, cat, key); return l ? l.qty : 0; }
+  // What an "Owned xN" badge should say in the current storefront: the
+  // creation cart counts only creation purchases; the Market counts the
+  // whole merged inventory, play acquisitions included.
+  function shownQty(cat, key) {
+    return _storeCtx === 'market' ? mergedQty(cat, key) : ownedQty(cat, key);
+  }
 
   // The value(s) a given item exposes to the "type" filter
   function itemTypeValues(cat, item) {
@@ -2148,7 +2209,7 @@ const Wizard = (() => {
   }
   function typeOptionsFor(cat) {
     const set = new Set();
-    for (const it of EQ_STORE[cat].list()) for (const t of itemTypeValues(cat, it)) if (t) set.add(t);
+    for (const it of storeDef(cat).list()) for (const t of itemTypeValues(storePhysCat(cat), it)) if (t) set.add(t);
     return [...set].sort();
   }
 
@@ -2168,6 +2229,7 @@ const Wizard = (() => {
 
   function renderEquip() {
     const c = $('#step-content');
+    _storeCtx = 'equip';
     if (!state.speciesKey) { c.innerHTML = '<div class="empty-state">Please select a species first.</div>'; return; }
     if (!SW.weapons || !SW.armor || !SW.gear) {
       c.innerHTML = '<div class="empty-state">Equipment data failed to load.</div>'; return;
@@ -2251,20 +2313,21 @@ const Wizard = (() => {
     // _eqMode - the button label, the mode caption, addItem's free flag -
     // is already correct without special-casing each one.
     if (getPlayMode() === 'play') _eqMode = false;
-    const f = _eqFilter[_eqCat];
-    const typeOpts = typeOptionsFor(_eqCat).map(t =>
+    const cat = storeCtxCat();
+    const f = storeFilter(cat);
+    const typeOpts = typeOptionsFor(cat).map(t =>
       `<option value="${esc(t)}"${f.type === t ? ' selected' : ''}>${esc(t)}</option>`).join('');
     const rarOpts = ['', 0,1,2,3,4,5,6,7,8,9,10].map(r =>
       `<option value="${r}"${String(f.rarity) === String(r) ? ' selected' : ''}>${r === '' ? 'Any rarity' : '≤ ' + r}</option>`).join('');
 
-    const skillSel = _eqCat === 'weapon'
+    const skillSel = cat === 'weapon'
       ? `<select id="eq-skill"><option value="">All combat skills</option>${
           weaponSkillOptions().map(s => `<option value="${esc(s)}"${f.skill === s ? ' selected' : ''}>${esc(s)}</option>`).join('')
         }</select>`
       : '';
 
     $('#eq-toolbar').innerHTML = `
-      <input type="search" id="eq-q" placeholder="Search ${EQ_STORE[_eqCat].label.toLowerCase()}..." value="${esc(f.q)}">
+      <input type="search" id="eq-q" placeholder="Search ${storeDef(cat).label.toLowerCase()}..." value="${esc(f.q)}">
       ${skillSel}
       <select id="eq-type"><option value="">All types</option>${typeOpts}</select>
       <select id="eq-rarity">${rarOpts}</select>
@@ -2278,7 +2341,7 @@ const Wizard = (() => {
       </div>`}`;
 
     $('#eq-q').addEventListener('input', e => { f.q = e.target.value; drawList(); });
-    if (_eqCat === 'weapon') $('#eq-skill').addEventListener('change', e => { f.skill = e.target.value; drawList(); });
+    if (cat === 'weapon') $('#eq-skill').addEventListener('change', e => { f.skill = e.target.value; drawList(); });
     $('#eq-type').addEventListener('change', e => { f.type = e.target.value; drawList(); });
     $('#eq-rarity').addEventListener('change', e => { f.rarity = e.target.value; drawList(); });
     $('#eq-core').addEventListener('change', e => { f.core = e.target.checked; drawList(); });
@@ -2295,14 +2358,14 @@ const Wizard = (() => {
   }
 
   function filteredList(cat) {
-    const f = _eqFilter[cat];
+    const f = storeFilter(cat);
     const d = Engine.derive(state);
     const rem = d ? d.credits_remaining : 0;
     const q = f.q.trim().toLowerCase();
-    return EQ_STORE[cat].list().filter(it => {
+    return storeDef(cat).list().filter(it => {
       if (q && !it.name.toLowerCase().includes(q)) return false;
       if (cat === 'weapon' && f.skill && it.skill !== f.skill) return false;
-      if (f.type && !itemTypeValues(cat, it).includes(f.type)) return false;
+      if (f.type && !itemTypeValues(storePhysCat(cat), it).includes(f.type)) return false;
       if (f.rarity !== '' && (typeof it.rarity !== 'number' || it.rarity > +f.rarity)) return false;
       if (f.core && !it.core) return false;
       if (f.hideR && it.restricted) return false;
@@ -2312,16 +2375,18 @@ const Wizard = (() => {
   }
 
   function drawList() {
-    const list = filteredList(_eqCat);
+    const cat = storeCtxCat();
+    const list = filteredList(cat);
     const resEl = $('#eq-results');
     const shown = Math.min(list.length, _EQ_CAP);
+    const modeNote = _storeCtx === 'market' ? '' : ` &middot; mode: <strong>${_eqMode ? 'Acquire Free' : 'Purchase'}</strong>`;
     resEl.innerHTML = list.length
-      ? `Showing <strong>${shown}</strong>${list.length > _EQ_CAP ? ` of ${list.length} (refine filters to see more)` : ''} &middot; mode: <strong>${_eqMode ? 'Acquire Free' : 'Purchase'}</strong>`
+      ? `Showing <strong>${shown}</strong>${list.length > _EQ_CAP ? ` of ${list.length} (refine filters to see more)` : ''}${modeNote}`
       : '';
 
     const el = $('#eq-list');
     if (!list.length) { el.innerHTML = '<div class="empty-state">No items match these filters.</div>'; return; }
-    el.innerHTML = list.slice(0, _EQ_CAP).map(it => itemRowHtml(_eqCat, it)).join('');
+    el.innerHTML = list.slice(0, _EQ_CAP).map(it => itemRowHtml(cat, it)).join('');
     applySelHighlight();
   }
 
@@ -2330,11 +2395,14 @@ const Wizard = (() => {
   }
 
   function itemRowHtml(cat, it) {
-    const owned = ownedQty(cat, it.key);
+    // 'cat' may be a virtual storefront category (companion); everything
+    // data-facing (bags, lookups, buy buttons) uses the physical category.
+    const phys = storePhysCat(cat);
+    const owned = shownQty(phys, it.key);
     const rBadge = it.restricted ? '<span class="r-badge" title="Restricted - normally requires GM approval">R</span>' : '';
     const ownedBadge = owned ? `<span class="eq-owned">Owned &times;${owned}</span>` : '';
     let stats = '';
-    if (cat === 'weapon') {
+    if (phys === 'weapon') {
       const quals = (it.qualities || []).map(q =>
         `<span class="qual-chip" data-tip-type="quality" data-tip-name="${esc(q.key)}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('');
       stats = `
@@ -2346,7 +2414,7 @@ const Wizard = (() => {
         ${statChip('Rarity', rarityLabel(it))}
         <span class="eq-skill">${esc(it.skill || '')}</span>
         <div class="eq-quals">${quals}</div>`;
-    } else if (cat === 'armor') {
+    } else if (phys === 'armor') {
       stats = `
         ${statChip('Soak', '+' + (it.soak ?? 0))}
         ${statChip('Def', '+' + (it.defense ?? 0))}
@@ -2361,14 +2429,14 @@ const Wizard = (() => {
         ${it.short ? `<div class="eq-short">${esc(glyphify(it.short))}</div>` : ''}`;
     }
     return `
-      <div class="eq-row${owned ? ' owned' : ''}" data-sel-cat="${cat}" data-sel-key="${it.key}">
+      <div class="eq-row${owned ? ' owned' : ''}" data-sel-cat="${phys}" data-sel-key="${it.key}">
         <div class="eq-row-main">
           <div class="eq-row-head"><span class="eq-name">${esc(it.name)}</span>${rBadge}${ownedBadge}</div>
           <div class="eq-stats">${stats}</div>
         </div>
         <div class="eq-row-buy">
           <div class="eq-price">${priceLabel(it)}<i>cr</i></div>
-          <button class="btn btn-primary btn-sm" data-add="${it.key}" data-add-cat="${cat}">${_eqMode ? '+ Free' : '+ Buy'}</button>
+          <button class="btn btn-primary btn-sm" data-add="${it.key}" data-add-cat="${phys}">${_eqMode ? '+ Free' : '+ Buy'}</button>
         </div>
       </div>`;
   }
@@ -2529,7 +2597,7 @@ const Wizard = (() => {
       ? esc(it.description)
       : [it.short ? esc(glyphify(it.short)) : '', srcTxt ? esc(srcTxt) : '']
           .filter(Boolean).join('<br><br>');
-    const owned = ownedQty(cat, key);
+    const owned = shownQty(cat, key);
 
     el.innerHTML = `
       <div class="eq-detail-grid">
@@ -2745,8 +2813,17 @@ const Wizard = (() => {
     applyVehicleSelHighlight();
   }
 
+  // In the Market, "owned" means the merged fleet (creation ships not sold
+  // plus play purchases), and owning one never blocks buying another of the
+  // same model; the creation shop keeps its one-entry-per-model rule.
+  function shownVehicleOwned(key) {
+    return _storeCtx === 'market'
+      ? Engine.mergedFleet(state).some(e => e.key === key)
+      : !!ownedVehicle(key);
+  }
   function vehicleRowHtml(v) {
-    const owned = ownedVehicle(v.key);
+    const owned = shownVehicleOwned(v.key);
+    const buyable = _storeCtx === 'market' || !owned;
     const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
     const group = vehicleGroup(v);
     return `
@@ -2769,7 +2846,7 @@ const Wizard = (() => {
         </div>
         <div class="eq-row-buy">
           <div class="eq-price">${cr(v.price)}<i>cr</i></div>
-          <button class="btn btn-sm btn-accent" data-vadd="${esc(v.key)}"${owned ? ' disabled' : ''}>${owned ? '&#10003;' : '+'}</button>
+          <button class="btn btn-sm btn-accent" data-vadd="${esc(v.key)}"${buyable ? '' : ' disabled'}>${buyable ? '+' : '&#10003;'}</button>
         </div>
       </div>`;
   }
@@ -2783,7 +2860,7 @@ const Wizard = (() => {
     }
     const v = Engine.getVehicle(_vehSelected);
     if (!v) { panel.innerHTML = ''; return; }
-    const owned = ownedVehicle(v.key);
+    const owned = shownVehicleOwned(v.key) && _storeCtx !== 'market';   // Market always offers the buy button
     const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
 
     // Defense arc
@@ -2825,7 +2902,7 @@ const Wizard = (() => {
             <div class="veh-stats-sub">${esc(v.type || '')} &middot; <span class="eq-detail-muted">${esc(src)}</span></div>
           </div>
           ${!owned
-            ? `<button class="btn btn-sm btn-accent" data-vadd="${esc(v.key)}">+ Add to Fleet</button>`
+            ? `<button class="btn btn-sm btn-accent" data-vadd="${esc(v.key)}">${_storeCtx === 'market' ? '+ Buy' : '+ Add to Fleet'}</button>`
             : `<span class="eq-owned" style="font-size:0.85rem">&#10003; In fleet</span>`}
         </div>
 
@@ -2926,6 +3003,7 @@ const Wizard = (() => {
 
   function renderVehicle() {
     const c = $('#step-content');
+    _storeCtx = 'equip';
     if (!SW.vehicles || !SW.vehicles.length) {
       c.innerHTML = '<div class="empty-state">Vehicle data failed to load.</div>'; return;
     }
@@ -2985,6 +3063,121 @@ const Wizard = (() => {
       const entry = ownedVehicle(el.dataset.vkey);
       if (entry) { entry[el.dataset.vfield] = el.value; saveState(); }
     });
+  }
+
+  // ── Step: Market (Play mode) ──────────────────────────────────────────────
+  // All Play-mode purchasing lives here. Buys post to the play layer and the
+  // credits adjustment at transaction time; nothing here touches the creation
+  // cart, so the build-time budget math stays frozen.
+  function playBag(cat) {
+    if (!state.playEquipment) state.playEquipment = { weapon: {}, armor: {}, gear: {} };
+    if (!state.playEquipment[cat]) state.playEquipment[cat] = {};
+    return state.playEquipment[cat];
+  }
+  function playBuyItem(cat, key) {
+    const it = Engine.getItem(cat, key);
+    if (!it) return;
+    const price = priceNum(it);
+    if (blockedByBudget(price)) return;
+    const bag = playBag(cat);
+    const line = bag[key] || (bag[key] = { qty: 0 });
+    line.qty = (line.qty || 0) + 1;
+    // A companion walks beside you; it is never luggage on your back.
+    if (Engine.isCompanionItem(cat, it)) line.carry = false;
+    if (price !== null) state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+    saveState();
+    drawList(); drawDetail(); renderHeaderCredits();
+  }
+  function playBuyVehicle(key) {
+    const v = Engine.getVehicle(key);
+    if (!v) return;
+    const price = typeof v.price === 'number' ? v.price : null;
+    if (blockedByBudget(price)) return;
+    if (!confirm(`Buy the ${v.name} for ${price === null ? 'an unlisted price (0 cr)' : fmtCr(price) + ' cr'}?`)) return;
+    if (!Array.isArray(state.playVehicles)) state.playVehicles = [];
+    state.playVehicles.push({ id: genId(), key, nickname: v.name, notes: '' });
+    if (price !== null) state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+    saveState();
+    drawVehicleList(); drawVehicleStats(); renderHeaderCredits();
+  }
+
+  function renderMarket() {
+    const c = $('#step-content');
+    _storeCtx = 'market';
+    _eqMode = false;   // the Market is always real currency
+    if (!SW.weapons || !SW.armor || !SW.gear || !SW.vehicles) {
+      c.innerHTML = '<div class="empty-state">Catalog data failed to load.</div>'; return;
+    }
+
+    const tabs = Object.keys(MARKET_STORE).map(cat =>
+      `<button class="equip-tab${_mkCat === cat ? ' active' : ''}" data-cat="${cat}">
+        ${MARKET_STORE[cat].label}<span class="equip-tab-count">${MARKET_STORE[cat].list().length}</span>
+      </button>`).join('');
+
+    c.innerHTML = `
+      <div class="step-header"><h2>Market</h2>
+        <p>Spend banked credits on new equipment, companions, and ships. Purchases settle
+        against your balance the moment you buy; owned goods sell back from their own tabs
+        at half the listed price. Restricted <span class="r-badge">R</span> goods still
+        need the GM's approval.</p></div>
+      <div class="equip-tabs">${tabs}</div>
+      ${_mkCat === 'ship' ? `
+      <div class="veh-main">
+        <div class="veh-shop">
+          <div class="veh-toolbar" id="veh-toolbar"></div>
+          <div class="equip-results" id="veh-results"></div>
+          <div class="veh-list" id="veh-list"></div>
+        </div>
+        <aside class="veh-stats" id="veh-stats"></aside>
+      </div>` : `
+      <div class="equip-main equip-main-nocart">
+        <div class="equip-shop">
+          <div class="equip-toolbar" id="eq-toolbar"></div>
+          <div class="equip-results" id="eq-results"></div>
+          <div class="equip-list" id="eq-list"></div>
+        </div>
+      </div>
+      <div class="equip-detail" id="eq-detail"></div>`}`;
+
+    $('.equip-tabs').addEventListener('click', e => {
+      const t = e.target.closest('[data-cat]');
+      if (!t) return;
+      _mkCat = t.dataset.cat;
+      renderMarket();   // ship and item sub-tabs use different layouts, so re-render whole step
+    });
+
+    if (_mkCat === 'ship') {
+      drawVehicleToolbar();
+      drawVehicleList();
+      drawVehicleStats();
+      $('#veh-list').addEventListener('click', e => {
+        const btn = e.target.closest('[data-vadd]');
+        if (btn) { playBuyVehicle(btn.dataset.vadd); return; }
+        const row = e.target.closest('[data-vkey]');
+        if (row) selectVehicle(row.dataset.vkey);
+      });
+      $('#veh-stats').addEventListener('click', e => {
+        const btn = e.target.closest('[data-vadd]');
+        if (btn) playBuyVehicle(btn.dataset.vadd);
+      });
+      return;
+    }
+
+    drawToolbar();
+    drawList();
+    drawDetail();
+    $('#eq-list').addEventListener('click', e => {
+      const btn = e.target.closest('[data-add]');
+      if (btn) { playBuyItem(btn.dataset.addCat, btn.dataset.add); return; }
+      const row = e.target.closest('[data-sel-key]');
+      if (row) selectItem(row.dataset.selCat, row.dataset.selKey);
+    });
+    $('#eq-detail').addEventListener('click', e => {
+      const btn = e.target.closest('[data-add]');
+      if (btn) playBuyItem(btn.dataset.addCat, btn.dataset.add);
+    });
+    initTipListeners($('#eq-list'));
+    initTipListeners($('#eq-detail'));
   }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────
@@ -3147,7 +3340,9 @@ const Wizard = (() => {
   }
 
   function next() {
-    if (state.step === STEPS.length - 1) { newCharacter(); return; }
+    // Never step past the last creation tab: the appended play-only steps
+    // are reachable through the Play tab strip, not the wizard's Next.
+    if (state.step >= lastCreationIx()) { newCharacter(); return; }
     if (!STEPS[state.step].valid()) return;
     state.step++;
     saveState(); render();
@@ -3167,6 +3362,10 @@ const Wizard = (() => {
     initViewMode();
     initTooltipDismiss();
     loadState();
+    // The mode preference (device-level) and the autosaved step (character-
+    // level) are stored separately, so boot can land on a step the current
+    // mode's strip does not offer; self-heal to the Sheet when that happens.
+    ensurePlayStepValid();
     $('#btn-next').addEventListener('click', next);
     $('#btn-back').addEventListener('click', back);
     $('#btn-settings').addEventListener('click', openThemePanel);

@@ -1711,6 +1711,8 @@ body.on-sheet #app { padding-bottom: 200px; }
   gap: 20px;
   align-items: start;
 }
+/* The Market has no cart aside: let the shop take the full row */
+.equip-main-nocart { grid-template-columns: 1fr; }
 @media (max-width: 900px) {
   .equip-main { grid-template-columns: 1fr; }
 }
