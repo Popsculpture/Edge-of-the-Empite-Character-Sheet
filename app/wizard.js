@@ -70,7 +70,7 @@ const Wizard = (() => {
   // instead of a linear build wizard. A global preference like Display/Theme,
   // not tied to any one character, so switching characters keeps it.
   const PLAY_KEY = 'sw_playmode';
-  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'play-fleet', 'market', 'reference'];
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'play-fleet', 'companions', 'market', 'reference'];
   function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
   function setPlayMode(mode) {
     localStorage.setItem(PLAY_KEY, mode);
@@ -838,6 +838,7 @@ const Wizard = (() => {
     { id: 'market',     label: 'Market',       tab: 'Market',   valid: () => true, mode: 'play' },
     { id: 'play-gear',  label: 'My Gear',      tab: 'Gear',     valid: () => true, mode: 'play' },
     { id: 'play-fleet', label: 'My Fleet',     tab: 'Fleet',    valid: () => true, mode: 'play' },
+    { id: 'companions', label: 'Companions',   tab: 'Comp.',    valid: () => true, mode: 'play' },
   ];
   // The last creation-mode step (nav and step counters never see play tabs;
   // creation steps are the contiguous run at the front of the array).
@@ -1048,7 +1049,7 @@ const Wizard = (() => {
                   talents: renderTalents, details: renderDetails, equip: renderEquip,
                   vehicle: renderVehicle, sheet: renderSheet, reference: renderReference,
                   market: renderMarket, 'play-gear': renderPlayGear,
-                  'play-fleet': renderPlayFleet };
+                  'play-fleet': renderPlayFleet, companions: renderCompanions };
     fns[STEPS[state.step].id]();
   }
 
@@ -3073,7 +3074,7 @@ const Wizard = (() => {
     const line = bag[key] || (bag[key] = { qty: 0 });
     line.qty = (line.qty || 0) + 1;
     // A companion walks beside you; it is never luggage on your back.
-    if (Engine.isCompanionItem(cat, it)) line.carry = false;
+    if (Engine.isCompanionItem(cat, it)) { line.carry = false; syncCompanions(); }
     if (price !== null) state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
     saveState();
     drawList(); drawDetail(); renderHeaderCredits();
@@ -3218,6 +3219,7 @@ const Wizard = (() => {
     state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
     tidyPlayLine(cat, key);
     pruneSets();
+    if (Engine.isCompanionItem(cat, it)) syncCompanions();
     saveState(); render();
   }
   function playSetNickname(cat, key, v) {
@@ -3320,11 +3322,95 @@ const Wizard = (() => {
     });
   }
 
+  // ── Step: Companions (Play mode) ──────────────────────────────────────────
+  // Droids and beasts get one instance record apiece (two astromechs are two
+  // companions with their own names), reconciled against the merged owned
+  // quantity of each companion-type item. syncCompanions is the single
+  // authority for creating and retiring records: UI code never adds or
+  // removes one without posting the matching quantity delta first.
+  function syncCompanions() {
+    if (!Array.isArray(state.companions)) state.companions = [];
+    const ownedGear = Engine.mergedEquipment(state).gear;
+    const want = {};
+    for (const key of Object.keys(ownedGear)) {
+      const it = Engine.getGear(key);
+      if (it && Engine.isCompanionItem('gear', it)) want[key] = ownedGear[key].qty;
+    }
+    const have = {};
+    for (const rec of state.companions) have[rec.itemKey] = (have[rec.itemKey] || 0) + 1;
+    let changed = false;
+    // Retire records for units no longer owned: prefer unnamed, unannotated
+    // records, newest first, so a companion the player has named survives.
+    for (const key of Object.keys(have)) {
+      let excess = have[key] - (want[key] || 0);
+      const drop = pred => {
+        for (let i = state.companions.length - 1; i >= 0 && excess > 0; i--) {
+          const r = state.companions[i];
+          if (r.itemKey === key && pred(r)) { state.companions.splice(i, 1); excess--; changed = true; }
+        }
+      };
+      if (excess > 0) drop(r => !r.nickname && !r.notes);
+      if (excess > 0) drop(() => true);
+    }
+    for (const key of Object.keys(want)) {
+      for (let n = have[key] || 0; n < want[key]; n++) {
+        state.companions.push({ id: genId(), itemKey: key, nickname: '', notes: '' });
+        changed = true;
+      }
+    }
+    if (changed) saveState();
+  }
+  function playSellCompanion(id) {
+    const rec = (state.companions || []).find(r => r.id === id);
+    if (!rec) return;
+    const it = Engine.getGear(rec.itemKey);
+    if (!it) return;
+    const merged = Engine.mergedLine(state, 'gear', rec.itemKey);
+    if (!merged || merged.qty < 1) { syncCompanions(); render(); return; }
+    const p = priceNum(it);
+    const half = p === null ? 0 : Math.floor(p / 2);
+    const label = rec.nickname ? `${rec.nickname} (${it.name})` : it.name;
+    const msg = p === null
+      ? `Sell ${label}? It has no listed price, so the sale brings in nothing.`
+      : `Sell ${label} for ${fmtCr(half)} cr (half the listed ${fmtCr(p)} cr)?`;
+    if (!confirm(msg)) return;
+    const bag = playBag('gear');
+    const line = bag[rec.itemKey] || (bag[rec.itemKey] = { qty: 0 });
+    line.qty = (line.qty || 0) - 1;
+    state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+    tidyPlayLine('gear', rec.itemKey);
+    // Retire THIS record (the one being sold), then reconcile the rest.
+    state.companions = state.companions.filter(r => r.id !== id);
+    syncCompanions();
+    saveState(); render();
+  }
+  function playSetCompanionField(id, field, value) {
+    const rec = (state.companions || []).find(r => r.id === id);
+    if (!rec) return;
+    rec[field] = value;
+    saveState();   // no re-render: keeps focus while typing
+  }
+  function renderCompanions() {
+    const c = $('#step-content');
+    const d = Engine.derive(state);
+    if (!d) { c.innerHTML = '<div class="empty-state">No character yet. Switch to Creation mode to build one.</div>'; return; }
+    syncCompanions();
+    Play.renderCompanions(c, {
+      state, d,
+      api: {
+        sellCompanion: playSellCompanion,
+        setCompanionField: playSetCompanionField,
+        gotoMarket: gotoMarketStep,
+      },
+    });
+  }
+
   // ── Step: Sheet ───────────────────────────────────────────────────────────
   function renderSheet() {
     const c = $('#step-content');
     const d = Engine.derive(state);
     if (!d) { c.innerHTML = '<div class="empty-state">Complete all steps to view the sheet.</div>'; return; }
+    syncCompanions();   // keep the Companions panel current with owned droids/beasts
     Sheet.render(c, state, d);
     // Tap a skill name (or any tip element on the sheet) to pop out its description.
     // Attach to the freshly rendered .sheet-root so listeners do not accumulate.

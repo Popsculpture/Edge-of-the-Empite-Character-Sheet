@@ -255,5 +255,62 @@ const Play = (() => {
       a.addEventListener('click', e => { e.preventDefault(); api.gotoMarket(); }));
   }
 
-  return { renderGear, renderFleet };
+  const TYPE_SINGULAR = { 'Droids': 'Droid', 'Riding Beasts': 'Riding Beast', 'Trainable Beasts': 'Trainable Beast' };
+
+  function renderCompanions(container, ctx) {
+    const { state, api } = ctx;
+    const companions = state.companions || [];
+
+    const cards = companions.map(rec => {
+      const it = Engine.getGear(rec.itemKey);
+      if (!it) return '';
+      const half = halfPrice(it);
+      const sellLabel = priceNum(it) === null ? 'Sell' : `Sell +${fmtCr(half)}`;
+      const desc = (it.description || '').trim();
+      return `
+        <div class="comp-card" data-comp-id="${esc(rec.id)}">
+          <div class="pf-card-bar">
+            <span class="pf-tag">${esc(TYPE_SINGULAR[it.type] || it.type || '')}</span>
+            <input class="pg-nickname" data-comp-field="nickname" value="${esc(rec.nickname || '')}"
+              placeholder="${esc(it.name)}" maxlength="60" spellcheck="false">
+            ${it.restricted ? '<span class="r-badge" title="Restricted - normally requires GM approval">R</span>' : ''}
+            <button class="btn btn-secondary btn-sm" data-comp-act="sell"
+              title="Sell at half the listed price">${sellLabel}<i>cr</i></button>
+          </div>
+          <div class="comp-model">${esc(it.name)} &middot; ${fmtCr(priceNum(it) || 0)} cr</div>
+          ${desc
+            ? `<details class="comp-desc"><summary>Details &amp; stats</summary><div class="comp-desc-body">${esc(desc)}</div></details>`
+            : '<div class="comp-desc-none">No description on file.</div>'}
+          <textarea class="veh-notes" data-comp-field="notes" rows="2"
+            placeholder="Name, quirks, training, standing orders...">${esc(rec.notes || '')}</textarea>
+        </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="step-header"><h2>Companions</h2>
+        <p>The droids and beasts that travel with you. Name them, keep their story, and part
+        with them at half the listed price when the time comes. New companions come from the
+        <a href="#" data-pg-goto="market">Market</a>.</p></div>
+      <div class="play-inv play-comp">
+        ${cards || `<div class="cart-empty">No companions yet. The
+          <a href="#" data-pg-goto="market">Market</a> sells droids, riding beasts, and
+          trainable beasts alike.</div>`}
+      </div>`;
+
+    const root = container.querySelector('.play-comp');
+    root.addEventListener('click', e => {
+      const el = e.target.closest('[data-comp-act]');
+      if (!el) return;
+      api.sellCompanion(el.closest('[data-comp-id]').dataset.compId);
+    });
+    root.addEventListener('input', e => {
+      const el = e.target.closest('[data-comp-field]');
+      if (!el) return;
+      api.setCompanionField(el.closest('[data-comp-id]').dataset.compId, el.dataset.compField, el.value);
+    });
+    container.querySelectorAll('[data-pg-goto]').forEach(a =>
+      a.addEventListener('click', e => { e.preventDefault(); api.gotoMarket(); }));
+  }
+
+  return { renderGear, renderFleet, renderCompanions };
 })();

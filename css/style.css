@@ -2115,6 +2115,33 @@ body.on-sheet #app { padding-bottom: 200px; }
 .pf-tag-sold { color: var(--danger); }
 .pf-card .btn i { font-style: normal; font-size: 0.7em; color: var(--muted); margin-left: 3px; }
 
+/* Companions: one card per named droid or beast */
+.comp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.comp-card .btn i { font-style: normal; font-size: 0.7em; color: var(--muted); margin-left: 3px; }
+.comp-model { font-size: 0.78rem; color: var(--muted); }
+.comp-desc summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--accent);
+  user-select: none;
+}
+.comp-desc-body {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text);
+  white-space: pre-line;
+}
+.comp-desc-none { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+
 /* ── Equipment on the final sheet ──────────────────────────────────── */
 .sheet-eq-cols {
   display: grid;

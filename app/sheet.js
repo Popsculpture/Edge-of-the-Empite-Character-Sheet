@@ -25,6 +25,7 @@ const Sheet = (() => {
         ${backgroundBlock(state)}
         ${weaponBlock(state, derived)}
         ${equipmentBlock(state, derived)}
+        ${companionsBlock(state)}
         ${vBlock}
         ${omsBlock(state)}
         ${notesBlock(state)}
@@ -367,6 +368,31 @@ const Sheet = (() => {
       </div>`;
   }
 
+  // Owned droids and beasts, one line per named instance. Instance records
+  // are kept in sync with the merged inventory by the wizard's
+  // syncCompanions(); this panel just presents them.
+  function companionsBlock(state) {
+    const companions = state.companions || [];
+    if (!companions.length) return '';
+    const TYPE_SINGULAR = { 'Droids': 'Droid', 'Riding Beasts': 'Riding Beast', 'Trainable Beasts': 'Trainable Beast' };
+    const rows = companions.map(rec => {
+      const it = Engine.getGear(rec.itemKey);
+      if (!it) return '';
+      const name = rec.nickname || it.name;
+      return `
+        <div class="sheet-eq-row">
+          <span class="sheet-eq-name">${esc(name)}${rec.nickname ? ` <em class="sheet-eq-model">(${esc(it.name)})</em>` : ''}</span>
+          <span class="sheet-eq-meta">${esc(TYPE_SINGULAR[it.type] || it.type || '')}${rec.notes ? ' &middot; ' + esc(rec.notes) : ''}</span>
+        </div>`;
+    }).join('');
+    if (!rows) return '';
+    return `
+      <div class="sheet-panel" style="grid-column:1/-1">
+        <div class="sheet-panel-title">Companions</div>
+        ${rows}
+      </div>`;
+  }
+
   function equipmentBlock(state, derived) {
     // The sheet reflects what the character owns NOW: creation purchases
     // overlaid with play-mode buys, sells, and flag elections.
@@ -374,13 +400,14 @@ const Sheet = (() => {
     const dmg = w => (w.damage === '' || w.damage == null) ? '—' : (w.damageType === 'add' ? '+' + w.damage : '' + w.damage);
     const cr  = n => (typeof n === 'number' ? n.toLocaleString('en-US') : (n || '—'));
 
-    // Only items flagged "show" appear on the sheet
+    // Only items flagged "show" appear on the sheet. Companion-type gear
+    // (droids, beasts) has its own panel and is excluded here.
     function lines(cat, fmt) {
       const bag = eq[cat] || {};
       const keys = Object.keys(bag).filter(k => bag[k] && bag[k].qty && bag[k].show !== false);
       return keys.map(k => {
         const it = Engine.getItem(cat, k);
-        if (!it) return '';
+        if (!it || Engine.isCompanionItem(cat, it)) return '';
         return fmt(it, bag[k]);
       }).join('');
     }
