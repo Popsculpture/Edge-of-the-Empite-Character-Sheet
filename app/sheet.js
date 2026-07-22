@@ -368,7 +368,9 @@ const Sheet = (() => {
   }
 
   function equipmentBlock(state, derived) {
-    const eq = state.equipment || {};
+    // The sheet reflects what the character owns NOW: creation purchases
+    // overlaid with play-mode buys, sells, and flag elections.
+    const eq = Engine.mergedEquipment(state);
     const dmg = w => (w.damage === '' || w.damage == null) ? '—' : (w.damageType === 'add' ? '+' + w.damage : '' + w.damage);
     const cr  = n => (typeof n === 'number' ? n.toLocaleString('en-US') : (n || '—'));
 
@@ -424,8 +426,11 @@ const Sheet = (() => {
   // tab, an editable nickname, and an attack button that builds the dice pool from
   // the weapon's combat skill (characteristic + rank).
   function weaponBlock(state, derived) {
-    const eq = state.equipment || {};
+    const eq = Engine.mergedEquipment(state);
     const bag = eq.weapon || {};
+    // Dual-wield pairings live on the creation equipment object (they are
+    // elections, not purchases); validity is checked against merged stock.
+    const weaponSets = (state.equipment && state.equipment.weaponSets) || [];
     const chars = (derived && derived.characteristics) || state.characteristics || {};
     const ranks = (derived && derived.skill_ranks) || {};
     const dmg = w => (w.damage === '' || w.damage == null) ? '—' : (w.damageType === 'add' ? '+' + w.damage : '' + w.damage);
@@ -474,7 +479,7 @@ const Sheet = (() => {
       ? (bag[s.a] && bag[s.a].qty >= 2)
       : (bag[s.a] && bag[s.a].qty && bag[s.b] && bag[s.b].qty);
 
-    const dualCards = (eq.weaponSets || []).filter(validSet).map(s => {
+    const dualCards = weaponSets.filter(validSet).map(s => {
       const wa = Engine.getWeapon(s.a), wb = Engine.getWeapon(s.b);
       if (!wa || !wb) return '';
       const ia = wInfo(wa), ib = wInfo(wb);

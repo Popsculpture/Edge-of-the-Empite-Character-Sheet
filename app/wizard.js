@@ -70,7 +70,7 @@ const Wizard = (() => {
   // instead of a linear build wizard. A global preference like Display/Theme,
   // not tied to any one character, so switching characters keeps it.
   const PLAY_KEY = 'sw_playmode';
-  const PLAY_TAB_IDS = ['sheet', 'talents', 'equip', 'vehicle', 'market', 'reference'];
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'vehicle', 'market', 'reference'];
   function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
   function setPlayMode(mode) {
     localStorage.setItem(PLAY_KEY, mode);
@@ -835,7 +835,8 @@ const Wizard = (() => {
     // persisted as a raw index (autosave, roster, exports), so inserting
     // mid-array would silently re-point every existing save. Their on-screen
     // order comes from PLAY_TAB_IDS, not from their position in this array.
-    { id: 'market',  label: 'Market',          tab: 'Market',   valid: () => true, mode: 'play' },
+    { id: 'market',    label: 'Market',        tab: 'Market',   valid: () => true, mode: 'play' },
+    { id: 'play-gear', label: 'My Gear',       tab: 'Gear',     valid: () => true, mode: 'play' },
   ];
   // The last creation-mode step (nav and step counters never see play tabs;
   // creation steps are the contiguous run at the front of the array).
@@ -1045,7 +1046,7 @@ const Wizard = (() => {
                   spec: renderSpec, skills: renderSkills, oms: renderOMS, chars: renderChars,
                   talents: renderTalents, details: renderDetails, equip: renderEquip,
                   vehicle: renderVehicle, sheet: renderSheet, reference: renderReference,
-                  market: renderMarket };
+                  market: renderMarket, 'play-gear': renderPlayGear };
     fns[STEPS[state.step].id]();
   }
 
@@ -2242,13 +2243,10 @@ const Wizard = (() => {
 
     c.innerHTML = `
       <div class="step-header"><h2>Equipment</h2>
-        ${getPlayMode() === 'play'
-          ? `<p>What you carry into a job can be the difference between a payday and a body bag.
-             Restricted <span class="r-badge">R</span> items still need the GM's approval before they're yours.</p>`
-          : `<p>Spend your starting credits on weapons, armor, and gear. Each character begins with
+        <p>Spend your starting credits on weapons, armor, and gear. Each character begins with
            <strong>500 credits</strong> (plus any granted by Obligation or Duty). Restricted
            <span class="r-badge">R</span> items normally require GM approval &mdash; use
-           <strong>Acquire Free</strong> to add anything without spending credits.</p>`}</div>
+           <strong>Acquire Free</strong> to add anything without spending credits.</p></div>
       <div class="equip-tabs">${tabs}</div>
       <div class="equip-main">
         <div class="equip-shop">
@@ -2308,11 +2306,11 @@ const Wizard = (() => {
   }
 
   function drawToolbar() {
-    // Play mode is real currency: no declaring new purchases free. Forcing
+    // The Market is real currency: no declaring new purchases free. Forcing
     // this here (render time, every visit) means every downstream read of
-    // _eqMode - the button label, the mode caption, addItem's free flag -
-    // is already correct without special-casing each one.
-    if (getPlayMode() === 'play') _eqMode = false;
+    // _eqMode - the button label, the mode caption - is already correct
+    // without special-casing each one.
+    if (_storeCtx === 'market') _eqMode = false;
     const cat = storeCtxCat();
     const f = storeFilter(cat);
     const typeOpts = typeOptionsFor(cat).map(t =>
@@ -2334,7 +2332,7 @@ const Wizard = (() => {
       <label class="eq-check"><input type="checkbox" id="eq-core"${f.core ? ' checked' : ''}> Core only</label>
       <label class="eq-check"><input type="checkbox" id="eq-afford"${f.afford ? ' checked' : ''}> Affordable</label>
       <label class="eq-check"><input type="checkbox" id="eq-hideR"${f.hideR ? ' checked' : ''}> Hide <span class="r-badge">R</span></label>
-      ${getPlayMode() === 'play' ? '' : `
+      ${_storeCtx === 'market' ? '' : `
       <div class="eq-mode">
         <button class="eq-mode-btn${!_eqMode ? ' active' : ''}" id="eq-mode-buy">Purchase</button>
         <button class="eq-mode-btn${_eqMode ? ' active' : ''}" id="eq-mode-free">Acquire Free</button>
@@ -2461,11 +2459,13 @@ const Wizard = (() => {
     return state.equipment.weaponSets;
   }
   function pruneSets() {
-    const bag = eqBag('weapon');
-    const owned = k => !!(bag[k] && bag[k].qty);
+    // Validate against the MERGED stock: a set built around a play-bought
+    // weapon must survive a visit to the creation cart, and selling a copy
+    // during play must dissolve any pair it can no longer supply.
+    const q = k => mergedQty('weapon', k);
     // A same-weapon pair needs 2 copies; a mixed pair needs one of each.
     state.equipment.weaponSets = weaponSetsArr().filter(s =>
-      s.a === s.b ? (bag[s.a] && bag[s.a].qty >= 2) : (owned(s.a) && owned(s.b)));
+      s.a === s.b ? q(s.a) >= 2 : (q(s.a) >= 1 && q(s.b) >= 1));
   }
 
   function drawCart() {
@@ -2507,7 +2507,7 @@ const Wizard = (() => {
                 <button data-act="inc" data-cat="${cat}" data-key="${key}">+</button>
               </div>
               <div class="cart-flags">${flags}</div>
-              ${getPlayMode() === 'play' ? '' : `<label class="cart-freebox" title="Acquire free (no credits)"><input type="checkbox" data-act="free" data-cat="${cat}" data-key="${key}"${line.free ? ' checked' : ''}><span>$0</span></label>`}
+              <label class="cart-freebox" title="Acquire free (no credits)"><input type="checkbox" data-act="free" data-cat="${cat}" data-key="${key}"${line.free ? ' checked' : ''}><span>$0</span></label>
               <span class="cart-cost">${lineCost}</span>
             </div>
           </div>`;
@@ -2635,8 +2635,7 @@ const Wizard = (() => {
       const a = $('#tws-a') && $('#tws-a').value;
       const b = $('#tws-b') && $('#tws-b').value;
       if (!a || !b) return;
-      const bag = eqBag('weapon');
-      if (a === b && (!bag[a] || bag[a].qty < 2)) return;   // need two copies to pair the same weapon
+      if (a === b && mergedQty('weapon', a) < 2) return;   // need two copies to pair the same weapon
       if (weaponSetsArr().some(s => (s.a === a && s.b === b) || (s.a === b && s.b === a))) return;
       weaponSetsArr().push({ a, b });
       afterEquipChange();
@@ -2675,7 +2674,6 @@ const Wizard = (() => {
   function addItem(cat, key) {
     const bag = eqBag(cat);
     const it = Engine.getItem(cat, key);
-    if (!_eqMode && blockedByBudget(it && priceNum(it))) return;
     if (bag[key] && bag[key].qty) bag[key].qty++;
     else bag[key] = { qty: 1, free: _eqMode, carry: true, show: true,
                       equip: equippableCat(cat, it) && !anyEquipped(cat) };
@@ -2684,10 +2682,6 @@ const Wizard = (() => {
   function setQty(cat, key, qty) {
     const bag = eqBag(cat);
     if (!bag[key]) return;
-    if (qty > bag[key].qty && !bag[key].free) {
-      const it = Engine.getItem(cat, key);
-      if (blockedByBudget(it && priceNum(it))) return;
-    }
     if (qty <= 0) delete bag[key];
     else bag[key].qty = qty;
     afterEquipChange();
@@ -3180,6 +3174,95 @@ const Wizard = (() => {
     initTipListeners($('#eq-detail'));
   }
 
+  // ── Step: My Gear (Play mode) ─────────────────────────────────────────────
+  // Owned-equipment management: flags, nicknames, dual-wield sets, and
+  // half-price sales. All mutations write to the play layer so the creation
+  // build (and its budget math) stays frozen underneath.
+  function tidyPlayLine(cat, key) {
+    const bag = playBag(cat);
+    const l = bag[key];
+    if (!l) return;
+    const hasProps = ['carry', 'show', 'equip', 'nickname'].some(p => p in l);
+    if (!l.qty && !hasProps) delete bag[key];
+  }
+  function playToggleFlag(cat, key, flag) {
+    const merged = Engine.mergedLine(state, cat, key);
+    if (!merged || !merged.qty) return;
+    const bag = playBag(cat);
+    const line = bag[key] || (bag[key] = { qty: 0 });
+    const next = !merged[flag];
+    line[flag] = next;
+    // One suit worn: equipping armor writes an explicit override onto every
+    // other merged-equipped suit, whichever layer it came from.
+    if (flag === 'equip' && next && cat === 'armor') {
+      const ownedArmor = Engine.mergedEquipment(state).armor;
+      for (const k of Object.keys(ownedArmor)) {
+        if (k === key || !ownedArmor[k].equip) continue;
+        const l = bag[k] || (bag[k] = { qty: 0 });
+        l.equip = false;
+      }
+    }
+    tidyPlayLine(cat, key);
+    saveState(); render();
+  }
+  function playSellItem(cat, key) {
+    const merged = Engine.mergedLine(state, cat, key);
+    if (!merged || merged.qty < 1) return;
+    const it = Engine.getItem(cat, key);
+    if (!it) return;
+    const p = priceNum(it);
+    const half = p === null ? 0 : Math.floor(p / 2);
+    const msg = p === null
+      ? `Sell one ${it.name}? It has no listed price, so the sale brings in nothing.`
+      : `Sell one ${it.name} for ${fmtCr(half)} cr (half the listed ${fmtCr(p)} cr)?`;
+    if (!confirm(msg)) return;
+    const bag = playBag(cat);
+    const line = bag[key] || (bag[key] = { qty: 0 });
+    line.qty = (line.qty || 0) - 1;
+    state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+    tidyPlayLine(cat, key);
+    pruneSets();
+    saveState(); render();
+  }
+  function playSetNickname(cat, key, v) {
+    const bag = playBag(cat);
+    const line = bag[key] || (bag[key] = { qty: 0 });
+    line.nickname = v;
+    saveState();   // no re-render: keeps focus while typing
+  }
+  function playPairSet(a, b) {
+    if (!a || !b) return;
+    if (a === b && mergedQty('weapon', a) < 2) return;   // need two copies to pair the same weapon
+    if (weaponSetsArr().some(s => (s.a === a && s.b === b) || (s.a === b && s.b === a))) return;
+    weaponSetsArr().push({ a, b });
+    pruneSets();
+    saveState(); render();
+  }
+  function playDeleteSet(i) {
+    weaponSetsArr().splice(+i, 1);
+    saveState(); render();
+  }
+  function renderPlayGear() {
+    const c = $('#step-content');
+    const d = Engine.derive(state);
+    if (!d) { c.innerHTML = '<div class="empty-state">No character yet. Switch to Creation mode to build one.</div>'; return; }
+    Play.renderGear(c, {
+      state, d,
+      api: {
+        toggleFlag: playToggleFlag,
+        sell: playSellItem,
+        setNickname: playSetNickname,
+        pairSet: playPairSet,
+        deleteSet: playDeleteSet,
+        gotoMarket: () => {
+          const ix = STEPS.findIndex(s => s.id === 'market');
+          if (ix >= 0) { state.step = ix; saveState(); render(); window.scrollTo(0, 0); }
+        },
+      },
+    });
+    initTipListeners(c.querySelector('.play-inv') || c);
+  }
+
   // ── Step: Sheet ───────────────────────────────────────────────────────────
   function renderSheet() {
     const c = $('#step-content');
@@ -3541,10 +3624,16 @@ const Wizard = (() => {
       const wpn = e.target.closest('[data-wpn-key]');
       if (wpn) {
         const key = wpn.dataset.wpnKey;
-        const bag = state.equipment && state.equipment.weapon;
-        if (!bag || !bag[key]) return;   // only annotate an existing owned weapon
-        bag[key].nickname = wpn.value;
-        saveState();
+        if (!mergedQty('weapon', key)) return;   // only annotate an owned weapon
+        if (getPlayMode() === 'play') {
+          // Play elections supersede creation ones: rename on the play layer.
+          playSetNickname('weapon', key, wpn.value);
+        } else {
+          const bag = state.equipment && state.equipment.weapon;
+          if (!bag || !bag[key]) return;
+          bag[key].nickname = wpn.value;
+          saveState();
+        }
         return;
       }
       // The Obligation detail textarea on the sheet (Duty/Morality have no

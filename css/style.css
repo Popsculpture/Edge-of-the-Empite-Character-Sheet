@@ -2024,6 +2024,64 @@ body.on-sheet #app { padding-bottom: 200px; }
 }
 .cart-note-warn { color: var(--danger); border: 1px solid var(--danger); background: transparent; }
 
+/* ── Play mode: owned-goods tabs (My Gear / Fleet / Companions) ────── */
+.play-inv {
+  max-width: 880px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.pg-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.pg-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--border);
+}
+.pg-row:last-child { border-bottom: none; }
+.pg-row-main { min-width: 0; flex: 1; }
+.pg-row-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.pg-name { font-weight: 600; }
+.pg-realname { font-size: 0.72rem; color: var(--muted); }
+.pg-nickname {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  padding: 4px 8px;
+  min-width: 0;
+  max-width: 240px;
+}
+.pg-nickname:focus { outline: none; border-color: var(--accent-border); }
+.pg-row-ctl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.pg-sell { white-space: nowrap; }
+.pg-sell i { font-style: normal; font-size: 0.7em; color: var(--muted); margin-left: 3px; }
+.play-inv .cart-totals { border-top: none; padding-top: 0; }
+@media (max-width: 700px) {
+  .pg-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .pg-row-ctl { justify-content: space-between; }
+}
+
 /* ── Equipment on the final sheet ──────────────────────────────────── */
 .sheet-eq-cols {
   display: grid;
