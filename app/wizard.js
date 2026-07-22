@@ -1018,6 +1018,7 @@ const Wizard = (() => {
       if (!amt) return;
     }
     state.creditsAdjustment = (state.creditsAdjustment || 0) + sign * amt;
+    postLedger(sign > 0 ? 'deposit' : 'withdraw', sign > 0 ? 'Deposit' : 'Withdrawal', sign * amt);
     saveState(); render();
   }
   function applyXpAdjust(sign) {
@@ -1027,6 +1028,7 @@ const Wizard = (() => {
     // Unlike credits, a negative XP balance is a normal, expected state here
     // (it already happens from overspending on talents), so no floor at 0.
     state.xpAdjustment = (state.xpAdjustment || 0) + sign * amt;
+    postLedger('xp', sign > 0 ? 'XP awarded' : 'XP removed', sign * amt);
     saveState(); render();
   }
 
@@ -3077,6 +3079,40 @@ const Wizard = (() => {
     if (!state.playEquipment[cat]) state.playEquipment[cat] = {};
     return state.playEquipment[cat];
   }
+  // Play-mode money and XP moves leave a paper trail (shown in the Market).
+  // Purely informational: balances derive from the adjustments and the
+  // inventory layers, never from replaying this log.
+  function postLedger(kind, label, amount) {
+    if (!Array.isArray(state.ledger)) state.ledger = [];
+    state.ledger.push({ ts: Date.now(), kind, label, amount });
+    while (state.ledger.length > 200) state.ledger.shift();
+  }
+  function ledgerInner() {
+    const entries = (state.ledger || []).slice(-12).reverse();
+    if (!entries.length) return '';
+    const rows = entries.map(e => {
+      const amt = e.kind === 'xp'
+        ? `${e.amount > 0 ? '+' : ''}${e.amount} XP`
+        : `${e.amount > 0 ? '+' : ''}${fmtCr(e.amount)} cr`;
+      const d = new Date(e.ts);
+      const when = `${d.getMonth() + 1}/${d.getDate()}`;
+      return `<div class="ledger-row">
+        <span class="ledger-when">${when}</span>
+        <span class="ledger-label">${esc(e.label)}</span>
+        <span class="ledger-amt${e.amount < 0 ? ' ledger-neg' : e.amount > 0 ? ' ledger-pos' : ''}">${amt}</span>
+      </div>`;
+    }).join('');
+    return `<details class="ledger"><summary>Recent activity</summary><div class="ledger-rows">${rows}</div></details>`;
+  }
+  function refreshLedger() {
+    const el = $('#mk-ledger');
+    if (!el) return;
+    const det = el.querySelector('details');
+    const wasOpen = !!(det && det.open);
+    el.innerHTML = ledgerInner();
+    const fresh = el.querySelector('details');
+    if (fresh && wasOpen) fresh.open = true;
+  }
   function playBuyItem(cat, key) {
     const it = Engine.getItem(cat, key);
     if (!it) return;
@@ -3088,8 +3124,9 @@ const Wizard = (() => {
     // A companion walks beside you; it is never luggage on your back.
     if (Engine.isCompanionItem(cat, it)) { line.carry = false; syncCompanions(); }
     if (price !== null) state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+    postLedger('buy', it.name, -(price || 0));
     saveState();
-    drawList(); drawDetail(); renderHeaderCredits();
+    drawList(); drawDetail(); renderHeaderCredits(); refreshLedger();
   }
   function playBuyVehicle(key) {
     const v = Engine.getVehicle(key);
@@ -3100,8 +3137,9 @@ const Wizard = (() => {
     if (!Array.isArray(state.playVehicles)) state.playVehicles = [];
     state.playVehicles.push({ id: genId(), key, nickname: v.name, notes: '' });
     if (price !== null) state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+    postLedger('buy', v.name, -(price || 0));
     saveState();
-    drawVehicleList(); drawVehicleStats(); renderHeaderCredits();
+    drawVehicleList(); drawVehicleStats(); renderHeaderCredits(); refreshLedger();
   }
 
   function renderMarket() {
@@ -3123,6 +3161,7 @@ const Wizard = (() => {
         against your balance the moment you buy; owned goods sell back from their own tabs
         at half the listed price. Restricted <span class="r-badge">R</span> goods still
         need the GM's approval.</p></div>
+      <div id="mk-ledger">${ledgerInner()}</div>
       <div class="equip-tabs">${tabs}</div>
       ${_mkCat === 'ship' ? `
       <div class="veh-main">
@@ -3229,6 +3268,7 @@ const Wizard = (() => {
     const line = bag[key] || (bag[key] = { qty: 0 });
     line.qty = (line.qty || 0) - 1;
     state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+    postLedger('sell', it.name, half);
     tidyPlayLine(cat, key);
     pruneSets();
     if (Engine.isCompanionItem(cat, it)) syncCompanions();
@@ -3301,6 +3341,7 @@ const Wizard = (() => {
     if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
     else t.entry.soldInPlay = true;   // purchased stays true: creation spend frozen
     state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+    postLedger('sell', label, half);
     saveState(); render();
   }
   function playReleaseVehicle(target) {
@@ -3311,6 +3352,7 @@ const Wizard = (() => {
     if (!confirm(`Release the ${name}? Borrowed craft go back to whoever lent them (no credits).`)) return;
     if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
     else t.entry.soldInPlay = true;
+    postLedger('sell', `${name} (released)`, 0);
     saveState(); render();
   }
   function playSetVehicleField(target, field, value) {
@@ -3390,6 +3432,7 @@ const Wizard = (() => {
     const line = bag[rec.itemKey] || (bag[rec.itemKey] = { qty: 0 });
     line.qty = (line.qty || 0) - 1;
     state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+    postLedger('sell', label, half);
     tidyPlayLine('gear', rec.itemKey);
     // Retire THIS record (the one being sold), then reconcile the rest.
     state.companions = state.companions.filter(r => r.id !== id);

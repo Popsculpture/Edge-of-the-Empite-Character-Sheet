@@ -2143,6 +2143,39 @@ body.on-sheet #app { padding-bottom: 200px; }
 }
 .comp-desc-none { font-size: 0.8rem; color: var(--muted); font-style: italic; }
 
+/* Market: recent-activity ledger */
+.ledger {
+  margin-bottom: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  max-width: 520px;
+}
+.ledger summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  user-select: none;
+}
+.ledger-rows { margin-top: 8px; }
+.ledger-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.82rem;
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ledger-row:last-child { border-bottom: none; }
+.ledger-when { color: var(--muted); font-size: 0.72rem; flex-shrink: 0; width: 34px; }
+.ledger-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ledger-amt { flex-shrink: 0; font-weight: 600; }
+.ledger-pos { color: var(--success); }
+.ledger-neg { color: var(--danger); }
+
 /* ── Equipment on the final sheet ──────────────────────────────────── */
 .sheet-eq-cols {
   display: grid;
