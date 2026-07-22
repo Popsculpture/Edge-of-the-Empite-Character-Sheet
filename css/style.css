@@ -164,9 +164,10 @@ body.on-sheet #wizard-nav {
 body.play-mode #wizard-nav {
   display: none;
 }
-/* "Character Creator" describes the wizard, not a play aid for a finished one. */
+/* In Play mode the subtitle names the character being played (wizard.js
+   swaps the text in render()); the accent color marks the mode switch. */
 body.play-mode .site-subtitle {
-  display: none;
+  color: var(--accent);
 }
 
 /* Belt-and-suspenders while a tab-swipe drag is live: #step-content is

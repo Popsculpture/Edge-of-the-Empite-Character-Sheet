@@ -195,7 +195,7 @@ const Wizard = (() => {
           <button class="view-mode-btn${playMode === 'creation' ? ' active' : ''}" data-mode="creation">Creation</button>
           <button class="view-mode-btn${playMode === 'play' ? ' active' : ''}" data-mode="play">Play</button>
         </div>
-        <div class="view-toggle-note">Creation walks through building a character, tab by tab. Play trims the tabs to Sheet, Talents, Gear, Fleet, and Reference for running the character at the table.</div>
+        <div class="view-toggle-note">Creation walks through building a character, tab by tab. Play runs the finished character at the table: Sheet, Talents, your owned Gear, Fleet, and Companions, plus the Market for new purchases.</div>
         <div class="settings-section-label">Display</div>
         <div class="view-toggle" id="view-toggle">
           <button class="view-mode-btn${viewMode === 'auto' ? ' active' : ''}" data-view="auto">Auto</button>
@@ -868,7 +868,15 @@ const Wizard = (() => {
     // body.play-mode (via document.body.classList) to decide whether to show
     // the Play-mode-only Notes & Contacts panel, so it must already be current.
     document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
-    document.body.classList.toggle('play-mode', getPlayMode() === 'play');
+    const inPlay = getPlayMode() === 'play';
+    document.body.classList.toggle('play-mode', inPlay);
+    // Creation is a tool ("Character Creator"); Play is about the character.
+    const subtitle = $('.site-subtitle');
+    if (subtitle) {
+      subtitle.textContent = inPlay
+        ? ((state.name || '').trim() || 'At the Table')
+        : 'Character Creator';
+    }
     renderProgress();
     renderStep();
     renderNav();
@@ -2102,9 +2110,13 @@ const Wizard = (() => {
     c.innerHTML = `
       <div class="step-header">
         <h2>${spec.name}</h2>
-        <p>Click a talent to purchase it. You must own an adjacent connected talent to unlock lower rows.
+        ${getPlayMode() === 'play'
+          ? `<p>Spend the XP you earn at the table to push deeper into the tree. Adjacent connected
+             talents unlock the rows below; refunds stay available so long as nothing you own
+             depends on the node. <strong class="tt-xp-spent">${talentXp} XP</strong> invested so far.</p>`
+          : `<p>Click a talent to purchase it. You must own an adjacent connected talent to unlock lower rows.
            Talents can be refunded as long as no other purchased talent depends on them as its only path.
-           <strong class="tt-xp-spent">${talentXp} XP</strong> spent on talents.</p>
+           <strong class="tt-xp-spent">${talentXp} XP</strong> spent on talents.</p>`}
       </div>
       <div class="talent-tree-wrap">
         <div class="tt-grid" id="talent-tree-grid">${cells}</div>
