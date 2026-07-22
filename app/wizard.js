@@ -913,6 +913,7 @@ const Wizard = (() => {
         <span class="hdr-adjust">
           <input type="number" id="xp-adjust-amt" class="hdr-adjust-amt" placeholder="Amount" inputmode="numeric">
           <button class="hdr-adjust-btn" data-xp-act="add">+ Add XP</button>
+          <button class="hdr-adjust-btn" data-xp-act="remove">&minus; Remove XP</button>
         </span>`;
       return;
     }
@@ -965,11 +966,13 @@ const Wizard = (() => {
     state.creditsAdjustment = (state.creditsAdjustment || 0) + sign * amt;
     saveState(); render();
   }
-  function applyXpAdjust() {
+  function applyXpAdjust(sign) {
     const input = $('#xp-adjust-amt');
     const amt = Math.abs(Math.round(parseFloat(input && input.value) || 0));
     if (!amt) return;
-    state.xpAdjustment = (state.xpAdjustment || 0) + amt;
+    // Unlike credits, a negative XP balance is a normal, expected state here
+    // (it already happens from overspending on talents), so no floor at 0.
+    state.xpAdjustment = (state.xpAdjustment || 0) + sign * amt;
     saveState(); render();
   }
 
@@ -3303,7 +3306,7 @@ const Wizard = (() => {
       _touchActive = false;
       if (_axisLocked === 'swipe') settleSwipe(1, false);
     }, { passive: true });
-    // Play mode's deposit/withdraw (credits) and add-XP (talents) controls.
+    // Play mode's deposit/withdraw (credits) and add/remove (XP) controls.
     // Bound once on the persistent header bars; renderHeaderCredits/Xp only
     // ever replace their innerHTML, so the delegated listener survives.
     $('#header-credits').addEventListener('click', e => {
@@ -3311,13 +3314,12 @@ const Wizard = (() => {
       if (!btn) return;
       applyCreditsAdjust(btn.dataset.creditsAct === 'withdraw' ? -1 : 1);
     });
-    // No Enter-key shortcut here: unlike XP (add-only), credits can go either
-    // way, and there is no safe default direction to guess at on Enter.
+    // No Enter-key shortcut on either bar: both credits and XP can now go
+    // either way, and there is no safe default direction to guess at on Enter.
     $('#header-xp').addEventListener('click', e => {
-      if (e.target.closest('[data-xp-act]')) applyXpAdjust();
-    });
-    $('#header-xp').addEventListener('keydown', e => {
-      if (e.key === 'Enter' && e.target.id === 'xp-adjust-amt') { e.preventDefault(); applyXpAdjust(); }
+      const btn = e.target.closest('[data-xp-act]');
+      if (!btn) return;
+      applyXpAdjust(btn.dataset.xpAct === 'remove' ? -1 : 1);
     });
     // Editable weapon nickname on the sheet (no re-render so focus is kept).
     $('#step-content').addEventListener('input', e => {
