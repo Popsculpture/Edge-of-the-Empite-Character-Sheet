@@ -191,6 +191,70 @@ const Engine = (() => {
   function getVehicleWeapon(key)  { return vehMaps().vehWeapon[key]  || null; }
   function getVehicleWeaponMap()  { return vehMaps().vehWeapon; }
 
+  // ── Play-layer merge ─────────────────────────────────────────────────
+  // Creation purchases live in state.equipment and are priced against the
+  // starting credits. Play-mode commerce lives in state.playEquipment as
+  // deltas (qty may be negative: net sold out of the creation stock) and
+  // settles into creditsAdjustment at transaction time. The merged view is
+  // what the character actually owns right now.
+  const COMPANION_TYPES = new Set(['Droids', 'Riding Beasts', 'Trainable Beasts']);
+  function isCompanionItem(cat, item) {
+    return cat === 'gear' && !!item && COMPANION_TYPES.has(item.type);
+  }
+
+  // Merge one item line across the two layers. Elections supersede PER
+  // PROPERTY: a play-line flag wins only where the play line actually has
+  // one, so buying more of an item during play never resets the flags the
+  // player chose at creation.
+  function mergedLine(state, cat, key) {
+    const cLine = ((state.equipment     || {})[cat] || {})[key];
+    const pLine = ((state.playEquipment || {})[cat] || {})[key];
+    if (!cLine && !pLine) return null;
+    const qty = Math.max(0, ((cLine && cLine.qty) || 0) + ((pLine && pLine.qty) || 0));
+    const pick = (prop, dflt) => {
+      if (pLine && prop in pLine) return pLine[prop];
+      if (cLine && prop in cLine) return cLine[prop];
+      return dflt;
+    };
+    return {
+      qty,
+      free:     !!(cLine && cLine.free),
+      carry:    pick('carry', true),
+      show:     pick('show', true),
+      equip:    pick('equip', false),
+      nickname: pick('nickname', ''),
+    };
+  }
+
+  // The full owned inventory: union of both layers, lines with qty > 0 only.
+  function mergedEquipment(state) {
+    const out = { weapon: {}, armor: {}, gear: {} };
+    for (const cat of ['weapon', 'armor', 'gear']) {
+      const keys = new Set([
+        ...Object.keys((state.equipment     || {})[cat] || {}),
+        ...Object.keys((state.playEquipment || {})[cat] || {}),
+      ]);
+      for (const key of keys) {
+        const line = mergedLine(state, cat, key);
+        if (line && line.qty > 0) out[cat][key] = line;
+      }
+    }
+    return out;
+  }
+
+  // The owned fleet: creation ships not sold during play, then play-bought
+  // ships. Play ships are always owned outright (paid at purchase time).
+  function mergedFleet(state) {
+    const out = [];
+    for (const e of (state.vehicles || [])) {
+      if (!e.soldInPlay) out.push(Object.assign({ source: 'creation' }, e));
+    }
+    for (const e of (state.playVehicles || [])) {
+      out.push(Object.assign({ source: 'play', purchased: true }, e));
+    }
+    return out;
+  }
+
   // Additional starting credits granted by extra Obligation / Duty (core rulebooks)
   function creditBonusFor(extra) {
     if (extra >= 10) return 2500;
@@ -262,10 +326,11 @@ const Engine = (() => {
     }
     const startingCredits = BASE_STARTING_CREDITS + omsCreditBonus;
 
+    // Pricing walks the CREATION layer only: play-mode commerce settles into
+    // creditsAdjustment at transaction time (buys at full price, sells at
+    // half), so play quantity deltas must never be re-priced here.
     const eq = state.equipment || {};
-    let creditsSpent = 0, encumbrance = 0, wornArmor = null, wornArmorLine = null;
-    let wpnDefMelee = 0, wpnDefRanged = 0, encThresholdBonus = 0, cyberSoak = 0;
-    const cyberChar = {};   // characteristic -> flat bonus from installed cybernetics
+    let creditsSpent = 0;
     for (const cat of ['weapon', 'armor', 'gear']) {
       const bag = eq[cat] || {};
       for (const key of Object.keys(bag)) {
@@ -274,8 +339,22 @@ const Engine = (() => {
         const item = getItem(cat, key);
         if (!item) continue;
         const price = typeof item.price === 'number' ? item.price : 0;
-        const enc   = typeof item.encumbrance === 'number' ? item.encumbrance : 0;
         if (!line.free) creditsSpent += price * line.qty;
+      }
+    }
+    // Stats walk the MERGED inventory: what the character owns and carries
+    // right now, including play-mode acquisitions and sales.
+    const owned = mergedEquipment(state);
+    let encumbrance = 0, wornArmor = null, wornArmorLine = null;
+    let wpnDefMelee = 0, wpnDefRanged = 0, encThresholdBonus = 0, cyberSoak = 0;
+    const cyberChar = {};   // characteristic -> flat bonus from installed cybernetics
+    for (const cat of ['weapon', 'armor', 'gear']) {
+      const bag = owned[cat];
+      for (const key of Object.keys(bag)) {
+        const line = bag[key];
+        const item = getItem(cat, key);
+        if (!item) continue;
+        const enc = typeof item.encumbrance === 'number' ? item.encumbrance : 0;
         if (line.carry !== false) {
           encumbrance += enc * line.qty;
           // Worn carrying gear (utility belt, wizard pouch) raises the encumbrance threshold.
@@ -447,6 +526,8 @@ const Engine = (() => {
     getSpecies, getCareer, getSpec, getSkill, getTalent,
     getWeapon, getArmor, getGear, getItem,
     getVehicle, getVehicleWeapon, getVehicleWeaponMap,
+    COMPANION_TYPES, isCompanionItem,
+    mergedLine, mergedEquipment, mergedFleet,
     talentEffect, purchasedTalentCounts,
     creditBonusFor, activeMechanic,
     specBonusSkillKeys,

@@ -286,11 +286,27 @@ const Wizard = (() => {
       motivationText:     '',
       equipment:          { weapon: {}, armor: {}, gear: {}, weaponSets: [] },
       vehicles:           [],
+      playEquipment:      { weapon: {}, armor: {}, gear: {} }, // play-mode deltas layered over equipment (qty may be negative)
+      playVehicles:       [], // [{id, key, nickname, notes}] ships bought during play
+      companions:         [], // [{id, itemKey, nickname, notes}] one record per owned droid or beast
+      ledger:             [], // [{ts, kind, label, amount}] play transaction log, capped
       creditsAdjustment:  0,   // net credits gained/spent during play, on top of the starting allotment
       xpAdjustment:       0,   // net XP awarded during play, on top of the starting allotment
       notes:              '', // freeform session notes (Play mode)
       contacts:           [], // [{id, name, note}] (Play mode)
     };
+  }
+
+  // Backfill structural fields on any state that predates them (old saves,
+  // roster loads, imports). Safe to re-run; never touches user data.
+  function repairState(s) {
+    if (!s) return;
+    s.equipment     = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, s.equipment || {});
+    s.playEquipment = Object.assign({ weapon: {}, armor: {}, gear: {} }, s.playEquipment || {});
+    if (!Array.isArray(s.vehicles))     s.vehicles     = [];
+    if (!Array.isArray(s.playVehicles)) s.playVehicles = [];
+    if (!Array.isArray(s.companions))   s.companions   = [];
+    if (!Array.isArray(s.ledger))       s.ledger       = [];
   }
 
   let state = defaultState();
@@ -342,7 +358,7 @@ const Wizard = (() => {
   function loadState() {
     try {
       const s = localStorage.getItem('sw_char_v1');
-      if (s) { state = Object.assign(defaultState(), JSON.parse(s)); migrateDetails(state); saveState(); }
+      if (s) { state = Object.assign(defaultState(), JSON.parse(s)); repairState(state); migrateDetails(state); saveState(); }
     } catch(e) {}
   }
 
@@ -3048,7 +3064,7 @@ const Wizard = (() => {
     if (!saved) { alert('That saved character could not be found.'); return; }
     state = Object.assign(defaultState(), saved);
     state.id = id;
-    state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
+    repairState(state);
     migrateDetails(state);
     state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
     ensurePlayStepValid();
@@ -3119,7 +3135,7 @@ const Wizard = (() => {
         state = Object.assign(defaultState(), incoming);
         state.id = genId();   // treat an imported character as a new roster entry
         // Repair structures that may be missing from older save files.
-        state.equipment = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, state.equipment || {});
+        repairState(state);
         migrateDetails(state);
         state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
         ensurePlayStepValid();
