@@ -2082,6 +2082,39 @@ body.on-sheet #app { padding-bottom: 200px; }
   .pg-row-ctl { justify-content: space-between; }
 }
 
+/* Play Fleet: management bar wrapped around the shared sheet stat card */
+.play-fleet { max-width: 980px; }
+.pf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pf-card-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pf-card-bar .pg-nickname { flex: 1; max-width: 320px; }
+.pf-card .sveh-card { border: none; padding: 0; background: transparent; }
+.pf-tag {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: var(--surface2);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pf-tag-borrowed { color: var(--accent); }
+.pf-tag-sold { color: var(--danger); }
+.pf-card .btn i { font-style: normal; font-size: 0.7em; color: var(--muted); margin-left: 3px; }
+
 /* ── Equipment on the final sheet ──────────────────────────────────── */
 .sheet-eq-cols {
   display: grid;

@@ -70,7 +70,7 @@ const Wizard = (() => {
   // instead of a linear build wizard. A global preference like Display/Theme,
   // not tied to any one character, so switching characters keeps it.
   const PLAY_KEY = 'sw_playmode';
-  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'vehicle', 'market', 'reference'];
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'play-fleet', 'market', 'reference'];
   function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
   function setPlayMode(mode) {
     localStorage.setItem(PLAY_KEY, mode);
@@ -835,8 +835,9 @@ const Wizard = (() => {
     // persisted as a raw index (autosave, roster, exports), so inserting
     // mid-array would silently re-point every existing save. Their on-screen
     // order comes from PLAY_TAB_IDS, not from their position in this array.
-    { id: 'market',    label: 'Market',        tab: 'Market',   valid: () => true, mode: 'play' },
-    { id: 'play-gear', label: 'My Gear',       tab: 'Gear',     valid: () => true, mode: 'play' },
+    { id: 'market',     label: 'Market',       tab: 'Market',   valid: () => true, mode: 'play' },
+    { id: 'play-gear',  label: 'My Gear',      tab: 'Gear',     valid: () => true, mode: 'play' },
+    { id: 'play-fleet', label: 'My Fleet',     tab: 'Fleet',    valid: () => true, mode: 'play' },
   ];
   // The last creation-mode step (nav and step counters never see play tabs;
   // creation steps are the contiguous run at the front of the array).
@@ -1046,7 +1047,8 @@ const Wizard = (() => {
                   spec: renderSpec, skills: renderSkills, oms: renderOMS, chars: renderChars,
                   talents: renderTalents, details: renderDetails, equip: renderEquip,
                   vehicle: renderVehicle, sheet: renderSheet, reference: renderReference,
-                  market: renderMarket, 'play-gear': renderPlayGear };
+                  market: renderMarket, 'play-gear': renderPlayGear,
+                  'play-fleet': renderPlayFleet };
     fns[STEPS[state.step].id]();
   }
 
@@ -2963,6 +2965,7 @@ const Wizard = (() => {
             <span class="veh-type-tag veh-group-${group.toLowerCase()}">${esc(group)}</span>
             <input class="veh-nickname" type="text" value="${esc(entry.nickname)}"
               placeholder="${esc(vd.name)}" data-vfield="nickname" data-vkey="${esc(entry.key)}" maxlength="60">
+            ${entry.soldInPlay ? '<span class="pf-tag pf-tag-sold" title="Sold or released during play; its creation cost stays part of the build">Sold in play</span>' : ''}
             <button class="cart-x" data-vact="rm" data-vkey="${esc(entry.key)}" title="Remove">&#10005;</button>
           </div>
           <div class="veh-fleet-card-meta">
@@ -3003,12 +3006,9 @@ const Wizard = (() => {
     }
     c.innerHTML = `
       <div class="step-header"><h2>Fleet</h2>
-        ${getPlayMode() === 'play'
-          ? `<p>A ship of your own answers only to you; one you haven't paid for is borrowed, shared with the crew,
-             or handed to you for the job. Restricted <span class="r-badge">R</span> vessels still need the GM's approval.</p>`
-          : `<p>Select a ship or vehicle for your character. Toggle <strong>Purchased</strong> to deduct the cost from
+        <p>Select a ship or vehicle for your character. Toggle <strong>Purchased</strong> to deduct the cost from
            your starting credits. Restricted <span class="r-badge">R</span> items require GM approval.
-           Vehicles not purchased represent loaned, party-owned, or mission-assigned craft.</p>`}</div>
+           Vehicles not purchased represent loaned, party-owned, or mission-assigned craft.</p></div>
       <div class="veh-main">
         <div class="veh-shop">
           <div class="veh-toolbar" id="veh-toolbar"></div>
@@ -3044,10 +3044,6 @@ const Wizard = (() => {
       if (el.dataset.vact === 'toggle-purchased') {
         const entry = ownedVehicle(el.dataset.vkey);
         if (!entry) return;
-        if (el.checked) {
-          const vd = Engine.getVehicle(el.dataset.vkey);
-          if (blockedByBudget(vd && typeof vd.price === 'number' ? vd.price : null)) { el.checked = false; return; }
-        }
         entry.purchased = el.checked; saveState(); drawFleet(); renderHeaderCredits();
       }
     });
@@ -3242,6 +3238,10 @@ const Wizard = (() => {
     weaponSetsArr().splice(+i, 1);
     saveState(); render();
   }
+  function gotoMarketStep() {
+    const ix = STEPS.findIndex(s => s.id === 'market');
+    if (ix >= 0) { state.step = ix; saveState(); render(); window.scrollTo(0, 0); }
+  }
   function renderPlayGear() {
     const c = $('#step-content');
     const d = Engine.derive(state);
@@ -3254,13 +3254,70 @@ const Wizard = (() => {
         setNickname: playSetNickname,
         pairSet: playPairSet,
         deleteSet: playDeleteSet,
-        gotoMarket: () => {
-          const ix = STEPS.findIndex(s => s.id === 'market');
-          if (ix >= 0) { state.step = ix; saveState(); render(); window.scrollTo(0, 0); }
-        },
+        gotoMarket: gotoMarketStep,
       },
     });
     initTipListeners(c.querySelector('.play-inv') || c);
+  }
+
+  // ── Step: My Fleet (Play mode) ────────────────────────────────────────────
+  // Owned-ship management. A play target names either a play-bought entry
+  // (by id) or a creation entry (by key); creation ships sold or released
+  // during play are flagged soldInPlay so their build-time cost stays put.
+  function fleetTarget(target) {
+    if (target.id) {
+      const e = (state.playVehicles || []).find(x => x.id === target.id);
+      return e ? { entry: e, source: 'play' } : null;
+    }
+    const e = ownedVehicle(target.key);
+    return e ? { entry: e, source: 'creation' } : null;
+  }
+  function playSellVehicle(target) {
+    const t = fleetTarget(target);
+    if (!t || (t.source === 'creation' && (t.entry.soldInPlay || !t.entry.purchased))) return;
+    const v = Engine.getVehicle(t.entry.key);
+    if (!v) return;
+    const p = typeof v.price === 'number' ? v.price : null;
+    const half = p === null ? 0 : Math.floor(p / 2);
+    const label = t.entry.nickname && t.entry.nickname !== v.name ? `${t.entry.nickname} (${v.name})` : v.name;
+    const msg = p === null
+      ? `Sell the ${label}? It has no listed price, so the sale brings in nothing.`
+      : `Sell the ${label} for ${fmtCr(half)} cr (half the listed ${fmtCr(p)} cr)?`;
+    if (!confirm(msg)) return;
+    if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
+    else t.entry.soldInPlay = true;   // purchased stays true: creation spend frozen
+    state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+    saveState(); render();
+  }
+  function playReleaseVehicle(target) {
+    const t = fleetTarget(target);
+    if (!t) return;
+    const v = Engine.getVehicle(t.entry.key);
+    const name = t.entry.nickname || (v && v.name) || 'this craft';
+    if (!confirm(`Release the ${name}? Borrowed craft go back to whoever lent them (no credits).`)) return;
+    if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
+    else t.entry.soldInPlay = true;
+    saveState(); render();
+  }
+  function playSetVehicleField(target, field, value) {
+    const t = fleetTarget(target);
+    if (!t) return;
+    t.entry[field] = value;
+    saveState();   // no re-render: keeps focus while typing
+  }
+  function renderPlayFleet() {
+    const c = $('#step-content');
+    const d = Engine.derive(state);
+    if (!d) { c.innerHTML = '<div class="empty-state">No character yet. Switch to Creation mode to build one.</div>'; return; }
+    Play.renderFleet(c, {
+      state, d,
+      api: {
+        sellVehicle: playSellVehicle,
+        releaseVehicle: playReleaseVehicle,
+        setVehicleField: playSetVehicleField,
+        gotoMarket: gotoMarketStep,
+      },
+    });
   }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────

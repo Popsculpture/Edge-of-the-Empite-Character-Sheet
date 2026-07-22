@@ -192,5 +192,68 @@ const Play = (() => {
       a.addEventListener('click', e => { e.preventDefault(); api.gotoMarket(); }));
   }
 
-  return { renderGear };
+  function renderFleet(container, ctx) {
+    const { state, d, api } = ctx;
+    const fleet = Engine.mergedFleet(state).filter(e => e.key);
+    const chars = (d && d.characteristics) || state.characteristics || {};
+    const ranks = (d && d.skill_ranks) || {};
+
+    const cards = fleet.map(entry => {
+      const v = Engine.getVehicle(entry.key);
+      if (!v) return '';
+      const half = halfPrice(v);
+      const isPlay = entry.source === 'play';
+      const borrowed = !isPlay && !entry.purchased;
+      const ref = isPlay ? `data-pf-id="${esc(entry.id)}"` : `data-pf-key="${esc(entry.key)}"`;
+      const sourceTag = borrowed
+        ? '<span class="pf-tag pf-tag-borrowed" title="Loaned, party-owned, or mission-assigned; it is not yours to sell">Borrowed</span>'
+        : (isPlay ? '<span class="pf-tag">Bought in play</span>' : '<span class="pf-tag">Owned</span>');
+      const action = borrowed
+        ? `<button class="btn btn-secondary btn-sm" data-pf-act="release" ${ref}
+             title="Hand the craft back; borrowed rides bring in nothing">Release</button>`
+        : `<button class="btn btn-secondary btn-sm" data-pf-act="sell" ${ref}
+             title="Sell at half the listed price">Sell +${fmtCr(half)}<i>cr</i></button>`;
+      return `
+        <div class="pf-card">
+          <div class="pf-card-bar">
+            <input class="pg-nickname" data-pf-nick ${ref} value="${esc(entry.nickname || '')}"
+              placeholder="${esc(v.name)}" maxlength="60" spellcheck="false">
+            ${sourceTag}
+            ${action}
+          </div>
+          ${Sheet.vehicleCardHtml(entry, v, chars, ranks)}
+          <textarea class="veh-notes" placeholder="Ship name, backstory, modifications..." rows="2"
+            data-pf-notes ${ref}>${esc(entry.notes || '')}</textarea>
+        </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="step-header"><h2>My Fleet</h2>
+        <p>The ships and vehicles at your disposal. Name them, log their history, and sell
+        what you own at half the listed price; borrowed craft go back to whoever lent them.
+        New hulls come from the <a href="#" data-pg-goto="market">Market</a>.</p></div>
+      <div class="play-inv play-fleet">
+        ${cards || `<div class="cart-empty">No ships or vehicles yet. Visit the
+          <a href="#" data-pg-goto="market">Market</a> to buy your first hull.</div>`}
+      </div>`;
+
+    const root = container.querySelector('.play-fleet');
+    root.addEventListener('click', e => {
+      const el = e.target.closest('[data-pf-act]');
+      if (!el) return;
+      const target = { id: el.dataset.pfId || null, key: el.dataset.pfKey || null };
+      if (el.dataset.pfAct === 'sell') api.sellVehicle(target);
+      else api.releaseVehicle(target);
+    });
+    root.addEventListener('input', e => {
+      const nick = e.target.closest('[data-pf-nick]');
+      if (nick) { api.setVehicleField({ id: nick.dataset.pfId || null, key: nick.dataset.pfKey || null }, 'nickname', nick.value); return; }
+      const notes = e.target.closest('[data-pf-notes]');
+      if (notes) api.setVehicleField({ id: notes.dataset.pfId || null, key: notes.dataset.pfKey || null }, 'notes', notes.value);
+    });
+    container.querySelectorAll('[data-pg-goto]').forEach(a =>
+      a.addEventListener('click', e => { e.preventDefault(); api.gotoMarket(); }));
+  }
+
+  return { renderGear, renderFleet };
 })();

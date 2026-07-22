@@ -518,19 +518,13 @@ const Sheet = (() => {
       </div>`;
   }
 
-  function vehicleBlock(state, derived) {
-    const fleet = (state.vehicles || []).filter(e => e.key);
-    if (!fleet.length) return '';
-
+  // One full vehicle stat card, shared by the Sheet's Fleet panel and the
+  // Play-mode Fleet tab. entry is a fleet record {key, nickname, notes,
+  // purchased}; chars/ranks feed the Gunnery attack buttons.
+  function vehicleCardHtml(entry, v, chars, ranks) {
     const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
     const vwMap = (SW.vehicleWeapons || []).reduce((m, w) => { m[w.key] = w; return m; }, {});
-    const chars = (derived && derived.characteristics) || state.characteristics || {};
-    const ranks = (derived && derived.skill_ranks) || {};
     const ARC_LABELS = { fore: 'Fore', aft: 'Aft', port: 'Port', starboard: 'Starboard', dorsal: 'Dorsal', ventral: 'Ventral' };
-
-    const cards = fleet.map(entry => {
-      const v = Engine.getVehicle(entry.key);
-      if (!v) return '';
       const displayName = entry.nickname && entry.nickname !== v.name ? entry.nickname : v.name;
       const arcVal = (val, lbl, cls) =>
         `<div class="sveh-arc-cell ${cls}"><div class="sveh-arc-val">${val ?? 0}</div><div class="sveh-arc-lbl">${lbl}</div></div>`;
@@ -615,6 +609,18 @@ const Sheet = (() => {
           ${wRows ? `<div class="sveh-weapons"><div class="sveh-weapons-title">Weapons</div><div class="wpn-cards">${wRows}</div></div>` : ''}
           ${entry.notes ? `<div class="sveh-notes">${esc(entry.notes)}</div>` : ''}
         </div>`;
+  }
+
+  function vehicleBlock(state, derived) {
+    // The sheet shows the merged fleet: creation ships still held plus ships
+    // bought during play (those are always owned outright, never "borrowed").
+    const fleet = Engine.mergedFleet(state).filter(e => e.key);
+    if (!fleet.length) return '';
+    const chars = (derived && derived.characteristics) || state.characteristics || {};
+    const ranks = (derived && derived.skill_ranks) || {};
+    const cards = fleet.map(entry => {
+      const v = Engine.getVehicle(entry.key);
+      return v ? vehicleCardHtml(entry, v, chars, ranks) : '';
     }).join('');
 
     return `
@@ -662,5 +668,5 @@ const Sheet = (() => {
     return chips || '<span class="wpn-none">None</span>';
   }
 
-  return { render };
+  return { render, vehicleCardHtml };
 })();
