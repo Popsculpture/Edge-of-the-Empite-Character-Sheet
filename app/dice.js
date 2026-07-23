@@ -22,6 +22,91 @@ const Dice = (() => {
 
   const pool = { boost: 0, ability: 0, proficiency: 0, setback: 0, difficulty: 0, challenge: 0, force: 0 };
   let labelText = '';
+  // What kind of check seeded the pool: 'combat' (attack buttons), 'skill'
+  // (sheet skill dice, with the skill name), or 'generic' (pool built by hand
+  // in the tray). Drives which spend-your-results tips a roll offers.
+  let ctxType = 'generic';
+  let ctxSkill = '';
+
+  // What leftover symbols can buy, compressed from the EotE Core Rulebook
+  // (combat: Tables 6-2 and 6-3, p.206-207; general play: the dice symbol
+  // rules, p.12-24 and p.23-24; skills: the Chapter 3 skill entries). The
+  // Reference tab carries the full rules text; these are prompts at the
+  // table, not an exhaustive list, and the GM narrates Threat and Despair.
+  const SPEND = {
+    combat: {
+      a: [
+        { c: 1, t: 'Recover 1 strain (repeatable)' },
+        { c: 1, t: 'Add a boost die to the next allied character\'s check' },
+        { c: 1, t: 'Notice an important point in the conflict: a control panel, a weak spot' },
+        { c: 1, t: 'On a damaging hit: activate a weapon quality, or a Critical Injury for the weapon\'s Crit rating' },
+        { c: 2, t: 'Perform an immediate free maneuver (two-maneuver limit still applies)' },
+        { c: 2, t: 'Add a setback die to the target\'s next check' },
+        { c: 2, t: 'Add a boost die to any ally\'s next check, including your own' },
+        { c: 3, t: 'Negate the target\'s defense (cover, equipment, Guarded Stance) this round' },
+        { c: 3, t: 'Ignore penalizing environmental effects until the end of your next turn' },
+        { c: 3, t: 'Disable the opponent or one piece of their gear instead of dealing wounds' },
+        { c: 3, t: 'Gain +1 melee or ranged defense until the end of your next turn' },
+        { c: 3, t: 'Force the target to drop a wielded weapon' },
+      ],
+      tr: [
+        { c: 1, t: 'On a damaging hit: inflict a Critical Injury or activate any weapon quality, whatever its cost' },
+        { c: 1, t: 'Upgrade the difficulty of the target\'s next check' },
+        { c: 1, t: 'Upgrade any ally\'s next check, including your own' },
+        { c: 1, t: 'Do something vital: shoot the blast door controls shut' },
+        { c: 2, t: 'Destroy a piece of equipment the target is using' },
+      ],
+      h: [
+        { c: 1, t: 'You suffer 1 strain (repeatable)' },
+        { c: 1, t: 'You lose the benefit of a prior maneuver (cover, Guarded Stance) until repeated' },
+        { c: 2, t: 'An opponent performs an immediate free maneuver' },
+        { c: 2, t: 'Add a boost die to the target\'s next check' },
+        { c: 2, t: 'You or an ally suffer a setback die on the next action' },
+        { c: 3, t: 'You fall prone' },
+        { c: 3, t: 'You hand the enemy a significant advantage in the encounter' },
+      ],
+      de: [
+        { c: 1, t: 'Your ranged weapon runs out of ammo for the encounter' },
+        { c: 1, t: 'Your tool or melee weapon is damaged' },
+        { c: 1, t: 'Upgrade the difficulty of an ally\'s next check' },
+      ],
+    },
+    generic: {
+      a: [
+        { c: 1, t: 'Recover 1 strain (repeatable)' },
+        { c: 1, t: 'Add a boost die to an ally\'s next check' },
+        { c: 1, t: 'Notice a useful detail, shortcut, or opening others missed' },
+        { c: 2, t: 'Finish the task faster, quieter, or better than expected' },
+        { c: 2, t: 'Create an opportunity: an extra maneuver, a foothold for the next check' },
+      ],
+      tr: [
+        { c: 1, t: 'A potent boon: trigger a powerful effect, or even recover a wound' },
+        { c: 1, t: 'Upgrade an ally\'s next check, or do something vital to the scene' },
+      ],
+      h: [
+        { c: 1, t: 'You suffer 1 strain (repeatable)' },
+        { c: 1, t: 'The task takes longer than expected' },
+        { c: 2, t: 'An opponent gains an opening or a boost die' },
+        { c: 2, t: 'You lose the benefit of a prior maneuver or of your position' },
+        { c: 3, t: 'A real complication: fall prone, an alarm, an environmental effect' },
+      ],
+      de: [
+        { c: 1, t: 'A potent setback: gear breaks or jams, wounds instead of strain, the plan leaks' },
+        { c: 1, t: 'Upgrade the difficulty of an ally\'s next check' },
+      ],
+    },
+    // Skill-specific color from the Chapter 3 entries, shown above the
+    // general options when that skill seeded the pool.
+    skills: {
+      'Charm':       { a: 'Sway bystanders beyond your original target', tr: 'The target becomes a recurring ally predisposed to help', h: 'Fewer people influenced, or some turn against you', de: 'One NPC becomes a minor recurring adversary' },
+      'Coercion':    { a: '2: Cow onlookers who witnessed the attempt', tr: 'Break the subject\'s will; their allegiance shifts to you', h: 'The subject grows to despise you', de: 'You reveal your own goals and motives to the target' },
+      'Deception':   { a: 'Increase the value of the goods or services gained', tr: 'The target now trusts you; future lies to them are unopposed', h: 'Part of the lie slips; the target grows suspicious', de: 'Word of the deceit spreads; your reputation suffers' },
+      'Leadership':  { a: 'Bystanders follow the order too', tr: 'The target becomes a faithful recurring follower', h: 'Orders are carried out slowly or poorly', de: 'Your authority is undermined; the target may turn others against you' },
+      'Negotiation': { a: 'Earn an unrelated concession or boon from the other side', tr: 'The other party becomes a regular client or vendor', h: 'Worse prices, shorter terms', de: 'The deal is sabotaged: counterfeit goods, poisoned terms' },
+      'Computers':   { a: 'Uncover extra information in the system', tr: 'Cover your tracks: each Triumph adds a success against later trace attempts', h: 'Security is alerted; hunters get boost dice on your trail', de: 'You leave traces that expose your own system' },
+      'Cool':        { a: 'Spot a complication early, or something you can exploit', tr: 'Recover 3 strain per Triumph', h: 'You miss a vital detail or event', de: 'Staggered for a round, overwhelmed by the chaos' },
+    },
+  };
 
   // Result symbols drawn with the Edge of the Empire symbol font (see .es /
   // @font-face in the stylesheet). Each entry is [glyph letter, canonical
@@ -101,8 +186,12 @@ const Dice = (() => {
     if (lbl) lbl.textContent = labelText;
   }
 
-  function setPoolFromUpgrade(label, ability, prof, difficulty) {
+  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill) {
     labelText = label || '';
+    // Remember what kind of check this is so the results can offer the right
+    // spend options. A hand-built pool (no seeding button) stays generic.
+    ctxType = context === 'combat' || context === 'skill' ? context : 'generic';
+    ctxSkill = skill || '';
     // Start a clean check: this skill/weapon's Ability + Proficiency, no leftover
     // context dice from a previous roll. The player then adds difficulty/boost/etc.
     // An optional starting difficulty seeds two-weapon penalty dice.
@@ -125,6 +214,8 @@ const Dice = (() => {
   function clearPool() {
     for (const k in pool) pool[k] = 0;
     labelText = '';
+    ctxType = 'generic';
+    ctxSkill = '';
     renderPool();
     const r = document.getElementById('dc-results');
     if (r) r.classList.remove('show');
@@ -158,6 +249,48 @@ const Dice = (() => {
 
   function tchip(type, count, label) {
     return `<span class="dc-tchip">${sym(type)} <span class="dc-c">${count}</span> ${label}</span>`;
+  }
+
+  // Spend-your-results tips: only the options this roll can actually afford,
+  // colored by what seeded the pool (combat, a specific skill, or generic).
+  // The player narrates Advantage and Triumph; the GM narrates Threat and
+  // Despair, so those sections are framed as what the GM may do.
+  function tipsHtml(t, netA) {
+    const lib = ctxType === 'combat' ? SPEND.combat : SPEND.generic;
+    const skill = ctxType === 'skill' ? SPEND.skills[ctxSkill] : null;
+    const netH = -netA;
+
+    const list = (opts, budget, skillTip) => {
+      const rows = opts.filter(o => o.c <= budget)
+        .map(o => `<li><i class="dc-tip-cost">${o.c}</i>${o.t}</li>`);
+      if (skillTip) rows.unshift(`<li class="dc-tip-skill"><i class="dc-tip-cost">&#9733;</i>${skillTip}</li>`);
+      return rows.length ? `<ul class="dc-tip-list">${rows.join('')}</ul>` : '';
+    };
+    const section = (type, title, body, note) => body
+      ? `<div class="dc-tip-sec"><div class="dc-tip-h">${sym(type)} ${title}</div>${body}${note ? `<div class="dc-tip-note">${note}</div>` : ''}</div>`
+      : '';
+
+    const out = [];
+    if (netA > 0) {
+      out.push(section('a', `Spend ${netA} Advantage`,
+        list(lib.a, netA, skill && skill.a ? `${ctxSkill}: ${skill.a}` : '')));
+    }
+    if (t.tr > 0) {
+      out.push(section('tr', `Spend ${t.tr} Triumph`,
+        list(lib.tr, t.tr, skill && skill.tr ? `${ctxSkill}: ${skill.tr}` : ''),
+        ctxType === 'combat' ? 'A Triumph can also buy any Advantage option, whatever its cost.' : ''));
+    }
+    if (netH > 0) {
+      out.push(section('h', `${netH} Threat (the GM spends)`,
+        list(lib.h, netH, skill && skill.h ? `${ctxSkill}: ${skill.h}` : '')));
+    }
+    if (t.de > 0) {
+      out.push(section('de', `${t.de} Despair (the GM spends)`,
+        list(lib.de, t.de, skill && skill.de ? `${ctxSkill}: ${skill.de}` : '')));
+    }
+    const body = out.filter(Boolean).join('');
+    if (!body) return '';
+    return `<div class="dc-tips">${body}<div class="dc-tip-note">Prompts, not limits: invent other spends with the GM. Full rules on the Reference tab.</div></div>`;
   }
 
   function renderResults(t, perDie) {
@@ -198,7 +331,8 @@ const Dice = (() => {
       </div>
       ${chips ? `<div class="dc-totals">${chips}</div>` : '<div class="dc-totals"><span class="dc-tchip">Wash — nothing happens</span></div>'}
       <div class="dc-perdie">${strip}</div>
-      <div class="dc-hint">Successes ${t.s + t.tr} · Advantages ${t.a} · Failures ${t.f + t.de} · Threats ${t.h}${(t.lt || t.dk) ? ` · Force ${t.lt} light / ${t.dk} dark` : ''}</div>`;
+      <div class="dc-hint">Successes ${t.s + t.tr} · Advantages ${t.a} · Failures ${t.f + t.de} · Threats ${t.h}${(t.lt || t.dk) ? ` · Force ${t.lt} light / ${t.dk} dark` : ''}</div>
+      ${tipsHtml(t, netA)}`;
     res.classList.add('show');
   }
 
@@ -207,7 +341,8 @@ const Dice = (() => {
     document.addEventListener('click', e => {
       const roller = e.target.closest('[data-dice-ability]');
       if (roller) {
-        setPoolFromUpgrade(roller.dataset.diceLabel || '', +roller.dataset.diceAbility || 0, +roller.dataset.diceProf || 0, +roller.dataset.diceDifficulty || 0);
+        setPoolFromUpgrade(roller.dataset.diceLabel || '', +roller.dataset.diceAbility || 0, +roller.dataset.diceProf || 0, +roller.dataset.diceDifficulty || 0,
+                           roller.dataset.diceContext || '', roller.dataset.diceSkill || '');
         return;
       }
       const t = e.target.closest('[data-dc],[data-dc-die],[data-dc-diff]');

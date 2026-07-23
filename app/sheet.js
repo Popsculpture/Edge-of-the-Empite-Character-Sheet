@@ -272,7 +272,7 @@ const Sheet = (() => {
           <div class="sheet-skill-row${zebra}">
             <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span></span>
             <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key])}</div>
-            <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="${esc(skill.name)} check" title="Send ${abil} ability + ${prof} proficiency to the dice pool">&#127922;</button>
+            <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="${esc(skill.name)} check" data-dice-context="skill" data-dice-skill="${esc(skill.name)}" title="Send ${abil} ability + ${prof} proficiency to the dice pool">&#127922;</button>
           </div>`;
       }
     }
@@ -480,7 +480,7 @@ const Sheet = (() => {
         <div class="wpn-card">
           <div class="wpn-head">
             <input class="wpn-name" data-wpn-key="${k}" value="${esc(nick)}" placeholder="${esc(w.name)}" title="Rename this weapon" spellcheck="false">
-            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="Attack: ${esc(w.name)}" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : w.skill || '?')}) to the dice pool">&#127922; attack</button>
+            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="Attack: ${esc(w.name)}" data-dice-context="combat" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : w.skill || '?')}) to the dice pool">&#127922; attack</button>
           </div>
           ${renamed}
           <div class="wpn-grid">
@@ -523,7 +523,7 @@ const Sheet = (() => {
         <div class="wpn-card wpn-card-dual">
           <div class="wpn-head">
             <span class="wpn-name-static dual-toggle" data-dual-toggle title="Tap to show / hide the two-weapon rules">&#9876; ${esc(wa.name)} + ${esc(wb.name)} <span class="dual-chevron">&#9662;</span></span>
-            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-difficulty="${penalty}" data-dice-label="Two-Weapon: ${esc(wa.name)} + ${esc(wb.name)}" title="Combined check: ${abil} ability + ${prof} proficiency + ${penalty} difficulty">&#127922; combined</button>
+            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-difficulty="${penalty}" data-dice-label="Two-Weapon: ${esc(wa.name)} + ${esc(wb.name)}" data-dice-context="combat" title="Combined check: ${abil} ability + ${prof} proficiency + ${penalty} difficulty">&#127922; combined</button>
           </div>
           <div class="dual-rules">
             <p>Single combined check using your <b>lower</b> skill &amp; characteristic (<b>${esc(usedSkill ? usedSkill.name : '?')}</b>), at <b>+${penalty} difficulty</b> (${sameSkill ? 'same skill' : 'different skills'}). Set the target's range difficulty as usual.</p>
@@ -574,7 +574,7 @@ const Sheet = (() => {
           <div class="wpn-card wpn-card-veh">
             <div class="wpn-head">
               <span class="wpn-name-static">${esc(wd.name)}${count}</span>
-              <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="${esc(wd.name)} (${esc(v.name)})" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : 'Gunnery')}) to the dice pool">&#127922; attack</button>
+              <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="${esc(wd.name)} (${esc(v.name)})" data-dice-context="combat" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : 'Gunnery')}) to the dice pool">&#127922; attack</button>
             </div>
             <div class="wpn-grid">
               <div class="wpn-field"><label>Skill</label><div class="wpn-val">${esc(sk ? sk.name : 'Gunnery')}</div></div>

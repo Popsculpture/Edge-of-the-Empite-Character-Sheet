@@ -1543,7 +1543,7 @@ body.on-sheet #app { padding-bottom: 200px; }
 }
 .dc-roll:hover { filter: brightness(1.08); }
 
-.dc-results { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; display: none; max-height: 24vh; overflow-y: auto; }
+.dc-results { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; display: none; max-height: 34vh; overflow-y: auto; }
 .dc-results.show { display: block; }
 .dc-verdict { font-weight: 800; font-size: 1.05rem; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .dc-vmain.s { color: var(--success); }
@@ -1560,6 +1560,23 @@ body.on-sheet #app { padding-bottom: 200px; }
 .dc-pd[data-dc-die="force"] { background: #eef2f5; border-color: #9fb0c2; }
 .dc-pd.blank::after { content: "-"; opacity: .4; font-size: 0.7rem; }
 .dc-hint { font-size: 0.72rem; color: var(--muted); margin-top: 6px; }
+
+/* Spend-your-results tips: what the leftover symbols can buy, filtered to
+   what this roll affords, grouped per symbol with the seeding context. */
+.dc-tips { margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 8px; display: grid; gap: 8px; }
+.dc-tip-sec { font-size: 0.78rem; }
+.dc-tip-h { font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+.dc-tip-h .dc-sym { font-size: 1rem; }
+.dc-tip-list { list-style: none; margin: 0; padding: 0; }
+.dc-tip-list li { display: flex; align-items: baseline; gap: 7px; padding: 1px 0; color: var(--text); line-height: 1.35; }
+.dc-tip-cost {
+  font-style: normal; font-weight: 800; font-size: 0.68rem; flex-shrink: 0;
+  min-width: 16px; text-align: center; border-radius: 8px; padding: 0 3px;
+  background: var(--surface2); color: var(--muted);
+}
+.dc-tip-skill { color: var(--accent); }
+.dc-tip-skill .dc-tip-cost { color: var(--accent); }
+.dc-tip-note { font-size: 0.7rem; color: var(--muted); margin-top: 3px; font-style: italic; }
 
 /* Result glyphs from the EotE symbol font. Totals chips colour each glyph by
    symbol (neutral background); per-die boxes render a contrasting monochrome
