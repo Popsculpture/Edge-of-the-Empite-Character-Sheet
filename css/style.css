@@ -2176,6 +2176,9 @@ body.on-sheet #app { padding-bottom: 200px; }
 .ledger-pos { color: var(--success); }
 .ledger-neg { color: var(--danger); }
 
+/* Creation cart line frozen by play-mode history */
+.cart-row-locked { opacity: 0.75; }
+
 /* ── Equipment on the final sheet ──────────────────────────────────── */
 .sheet-eq-cols {
   display: grid;

@@ -2213,6 +2213,13 @@ const Wizard = (() => {
   }
   function ownedQty(cat, key) { const l = eqBag(cat)[key]; return l ? l.qty : 0; }
   function mergedQty(cat, key) { const l = Engine.mergedLine(state, cat, key); return l ? l.qty : 0; }
+  // A creation line with ANY play-layer delta (sale, extra copies, or a flag
+  // override) is frozen in the creation cart: repricing it there would corrupt
+  // the money that already changed hands at the table.
+  function creationLineLocked(cat, key) {
+    const pbag = state.playEquipment && state.playEquipment[cat];
+    return !!(pbag && pbag[key]);
+  }
   // What an "Owned xN" badge should say in the current storefront: the
   // creation cart counts only creation purchases; the Market counts the
   // whole merged inventory, play acquisitions included.
@@ -2505,6 +2512,22 @@ const Wizard = (() => {
                                    : (p === null ? '—' : fmtCr(p * line.qty));
         const carry = line.carry !== false, show = line.show !== false, equip = !!line.equip;
         const sel = _eqSelected && _eqSelected.cat === cat && _eqSelected.key === key ? ' eq-sel' : '';
+        // Once a line has Play-mode history (a sale, extra copies, or a flag
+        // election), editing it here would unfreeze money that already changed
+        // hands at the table, so the row locks and points at the Play tabs.
+        if (creationLineLocked(cat, key)) {
+          return `
+          <div class="cart-row cart-row-locked${sel}" data-sel-cat="${cat}" data-sel-key="${key}">
+            <div class="cart-row-top">
+              <span class="cart-name" data-act="select" data-cat="${cat}" data-key="${key}">${esc(it.name)}</span>
+              <span class="pf-tag" title="Changed during play (sold, restocked, or re-equipped). Manage it from the Play tabs; its creation cost stays part of this build.">In play</span>
+            </div>
+            <div class="cart-row-ctl">
+              <div class="cart-qty"><span>${line.qty}</span></div>
+              <span class="cart-cost">${lineCost}</span>
+            </div>
+          </div>`;
+        }
         const flags = `
           ${equippableCat(cat, it)
             ? `<label class="cart-flag" title="Equipped (wielded / worn)"><input type="checkbox" data-act="equip" data-cat="${cat}" data-key="${key}"${equip ? ' checked' : ''}><span>E</span></label>`
@@ -2691,6 +2714,10 @@ const Wizard = (() => {
   function addItem(cat, key) {
     const bag = eqBag(cat);
     const it = Engine.getItem(cat, key);
+    if (creationLineLocked(cat, key)) {
+      alert('This item changed hands during play, so its commerce now lives there. Buy more of it from the Market in Play mode.');
+      return;
+    }
     if (bag[key] && bag[key].qty) bag[key].qty++;
     else bag[key] = { qty: 1, free: _eqMode, carry: true, show: true,
                       equip: equippableCat(cat, it) && !anyEquipped(cat) };
@@ -2698,16 +2725,18 @@ const Wizard = (() => {
   }
   function setQty(cat, key, qty) {
     const bag = eqBag(cat);
-    if (!bag[key]) return;
+    if (!bag[key] || creationLineLocked(cat, key)) return;
     if (qty <= 0) delete bag[key];
     else bag[key].qty = qty;
     afterEquipChange();
   }
   function toggleFree(cat, key) {
+    if (creationLineLocked(cat, key)) return;
     const bag = eqBag(cat);
     if (bag[key]) { bag[key].free = !bag[key].free; afterEquipChange(); }
   }
   function toggleFlag(cat, key, flag) {
+    if (creationLineLocked(cat, key)) return;
     const bag = eqBag(cat);
     const line = bag[key];
     if (!line) return;
@@ -2715,6 +2744,12 @@ const Wizard = (() => {
     line[flag] = !cur;
     if (flag === 'equip' && line.equip && cat === 'armor') {
       for (const k of Object.keys(bag)) if (k !== key && bag[k]) bag[k].equip = false;  // one suit worn
+      // A play-layer equip override on another suit would still win the
+      // merge; clear any that exist so one-suit-worn holds across layers.
+      const pbag = state.playEquipment && state.playEquipment.armor;
+      if (pbag) for (const k of Object.keys(pbag)) {
+        if (k !== key && pbag[k] && 'equip' in pbag[k]) pbag[k].equip = false;
+      }
     }
     afterEquipChange();
   }
@@ -2769,6 +2804,10 @@ const Wizard = (() => {
   }
 
   function removeVehicle(key) {
+    // A ship sold or released during play already settled at half price;
+    // deleting its entry here would refund the frozen creation cost on top.
+    const entry = ownedVehicle(key);
+    if (!entry || entry.soldInPlay) return;
     state.vehicles = (state.vehicles || []).filter(v => v.key !== key);
     saveState();
     drawVehicleList();
@@ -2980,8 +3019,9 @@ const Wizard = (() => {
             <span class="veh-type-tag veh-group-${group.toLowerCase()}">${esc(group)}</span>
             <input class="veh-nickname" type="text" value="${esc(entry.nickname)}"
               placeholder="${esc(vd.name)}" data-vfield="nickname" data-vkey="${esc(entry.key)}" maxlength="60">
-            ${entry.soldInPlay ? '<span class="pf-tag pf-tag-sold" title="Sold or released during play; its creation cost stays part of the build">Sold in play</span>' : ''}
-            <button class="cart-x" data-vact="rm" data-vkey="${esc(entry.key)}" title="Remove">&#10005;</button>
+            ${entry.soldInPlay
+              ? '<span class="pf-tag pf-tag-sold" title="Sold or released during play; its creation cost stays part of the build and cannot be edited here">Sold in play</span>'
+              : `<button class="cart-x" data-vact="rm" data-vkey="${esc(entry.key)}" title="Remove">&#10005;</button>`}
           </div>
           <div class="veh-fleet-card-meta">
             ${[['Sil',vd.silhouette],['Spd',vd.speed],['Hdl',vd.handling],
@@ -2990,7 +3030,7 @@ const Wizard = (() => {
           </div>
           <div class="veh-fleet-card-footer">
             <label class="cart-flag" style="gap:5px">
-              <input type="checkbox" data-vact="toggle-purchased" data-vkey="${esc(entry.key)}"${entry.purchased?' checked':''}>
+              <input type="checkbox" data-vact="toggle-purchased" data-vkey="${esc(entry.key)}"${entry.purchased?' checked':''}${entry.soldInPlay?' disabled':''}>
               Purchased
             </label>
             ${price !== null
@@ -3059,6 +3099,9 @@ const Wizard = (() => {
       if (el.dataset.vact === 'toggle-purchased') {
         const entry = ownedVehicle(el.dataset.vkey);
         if (!entry) return;
+        // The checkbox renders disabled for soldInPlay entries; keep the
+        // guard anyway so no path can unfreeze a settled sale.
+        if (entry.soldInPlay) { el.checked = !!entry.purchased; return; }
         entry.purchased = el.checked; saveState(); drawFleet(); renderHeaderCredits();
       }
     });
@@ -3269,6 +3312,10 @@ const Wizard = (() => {
     line.qty = (line.qty || 0) - 1;
     state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
     postLedger('sell', it.name, half);
+    // You cannot wear or wield what you no longer own: when the last copy
+    // goes, clear the equipped election so a later re-buy comes back stowed.
+    const after = Engine.mergedLine(state, cat, key);
+    if (after && !after.qty && after.equip) line.equip = false;
     tidyPlayLine(cat, key);
     pruneSets();
     if (Engine.isCompanionItem(cat, it)) syncCompanions();
@@ -3396,6 +3443,9 @@ const Wizard = (() => {
     // Retire records for units no longer owned: prefer unnamed, unannotated
     // records, newest first, so a companion the player has named survives.
     for (const key of Object.keys(have)) {
+      // Unknown item key (data drift between app versions): keep the
+      // player's records rather than destroy names and notes.
+      if (!Engine.getGear(key)) continue;
       let excess = have[key] - (want[key] || 0);
       const drop = pred => {
         for (let i = state.companions.length - 1; i >= 0 && excess > 0; i--) {
