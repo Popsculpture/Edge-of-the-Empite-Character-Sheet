@@ -2196,6 +2196,83 @@ body.on-sheet #app { padding-bottom: 200px; }
 /* Creation cart line frozen by play-mode history */
 .cart-row-locked { opacity: 0.75; }
 
+/* ── Specializations: tree sub-tabs and the buy picker ──────────────── */
+.tt-tabs { margin-bottom: 10px; }
+.tt-add-tab { border-style: dashed; }
+.tt-treebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+/* A talent inherited free from another tree: owned, but not bought here. */
+.tt-node.tt-auto { border-style: dashed; opacity: 0.9; }
+
+.spick-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.spick-toolbar input[type="search"] {
+  flex: 1 1 260px;
+  min-width: 0;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font: inherit;
+  padding: 7px 10px;
+}
+.spick-list { max-width: 860px; display: flex; flex-direction: column; gap: 16px; }
+.spick-sec {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.spick-sec-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.spick-note { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; }
+.spick-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 2px;
+  border-bottom: 1px solid var(--border);
+}
+.spick-row:last-child { border-bottom: none; }
+.spick-dear { opacity: 0.55; }
+.spick-main { min-width: 0; }
+.spick-name { font-weight: 600; }
+.spick-meta { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+.spick-skills { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.spick-skills span {
+  font-size: 0.68rem;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: var(--surface2);
+  color: var(--muted);
+}
+.spick-buy { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.spick-cost { font-weight: 800; color: var(--accent); white-space: nowrap; }
+.spick-cost i { font-style: normal; font-size: 0.65em; color: var(--muted); margin-left: 3px; }
+@media (max-width: 700px) {
+  .spick-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .spick-buy { justify-content: space-between; }
+}
+
 /* ── Equipment on the final sheet ──────────────────────────────────── */
 .sheet-eq-cols {
   display: grid;

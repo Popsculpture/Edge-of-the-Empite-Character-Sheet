@@ -280,7 +280,8 @@ const Wizard = (() => {
       duty:               { type: '', deficit: 0, bonusType: '' },
       morality:           { strength: '', weakness: '', score: 50 },
       talentPurchases:    {},
-      dedicationChoices:  [],
+      extraSpecKeys:      [], // specializations bought beyond the free starting one, in purchase order
+      dedicationChoices:  {}, // 'specKey:treeIndex' -> characteristic chosen for that Dedication box
       woundCur:           0,
       strainCur:          0,
       beginnings:         '',
@@ -315,6 +316,50 @@ const Wizard = (() => {
     if (!Array.isArray(s.playVehicles)) s.playVehicles = [];
     if (!Array.isArray(s.companions))   s.companions   = [];
     if (!Array.isArray(s.ledger))       s.ledger       = [];
+    if (!Array.isArray(s.extraSpecKeys)) s.extraSpecKeys = [];
+    // An extra specialization must be real, and must not restate the starting
+    // one or itself (either would charge for a tree the character already has).
+    s.extraSpecKeys = s.extraSpecKeys.filter((k, i) =>
+      k && k !== s.specKey && Engine.getSpec(k) && s.extraSpecKeys.indexOf(k) === i);
+    migrateDedication(s);
+    // Talent purchases for a tree the character does not own (a specialization
+    // browsed and then swapped during creation) are already ignored by the
+    // engine; drop them so they can never resurface as spend if that
+    // specialization is bought later on.
+    if (s.talentPurchases && typeof s.talentPurchases === 'object') {
+      const owned = new Set(Engine.ownedSpecKeys(s));
+      for (const k of Object.keys(s.talentPurchases)) if (!owned.has(k)) delete s.talentPurchases[k];
+    }
+  }
+
+  // Restructuring the build (new game line or new career) drops the bought
+  // specializations along with their trees and Dedication picks, the same way
+  // the starting specialization and its skill picks are already discarded.
+  function clearExtraSpecs() {
+    for (const k of (state.extraSpecKeys || [])) {
+      if (state.talentPurchases) delete state.talentPurchases[k];
+      for (const id of Object.keys(state.dedicationChoices || {})) {
+        if (id.slice(0, k.length + 1) === k + ':') delete state.dedicationChoices[id];
+      }
+    }
+    state.extraSpecKeys = [];
+  }
+
+  // Dedication picks used to be a flat list, positional within the character's
+  // single tree. With several trees they become a map keyed by tree and tree
+  // position, so a pick stays attached to the box that earned it no matter what
+  // else is bought or dropped later.
+  function migrateDedication(s) {
+    if (!s) return;
+    if (!Array.isArray(s.dedicationChoices)) {
+      if (!s.dedicationChoices || typeof s.dedicationChoices !== 'object') s.dedicationChoices = {};
+      return;
+    }
+    const legacy = s.dedicationChoices;
+    const map = {};
+    const nodes = Engine.dedicationNodes(s);
+    for (let i = 0; i < nodes.length && i < legacy.length; i++) if (legacy[i]) map[nodes[i].id] = legacy[i];
+    s.dedicationChoices = map;
   }
 
   let state = defaultState();
@@ -1093,6 +1138,7 @@ const Wizard = (() => {
         if (state.game !== id) {
           state.game = id; state.mechanic = null; state.careerKey = null;
           state.specKey = null; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = [];
+          clearExtraSpecs();   // a different game line means a different set of trees
         }
         saveState(); render();
       });
@@ -1297,6 +1343,7 @@ const Wizard = (() => {
       card.addEventListener('click', () => {
         if (state.careerKey !== ca.key) {
           state.careerKey = ca.key; state.specKey = null; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = [];
+          clearExtraSpecs();   // extras were priced against the old career
         }
         saveState(); renderStep(); renderNav();
       });
@@ -1311,7 +1358,9 @@ const Wizard = (() => {
     const career = Engine.getCareer(state.careerKey);
     c.innerHTML = `
       <div class="step-header"><h2>Choose Your Starting Specialization</h2>
-        <p>Your specialization grants 4 bonus career skills and a talent tree to purchase from.</p></div>
+        <p>Your specialization grants 4 bonus career skills and a talent tree to purchase from. This
+        first one is free, and it is the only one that grants free skill ranks. You can buy more at
+        any time from the <strong>Talents</strong> tab, for 10 XP times the number you would then own.</p></div>
       <div class="filter-bar">
         <input type="search" id="spec-search" placeholder="Filter specializations...">
         <label style="display:flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--muted);white-space:nowrap;cursor:pointer">
@@ -1367,7 +1416,12 @@ const Wizard = (() => {
           <div class="talent-tree">${treeHtml}</div>`;
 
         card.addEventListener('click', () => {
-          if (state.specKey !== sp.key) { state.specKey = sp.key; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = []; }
+          if (state.specKey !== sp.key) {
+            state.specKey = sp.key; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = [];
+            // Promoting a bought specialization to the starting one makes it
+            // free, so it must stop being charged for as an extra.
+            state.extraSpecKeys = (state.extraSpecKeys || []).filter(k => k !== sp.key);
+          }
           saveState(); draw(); renderNav();
         });
         grid.appendChild(card);
@@ -1970,15 +2024,156 @@ const Wizard = (() => {
   function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 
   // ── Step: Talents ─────────────────────────────────────────────────────────
+  // UI-only state: which owned tree is on screen, and whether the buy-a-
+  // specialization picker has replaced it.
+  let _ttSpec = null;
+  let _ttPicker = false;
+  let _ttQuery = '';
+
+  const TALENT_COSTS = [5, 10, 15, 20, 25];
+  function treeXp(specKey) {
+    const bought = (state.talentPurchases || {})[specKey] || [];
+    return bought.reduce((s, p, i) => p ? s + TALENT_COSTS[Math.floor(i / 4)] : s, 0);
+  }
+
+  // Buying a specialization unlocks its tree and marks its skills as career
+  // skills. Only the starting specialization ever granted free skill ranks, so
+  // nothing about the free-rank picks changes here.
+  function buySpec(key) {
+    const sp = Engine.getSpec(key);
+    if (!sp || Engine.ownedSpecKeys(state).includes(key)) return;
+    const cost = Engine.nextSpecCost(state, key);
+    const d = Engine.derive(state);
+    const after = (d ? d.xp_remaining : 0) - cost;
+    const msg = `Buy the ${sp.name} specialization for ${cost} XP?` +
+      (after < 0 ? `\n\nThat is more XP than you have. Your balance would go to ${after}.` : `\n\nThat leaves you ${after} XP.`);
+    if (!confirm(msg)) return;
+    if (!Array.isArray(state.extraSpecKeys)) state.extraSpecKeys = [];
+    state.extraSpecKeys.push(key);
+    if (getPlayMode() === 'play') postLedger('xp', 'Specialization: ' + sp.name, -cost);
+    _ttSpec = key; _ttPicker = false; _ttQuery = '';
+    saveState(); render();
+  }
+  // Dropping a bought specialization refunds it and everything sunk into its
+  // tree. The starting specialization cannot be dropped; it is changed on the
+  // Specialization step instead.
+  function dropSpec(key) {
+    const i = (state.extraSpecKeys || []).indexOf(key);
+    if (i < 0) return;
+    const sp = Engine.getSpec(key);
+    const spent = treeXp(key);
+    const cost = Engine.specCost(state, key, i);
+    const talents = ((state.talentPurchases || {})[key] || []).filter(Boolean).length;
+    const msg = `Drop the ${sp ? sp.name : key} specialization?` +
+      (talents ? `\n\nThis also refunds the ${talents} talent${talents > 1 ? 's' : ''} bought in its tree.` : '') +
+      `\n\n${cost + spent} XP comes back.`;
+    if (!confirm(msg)) return;
+    state.extraSpecKeys.splice(i, 1);
+    if (state.talentPurchases) delete state.talentPurchases[key];
+    for (const id of Object.keys(state.dedicationChoices || {})) {
+      if (id.slice(0, key.length + 1) === key + ':') delete state.dedicationChoices[id];
+    }
+    if (getPlayMode() === 'play') postLedger('xp', 'Dropped: ' + (sp ? sp.name : key), cost + spent);
+    if (_ttSpec === key) _ttSpec = null;
+    saveState(); render();
+  }
+
+  // The buy-a-specialization picker: every specialization the character does
+  // not own, grouped by what it would cost them.
+  function renderSpecPicker(c, d) {
+    const owned = new Set(Engine.ownedSpecKeys(state));
+    const q = _ttQuery.trim().toLowerCase();
+    const groups = { career: [], universal: [], other: [] };
+    for (const sp of (SW.specializations || [])) {
+      if (sp.homebrew || owned.has(sp.key)) continue;
+      if (q && !sp.name.toLowerCase().includes(q)) continue;
+      groups[Engine.specStatus(state, sp.key)].push(sp);
+    }
+    // Baseline price with no surcharge: what one of your own (or a universal) costs.
+    const cost = 10 * (((state.extraSpecKeys || []).length) + 2);
+    const remaining = d ? d.xp_remaining : 0;
+
+    const rowHtml = sp => {
+      const price = Engine.nextSpecCost(state, sp.key);
+      const skills = (sp.bonus_career_skills || []).filter(Boolean);
+      const careers = (sp.careers || []).join(', ');
+      return `
+        <div class="spick-row${price > remaining ? ' spick-dear' : ''}">
+          <div class="spick-main">
+            <div class="spick-name">${esc(sp.name)}</div>
+            <div class="spick-meta">${careers ? esc(careers) : 'Universal (any career)'}</div>
+            ${skills.length ? `<div class="spick-skills">${skills.map(s => `<span>${esc(cleanSkillName(s))}</span>`).join('')}</div>` : ''}
+          </div>
+          <div class="spick-buy">
+            <div class="spick-cost">${price}<i>XP</i></div>
+            <button class="btn btn-primary btn-sm" data-buy-spec="${esc(sp.key)}">Buy</button>
+          </div>
+        </div>`;
+    };
+    const section = (title, list, note) => list.length
+      ? `<div class="spick-sec"><div class="spick-sec-h">${title}<span class="equip-tab-count">${list.length}</span></div>
+         ${note ? `<div class="spick-note">${note}</div>` : ''}${list.map(rowHtml).join('')}</div>`
+      : '';
+
+    const career = Engine.getCareer(state.careerKey);
+    c.innerHTML = `
+      <div class="step-header"><h2>Add a Specialization</h2>
+        <p>A new specialization costs <strong>10 XP times the number of specializations you would then
+        own</strong>, so your next one is <strong>${cost} XP</strong>. One from another career costs
+        10 more; universal specializations carry no surcharge. You gain its talent tree and its skills
+        become career skills, but only your starting specialization ever granted free ranks.
+        You have <strong class="tt-xp-spent">${remaining} XP</strong>.</p></div>
+      <div class="spick-toolbar">
+        <input type="search" id="spick-q" placeholder="Search specializations..." value="${esc(_ttQuery)}">
+        <button class="btn btn-secondary btn-sm" data-tt-spec="__back">Back to trees</button>
+      </div>
+      <div class="spick-list">
+        ${section(career ? esc(career.name) + ' specializations' : 'Your career', groups.career)}
+        ${section('Universal', groups.universal, 'Belong to no career, so they cost the same as one of your own.')}
+        ${section('Other careers', groups.other, 'Cost 10 XP more than one of your own.')}
+        ${(groups.career.length + groups.universal.length + groups.other.length) ? '' : '<div class="empty-state">No specializations match that search.</div>'}
+      </div>`;
+
+    // Bind on the elements this render just created, never on #step-content:
+    // that container outlives every render, so listeners left on it would pile
+    // up one per keystroke as the search redraws the list.
+    const qEl = $('#spick-q');
+    qEl.addEventListener('input', () => {
+      _ttQuery = qEl.value;
+      const at = qEl.selectionStart;
+      renderSpecPicker(c, d);
+      // Redrawing the list replaces the field, so put the caret back.
+      const fresh = $('#spick-q');
+      if (fresh) { fresh.focus(); fresh.setSelectionRange(at, at); }
+    });
+    c.querySelector('[data-tt-spec="__back"]').addEventListener('click', () => {
+      _ttPicker = false; _ttQuery = ''; renderTalents();
+    });
+    c.querySelector('.spick-list').addEventListener('click', e => {
+      const b = e.target.closest('[data-buy-spec]');
+      if (b) buySpec(b.dataset.buySpec);
+    });
+  }
+
   function renderTalents() {
     const c = $('#step-content');
-    const spec = Engine.getSpec(state.specKey);
-    if (!spec || !spec.talent_tree || !spec.talent_tree.length) {
+    const owned = Engine.ownedSpecKeys(state);
+    if (!owned.length) {
       c.innerHTML = '<div class="empty-state">Select a specialization first.</div>';
       return;
     }
+    const d = Engine.derive(state);
+    if (_ttPicker) { renderSpecPicker(c, d); return; }
 
-    const specKey  = state.specKey;
+    // Fall back to the starting tree if the remembered one is no longer owned.
+    const specKey = owned.includes(_ttSpec) ? _ttSpec : owned[0];
+    _ttSpec = specKey;
+    const spec = Engine.getSpec(specKey);
+    if (!spec || !spec.talent_tree || !spec.talent_tree.length) {
+      c.innerHTML = '<div class="empty-state">That specialization has no talent tree on file.</div>';
+      return;
+    }
+
     const conns    = spec.connections || null;   // array of 20 bitmasks, or null for homebrew
     if (!state.talentPurchases)          state.talentPurchases = {};
     if (!state.talentPurchases[specKey]) state.talentPurchases[specKey] = new Array(20).fill(false);
@@ -1990,6 +2185,11 @@ const Wizard = (() => {
       for (const n of (row.talents || [])) names.push(n);
     }
     while (names.length < 20) names.push('');
+
+    // An unranked talent already owned from another tree comes free here and
+    // still links purchases below it, so it counts as owned for every check.
+    const autoFlags = names.map((n, i) => !purchases[i] && Engine.talentAutoOwned(state, specKey, n));
+    const ownedAt = i => !!purchases[i] || autoFlags[i];
 
     // Connection bitmask helpers (bit0=up, bit1=down, bit2=left, bit3=right)
     function getConn(r, col) {
@@ -2006,12 +2206,12 @@ const Wizard = (() => {
 
     function adjacentPurchased(r, col) {
       return [[r-1,col],[r+1,col],[r,col-1],[r,col+1]].some(
-        ([nr,nc]) => nr>=0&&nr<5&&nc>=0&&nc<4 && purchases[nr*4+nc] && linked(r,col,nr,nc));
+        ([nr,nc]) => nr>=0&&nr<5&&nc>=0&&nc<4 && ownedAt(nr*4+nc) && linked(r,col,nr,nc));
     }
-    function canBuy(r, col)   { return !purchases[r*4+col] && !!names[r*4+col] && (r===0 || adjacentPurchased(r,col)); }
+    function canBuy(r, col)   { return !ownedAt(r*4+col) && !!names[r*4+col] && (r===0 || adjacentPurchased(r,col)); }
     function canSell(r, col) {
-      if (!purchases[r*4+col]) return false;
-      const temp = [...purchases]; temp[r*4+col] = false;
+      if (!purchases[r*4+col]) return false;   // a free inherited talent is not yours to refund
+      const temp = names.map((_, i) => i === r*4+col ? false : ownedAt(i));
       // BFS from all purchased row-0 nodes to confirm remaining purchased nodes stay connected
       const visited = new Set();
       const q = [];
@@ -2028,8 +2228,8 @@ const Wizard = (() => {
       return temp.every((p,i) => !p || visited.has(i));
     }
 
-    const COSTS = [5,10,15,20,25];
-    const talentXp = purchases.reduce((s,p,i) => p ? s + COSTS[Math.floor(i/4)] : s, 0);
+    const COSTS = TALENT_COSTS;
+    const talentXp = treeXp(specKey);
 
     // Build 7-col × 9-row grid (talent cells on even indices, connectors on odd)
     let cells = '';
@@ -2043,12 +2243,13 @@ const Wizard = (() => {
           const idx    = r*4+col;
           const name   = names[idx] || '';
           const bought = purchases[idx];
+          const auto   = autoFlags[idx];
           const buyable = canBuy(r,col);
-          const sellable = bought && canSell(r,col);
           const tal    = name ? Engine.getTalent(name) : null;
           const isActive = tal && tal.activation && !tal.activation.toLowerCase().includes('passive');
           let cls = 'tt-node';
           if (bought)       cls += ' tt-purchased';
+          else if (auto)    cls += ' tt-purchased tt-auto';
           else if (buyable) cls += ' tt-buyable';
           else              cls += ' tt-locked';
           if (isActive)     cls += ' tt-active';
@@ -2056,20 +2257,20 @@ const Wizard = (() => {
             data-tip-type="talent" data-tip-name="${name.replace(/"/g,'&quot;')}"
             style="grid-row:${gRow};grid-column:${gCol}">
             <div class="tt-name">${name}</div>
-            <div class="tt-meta">${isActive?'Active':'Passive'} &bull; ${COSTS[r]} XP</div>
-            ${bought ? '<div class="tt-check">&#10003;</div>' : ''}
+            <div class="tt-meta">${isActive?'Active':'Passive'} &bull; ${auto ? 'free' : COSTS[r] + ' XP'}</div>
+            ${bought || auto ? '<div class="tt-check">&#10003;</div>' : ''}
           </div>`;
 
         } else if (isTR && !isTC) {
           const has = linked(r,col,r,col+1);
-          const act = has && purchases[r*4+col] && purchases[r*4+col+1];
+          const act = has && ownedAt(r*4+col) && ownedAt(r*4+col+1);
           cells += `<div class="tt-hconn" style="grid-row:${gRow};grid-column:${gCol}">
             ${has ? `<div class="tt-hline${act?' tt-lit':''}"></div>` : ''}
           </div>`;
 
         } else if (!isTR && isTC) {
           const has = r<4 && linked(r,col,r+1,col);
-          const act = has && purchases[r*4+col] && purchases[(r+1)*4+col];
+          const act = has && ownedAt(r*4+col) && ownedAt((r+1)*4+col);
           cells += `<div class="tt-vconn" style="grid-row:${gRow};grid-column:${gCol}">
             ${has ? `<div class="tt-vline${act?' tt-lit':''}"></div>` : ''}
           </div>`;
@@ -2081,26 +2282,21 @@ const Wizard = (() => {
     }
 
     // Dedication grants +1 to a characteristic of the player's choice per rank.
-    // Surface a picker for each purchased rank so the bonus has a target.
-    let dedCount = 0;
-    for (let i = 0; i < 20; i++) if (purchases[i] && names[i] === 'Dedication') dedCount++;
-    if (!Array.isArray(state.dedicationChoices)) state.dedicationChoices = [];
-    if (state.dedicationChoices.length !== dedCount) {
-      state.dedicationChoices = state.dedicationChoices.slice(0, dedCount);
-      while (state.dedicationChoices.length < dedCount) state.dedicationChoices.push('');
-      saveState();
-    }
+    // Every owned tree can carry one, so the pickers cover all of them at once,
+    // keyed to the box that earned each rank.
+    const dedNodes = Engine.dedicationNodes(state);
+    const dedMap = state.dedicationChoices || (state.dedicationChoices = {});
     let dedSection = '';
-    if (dedCount > 0) {
+    if (dedNodes.length) {
       const opt = (sel) => Engine.CHAR_STATS.map(st =>
         `<option value="${st}"${sel === st ? ' selected' : ''}>${st.charAt(0).toUpperCase() + st.slice(1)}</option>`).join('');
-      const rows = [];
-      for (let k = 0; k < dedCount; k++) {
-        rows.push(`<label class="ded-choice-row">
-          <span>Dedication rank ${k + 1}: +1 to</span>
-          <select class="ded-choice" data-k="${k}"><option value="">— choose —</option>${opt(state.dedicationChoices[k])}</select>
-        </label>`);
-      }
+      const rows = dedNodes.map((node, k) => {
+        const from = owned.length > 1 ? ` <em>(${esc((Engine.getSpec(node.specKey) || {}).name || '')})</em>` : '';
+        return `<label class="ded-choice-row">
+          <span>Dedication rank ${k + 1}${from}: +1 to</span>
+          <select class="ded-choice" data-ded-id="${esc(node.id)}"><option value="">&mdash; choose &mdash;</option>${opt(dedMap[node.id])}</select>
+        </label>`;
+      });
       dedSection = `
         <div class="ded-choices">
           <div class="ded-choices-title">Dedication: characteristic increase</div>
@@ -2109,16 +2305,37 @@ const Wizard = (() => {
         </div>`;
     }
 
+    // One sub-tab per owned tree, plus the door to buying another.
+    const tabs = owned.map(k => {
+      const sp = Engine.getSpec(k);
+      return `<button class="equip-tab${k === specKey ? ' active' : ''}" data-tt-spec="${esc(k)}">
+        ${esc(sp ? sp.name : k)}<span class="equip-tab-count">${treeXp(k)}</span>
+      </button>`;
+    }).join('') +
+      `<button class="equip-tab tt-add-tab" data-tt-spec="__add" title="Buy another specialization">+ Specialization</button>`;
+
+    const isExtra = (state.extraSpecKeys || []).includes(specKey);
+    const status  = Engine.specStatus(state, specKey);
+    const statusLabel = status === 'career' ? 'Career specialization'
+                      : status === 'universal' ? 'Universal specialization' : 'Other career';
+
     c.innerHTML = `
       <div class="step-header">
-        <h2>${spec.name}</h2>
+        <h2>${esc(spec.name)}</h2>
         ${getPlayMode() === 'play'
-          ? `<p>Spend the XP you earn at the table to push deeper into the tree. Adjacent connected
+          ? `<p>Spend the XP you earn at the table to push deeper into your trees. Adjacent connected
              talents unlock the rows below; refunds stay available so long as nothing you own
-             depends on the node. <strong class="tt-xp-spent">${talentXp} XP</strong> invested so far.</p>`
+             depends on the node. <strong class="tt-xp-spent">${talentXp} XP</strong> in this tree,
+             ${d ? d.talent_xp : 0} across all of them.</p>`
           : `<p>Click a talent to purchase it. You must own an adjacent connected talent to unlock lower rows.
            Talents can be refunded as long as no other purchased talent depends on them as its only path.
-           <strong class="tt-xp-spent">${talentXp} XP</strong> spent on talents.</p>`}
+           <strong class="tt-xp-spent">${talentXp} XP</strong> spent in this tree.</p>`}
+      </div>
+      <div class="equip-tabs tt-tabs">${tabs}</div>
+      <div class="tt-treebar">
+        <span class="pf-tag">${statusLabel}</span>
+        ${isExtra ? `<button class="btn btn-secondary btn-sm" data-drop-spec="${esc(specKey)}"
+            title="Refund this specialization and everything bought in its tree">Drop specialization</button>` : ''}
       </div>
       <div class="talent-tree-wrap">
         <div class="tt-grid" id="talent-tree-grid">${cells}</div>
@@ -2128,11 +2345,21 @@ const Wizard = (() => {
     // Dedication characteristic pickers
     c.querySelectorAll('.ded-choice').forEach(sel => {
       sel.addEventListener('change', () => {
-        const k = +sel.dataset.k;
-        state.dedicationChoices[k] = sel.value;
-        saveState();
+        state.dedicationChoices[sel.dataset.dedId] = sel.value;
+        saveState(); render();
       });
     });
+
+    c.querySelector('.tt-tabs').addEventListener('click', e => {
+      const t = e.target.closest('[data-tt-spec]');
+      if (!t) return;
+      if (t.dataset.ttSpec === '__add') { _ttPicker = true; _ttQuery = ''; renderTalents(); return; }
+      _ttSpec = t.dataset.ttSpec;
+      renderTalents();
+      renderHeaderXp();
+    });
+    const dropBtn = c.querySelector('[data-drop-spec]');
+    if (dropBtn) dropBtn.addEventListener('click', () => dropSpec(dropBtn.dataset.dropSpec));
 
     // No hover: the first tap of a node previews it (shows its rules text and
     // arms it, marked by the tt-armed outline); a second tap on the same node

@@ -126,20 +126,134 @@ const Engine = (() => {
     'Street Smarts':         ['Streetwise', 'Underworld'],
   };
 
-  // Count purchased ranks per talent name in the current specialization tree.
-  // Scoped to state.specKey to match how talent XP is counted (single active spec).
+  // ── Specializations owned ────────────────────────────────────────────────
+  // A character starts with one specialization (state.specKey, the only one that
+  // ever grants free skill ranks) and may buy more (state.extraSpecKeys, in
+  // purchase order). Everything talent-related reads the whole list.
+  function ownedSpecKeys(state) {
+    const out = [];
+    for (const k of [state && state.specKey].concat((state && state.extraSpecKeys) || [])) {
+      if (k && getSpec(k) && !out.includes(k)) out.push(k);
+    }
+    return out;
+  }
+
+  // Where a specialization sits relative to the character's career, which is
+  // what its price depends on (EotE Core p.93, p.275):
+  //   career    - one of your own career's specializations
+  //   universal - belongs to no career (Force Sensitive Exile and the era-book
+  //               specializations); priced like a career spec, no surcharge
+  //   other     - another career's specialization; costs 10 XP extra
+  function specStatus(state, specKey) {
+    const spec = getSpec(specKey);
+    if (!spec) return 'other';
+    const careers = spec.careers || [];
+    if (!careers.length) return 'universal';
+    const career = getCareer(state && state.careerKey);
+    return career && careers.includes(career.name) ? 'career' : 'other';
+  }
+
+  // Cost of the extra specialization at position i (0-based) in extraSpecKeys:
+  // ten times the number of specializations owned once it is bought (the free
+  // starting one counts), plus a flat 10 if it belongs to another career. The
+  // surcharge is added after the multiply, never folded into the count, so a
+  // universal specialization prices as 10 x N with nothing added.
+  function specCost(state, specKey, i) {
+    return 10 * (i + 2) + (specStatus(state, specKey) === 'other' ? 10 : 0);
+  }
+  // What buying one more specialization would cost right now.
+  function nextSpecCost(state, specKey) {
+    return specCost(state, specKey, ((state && state.extraSpecKeys) || []).length);
+  }
+  function specXpSpent(state) {
+    const extras = (state && state.extraSpecKeys) || [];
+    let xp = 0;
+    for (let i = 0; i < extras.length; i++) if (getSpec(extras[i])) xp += specCost(state, extras[i], i);
+    return xp;
+  }
+
+  // The 20 talent names of a tree, row-major (4 columns x 5 rows).
+  function treeTalentNames(spec) {
+    const names = [];
+    if (spec && spec.talent_tree) for (const row of spec.talent_tree) for (const n of (row.talents || [])) names.push(n);
+    return names;
+  }
+  function isRankedTalent(name) {
+    const t = getTalent(name);
+    return t ? !!t.ranked : false;
+  }
+
+  // An unranked talent you already own from another tree is acquired on this
+  // tree automatically, for free, and still links further purchases below it
+  // (EotE Core p.128). Ranked talents must be bought box by box.
+  function talentAutoOwned(state, specKey, name) {
+    if (!name || isRankedTalent(name)) return false;
+    for (const k of ownedSpecKeys(state)) {
+      if (k === specKey) continue;
+      const bought = (state.talentPurchases || {})[k];
+      if (!bought) continue;
+      const names = treeTalentNames(getSpec(k));
+      for (let i = 0; i < names.length; i++) if (bought[i] && names[i] === name) return true;
+    }
+    return false;
+  }
+
+  // XP sunk into talents across every owned tree. Row costs are 5/10/15/20/25
+  // and apply independently in each tree; auto-acquired duplicates are never
+  // flagged as purchased, so they cost nothing here.
+  function talentXpSpent(state) {
+    let xp = 0;
+    for (const k of ownedSpecKeys(state)) {
+      const bought = (state.talentPurchases || {})[k];
+      if (!bought) continue;
+      for (let i = 0; i < bought.length; i++) if (bought[i]) xp += (Math.floor(i / 4) + 1) * 5;
+    }
+    return xp;
+  }
+
+  // Every purchased Dedication box across the owned trees, in a stable order.
+  // Each carries the characteristic the player picked for it, keyed by tree and
+  // position so choices survive buying or dropping other specializations.
+  function dedicationNodes(state) {
+    const out = [];
+    for (const k of ownedSpecKeys(state)) {
+      const bought = (state.talentPurchases || {})[k];
+      if (!bought) continue;
+      const names = treeTalentNames(getSpec(k));
+      for (let i = 0; i < names.length; i++) {
+        if (bought[i] && names[i] === 'Dedication') out.push({ specKey: k, index: i, id: k + ':' + i });
+      }
+    }
+    return out;
+  }
+
+  // Count purchased talent ranks across every owned specialization tree.
+  // Ranked talents stack tree to tree; an unranked talent is one rank however
+  // many trees carry it (EotE Core p.128).
   function purchasedTalentCounts(state) {
     const counts = {};
-    const spec   = getSpec(state.specKey);
-    const bought = (state.talentPurchases || {})[state.specKey];
-    if (!spec || !spec.talent_tree || !bought) return counts;
-    const names = [];
-    for (const row of spec.talent_tree) for (const n of (row.talents || [])) names.push(n);
-    for (let i = 0; i < names.length; i++) {
-      if (bought[i] && names[i]) counts[names[i]] = (counts[names[i]] || 0) + 1;
+    for (const k of ownedSpecKeys(state)) {
+      const bought = (state.talentPurchases || {})[k];
+      if (!bought) continue;
+      const names = treeTalentNames(getSpec(k));
+      for (let i = 0; i < names.length; i++) {
+        const n = names[i];
+        if (!bought[i] || !n) continue;
+        counts[n] = isRankedTalent(n) ? (counts[n] || 0) + 1 : 1;
+      }
+    }
+    // Unranked talents inherited free from another tree still count as owned.
+    for (const k of ownedSpecKeys(state)) {
+      for (const n of treeTalentNames(getSpec(k))) {
+        if (n && !counts[n] && talentAutoOwned(state, k, n)) counts[n] = 1;
+      }
     }
     return counts;
   }
+
+  // Universal Force specializations hand out a Force rating of 1 on purchase if
+  // the character has none yet (EotE Core p.276 and its AoR/FaD counterparts).
+  const FORCE_RATING_SPECS = new Set(['force_sensitive_exile', 'force_sensitive_emergent', 'force_sensitive_outcast']);
 
   // Talent ranks a species grants for free, parsed from its special-abilities text
   // (e.g. "one rank in the Convincing Demeanor talent"). Names are canonicalized
@@ -306,11 +420,12 @@ const Engine = (() => {
     }
     const startingXp = (species.starting_xp || 100) + omsXpBonus;
 
-    let talentXp = 0;
-    const tp = (state.talentPurchases || {})[state.specKey];
-    if (tp) tp.forEach((p, i) => { if (p) talentXp += (Math.floor(i / 4) + 1) * 5; });
+    // Talents across every owned tree, plus what the extra specializations
+    // themselves cost to unlock.
+    const talentXp = talentXpSpent(state);
+    const specXp   = specXpSpent(state);
 
-    const xpSpent     = totalCharXp(species, chars) + talentXp;
+    const xpSpent     = totalCharXp(species, chars) + talentXp + specXp;
     // Play mode's "Add XP" control banks session awards here, on top of the
     // starting allotment; it is real spendable XP, not just a display figure.
     const xpRemaining = startingXp - xpSpent + (state.xpAdjustment || 0);
@@ -398,7 +513,13 @@ const Engine = (() => {
     const armorDefense = wornArmor ? (wornArmor.defense || 0) : 0;
 
     const careerSkillKeys = career ? (career.career_skill_keys || []) : [];
-    const bonusSkillKeys  = specBonusSkillKeys(spec);     // all 4 are career skills (cheaper to raise)
+    // Every owned specialization marks its skills as career skills, but only the
+    // starting one ever grants the two free ranks (EotE Core p.93, p.35).
+    const bonusSkillKeys  = [];
+    for (const k of ownedSpecKeys(state)) {
+      for (const sk of specBonusSkillKeys(getSpec(k))) if (!bonusSkillKeys.includes(sk)) bonusSkillKeys.push(sk);
+    }
+    const primaryBonusSkillKeys = specBonusSkillKeys(spec);
     const freePickKeys    = state.freeCareerSkillPicks || [];
     const bonusPickKeys   = state.specBonusSkillPicks  || [];  // the 2 chosen for a free rank
 
@@ -425,10 +546,17 @@ const Engine = (() => {
     // to an effective copy so it flows into thresholds, soak, and skill dice.
     const effChars = Object.assign({}, chars);
     const dedTotal  = rk('Dedication');
-    const dedChoices = (state.dedicationChoices || []).slice(0, dedTotal);
+    // Each purchased Dedication box carries its own characteristic pick, keyed
+    // by tree and position. Any surplus rank (a species grant, in principle)
+    // falls back to a positional id so it still gets a pick.
+    const dedNodes  = dedicationNodes(state);
+    const dedIds    = dedNodes.map(n => n.id);
+    for (let i = dedIds.length; i < dedTotal; i++) dedIds.push('species:' + i);
+    const dedMap    = state.dedicationChoices || {};
     const charBonuses = {};    // characteristic -> total flat bonus (for the sheet to flag)
     const charBonusSrc = {};   // characteristic -> label of the bonus source(s)
-    for (const ck of dedChoices) {
+    for (const id of dedIds) {
+      const ck = dedMap[id];
       if (ck) { effChars[ck] = Math.min(6, (effChars[ck] || 0) + 1); charBonuses[ck] = (charBonuses[ck] || 0) + 1; charBonusSrc[ck] = 'Dedication'; }
     }
     // Cybernetic characteristic enhancements apply after Dedication and may raise a
@@ -448,7 +576,10 @@ const Engine = (() => {
     const soakBonus   = rk('Enduring');
     const defMBonus   = rk('Superior Reflexes');
     const defRBonus   = rk('Sixth Sense');
-    const forceRating = rk('Force Rating') + rk('Witchcraft');
+    let forceRating = rk('Force Rating') + rk('Witchcraft');
+    // Buying a Force-sensitive universal specialization confers a Force rating
+    // of 1 outright; it does not stack on top of a rating already held.
+    if (forceRating < 1 && ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k))) forceRating = 1;
 
     // Per-skill setback dice removed by always-on whole-skill talents. Resolved
     // to skill keys so the sheet can draw a "removed setback" glyph on each row.
@@ -498,6 +629,10 @@ const Engine = (() => {
       starting_xp:      startingXp,
       xp_spent:         xpSpent,
       xp_remaining:     xpRemaining,
+      talent_xp:        talentXp,
+      spec_xp:          specXp,
+      spec_keys:        ownedSpecKeys(state),
+      dedication_ids:   dedIds,
       starting_credits:  startingCredits,
       credits_spent:     creditsSpent,
       credits_remaining: creditsRemaining,
@@ -507,6 +642,7 @@ const Engine = (() => {
       worn_armor:        wornArmor ? wornArmor.key : null,
       career_skill_keys: careerSkillKeys,
       bonus_skill_keys:  bonusSkillKeys,
+      primary_bonus_skill_keys: primaryBonusSkillKeys,
       skill_ranks:       skillRanks,
       skill_setback_removed: skillSetbackRemoved,
       characteristics:   effChars,
@@ -531,6 +667,8 @@ const Engine = (() => {
     talentEffect, purchasedTalentCounts,
     creditBonusFor, activeMechanic,
     specBonusSkillKeys,
+    ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,
+    treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
     derive,
   };
 })();

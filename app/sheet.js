@@ -35,6 +35,9 @@ const Sheet = (() => {
 
   function headerBlock(state, species, career, spec) {
     const mech = mechanicLine(state);
+    // Every specialization the character owns, starting one first.
+    const specNames = Engine.ownedSpecKeys(state)
+      .map(k => (Engine.getSpec(k) || {}).name).filter(Boolean);
     return `
       <div class="sheet-header">
         <div class="sheet-header-left">
@@ -42,7 +45,7 @@ const Sheet = (() => {
           <p>
             ${species ? esc(species.name) : ''}
             ${career  ? ' &mdash; ' + esc(career.name) : ''}
-            ${spec    ? ' / ' + esc(spec.name) : ''}
+            ${specNames.length ? ' / ' + esc(specNames.join(' / ')) : (spec ? ' / ' + esc(spec.name) : '')}
             ${state.game ? ' &mdash; <em>' + GAME_NAMES[state.game] + '</em>' : ''}
           </p>
         </div>

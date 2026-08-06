@@ -36,7 +36,9 @@ const PdfExport = (() => {
       'Species': species ? species.name : '',
       'Campaign': GAME_NAMES[state.game] || '',
       'Career': career ? career.name : '',
-      'Specialization': spec ? spec.name : '',
+      // The form has one Specialization line, so list every owned tree on it.
+      'Specialization': Engine.ownedSpecKeys(state)
+        .map(k => (Engine.getSpec(k) || {}).name).filter(Boolean).join(' / ') || (spec ? spec.name : ''),
       'Brawn': c.brawn, 'Agility': c.agility, 'Intellect': c.intellect,
       'Cunning': c.cunning, 'Willpower': c.willpower, 'Presence': c.presence,
       'Force Rank': d.force_rating || 0,
