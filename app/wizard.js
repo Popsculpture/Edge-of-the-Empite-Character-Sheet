@@ -308,8 +308,14 @@ const Wizard = (() => {
 
   // Backfill structural fields on any state that predates them (old saves,
   // roster loads, imports). Safe to re-run; never touches user data.
+  // The Talents tab remembers which tree is open and whether the buy picker is
+  // showing. That belongs to the character on screen, so swapping characters
+  // has to forget it or the next one opens on a stale tree or mid-purchase.
+  function resetTalentTabUi() { _ttSpec = null; _ttPicker = false; _ttQuery = ''; }
+
   function repairState(s) {
     if (!s) return;
+    resetTalentTabUi();
     s.equipment     = Object.assign({ weapon: {}, armor: {}, gear: {}, weaponSets: [] }, s.equipment || {});
     s.playEquipment = Object.assign({ weapon: {}, armor: {}, gear: {} }, s.playEquipment || {});
     if (!Array.isArray(s.vehicles))     s.vehicles     = [];
@@ -1417,10 +1423,20 @@ const Wizard = (() => {
 
         card.addEventListener('click', () => {
           if (state.specKey !== sp.key) {
+            const old = state.specKey;
             state.specKey = sp.key; state.freeCareerSkillPicks = []; state.specBonusSkillPicks = [];
             // Promoting a bought specialization to the starting one makes it
             // free, so it must stop being charged for as an extra.
             state.extraSpecKeys = (state.extraSpecKeys || []).filter(k => k !== sp.key);
+            // The abandoned tree is no longer owned; drop it now rather than
+            // leaving purchases that would come back if it were bought later.
+            if (old && old !== sp.key && !(state.extraSpecKeys || []).includes(old)) {
+              if (state.talentPurchases) delete state.talentPurchases[old];
+              for (const id of Object.keys(state.dedicationChoices || {})) {
+                if (id.slice(0, old.length + 1) === old + ':') delete state.dedicationChoices[id];
+              }
+            }
+            _ttSpec = null;
           }
           saveState(); draw(); renderNav();
         });
@@ -2050,6 +2066,9 @@ const Wizard = (() => {
     if (!confirm(msg)) return;
     if (!Array.isArray(state.extraSpecKeys)) state.extraSpecKeys = [];
     state.extraSpecKeys.push(key);
+    // A tree bought now starts empty, even if this specialization was briefly
+    // the starting one earlier in the session and left purchases behind.
+    if (state.talentPurchases) delete state.talentPurchases[key];
     if (getPlayMode() === 'play') postLedger('xp', 'Specialization: ' + sp.name, -cost);
     _ttSpec = key; _ttPicker = false; _ttQuery = '';
     saveState(); render();
@@ -2062,18 +2081,37 @@ const Wizard = (() => {
     if (i < 0) return;
     const sp = Engine.getSpec(key);
     const spent = treeXp(key);
-    const cost = Engine.specCost(state, key, i);
+    // Dropping one re-prices every specialization bought after it, so the real
+    // refund is the change in total specialization spend, not this one's price.
+    const after = Object.assign({}, state, { extraSpecKeys: state.extraSpecKeys.filter((_, n) => n !== i) });
+    const refund = Engine.specXpSpent(state) - Engine.specXpSpent(after) + spent;
+    // Dropping a tree takes its talents with it, which can pull the free
+    // inherited link out from under another tree. Refuse rather than leave an
+    // illegal build behind, and name what has to be undone first.
+    const probe = Object.assign({}, after, {
+      talentPurchases: Object.assign({}, state.talentPurchases),
+    });
+    delete probe.talentPurchases[key];
+    const broken = Engine.ownedSpecKeys(probe)
+      .filter(k => !Engine.treeConnected(probe, k))
+      .map(k => (Engine.getSpec(k) || {}).name || k);
+    if (broken.length) {
+      alert(`Dropping ${sp ? sp.name : key} would strand talents in ${broken.join(' and ')}, ` +
+            `which were bought through a talent this tree supplies for free.\n\n` +
+            `Refund those talents first, then drop this specialization.`);
+      return;
+    }
     const talents = ((state.talentPurchases || {})[key] || []).filter(Boolean).length;
     const msg = `Drop the ${sp ? sp.name : key} specialization?` +
       (talents ? `\n\nThis also refunds the ${talents} talent${talents > 1 ? 's' : ''} bought in its tree.` : '') +
-      `\n\n${cost + spent} XP comes back.`;
+      `\n\n${refund} XP comes back.`;
     if (!confirm(msg)) return;
     state.extraSpecKeys.splice(i, 1);
     if (state.talentPurchases) delete state.talentPurchases[key];
     for (const id of Object.keys(state.dedicationChoices || {})) {
       if (id.slice(0, key.length + 1) === key + ':') delete state.dedicationChoices[id];
     }
-    if (getPlayMode() === 'play') postLedger('xp', 'Dropped: ' + (sp ? sp.name : key), cost + spent);
+    if (getPlayMode() === 'play') postLedger('xp', 'Dropped: ' + (sp ? sp.name : key), refund);
     if (_ttSpec === key) _ttSpec = null;
     saveState(); render();
   }
@@ -2209,23 +2247,12 @@ const Wizard = (() => {
         ([nr,nc]) => nr>=0&&nr<5&&nc>=0&&nc<4 && ownedAt(nr*4+nc) && linked(r,col,nr,nc));
     }
     function canBuy(r, col)   { return !ownedAt(r*4+col) && !!names[r*4+col] && (r===0 || adjacentPurchased(r,col)); }
+    // A refund has to leave EVERY owned tree legal, not just this one: the
+    // talent being given up may be the free inherited link another tree was
+    // built through.
     function canSell(r, col) {
       if (!purchases[r*4+col]) return false;   // a free inherited talent is not yours to refund
-      const temp = names.map((_, i) => i === r*4+col ? false : ownedAt(i));
-      // BFS from all purchased row-0 nodes to confirm remaining purchased nodes stay connected
-      const visited = new Set();
-      const q = [];
-      for (let cc=0; cc<4; cc++) { if (temp[cc]) { visited.add(cc); q.push([0,cc]); } }
-      while (q.length) {
-        const [cr,cc] = q.shift();
-        for (const [nr,nc] of [[cr-1,cc],[cr+1,cc],[cr,cc-1],[cr,cc+1]]) {
-          if (nr<0||nr>=5||nc<0||nc>=4) continue;
-          const ni = nr*4+nc;
-          if (visited.has(ni)||!temp[ni]||!linked(cr,cc,nr,nc)) continue;
-          visited.add(ni); q.push([nr,nc]);
-        }
-      }
-      return temp.every((p,i) => !p || visited.has(i));
+      return Engine.refundIsSafe(state, specKey, r*4+col);
     }
 
     const COSTS = TALENT_COSTS;
@@ -2343,10 +2370,13 @@ const Wizard = (() => {
       ${dedSection}`;
 
     // Dedication characteristic pickers
+    // No re-render here: the pick only changes derived characteristics, which
+    // this step does not display, and redrawing would destroy the select that
+    // fired the event.
     c.querySelectorAll('.ded-choice').forEach(sel => {
       sel.addEventListener('change', () => {
         state.dedicationChoices[sel.dataset.dedId] = sel.value;
-        saveState(); render();
+        saveState();
       });
     });
 
@@ -2367,13 +2397,16 @@ const Wizard = (() => {
     // the pop-out or anywhere outside dismisses it. This exposes descriptions
     // without hover and prevents accidental purchases, on every pointer.
     const grid = $('#talent-tree-grid');
+    // Armed by grid position, not talent name: a tree can carry the same
+    // talent in two boxes, and naming them alike would let a tap on the second
+    // commit straight away without its own preview.
     let armed = null;
     grid.addEventListener('click', e => {
       const node = e.target.closest('.tt-node');
       if (!node) { hideTooltip(); armed = null; return; }
       const r = +node.dataset.r, col = +node.dataset.c, idx = r*4+col;
-      if (node.dataset.tipName && armed !== node.dataset.tipName) {
-        armed = node.dataset.tipName;
+      if (node.dataset.tipName && armed !== idx) {
+        armed = idx;
         grid.querySelectorAll('.tt-armed').forEach(n => n.classList.remove('tt-armed'));
         node.classList.add('tt-armed');
         showTooltip(node, tooltipContent('talent', node.dataset.tipName));
@@ -3761,7 +3794,7 @@ const Wizard = (() => {
       // A blank character has nothing to show in Play mode's trimmed tabs, so
       // drop back to Creation regardless of what the last character used.
       localStorage.setItem(PLAY_KEY, 'creation');
-      state = defaultState(); saveState(); render(); window.scrollTo(0, 0);
+      state = defaultState(); resetTalentTabUi(); saveState(); render(); window.scrollTo(0, 0);
     }
   }
 

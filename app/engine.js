@@ -255,6 +255,62 @@ const Engine = (() => {
   // the character has none yet (EotE Core p.276 and its AoR/FaD counterparts).
   const FORCE_RATING_SPECS = new Set(['force_sensitive_exile', 'force_sensitive_emergent', 'force_sensitive_outcast']);
 
+  // Connection helpers for a tree's 20 boxes. The bitmask per box is
+  // up=1, down=2, left=4, right=8; a null connections array (homebrew data)
+  // falls back to plain vertical chains.
+  function treeLinker(spec) {
+    const conns = (spec && spec.connections) || null;
+    const conn = (r, c) => conns ? conns[r * 4 + c] : (r === 0 ? 2 : r === 4 ? 1 : 3);
+    return function linked(r1, c1, r2, c2) {
+      if (r1 === r2 && c2 === c1 + 1) return !!(conn(r1,c1) & 8) || !!(conn(r2,c2) & 4);
+      if (r1 === r2 && c2 === c1 - 1) return !!(conn(r1,c1) & 4) || !!(conn(r2,c2) & 8);
+      if (c1 === c2 && r2 === r1 + 1) return !!(conn(r1,c1) & 2) || !!(conn(r2,c2) & 1);
+      if (c1 === c2 && r2 === r1 - 1) return !!(conn(r1,c1) & 1) || !!(conn(r2,c2) & 2);
+      return false;
+    };
+  }
+
+  // Is every talent owned in this tree still legally reachable? A talent is
+  // eligible only from the top row or through a link to one already owned
+  // (EotE Core p.93), and an inherited free talent is granted outright wherever
+  // it sits, so it roots a chain of its own. Checking this per tree is what
+  // makes a refund safe: the talent being given up may be the free link that
+  // some OTHER tree was built through.
+  function treeConnected(state, specKey) {
+    const spec = getSpec(specKey);
+    const bought = (state.talentPurchases || {})[specKey];
+    if (!spec || !bought) return true;
+    const names = treeTalentNames(spec);
+    const linked = treeLinker(spec);
+    const owned = [];
+    for (let i = 0; i < 20; i++) owned[i] = !!bought[i] || talentAutoOwned(state, specKey, names[i]);
+    const visited = new Set(), queue = [];
+    for (let i = 0; i < 20; i++) {
+      if (owned[i] && (i < 4 || !bought[i])) { visited.add(i); queue.push(i); }
+    }
+    while (queue.length) {
+      const i = queue.shift(), r = Math.floor(i / 4), c = i % 4;
+      for (const [nr, nc] of [[r-1,c],[r+1,c],[r,c-1],[r,c+1]]) {
+        if (nr < 0 || nr >= 5 || nc < 0 || nc >= 4) continue;
+        const ni = nr * 4 + nc;
+        if (visited.has(ni) || !owned[ni] || !linked(r, c, nr, nc)) continue;
+        visited.add(ni); queue.push(ni);
+      }
+    }
+    return owned.every((o, i) => !o || visited.has(i));
+  }
+
+  // Would refunding one box leave every owned tree legal? Copies the purchase
+  // flags so the probe never touches the real character.
+  function refundIsSafe(state, specKey, index) {
+    const flags = ((state.talentPurchases || {})[specKey] || []).slice();
+    flags[index] = false;
+    const probe = Object.assign({}, state, {
+      talentPurchases: Object.assign({}, state.talentPurchases, { [specKey]: flags }),
+    });
+    return ownedSpecKeys(state).every(k => treeConnected(probe, k));
+  }
+
   // Talent ranks a species grants for free, parsed from its special-abilities text
   // (e.g. "one rank in the Convincing Demeanor talent"). Names are canonicalized
   // to match talents.js. These are free (no XP) but still apply their effects.
@@ -557,7 +613,13 @@ const Engine = (() => {
     const charBonusSrc = {};   // characteristic -> label of the bonus source(s)
     for (const id of dedIds) {
       const ck = dedMap[id];
-      if (ck) { effChars[ck] = Math.min(6, (effChars[ck] || 0) + 1); charBonuses[ck] = (charBonuses[ck] || 0) + 1; charBonusSrc[ck] = 'Dedication'; }
+      if (!ck) continue;
+      // A characteristic cannot pass 6, and a rank spent against that ceiling
+      // must not be reported as a bonus it never granted.
+      const before = effChars[ck] || 0;
+      effChars[ck] = Math.min(6, before + 1);
+      const applied = effChars[ck] - before;
+      if (applied > 0) { charBonuses[ck] = (charBonuses[ck] || 0) + applied; charBonusSrc[ck] = 'Dedication'; }
     }
     // Cybernetic characteristic enhancements apply after Dedication and may raise a
     // characteristic to a maximum of 7 (one above the normal cap; EotE Core p.172).
@@ -576,10 +638,11 @@ const Engine = (() => {
     const soakBonus   = rk('Enduring');
     const defMBonus   = rk('Superior Reflexes');
     const defRBonus   = rk('Sixth Sense');
-    let forceRating = rk('Force Rating') + rk('Witchcraft');
-    // Buying a Force-sensitive universal specialization confers a Force rating
-    // of 1 outright; it does not stack on top of a rating already held.
-    if (forceRating < 1 && ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k))) forceRating = 1;
+    // A Force-sensitive universal specialization confers a Force rating of 1 in
+    // its own right, which Force Rating talents then build on. Owning a second
+    // such specialization grants nothing further (EotE Core p.276).
+    const forceSpecBase = ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k)) ? 1 : 0;
+    const forceRating = forceSpecBase + rk('Force Rating') + rk('Witchcraft');
 
     // Per-skill setback dice removed by always-on whole-skill talents. Resolved
     // to skill keys so the sheet can draw a "removed setback" glyph on each row.
@@ -669,6 +732,7 @@ const Engine = (() => {
     specBonusSkillKeys,
     ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
+    treeConnected, refundIsSafe,
     derive,
   };
 })();
