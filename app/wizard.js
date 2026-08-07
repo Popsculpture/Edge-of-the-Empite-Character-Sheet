@@ -282,6 +282,7 @@ const Wizard = (() => {
       talentPurchases:    {},
       extraSpecKeys:      [], // specializations bought beyond the free starting one, in purchase order
       dedicationChoices:  {}, // 'specKey:treeIndex' -> characteristic chosen for that Dedication box
+      juryRigged:         [], // [{cat, key, effect}] one owned item tuned per rank of Jury Rigged
       woundCur:           0,
       strainCur:          0,
       beginnings:         '',
@@ -328,10 +329,13 @@ const Wizard = (() => {
     if (!Array.isArray(s.companions))   s.companions   = [];
     if (!Array.isArray(s.ledger))       s.ledger       = [];
     if (!Array.isArray(s.craftProjects)) s.craftProjects = [];
+    if (!Array.isArray(s.juryRigged)) s.juryRigged = [];
     if (!s.customItems || typeof s.customItems !== 'object') s.customItems = {};
     // Crafted items are looked up through the engine like catalog gear, so the
-    // overlay has to match whichever character is loaded.
+    // overlay has to match whichever character is loaded. Jury Rigged tunes
+    // items on top of that, so it is rebuilt second.
     Engine.setCustomItems(s.customItems);
+    Engine.setJuryRig(s);
     if (!Array.isArray(s.extraSpecKeys)) s.extraSpecKeys = [];
     // An extra specialization must be real, and must not restate the starting
     // one or itself (either would charge for a tree the character already has).
@@ -2346,6 +2350,42 @@ const Wizard = (() => {
         </div>`;
     }
 
+    // Jury Rigged: one owned weapon or suit gets a permanent tweak per rank.
+    const juryRank = (d && d.talents.find(t => t.name === 'Jury Rigged') || {}).rank || 0;
+    let jurySection = '';
+    if (juryRank > 0) {
+      if (!Array.isArray(state.juryRigged)) state.juryRigged = [];
+      const owned = Engine.mergedEquipment(state);
+      const opts = [];
+      for (const cat of ['weapon', 'armor']) {
+        for (const k of Object.keys(owned[cat])) {
+          const it = Engine.getItem(cat, k);
+          if (it) opts.push({ cat, key: k, name: it.name });
+        }
+      }
+      const rows = [];
+      for (let i = 0; i < juryRank; i++) {
+        const e = state.juryRigged[i] || {};
+        const itemOpts = opts.map(o =>
+          `<option value="${esc(o.cat + '|' + o.key)}"${e.key === o.key && e.cat === o.cat ? ' selected' : ''}>${esc(o.name)}</option>`).join('');
+        const effOpts = Object.keys(Engine.JURY_EFFECTS)
+          .filter(fx => !e.cat || Engine.JURY_EFFECTS[fx].cats.includes(e.cat))
+          .map(fx => `<option value="${fx}"${e.effect === fx ? ' selected' : ''}>${esc(Engine.JURY_EFFECTS[fx].label)}</option>`).join('');
+        rows.push(`<label class="ded-choice-row">
+          <span>Jury Rigged ${i + 1}</span>
+          <select class="jury-item" data-jury-i="${i}"><option value="">&mdash; choose an item &mdash;</option>${itemOpts}</select>
+          <select class="jury-effect" data-jury-i="${i}"><option value="">&mdash; choose an effect &mdash;</option>${effOpts}</select>
+        </label>`);
+      }
+      jurySection = `
+        <div class="ded-choices">
+          <div class="ded-choices-title">Jury Rigged: tuned equipment</div>
+          ${rows.join('')}
+          <p class="ded-choices-note">Each rank permanently improves one weapon or suit of armor you own. The bonus
+          applies while you are using that item; if it is ever lost or destroyed, point the rank at something else.</p>
+        </div>`;
+    }
+
     // One sub-tab per owned tree, plus the door to buying another.
     const tabs = owned.map(k => {
       const sp = Engine.getSpec(k);
@@ -2381,7 +2421,8 @@ const Wizard = (() => {
       <div class="talent-tree-wrap">
         <div class="tt-grid" id="talent-tree-grid">${cells}</div>
       </div>
-      ${dedSection}`;
+      ${dedSection}
+      ${jurySection}`;
 
     // Dedication characteristic pickers
     // No re-render here: the pick only changes derived characteristics, which
@@ -2391,6 +2432,27 @@ const Wizard = (() => {
       sel.addEventListener('change', () => {
         state.dedicationChoices[sel.dataset.dedId] = sel.value;
         saveState();
+      });
+    });
+
+    // Jury Rigged picks change what the item itself is, so these DO re-render:
+    // the overlay has to be rebuilt and the sheet's numbers move with it.
+    c.querySelectorAll('.jury-item, .jury-effect').forEach(sel => {
+      sel.addEventListener('change', () => {
+        const i = +sel.dataset.juryI;
+        const e = state.juryRigged[i] || (state.juryRigged[i] = { cat: '', key: '', effect: '' });
+        if (sel.classList.contains('jury-item')) {
+          const [cat, key] = (sel.value || '|').split('|');
+          e.cat = cat; e.key = key;
+          // Effects are category specific, so a switch between a weapon and a
+          // suit of armor drops a pick that no longer applies.
+          const spec = Engine.JURY_EFFECTS[e.effect];
+          if (!spec || !spec.cats.includes(cat)) e.effect = '';
+        } else {
+          e.effect = sel.value;
+        }
+        Engine.setJuryRig(state);
+        saveState(); render();
       });
     });
 
@@ -3883,6 +3945,7 @@ const Wizard = (() => {
     Engine.applyCraftOptions(item, chosen);
     state.customItems[key] = item;
     Engine.setCustomItems(state.customItems);
+    Engine.setJuryRig(state);   // the overlay sits on top of custom items
     // A finished item enters the play layer, since it was made during play.
     playBag(category.produces)[key] = { qty: 1, carry: true, show: true, equip: false };
     if (Engine.isCompanionItem(category.produces, item)) syncCompanions();

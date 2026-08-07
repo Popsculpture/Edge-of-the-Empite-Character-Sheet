@@ -350,9 +350,68 @@ const Engine = (() => {
     const it = _customItems[key];
     return it && it.cat === cat ? it : null;
   }
-  function getWeapon(key) { return customItem('weapon', key) || eqMaps().weapon[key] || null; }
-  function getArmor(key)  { return customItem('armor', key)  || eqMaps().armor[key]  || null; }
-  function getGear(key)   { return customItem('gear', key)   || eqMaps().gear[key]   || null; }
+  // The item as owned, before any Jury Rigged tinkering.
+  function baseItem(cat, key) {
+    return customItem(cat, key) || eqMaps()[cat][key] || null;
+  }
+
+  // ── Jury Rigged ──────────────────────────────────────────────────────────
+  // One weapon or piece of armor per rank gets a single permanent tweak. The
+  // item-shaped effects are pre-applied into an overlay so every reader (the
+  // sheet, the gear list, encumbrance) sees the tuned item without knowing the
+  // talent exists. Defense is not an item field the app can split by arc, so
+  // that effect is added in derive instead.
+  const JURY_EFFECTS = {
+    damage:   { label: 'Increase damage by 1', cats: ['weapon'] },
+    crit:     { label: 'Reduce critical rating by 1 (min 1)', cats: ['weapon'] },
+    advantage:{ label: 'Reduce one quality’s advantage cost by 1 (min 1)', cats: ['weapon'], noteOnly: true },
+    defMelee: { label: 'Increase melee defense by 1', cats: ['armor'] },
+    defRanged:{ label: 'Increase ranged defense by 1', cats: ['armor'] },
+    encumbrance: { label: 'Reduce encumbrance by 2 (min 1)', cats: ['weapon', 'armor'] },
+  };
+  let _juryItems = {};
+  function juryEntries(state) {
+    const rank = purchasedTalentCounts(state)['Jury Rigged'] || 0;
+    return ((state && state.juryRigged) || []).slice(0, rank);
+  }
+  function setJuryRig(state) {
+    _juryItems = {};
+    for (const e of juryEntries(state)) {
+      const base = e && e.key && baseItem(e.cat, e.key);
+      const spec = base && JURY_EFFECTS[e.effect];
+      if (!base || !spec || !spec.cats.includes(e.cat)) continue;
+      // Catalog entries carry no cat field (only crafted ones do), so stamp it
+      // here or the overlay lookup will not match a bought weapon or suit.
+      const it = Object.assign({}, base, {
+        cat: e.cat,
+        qualities: (base.qualities || []).map(q => Object.assign({}, q)),
+      });
+      if (e.effect === 'damage' && typeof it.damage === 'number') it.damage += 1;
+      if (e.effect === 'crit' && typeof it.crit === 'number') it.crit = Math.max(1, it.crit - 1);
+      if (e.effect === 'encumbrance') it.encumbrance = Math.max(1, (it.encumbrance || 0) - 2);
+      it.juryRig = spec.label;
+      _juryItems[e.key] = it;
+    }
+  }
+  // Defense the worn armor gains from Jury Rigged, split by arc.
+  function juryDefense(state, wornKey) {
+    const out = { melee: 0, ranged: 0 };
+    if (!wornKey) return out;
+    for (const e of juryEntries(state)) {
+      if (e.key !== wornKey || e.cat !== 'armor') continue;
+      if (e.effect === 'defMelee') out.melee += 1;
+      if (e.effect === 'defRanged') out.ranged += 1;
+    }
+    return out;
+  }
+
+  function juryItem(cat, key) {
+    const it = _juryItems[key];
+    return it && it.cat === cat ? it : null;
+  }
+  function getWeapon(key) { return juryItem('weapon', key) || baseItem('weapon', key); }
+  function getArmor(key)  { return juryItem('armor', key)  || baseItem('armor', key); }
+  function getGear(key)   { return juryItem('gear', key)   || baseItem('gear', key); }
   function getItem(cat, key) {
     return cat === 'weapon' ? getWeapon(key) : cat === 'armor' ? getArmor(key) : getGear(key);
   }
@@ -685,6 +744,9 @@ const Engine = (() => {
     const creditsRemaining = startingCredits - creditsSpent + (state.creditsAdjustment || 0);
     const armorSoak    = wornArmor ? (wornArmor.soak    || 0) : 0;
     const armorDefense = wornArmor ? (wornArmor.defense || 0) : 0;
+    // Jury Rigged can add defense to the worn suit, and the rules let it pick
+    // one arc, which the single armor defense field cannot express.
+    const juryDef = juryDefense(state, wornArmor ? wornArmor.key : null);
 
     const careerSkillKeys = career ? (career.career_skill_keys || []) : [];
     // Every owned specialization marks its skills as career skills, but only the
@@ -798,8 +860,8 @@ const Engine = (() => {
       wound_threshold:  (species.wound_threshold  || 10) + (effChars[wtStat]  || 2) + woundBonus,
       strain_threshold: (species.strain_threshold || 10) + (effChars[stStat] || 2) + strainBonus,
       soak:             (effChars.brawn || 1) + armorSoak + soakBonus + cyberSoak,
-      defense_ranged:   armorDefense + defRBonus + wpnDefRanged,
-      defense_melee:    armorDefense + defMBonus + wpnDefMelee,
+      defense_ranged:   armorDefense + defRBonus + wpnDefRanged + juryDef.ranged,
+      defense_melee:    armorDefense + defMBonus + wpnDefMelee + juryDef.melee,
       force_rating:     forceRating,
       armor_soak:       armorSoak,
       cyber_soak:       cyberSoak,
@@ -851,7 +913,7 @@ const Engine = (() => {
     ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
     treeConnected, refundIsSafe,
-    setCustomItems,
+    setCustomItems, setJuryRig, juryEntries, JURY_EFFECTS,
     craftingCategories, craftCategory, craftTemplate, difficultyName, craftedItemFrom,
     applyCraftOptions,
     derive,

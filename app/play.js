@@ -87,6 +87,8 @@ const Play = (() => {
             ${it.restricted ? '<span class="r-badge" title="Restricted - normally requires GM approval">R</span>' : ''}
             ${line.qty > 1 ? `<span class="eq-owned">&times;${line.qty}</span>` : ''}
             ${line.free ? '<span class="cart-free">FREE</span>' : ''}
+            ${it.juryRig ? `<span class="pf-tag" title="${esc(it.juryRig)}">Jury Rigged</span>` : ''}
+            ${it.crafted ? '<span class="pf-tag">Crafted</span>' : ''}
           </div>
           <div class="eq-stats">${itemStats(cat, it)}</div>
         </div>
