@@ -316,7 +316,7 @@ const Wizard = (() => {
   // has to forget it or the next one opens on a stale tree or mid-purchase.
   function resetTalentTabUi() {
     _ttSpec = null; _ttPicker = false; _ttQuery = '';
-    _craftCat = 'melee'; _craftFinishing = null;
+    _craftCat = 'melee'; _craftFinishing = null; _attachFor = null;
   }
 
   function repairState(s) {
@@ -3884,7 +3884,9 @@ const Wizard = (() => {
   function promoteToInstance(cat, key) {
     const merged = Engine.mergedLine(state, cat, key);
     if (!merged || merged.qty < 1) return null;
-    const base = Engine.getItem(cat, key);
+    // Read the UNTUNED item: getItem would hand back the Jury Rigged overlay,
+    // and snapshotting that would bake the talent's bonus in permanently.
+    const base = Engine.baseItem(cat, key);
     if (!base) return null;
     if (base.instance) return key;           // already one of a kind
     const instKey = 'INST-' + genId();
@@ -3901,7 +3903,26 @@ const Wizard = (() => {
     const line = bag[key] || (bag[key] = { qty: 0 });
     line.qty = (line.qty || 0) - 1;
     tidyPlayLine(cat, key);
-    bag[instKey] = { qty: 1, carry: merged.carry !== false, show: merged.show !== false, equip: !!merged.equip };
+    bag[instKey] = { qty: 1, carry: merged.carry !== false, show: merged.show !== false,
+                     equip: !!merged.equip, nickname: merged.nickname || '' };
+    // The equipped election moved with the unit, so the line it came from must
+    // give it up; otherwise a promoted suit leaves two suits marked worn.
+    if (merged.equip) line.equip = false;
+    // A Jury Rigged rank aimed at the stacked line has to follow the unit that
+    // was split off, or the tuning would sit on a model the character no
+    // longer owns while the instance goes untouched.
+    for (const e of (state.juryRigged || [])) {
+      if (e && e.cat === cat && e.key === key) e.key = instKey;
+    }
+    // A dual-wield pair naming the old key has to name the instance now, or
+    // the set silently dissolves even though both weapons are still owned.
+    if (cat === 'weapon' && Array.isArray(state.equipment.weaponSets)) {
+      const stillThere = mergedQty('weapon', key) > 0;
+      for (const set of state.equipment.weaponSets) {
+        if (!stillThere && set.a === key) set.a = instKey;
+        if (!stillThere && set.b === key) set.b = instKey;
+      }
+    }
     Engine.setCustomItems(state.customItems);
     Engine.setJuryRig(state);
     return instKey;
@@ -3957,7 +3978,9 @@ const Wizard = (() => {
     if (!opt) return;
     const installed = Object.values(att.mods || {}).reduce((a, b) => a + b, 0);
     const cost = Engine.modCost(installed, gearheadRanks());
-    if (outcome === 'success' && blockedByBudget(cost.credits)) return;
+    // The components are consumed whatever the dice say, so the balance has to
+    // cover the attempt regardless of how it turns out.
+    if (blockedByBudget(cost.credits)) return;
     const spentMsg = `${fmtCr(cost.credits)} cr in components is spent either way.`;
     if (outcome === 'despair') {
       if (!confirm(`Despair on the check: the ${def.name} is ruined and comes off ${inst.name}.\n\n${spentMsg}`)) return;
@@ -4282,7 +4305,12 @@ const Wizard = (() => {
       // A blank character has nothing to show in Play mode's trimmed tabs, so
       // drop back to Creation regardless of what the last character used.
       localStorage.setItem(PLAY_KEY, 'creation');
-      state = defaultState(); resetTalentTabUi(); saveState(); render(); window.scrollTo(0, 0);
+      state = defaultState(); resetTalentTabUi();
+      // The engine's item overlays belong to the character that just went
+      // away; leave them in place and the next one inherits its gear.
+      Engine.setCustomItems(state.customItems);
+      Engine.setJuryRig(state);
+      saveState(); render(); window.scrollTo(0, 0);
     }
   }
 

@@ -109,7 +109,7 @@ window.SW.attachments = [
     price: 250, rarity: 4, hp: 1,
     fits: 'Ranged (Light) pistols',
     base: 'Concealing the weapon is 1 difficulty easier. Range -1 band, to a minimum of short; if already short, attacks add 1 setback die.',
-    apply: { range: -1 },
+    apply: { range: -1, rangeFloor: 'Short' },
     mods: [{ count: 1, text: 'Quick Draw' }] },
 
   { key: 'ATT_SPREADBARREL', name: 'Spread Barrel', cat: 'weapon',
@@ -142,7 +142,8 @@ window.SW.attachments = [
     price: 2000, rarity: 5, hp: 2, restricted: true,
     fits: 'Rifle-sized Ranged (Heavy) weapons',
     base: 'The weapon can fire grenades, using the grenade’s profile at Medium range with Ranged (Heavy). Gains Cumbersome +1 and encumbrance +2. Grenades are Limited Ammo 1, so the launcher is too.',
-    apply: { quality: ['CUMBERSOME', 'Cumbersome', 1], encumbrance: 2 },
+    apply: { quality: ['CUMBERSOME', 'Cumbersome', 1], encumbrance: 2,
+             quality2: ['LIMITEDAMMO', 'Limited Ammo', 1] },
     mods: [{ count: 5, text: 'Limited Ammo +1' }] },
 
   { key: 'ATT_UBFLAME', name: 'Under-Barrel Flame Projector', cat: 'weapon',

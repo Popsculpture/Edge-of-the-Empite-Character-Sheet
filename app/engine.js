@@ -419,11 +419,16 @@ const Engine = (() => {
     }
     if (typeof ap.range === 'number' && item.range) {
       const i = RANGE_BANDS.indexOf(item.range);
-      if (i >= 0) item.range = RANGE_BANDS[Math.max(0, Math.min(RANGE_BANDS.length - 1, i + ap.range))];
+      // Some attachments floor the shift short of Engaged (a shortened barrel
+      // bottoms out at short range rather than putting the muzzle in a fist).
+      const floor = Math.max(0, RANGE_BANDS.indexOf(ap.rangeFloor || RANGE_BANDS[0]));
+      if (i >= 0) item.range = RANGE_BANDS[Math.max(floor, Math.min(RANGE_BANDS.length - 1, i + ap.range))];
     }
     if (!Array.isArray(item.qualities)) item.qualities = [];
-    if (ap.quality) {
-      const [key, name, count] = ap.quality;
+    // quality / quality2 / ... let one modifier grant more than one quality.
+    for (const field of ['quality', 'quality2', 'quality3']) {
+      if (!ap[field]) continue;
+      const [key, name, count] = ap[field];
       const have = item.qualities.find(q => q.key === key);
       if (have) { if (count) have.count = (have.count || 0) + count; }
       else item.qualities.push(count ? { key, name, count } : { key, name });
@@ -489,9 +494,14 @@ const Engine = (() => {
   function setJuryRig(state) {
     _juryItems = {};
     for (const e of juryEntries(state)) {
-      const base = e && e.key && baseItem(e.cat, e.key);
-      const spec = base && JURY_EFFECTS[e.effect];
-      if (!base || !spec || !spec.cats.includes(e.cat)) continue;
+      const spec = e && JURY_EFFECTS[e.effect];
+      if (!e || !e.key || !spec || !spec.cats.includes(e.cat)) continue;
+      // Build on whatever this item already carries from an earlier rank, not
+      // on the pristine base, or a second rank aimed at the same item would
+      // quietly wipe the first one's work.
+      const prior = _juryItems[e.key];
+      const base = prior || baseItem(e.cat, e.key);
+      if (!base) continue;
       // Catalog entries carry no cat field (only crafted ones do), so stamp it
       // here or the overlay lookup will not match a bought weapon or suit.
       const it = Object.assign({}, base, {
@@ -501,7 +511,7 @@ const Engine = (() => {
       if (e.effect === 'damage' && typeof it.damage === 'number') it.damage += 1;
       if (e.effect === 'crit' && typeof it.crit === 'number') it.crit = Math.max(1, it.crit - 1);
       if (e.effect === 'encumbrance') it.encumbrance = Math.max(1, (it.encumbrance || 0) - 2);
-      it.juryRig = spec.label;
+      it.juryRig = prior ? prior.juryRig + '; ' + spec.label : spec.label;
       _juryItems[e.key] = it;
     }
   }
@@ -539,7 +549,12 @@ const Engine = (() => {
     }
     return null;
   }
-  function difficultyName(n) { return DIFFICULTY_NAMES[Math.max(0, Math.min(5, n | 0))] || 'Average'; }
+  // Mod difficulty escalates without limit, so past Formidable name the
+  // overflow rather than silently capping the label at the top of the table.
+  function difficultyName(n) {
+    const i = Math.max(0, n | 0);
+    return i <= 5 ? (DIFFICULTY_NAMES[i] || 'Average') : `Formidable +${i - 5}`;
+  }
 
   // What each improvement or flaw does to the finished item, keyed by the
   // option name (the names repeat across categories, so one table covers them
@@ -1025,7 +1040,7 @@ const Engine = (() => {
     ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
     treeConnected, refundIsSafe,
-    setCustomItems, setJuryRig, juryEntries, JURY_EFFECTS,
+    setCustomItems, setJuryRig, juryEntries, JURY_EFFECTS, baseItem,
     attachmentList, getAttachment, attachmentsFor,
     hardPointsUsed, hardPointsFree, modCost, rebuildInstance,
     craftingCategories, craftCategory, craftTemplate, difficultyName, craftedItemFrom,

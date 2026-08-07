@@ -61,10 +61,15 @@ const Play = (() => {
         ${quals ? `<div class="eq-quals">${quals}</div>` : ''}`;
     }
     if (cat === 'armor') {
+      // Armor can carry qualities too, once something like a cortosis weave
+      // or a superior customization has been fitted.
+      const quals = (it.qualities || []).map(q =>
+        `<span class="qual-chip" data-tip-type="quality" data-tip-name="${esc(q.key)}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('');
       return `
         ${statChip('Soak', '+' + (it.soak ?? 0))}
         ${statChip('Def', '+' + (it.defense ?? 0))}
-        ${statChip('Enc', it.encumbrance ?? '—')}`;
+        ${statChip('Enc', it.encumbrance ?? '—')}
+        ${quals ? `<div class="eq-quals">${quals}</div>` : ''}`;
     }
     return `
       ${statChip('Enc', it.encumbrance ?? '—')}
