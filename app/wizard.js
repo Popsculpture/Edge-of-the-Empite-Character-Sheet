@@ -70,7 +70,7 @@ const Wizard = (() => {
   // instead of a linear build wizard. A global preference like Display/Theme,
   // not tied to any one character, so switching characters keeps it.
   const PLAY_KEY = 'sw_playmode';
-  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'play-fleet', 'companions', 'market', 'reference'];
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'play-fleet', 'companions', 'market', 'crafting', 'reference'];
   function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
   function setPlayMode(mode) {
     localStorage.setItem(PLAY_KEY, mode);
@@ -299,6 +299,8 @@ const Wizard = (() => {
       playVehicles:       [], // [{id, key, nickname, notes}] ships bought during play
       companions:         [], // [{id, itemKey, nickname, notes}] one record per owned droid or beast
       ledger:             [], // [{ts, kind, label, amount}] play transaction log, capped
+      customItems:        {}, // key -> player-crafted item, shaped like a catalog entry
+      craftProjects:      [], // [{id, templateKey, name}] materials bought, check not yet resolved
       creditsAdjustment:  0,   // net credits gained/spent during play, on top of the starting allotment
       xpAdjustment:       0,   // net XP awarded during play, on top of the starting allotment
       notes:              '', // freeform session notes (Play mode)
@@ -322,6 +324,11 @@ const Wizard = (() => {
     if (!Array.isArray(s.playVehicles)) s.playVehicles = [];
     if (!Array.isArray(s.companions))   s.companions   = [];
     if (!Array.isArray(s.ledger))       s.ledger       = [];
+    if (!Array.isArray(s.craftProjects)) s.craftProjects = [];
+    if (!s.customItems || typeof s.customItems !== 'object') s.customItems = {};
+    // Crafted items are looked up through the engine like catalog gear, so the
+    // overlay has to match whichever character is loaded.
+    Engine.setCustomItems(s.customItems);
     if (!Array.isArray(s.extraSpecKeys)) s.extraSpecKeys = [];
     // An extra specialization must be real, and must not restate the starting
     // one or itself (either would charge for a tree the character already has).
@@ -890,6 +897,7 @@ const Wizard = (() => {
     { id: 'play-gear',  label: 'My Gear',      tab: 'Gear',     valid: () => true, mode: 'play' },
     { id: 'play-fleet', label: 'My Fleet',     tab: 'Fleet',    valid: () => true, mode: 'play' },
     { id: 'companions', label: 'Companions',   tab: 'Comp.',    valid: () => true, mode: 'play' },
+    { id: 'crafting',   label: 'Crafting',     tab: 'Craft',    valid: () => true, mode: 'play' },
   ];
   // The last creation-mode step (nav and step counters never see play tabs;
   // creation steps are the contiguous run at the front of the array).
@@ -919,6 +927,8 @@ const Wizard = (() => {
     // body.play-mode (via document.body.classList) to decide whether to show
     // the Play-mode-only Notes & Contacts panel, so it must already be current.
     document.body.classList.toggle('on-sheet', STEPS[state.step].id === 'sheet');
+    // Crafting rolls its construction check in the same tray the sheet uses.
+    document.body.classList.toggle('on-craft', STEPS[state.step].id === 'crafting');
     const inPlay = getPlayMode() === 'play';
     document.body.classList.toggle('play-mode', inPlay);
     // Creation is a tool ("Character Creator"); Play is about the character.
@@ -1030,7 +1040,7 @@ const Wizard = (() => {
     // Creation shows the bar on its two shopping steps; Play shows it anywhere
     // credits move: the Market plus every owned-goods management tab.
     const CREDIT_STEPS = getPlayMode() === 'play'
-      ? ['market', 'play-gear', 'play-fleet', 'companions', 'equip', 'vehicle']
+      ? ['market', 'play-gear', 'play-fleet', 'companions', 'crafting', 'equip', 'vehicle']
       : ['equip', 'vehicle'];
     if (!state.speciesKey || !CREDIT_STEPS.includes(stepId)) { bar.classList.add('hidden'); return; }
     const d = Engine.derive(state);
@@ -1110,7 +1120,8 @@ const Wizard = (() => {
                   talents: renderTalents, details: renderDetails, equip: renderEquip,
                   vehicle: renderVehicle, sheet: renderSheet, reference: renderReference,
                   market: renderMarket, 'play-gear': renderPlayGear,
-                  'play-fleet': renderPlayFleet, companions: renderCompanions };
+                  'play-fleet': renderPlayFleet, companions: renderCompanions,
+                  crafting: renderCrafting };
     fns[STEPS[state.step].id]();
   }
 
@@ -3768,6 +3779,220 @@ const Wizard = (() => {
         gotoMarket: gotoMarketStep,
       },
     });
+  }
+
+  // ── Step: Crafting (Play mode) ────────────────────────────────────────────
+  // Pick a template, buy its materials, then make one construction check.
+  // The app tracks the money and the resulting item; the dice and the reading
+  // of the result stay at the table, so the player reports how it went.
+  let _craftCat = 'melee';
+
+  // Best pool the character can bring to a template's check, across whichever
+  // skills that template allows.
+  function craftSkillDice(skillNames, d) {
+    const chars = (d && d.characteristics) || state.characteristics || {};
+    const ranks = (d && d.skill_ranks) || {};
+    let best = { ability: 0, prof: 0, total: -1, name: (skillNames || [])[0] || 'Mechanics' };
+    for (const nm of (skillNames || [])) {
+      const sk = Engine.getSkill(Engine.nameToKey(nm));
+      if (!sk) continue;
+      const cv = chars[sk.characteristic.toLowerCase()] || 0;
+      const rk = ranks[sk.key] || 0;
+      const prof = Math.min(cv, rk), ability = Math.max(cv, rk) - prof;
+      const total = ability + prof;
+      if (total > best.total || (total === best.total && prof > best.prof)) {
+        best = { ability, prof, total, name: sk.name };
+      }
+    }
+    return best;
+  }
+
+  function startCraftProject(templateKey) {
+    const found = Engine.craftTemplate(templateKey);
+    if (!found) return;
+    const { template, category } = found;
+    const price = template.price || 0;
+    if (blockedByBudget(price)) return;
+    const diff = Engine.difficultyName(template.difficulty);
+    if (!confirm(`Buy materials for a ${template.name}?\n\n` +
+                 `${fmtCr(price)} cr, rarity ${template.rarity}. ` +
+                 `Construction is a ${diff} ${(template.skills || []).join(' or ')} check taking ${template.hours} hours.\n\n` +
+                 `Materials are spent now, and lost if the check fails.`)) return;
+    state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+    postLedger('buy', 'Materials: ' + template.name, -price);
+    if (!Array.isArray(state.craftProjects)) state.craftProjects = [];
+    state.craftProjects.push({ id: genId(), templateKey, name: template.name, categoryKey: category.key });
+    saveState(); render();
+  }
+
+  function abandonCraftProject(id) {
+    const p = (state.craftProjects || []).find(x => x.id === id);
+    if (!p) return;
+    if (!confirm(`Scrap the ${p.name} project?\n\nThe materials are already spent and do not come back.`)) return;
+    state.craftProjects = state.craftProjects.filter(x => x.id !== id);
+    saveState(); render();
+  }
+
+  // Send the template's check to the dice tray, tagged so the roller can offer
+  // that template's own improvement and flaw options as spend tips.
+  function rollCraftCheck(id) {
+    const p = (state.craftProjects || []).find(x => x.id === id);
+    const found = p && Engine.craftTemplate(p.templateKey);
+    if (!found) return;
+    const dice = craftSkillDice(found.template.skills, Engine.derive(state));
+    Dice.setPoolFromUpgrade(`Crafting: ${found.template.name}`, dice.ability, dice.prof,
+                            found.template.difficulty, 'craft:' + found.template.key, dice.name);
+  }
+
+  function finishCraftProject(id, success) {
+    const p = (state.craftProjects || []).find(x => x.id === id);
+    const found = p && Engine.craftTemplate(p.templateKey);
+    if (!found) return;
+    const { template, category } = found;
+    if (!success) {
+      if (!confirm(`Record the ${template.name} as a failed build?\n\nThe materials are lost.`)) return;
+      state.craftProjects = state.craftProjects.filter(x => x.id !== id);
+      postLedger('sell', 'Failed build: ' + template.name, 0);
+      saveState(); render();
+      return;
+    }
+    const name = (prompt('Name your ' + template.name + ':', template.name) || template.name).trim() || template.name;
+    const key = 'CRAFT-' + genId();
+    if (!state.customItems) state.customItems = {};
+    state.customItems[key] = Engine.craftedItemFrom(template, category, key, name);
+    Engine.setCustomItems(state.customItems);
+    // A finished item enters the play layer, since it was made during play.
+    const bag = playBag(category.produces);
+    bag[key] = { qty: 1, carry: true, show: true, equip: false };
+    if (Engine.isCompanionItem(category.produces, state.customItems[key])) syncCompanions();
+    state.craftProjects = state.craftProjects.filter(x => x.id !== id);
+    postLedger('buy', 'Crafted: ' + name, 0);
+    saveState(); render();
+  }
+
+  function renderCrafting() {
+    const c = $('#step-content');
+    const d = Engine.derive(state);
+    if (!d) { c.innerHTML = '<div class="empty-state">No character yet. Switch to Creation mode to build one.</div>'; return; }
+    const cats = Engine.craftingCategories();
+    if (!cats.length) { c.innerHTML = '<div class="empty-state">Crafting data failed to load.</div>'; return; }
+    if (!cats.some(x => x.key === _craftCat)) _craftCat = cats[0].key;
+    const cat = Engine.craftCategory(_craftCat);
+
+    const tabs = cats.map(x =>
+      `<button class="equip-tab${x.key === _craftCat ? ' active' : ''}" data-craft-cat="${esc(x.key)}">
+        ${esc(x.label)}<span class="equip-tab-count">${(x.templates || []).length}</span>
+      </button>`).join('');
+
+    // Projects with materials bought but the check not yet resolved.
+    const projects = (state.craftProjects || []).map(p => {
+      const f = Engine.craftTemplate(p.templateKey);
+      if (!f) return '';
+      const dice = craftSkillDice(f.template.skills, d);
+      return `
+        <div class="craft-project" data-project="${esc(p.id)}">
+          <div class="craft-proj-head">
+            <span class="pf-tag">In progress</span>
+            <strong>${esc(p.name)}</strong>
+            <span class="craft-proj-check">${esc(Engine.difficultyName(f.template.difficulty))} ${esc(dice.name)} &middot; ${f.template.hours} hours</span>
+          </div>
+          <div class="craft-proj-acts">
+            <button class="btn btn-primary btn-sm" data-craft-act="roll">&#127922; Roll the check</button>
+            <button class="btn btn-secondary btn-sm" data-craft-act="done">It worked</button>
+            <button class="btn btn-secondary btn-sm" data-craft-act="failed">It failed</button>
+            <button class="cart-x" data-craft-act="scrap" title="Scrap this project">&times;</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    const rows = (cat.templates || []).map(t => {
+      const dice = craftSkillDice(t.skills, d);
+      const p = t.profile || {};
+      const stats = cat.produces === 'weapon'
+        ? `${statChip('Dmg', (p.damageType === 'add' ? '+' : '') + p.damage)}${statChip('Crit', p.crit || '—')}
+           ${statChip('Range', p.range || '—')}${statChip('Enc', p.encumbrance)}${statChip('HP', p.hp)}
+           <span class="eq-skill">${esc(p.skill || '')}</span>
+           ${(p.qualities || []).length ? `<div class="eq-quals">${(p.qualities || []).map(q =>
+              `<span class="qual-chip" data-tip-type="quality" data-tip-name="${esc(q.key)}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('')}</div>` : ''}`
+        : cat.produces === 'armor'
+        ? `${statChip('Soak', '+' + p.soak)}${statChip('Def', '+' + p.defense)}${statChip('Enc', p.encumbrance)}${statChip('HP', p.hp)}`
+        : `${statChip('Enc', p.encumbrance)}${p.effect ? `<div class="eq-short">${esc(p.effect)}</div>` : ''}`;
+      const afford = (t.price || 0) <= d.credits_remaining;
+      return `
+        <div class="craft-row${afford ? '' : ' spick-dear'}">
+          <div class="craft-main">
+            <div class="craft-name">${esc(t.name)}
+              ${t.restricted ? '<span class="r-badge" title="Restricted - normally requires GM approval">R</span>' : ''}
+              <span class="craft-check">${esc(Engine.difficultyName(t.difficulty))} ${esc((t.skills || []).join(' or '))} &middot; ${t.hours}h</span>
+            </div>
+            <div class="eq-stats">${stats}</div>
+            ${t.examples ? `<div class="craft-eg">${esc(t.examples)}</div>` : ''}
+            ${t.note ? `<div class="craft-note">${esc(t.note)}</div>` : ''}
+          </div>
+          <div class="craft-buy">
+            <div class="spick-cost">${fmtCr(t.price)}<i>cr</i></div>
+            <div class="craft-rarity">rarity ${t.rarity}</div>
+            <button class="btn btn-primary btn-sm" data-craft-start="${esc(t.key)}"
+              title="Your pool: ${dice.ability} ability + ${dice.prof} proficiency">Build</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    const optList = (groups, kind) => (groups || []).map(g => {
+      const n = g.adv || g.tri || g.thr || g.des || 1;
+      const sym = g.tri ? 'Triumph' : g.des ? 'Despair' : kind === 'imp' ? 'Advantage' : 'Threat';
+      const label = (g.tri || g.des)
+        ? `${n} ${sym}${n > 1 ? 's' : ''}`
+        : `${n} ${sym}${n > 1 ? 's' : ''} or 1 ${kind === 'imp' ? 'Triumph' : 'Despair'}`;
+      return `<div class="craft-opt-group"><div class="craft-opt-cost">${label}</div>
+        <ul class="dc-tip-list">${g.options.map(o =>
+          `<li><i class="dc-tip-cost">${kind === 'imp' ? '+' : '!'}</i><strong>${esc(o.name)}.</strong>&nbsp;${esc(o.text)}</li>`).join('')}</ul></div>`;
+    }).join('');
+
+    c.innerHTML = `
+      <div class="step-header"><h2>Crafting</h2>
+        <p>Choose a template, buy its materials, then make one construction check. Success builds
+        exactly the profile below; failure loses the materials. Every success past the first cuts
+        two hours off the job, down to one. You spend advantage and triumph on improvements, and
+        the GM spends threat and despair on flaws.</p></div>
+      ${projects ? `<div class="craft-projects">${projects}</div>` : ''}
+      <div class="equip-tabs">${tabs}</div>
+      <div class="craft-body">
+        <div class="craft-list">
+          ${cat.intro ? `<p class="craft-intro">${esc(cat.intro)}</p>` : ''}
+          ${cat.note ? `<div class="craft-note">${esc(cat.note)}</div>` : ''}
+          ${rows}
+        </div>
+        <details class="craft-options">
+          <summary>Spending your results on a ${esc(cat.label.toLowerCase().replace(/s$/, ''))} build</summary>
+          <div class="craft-opt-cols">
+            <div><div class="craft-opt-h">Improvements you choose</div>${optList(cat.improvements, 'imp')}</div>
+            <div><div class="craft-opt-h">Flaws the GM chooses</div>${optList(cat.flaws, 'flaw')}</div>
+          </div>
+        </details>
+        <div class="craft-src">${esc(cat.source)}</div>
+      </div>`;
+
+    c.querySelector('.equip-tabs').addEventListener('click', e => {
+      const t = e.target.closest('[data-craft-cat]');
+      if (t) { _craftCat = t.dataset.craftCat; renderCrafting(); }
+    });
+    c.querySelector('.craft-list').addEventListener('click', e => {
+      const b = e.target.closest('[data-craft-start]');
+      if (b) startCraftProject(b.dataset.craftStart);
+    });
+    const projEl = c.querySelector('.craft-projects');
+    if (projEl) projEl.addEventListener('click', e => {
+      const b = e.target.closest('[data-craft-act]');
+      if (!b) return;
+      const id = b.closest('[data-project]').dataset.project;
+      const act = b.dataset.craftAct;
+      if (act === 'roll') rollCraftCheck(id);
+      else if (act === 'done') finishCraftProject(id, true);
+      else if (act === 'failed') finishCraftProject(id, false);
+      else if (act === 'scrap') abandonCraftProject(id);
+    });
+    initTipListeners(c.querySelector('.craft-list'));
   }
 
   // ── Step: Sheet ───────────────────────────────────────────────────────────

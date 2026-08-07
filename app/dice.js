@@ -27,6 +27,7 @@ const Dice = (() => {
   // in the tray). Drives which spend-your-results tips a roll offers.
   let ctxType = 'generic';
   let ctxSkill = '';
+  let ctxCraft = '';   // crafting template key, when the pool came from a build
 
   // What leftover symbols can buy, compressed from the EotE Core Rulebook
   // (combat: Tables 6-2 and 6-3, p.206-207; general play: the dice symbol
@@ -190,7 +191,9 @@ const Dice = (() => {
     labelText = label || '';
     // Remember what kind of check this is so the results can offer the right
     // spend options. A hand-built pool (no seeding button) stays generic.
-    ctxType = context === 'combat' || context === 'skill' ? context : 'generic';
+    ctxCraft = '';
+    if (context && context.slice(0, 6) === 'craft:') { ctxType = 'craft'; ctxCraft = context.slice(6); }
+    else ctxType = context === 'combat' || context === 'skill' ? context : 'generic';
     ctxSkill = skill || '';
     // Start a clean check: this skill/weapon's Ability + Proficiency, no leftover
     // context dice from a previous roll. The player then adds difficulty/boost/etc.
@@ -216,6 +219,7 @@ const Dice = (() => {
     labelText = '';
     ctxType = 'generic';
     ctxSkill = '';
+    ctxCraft = '';
     renderPool();
     const r = document.getElementById('dc-results');
     if (r) r.classList.remove('show');
@@ -251,11 +255,43 @@ const Dice = (() => {
     return `<span class="dc-tchip">${sym(type)} <span class="dc-c">${count}</span> ${label}</span>`;
   }
 
+  // A crafting check spends its results on that template's own lists: the
+  // crafter takes improvements with advantage and triumph, the GM imposes
+  // flaws with threat and despair. A triumph pays any advantage cost outright,
+  // and a despair any threat cost, exactly as the printed tables read.
+  function craftTipsHtml(t, netA) {
+    // Engine is a top-level const, not a window property, so probe it by name.
+    const found = typeof Engine !== 'undefined' && Engine.craftTemplate
+      ? Engine.craftTemplate(ctxCraft) : null;
+    if (!found) return '';
+    const netH = -netA;
+    const groups = (list, kind) => (list || []).filter(g => {
+      if (kind === 'imp') return (g.adv && (netA >= g.adv || t.tr >= 1)) || (g.tri && t.tr >= g.tri);
+      return (g.thr && (netH >= g.thr || t.de >= 1)) || (g.des && t.de >= g.des);
+    }).map(g => {
+      const n = g.adv || g.tri || g.thr || g.des;
+      const own = g.tri ? n + ' Triumph' : g.des ? n + ' Despair' : n + (kind === 'imp' ? ' Advantage' : ' Threat');
+      return `<div class="dc-tip-sec"><div class="dc-tip-h">${sym(kind === 'imp' ? (g.tri ? 'tr' : 'a') : (g.des ? 'de' : 'h'))} ${own}${n > 1 && !g.tri && !g.des ? 's' : ''}</div>
+        <ul class="dc-tip-list">${g.options.map(o =>
+          `<li><i class="dc-tip-cost">${kind === 'imp' ? '+' : '!'}</i><strong>${o.name}.</strong>&nbsp;${o.text}</li>`).join('')}</ul></div>`;
+    }).join('');
+
+    const imp = groups(found.category.improvements, 'imp');
+    const flaw = groups(found.category.flaws, 'flaw');
+    if (!imp && !flaw) return '';
+    return `<div class="dc-tips">
+      <div class="dc-tip-note">Building: ${found.template.name}</div>
+      ${imp}${flaw}
+      <div class="dc-tip-note">Each success past the first cuts 2 hours off the build, to a minimum of 1.</div>
+    </div>`;
+  }
+
   // Spend-your-results tips: only the options this roll can actually afford,
   // colored by what seeded the pool (combat, a specific skill, or generic).
   // The player narrates Advantage and Triumph; the GM narrates Threat and
   // Despair, so those sections are framed as what the GM may do.
   function tipsHtml(t, netA) {
+    if (ctxType === 'craft') return craftTipsHtml(t, netA);
     const lib = ctxType === 'combat' ? SPEND.combat : SPEND.generic;
     const skill = ctxType === 'skill' ? SPEND.skills[ctxSkill] : null;
     const netH = -netA;

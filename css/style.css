@@ -1476,13 +1476,15 @@ body.swiping-tabs { overflow-x: hidden; }
   box-shadow: 0 -10px 40px rgba(0,0,0,.5);
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
-body.on-sheet .dc-console { display: block; }
+body.on-sheet .dc-console,
+body.on-craft .dc-console { display: block; }
 /* The console sits above the nav (z-index) so it is never obscured. The nav
    scrolls in normal flow; reserve space below it so, at rest, it clears the
    collapsed/base console when scrolled to the very bottom. When the console is
    expanded with a rolled result it grows taller and floats over the nav, which
    is fine: the console collapses from its own toggle and the top tabs navigate. */
-body.on-sheet #app { padding-bottom: 200px; }
+body.on-sheet #app,
+body.on-craft #app { padding-bottom: 200px; }
 .dc-console.dc-flash { box-shadow: 0 -10px 50px rgba(95,194,236,.4); }
 
 .dc-collapse {
@@ -2195,6 +2197,70 @@ body.on-sheet #app { padding-bottom: 200px; }
 
 /* Creation cart line frozen by play-mode history */
 .cart-row-locked { opacity: 0.75; }
+
+/* ── Crafting ───────────────────────────────────────────────────────── */
+.craft-body { max-width: 960px; }
+.craft-intro { color: var(--muted); font-size: 0.85rem; margin-bottom: 10px; }
+.craft-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.craft-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 2px;
+  border-bottom: 1px solid var(--border);
+}
+.craft-row:last-child { border-bottom: none; }
+.craft-main { min-width: 0; flex: 1; }
+.craft-name { font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
+.craft-check { font-size: 0.72rem; font-weight: 400; color: var(--accent); }
+.craft-eg { font-size: 0.72rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+.craft-note {
+  font-size: 0.75rem; color: var(--muted); margin-top: 5px;
+  border-left: 2px solid var(--border); padding-left: 8px;
+}
+.craft-buy { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.craft-rarity { font-size: 0.68rem; color: var(--muted); }
+.craft-src { font-size: 0.7rem; color: var(--muted); margin-top: 10px; font-style: italic; }
+
+/* A build with its materials bought, waiting on the construction check */
+.craft-projects { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; max-width: 960px; }
+.craft-project {
+  background: var(--surface);
+  border: 1px solid var(--accent-border, var(--border));
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.craft-proj-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.craft-proj-check { font-size: 0.75rem; color: var(--muted); }
+.craft-proj-acts { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.craft-options { margin-top: 14px; }
+.craft-options summary {
+  cursor: pointer; font-size: 0.8rem; color: var(--accent);
+  user-select: none; padding: 6px 0;
+}
+.craft-opt-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 8px;
+}
+.craft-opt-h {
+  font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--muted); margin-bottom: 6px;
+}
+.craft-opt-group { margin-bottom: 10px; }
+.craft-opt-cost { font-size: 0.72rem; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+@media (max-width: 700px) {
+  .craft-row { flex-direction: column; align-items: stretch; }
+  .craft-buy { flex-direction: row; align-items: center; justify-content: space-between; }
+}
 
 /* ── Specializations: tree sub-tabs and the buy picker ──────────────── */
 .tt-tabs { margin-bottom: 10px; }

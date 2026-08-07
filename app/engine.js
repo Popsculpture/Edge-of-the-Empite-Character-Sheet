@@ -341,11 +341,58 @@ const Engine = (() => {
     }
     return _eqMaps;
   }
-  function getWeapon(key) { return eqMaps().weapon[key] || null; }
-  function getArmor(key)  { return eqMaps().armor[key]  || null; }
-  function getGear(key)   { return eqMaps().gear[key]   || null; }
+  // Player-built items live on the character, not in the catalog, so they are
+  // held in an overlay the lookups check first. wizard.js refreshes it from
+  // state.customItems whenever the character changes.
+  let _customItems = {};
+  function setCustomItems(map) { _customItems = map || {}; }
+  function customItem(cat, key) {
+    const it = _customItems[key];
+    return it && it.cat === cat ? it : null;
+  }
+  function getWeapon(key) { return customItem('weapon', key) || eqMaps().weapon[key] || null; }
+  function getArmor(key)  { return customItem('armor', key)  || eqMaps().armor[key]  || null; }
+  function getGear(key)   { return customItem('gear', key)   || eqMaps().gear[key]   || null; }
   function getItem(cat, key) {
     return cat === 'weapon' ? getWeapon(key) : cat === 'armor' ? getArmor(key) : getGear(key);
+  }
+
+  // ── Crafting ─────────────────────────────────────────────────────────────
+  const DIFFICULTY_NAMES = ['Simple', 'Easy', 'Average', 'Hard', 'Daunting', 'Formidable'];
+  function craftingCategories() { return (SW.crafting && SW.crafting.categories) || []; }
+  function craftCategory(key)   { return craftingCategories().find(c => c.key === key) || null; }
+  function craftTemplate(key) {
+    for (const c of craftingCategories()) {
+      const t = (c.templates || []).find(x => x.key === key);
+      if (t) return { template: t, category: c };
+    }
+    return null;
+  }
+  function difficultyName(n) { return DIFFICULTY_NAMES[Math.max(0, Math.min(5, n | 0))] || 'Average'; }
+
+  // The item a finished template becomes, shaped like a catalog entry so the
+  // rest of the app treats it as ordinary equipment.
+  function craftedItemFrom(template, category, id, name) {
+    const p = template.profile || {};
+    const base = {
+      key: id, cat: category.produces, name: name || template.name,
+      price: template.price, rarity: template.rarity, restricted: !!template.restricted,
+      encumbrance: p.encumbrance || 0, hp: p.hp || 0,
+      crafted: true, templateKey: template.key, categoryKey: category.key,
+      description: (template.note || '') || (p.effect || ''),
+      sources: [],
+    };
+    if (category.produces === 'weapon') {
+      return Object.assign(base, {
+        skillKey: p.skillKey, skill: p.skill, damage: p.damage, damageType: p.damageType,
+        crit: p.crit, range: p.range, qualities: (p.qualities || []).slice(),
+        categories: ['Crafted'], hands: p.hands || '',
+      });
+    }
+    if (category.produces === 'armor') {
+      return Object.assign(base, { soak: p.soak || 0, defense: p.defense || 0, categories: ['Crafted'] });
+    }
+    return Object.assign(base, { type: category.label, short: p.effect || '' });
   }
 
   // Vehicle lookups (lazy key maps)
@@ -733,6 +780,8 @@ const Engine = (() => {
     ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
     treeConnected, refundIsSafe,
+    setCustomItems,
+    craftingCategories, craftCategory, craftTemplate, difficultyName, craftedItemFrom,
     derive,
   };
 })();
