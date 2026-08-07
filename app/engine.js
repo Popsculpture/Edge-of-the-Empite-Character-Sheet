@@ -370,9 +370,76 @@ const Engine = (() => {
   }
   function difficultyName(n) { return DIFFICULTY_NAMES[Math.max(0, Math.min(5, n | 0))] || 'Average'; }
 
+  // What each improvement or flaw does to the finished item, keyed by the
+  // option name (the names repeat across categories, so one table covers them
+  // all). Options absent here have no number to change: they are recorded on
+  // the item as written and resolved at the table.
+  const CRAFT_APPLY = {
+    'Two-Handed':          { damage: 1, encumbrance: 2, hands: 'Two-handed' },
+    'Lightweight':         { encumbrance: -1 },
+    'Heavy':               { encumbrance: 1 },
+    'Destructive':         { damage: 1 },
+    'Lethal':              { crit: -1 },
+    'Customizable':        { hp: 1 },
+    'Extra Hard Point':    { hp: 1 },
+    'Integral Attachment': { hp: 1 },
+    'Extra Soak':          { soak: 1 },
+    'Knockdown':      { quality: ['KNOCKDOWN', 'Knockdown'] },
+    'Sunder':         { quality: ['SUNDER', 'Sunder'] },
+    'Auto-fire':      { quality: ['AUTOFIRE', 'Auto-fire'] },
+    'Ion':            { quality: ['ION', 'Ion'] },
+    'Stun Setting':   { quality: ['STUNSETTING', 'Stun Setting'] },
+    'Defensive':      { quality: ['DEFENSIVE', 'Defensive', 1] },
+    'Deflection':     { quality: ['DEFLECTION', 'Deflection', 1] },
+    'Pierce':         { quality: ['PIERCE', 'Pierce', 1] },
+    'Vicious':        { quality: ['VICIOUS', 'Vicious', 1] },
+    'Stun':           { quality: ['STUN', 'Stun', 1] },
+    'Ensnare':        { quality: ['ENSNARE', 'Ensnare', 1] },
+    'Accurate':       { quality: ['ACCURATE', 'Accurate', 1] },
+    'Concussive':     { quality: ['CONCUSSIVE', 'Concussive', 1] },
+    'Burn':           { quality: ['BURN', 'Burn', 1] },
+    'Disorient':      { quality: ['DISORIENT', 'Disorient', 1] },
+    'Blast':          { quality: ['BLAST', 'Blast', 5] },
+    'Cumbersome':     { quality: ['CUMBERSOME', 'Cumbersome', 1] },
+    'Inaccurate':     { quality: ['INACCURATE', 'Inaccurate', 1] },
+    'Prepare':        { quality: ['PREPARE', 'Prepare', 1] },
+    'Slow-Firing':    { quality: ['SLOWFIRING', 'Slow-Firing', 1] },
+    'Limited Ammo':   { quality: ['LIMITEDAMMO', 'Limited Ammo', 3] },
+  };
+
+  // Fold the options taken on the construction check into a crafted item.
+  // chosen is [{name, text, kind:'imp'|'flaw'}], possibly with repeats where
+  // the player took a stacking option more than once.
+  function applyCraftOptions(item, chosen) {
+    for (const c of (chosen || [])) {
+      const rule = CRAFT_APPLY[c.name];
+      if (!rule) continue;
+      if (typeof rule.damage === 'number' && typeof item.damage === 'number') item.damage += rule.damage;
+      if (typeof rule.crit === 'number' && typeof item.crit === 'number') item.crit = Math.max(1, item.crit + rule.crit);
+      if (typeof rule.encumbrance === 'number') {
+        item.encumbrance = rule.encumbrance < 0
+          ? Math.max(1, (item.encumbrance || 0) + rule.encumbrance)
+          : (item.encumbrance || 0) + rule.encumbrance;
+      }
+      if (typeof rule.hp === 'number') item.hp = (item.hp || 0) + rule.hp;
+      if (typeof rule.soak === 'number') item.soak = (item.soak || 0) + rule.soak;
+      if (rule.hands) item.hands = rule.hands;
+      if (rule.quality && Array.isArray(item.qualities)) {
+        const [key, qname, count] = rule.quality;
+        const have = item.qualities.find(q => q.key === key);
+        if (have) { if (count) have.count = (have.count || 0) + count; }
+        else item.qualities.push(count ? { key, name: qname, count } : { key, name: qname });
+      }
+    }
+    // Everything taken is recorded on the item, numbers or not, so the player
+    // can always see what this build actually earned.
+    item.craftOptions = (chosen || []).map(c => ({ name: c.name, text: c.text, kind: c.kind }));
+    return item;
+  }
+
   // The item a finished template becomes, shaped like a catalog entry so the
   // rest of the app treats it as ordinary equipment.
-  function craftedItemFrom(template, category, id, name) {
+  function craftedItemFrom(template, category, id, name, charChoice) {
     const p = template.profile || {};
     const base = {
       key: id, cat: category.produces, name: name || template.name,
@@ -392,7 +459,11 @@ const Engine = (() => {
     if (category.produces === 'armor') {
       return Object.assign(base, { soak: p.soak || 0, defense: p.defense || 0, categories: ['Crafted'] });
     }
-    return Object.assign(base, { type: category.label, short: p.effect || '' });
+    const gear = Object.assign(base, { type: category.label, short: p.effect || '' });
+    // A cybernetic limb raises one characteristic; derive only reads charMod,
+    // so the choice made at the bench has to land in that field.
+    if (p.charModChoice && charChoice) gear.charMod = { [charChoice]: 1 };
+    return gear;
   }
 
   // Vehicle lookups (lazy key maps)
@@ -782,6 +853,7 @@ const Engine = (() => {
     treeConnected, refundIsSafe,
     setCustomItems,
     craftingCategories, craftCategory, craftTemplate, difficultyName, craftedItemFrom,
+    applyCraftOptions,
     derive,
   };
 })();

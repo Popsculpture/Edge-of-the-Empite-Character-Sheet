@@ -313,7 +313,10 @@ const Wizard = (() => {
   // The Talents tab remembers which tree is open and whether the buy picker is
   // showing. That belongs to the character on screen, so swapping characters
   // has to forget it or the next one opens on a stale tree or mid-purchase.
-  function resetTalentTabUi() { _ttSpec = null; _ttPicker = false; _ttQuery = ''; }
+  function resetTalentTabUi() {
+    _ttSpec = null; _ttPicker = false; _ttQuery = '';
+    _craftCat = 'melee'; _craftFinishing = null;
+  }
 
   function repairState(s) {
     if (!s) return;
@@ -3786,6 +3789,7 @@ const Wizard = (() => {
   // The app tracks the money and the resulting item; the dice and the reading
   // of the result stay at the table, so the player reports how it went.
   let _craftCat = 'melee';
+  let _craftFinishing = null;   // project id whose result is being recorded
 
   // Best pool the character can bring to a template's check, across whichever
   // skills that template allows.
@@ -3844,30 +3848,90 @@ const Wizard = (() => {
                             found.template.difficulty, 'craft:' + found.template.key, dice.name);
   }
 
-  function finishCraftProject(id, success) {
+  function failCraftProject(id) {
+    const p = (state.craftProjects || []).find(x => x.id === id);
+    const found = p && Engine.craftTemplate(p.templateKey);
+    if (!found) return;
+    if (!confirm(`Record the ${found.template.name} as a failed build?\n\nThe materials are lost.`)) return;
+    state.craftProjects = state.craftProjects.filter(x => x.id !== id);
+    postLedger('sell', 'Failed build: ' + found.template.name, 0);
+    _craftFinishing = null;
+    saveState(); render();
+  }
+
+  // Committing a successful build: the options taken on the check are part of
+  // what the item IS, so they are collected here and folded into it.
+  function commitCraftProject(id) {
     const p = (state.craftProjects || []).find(x => x.id === id);
     const found = p && Engine.craftTemplate(p.templateKey);
     if (!found) return;
     const { template, category } = found;
-    if (!success) {
-      if (!confirm(`Record the ${template.name} as a failed build?\n\nThe materials are lost.`)) return;
-      state.craftProjects = state.craftProjects.filter(x => x.id !== id);
-      postLedger('sell', 'Failed build: ' + template.name, 0);
-      saveState(); render();
-      return;
-    }
-    const name = (prompt('Name your ' + template.name + ':', template.name) || template.name).trim() || template.name;
+    const panel = $('#craft-finish');
+    if (!panel) return;
+    const name = (panel.querySelector('#craft-name').value || '').trim() || template.name;
+    const charSel = panel.querySelector('#craft-charmod');
+    const chosen = [];
+    panel.querySelectorAll('[data-opt-name]').forEach(el => {
+      const n = Math.max(0, parseInt(el.value, 10) || 0);
+      for (let i = 0; i < n; i++) {
+        chosen.push({ name: el.dataset.optName, text: el.dataset.optText, kind: el.dataset.optKind });
+      }
+    });
     const key = 'CRAFT-' + genId();
     if (!state.customItems) state.customItems = {};
-    state.customItems[key] = Engine.craftedItemFrom(template, category, key, name);
+    const item = Engine.craftedItemFrom(template, category, key, name, charSel ? charSel.value : '');
+    Engine.applyCraftOptions(item, chosen);
+    state.customItems[key] = item;
     Engine.setCustomItems(state.customItems);
     // A finished item enters the play layer, since it was made during play.
-    const bag = playBag(category.produces);
-    bag[key] = { qty: 1, carry: true, show: true, equip: false };
-    if (Engine.isCompanionItem(category.produces, state.customItems[key])) syncCompanions();
+    playBag(category.produces)[key] = { qty: 1, carry: true, show: true, equip: false };
+    if (Engine.isCompanionItem(category.produces, item)) syncCompanions();
     state.craftProjects = state.craftProjects.filter(x => x.id !== id);
     postLedger('buy', 'Crafted: ' + name, 0);
+    _craftFinishing = null;
     saveState(); render();
+  }
+
+  // The panel shown after a successful check: name the item and record which
+  // improvements you bought and which flaws the GM imposed.
+  function craftFinishPanel(project) {
+    const found = Engine.craftTemplate(project.templateKey);
+    if (!found) return '';
+    const { template, category } = found;
+    const p = template.profile || {};
+    const rows = (groups, kind) => (groups || []).map(g => {
+      const n = g.adv || g.tri || g.thr || g.des;
+      const sym = g.tri ? 'Triumph' : g.des ? 'Despair' : kind === 'imp' ? 'Advantage' : 'Threat';
+      const label = `${n} ${sym}${n > 1 ? 's' : ''}${(g.tri || g.des) ? '' : ` or 1 ${kind === 'imp' ? 'Triumph' : 'Despair'}`}`;
+      return `<div class="craft-fin-group"><div class="craft-opt-cost">${label}</div>
+        ${g.options.map(o => `
+          <label class="craft-fin-opt">
+            <input type="number" min="0" max="9" value="0" class="craft-fin-n"
+              data-opt-name="${esc(o.name)}" data-opt-text="${esc(o.text)}" data-opt-kind="${kind}">
+            <span><strong>${esc(o.name)}.</strong> ${esc(o.text)}</span>
+          </label>`).join('')}</div>`;
+    }).join('');
+    return `
+      <div class="craft-finish" id="craft-finish">
+        <div class="craft-fin-head">Finish the ${esc(template.name)}</div>
+        <label class="craft-fin-name">Name it
+          <input type="text" id="craft-name" value="${esc(template.name)}" maxlength="60" spellcheck="false">
+        </label>
+        ${p.charModChoice ? `<label class="craft-fin-name">Raises
+          <select id="craft-charmod">${p.charModChoice.map(ch =>
+            `<option value="${ch}">${ch.charAt(0).toUpperCase() + ch.slice(1)}</option>`).join('')}</select>
+        </label>` : ''}
+        <p class="craft-fin-hint">Set a count for anything you took. Numbers are applied to the item;
+          everything else is recorded on it as written.</p>
+        <div class="craft-fin-cols">
+          <div><div class="craft-opt-h">Improvements you bought</div>${rows(category.improvements, 'imp')}</div>
+          <div><div class="craft-opt-h">Flaws the GM imposed</div>${rows(category.flaws, 'flaw')}</div>
+        </div>
+        <div class="craft-proj-acts">
+          <button class="btn btn-primary btn-sm" data-craft-act="commit">Add it to my gear</button>
+          <button class="btn btn-secondary btn-sm" data-craft-act="cancel-finish">Back</button>
+        </div>
+      </div>`;
   }
 
   function renderCrafting() {
@@ -3896,20 +3960,23 @@ const Wizard = (() => {
             <strong>${esc(p.name)}</strong>
             <span class="craft-proj-check">${esc(Engine.difficultyName(f.template.difficulty))} ${esc(dice.name)} &middot; ${f.template.hours} hours</span>
           </div>
+          ${p.id === _craftFinishing ? craftFinishPanel(p) : `
           <div class="craft-proj-acts">
             <button class="btn btn-primary btn-sm" data-craft-act="roll">&#127922; Roll the check</button>
             <button class="btn btn-secondary btn-sm" data-craft-act="done">It worked</button>
             <button class="btn btn-secondary btn-sm" data-craft-act="failed">It failed</button>
             <button class="cart-x" data-craft-act="scrap" title="Scrap this project">&times;</button>
-          </div>
+          </div>`}
         </div>`;
     }).join('');
 
     const rows = (cat.templates || []).map(t => {
       const dice = craftSkillDice(t.skills, d);
       const p = t.profile || {};
+      const dmgTxt = (p.damage === null || p.damage === undefined)
+        ? '—' : (p.damageType === 'add' ? '+' : '') + p.damage;
       const stats = cat.produces === 'weapon'
-        ? `${statChip('Dmg', (p.damageType === 'add' ? '+' : '') + p.damage)}${statChip('Crit', p.crit || '—')}
+        ? `${statChip('Dmg', dmgTxt)}${statChip('Crit', p.crit || '—')}
            ${statChip('Range', p.range || '—')}${statChip('Enc', p.encumbrance)}${statChip('HP', p.hp)}
            <span class="eq-skill">${esc(p.skill || '')}</span>
            ${(p.qualities || []).length ? `<div class="eq-quals">${(p.qualities || []).map(q =>
@@ -3988,8 +4055,10 @@ const Wizard = (() => {
       const id = b.closest('[data-project]').dataset.project;
       const act = b.dataset.craftAct;
       if (act === 'roll') rollCraftCheck(id);
-      else if (act === 'done') finishCraftProject(id, true);
-      else if (act === 'failed') finishCraftProject(id, false);
+      else if (act === 'done') { _craftFinishing = id; renderCrafting(); }
+      else if (act === 'cancel-finish') { _craftFinishing = null; renderCrafting(); }
+      else if (act === 'commit') commitCraftProject(id);
+      else if (act === 'failed') failCraftProject(id);
       else if (act === 'scrap') abandonCraftProject(id);
     });
     initTipListeners(c.querySelector('.craft-list'));

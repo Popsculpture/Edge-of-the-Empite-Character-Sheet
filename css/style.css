@@ -2240,6 +2240,34 @@ body.on-craft #app { padding-bottom: 200px; }
 .craft-proj-check { font-size: 0.75rem; color: var(--muted); }
 .craft-proj-acts { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
+/* Recording what a successful check actually earned */
+.craft-finish { border-top: 1px solid var(--border); padding-top: 12px; }
+.craft-fin-head { font-weight: 700; margin-bottom: 10px; }
+.craft-fin-name {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; flex-wrap: wrap;
+}
+.craft-fin-name input, .craft-fin-name select {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font: inherit; padding: 5px 9px; min-width: 0;
+}
+.craft-fin-name input { flex: 1 1 220px; font-weight: 600; }
+.craft-fin-hint { font-size: 0.74rem; color: var(--muted); margin-bottom: 10px; }
+.craft-fin-cols {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px; margin-bottom: 12px;
+}
+.craft-fin-group { margin-bottom: 10px; }
+.craft-fin-opt {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 0.78rem; line-height: 1.35; padding: 3px 0; cursor: pointer;
+}
+.craft-fin-n {
+  width: 44px; flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text); font: inherit; padding: 2px 4px; text-align: center;
+}
+
 .craft-options { margin-top: 14px; }
 .craft-options summary {
   cursor: pointer; font-size: 0.8rem; color: var(--accent);

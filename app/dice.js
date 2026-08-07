@@ -270,8 +270,9 @@ const Dice = (() => {
       return (g.thr && (netH >= g.thr || t.de >= 1)) || (g.des && t.de >= g.des);
     }).map(g => {
       const n = g.adv || g.tri || g.thr || g.des;
-      const own = g.tri ? n + ' Triumph' : g.des ? n + ' Despair' : n + (kind === 'imp' ? ' Advantage' : ' Threat');
-      return `<div class="dc-tip-sec"><div class="dc-tip-h">${sym(kind === 'imp' ? (g.tri ? 'tr' : 'a') : (g.des ? 'de' : 'h'))} ${own}${n > 1 && !g.tri && !g.des ? 's' : ''}</div>
+      const noun = g.tri ? 'Triumph' : g.des ? 'Despair' : kind === 'imp' ? 'Advantage' : 'Threat';
+      const own = `${n} ${noun}${n > 1 ? 's' : ''}`;
+      return `<div class="dc-tip-sec"><div class="dc-tip-h">${sym(kind === 'imp' ? (g.tri ? 'tr' : 'a') : (g.des ? 'de' : 'h'))} ${own}</div>
         <ul class="dc-tip-list">${g.options.map(o =>
           `<li><i class="dc-tip-cost">${kind === 'imp' ? '+' : '!'}</i><strong>${o.name}.</strong>&nbsp;${o.text}</li>`).join('')}</ul></div>`;
     }).join('');
