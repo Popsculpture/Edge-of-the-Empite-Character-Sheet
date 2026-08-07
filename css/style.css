@@ -2372,6 +2372,19 @@ body.on-craft #app { padding-bottom: 200px; }
 /* A talent inherited free from another tree: owned, but not bought here. */
 .tt-node.tt-auto { border-style: dashed; opacity: 0.9; }
 
+/* Shown on the trees whose printed connector layout is not in the data set. */
+.tt-unrouted {
+  border: 1px solid var(--warn, #d9a441);
+  border-left-width: 4px;
+  border-radius: 6px;
+  background: rgba(217, 164, 65, 0.09);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.tt-unrouted strong { display: block; margin-bottom: 2px; }
+
 .spick-toolbar {
   display: flex;
   gap: 10px;

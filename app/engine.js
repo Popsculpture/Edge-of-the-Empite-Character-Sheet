@@ -255,12 +255,20 @@ const Engine = (() => {
   // the character has none yet (EotE Core p.276 and its AoR/FaD counterparts).
   const FORCE_RATING_SPECS = new Set(['force_sensitive_exile', 'force_sensitive_emergent', 'force_sensitive_outcast']);
 
+  // Does this tree carry the printed connector routing? Seventeen official
+  // specializations came from books the extraction never covered, so their
+  // connections array is missing. There is no honest default for a tree's
+  // wiring, so the app says so rather than inventing one.
+  function treeRoutingKnown(spec) {
+    return !!(spec && Array.isArray(spec.connections) && spec.connections.length === 20);
+  }
+
   // Connection helpers for a tree's 20 boxes. The bitmask per box is
-  // up=1, down=2, left=4, right=8; a null connections array (homebrew data)
-  // falls back to plain vertical chains.
+  // up=1, down=2, left=4, right=8. Callers must check treeRoutingKnown first;
+  // without routing every box reads as unlinked and prerequisites go unenforced.
   function treeLinker(spec) {
-    const conns = (spec && spec.connections) || null;
-    const conn = (r, c) => conns ? conns[r * 4 + c] : (r === 0 ? 2 : r === 4 ? 1 : 3);
+    const conns = treeRoutingKnown(spec) ? spec.connections : null;
+    const conn = (r, c) => conns ? conns[r * 4 + c] : 0;
     return function linked(r1, c1, r2, c2) {
       if (r1 === r2 && c2 === c1 + 1) return !!(conn(r1,c1) & 8) || !!(conn(r2,c2) & 4);
       if (r1 === r2 && c2 === c1 - 1) return !!(conn(r1,c1) & 4) || !!(conn(r2,c2) & 8);
@@ -280,6 +288,8 @@ const Engine = (() => {
     const spec = getSpec(specKey);
     const bought = (state.talentPurchases || {})[specKey];
     if (!spec || !bought) return true;
+    // No printed routing on file means no adjacency rule to break.
+    if (!treeRoutingKnown(spec)) return true;
     const names = treeTalentNames(spec);
     const linked = treeLinker(spec);
     const owned = [];
@@ -1039,7 +1049,7 @@ const Engine = (() => {
     specBonusSkillKeys,
     ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
-    treeConnected, refundIsSafe,
+    treeConnected, refundIsSafe, treeRoutingKnown,
     setCustomItems, setJuryRig, juryEntries, JURY_EFFECTS, baseItem,
     attachmentList, getAttachment, attachmentsFor,
     hardPointsUsed, hardPointsFree, modCost, rebuildInstance,

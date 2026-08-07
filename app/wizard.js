@@ -2273,7 +2273,10 @@ const Wizard = (() => {
       return;
     }
 
-    const conns    = spec.connections || null;   // array of 20 bitmasks, or null for homebrew
+    // Trees whose printed routing never made it into the data set draw no
+    // connectors and enforce no prerequisites, with a banner saying as much.
+    const routed   = Engine.treeRoutingKnown(spec);
+    const conns    = routed ? spec.connections : null;   // array of 20 bitmasks
     if (!state.talentPurchases)          state.talentPurchases = {};
     if (!state.talentPurchases[specKey]) state.talentPurchases[specKey] = new Array(20).fill(false);
     const purchases = state.talentPurchases[specKey];
@@ -2292,8 +2295,7 @@ const Wizard = (() => {
 
     // Connection bitmask helpers (bit0=up, bit1=down, bit2=left, bit3=right)
     function getConn(r, col) {
-      if (conns) return conns[r * 4 + col];
-      return r === 0 ? 2 : r === 4 ? 1 : 3;  // fallback: vertical chains
+      return conns ? conns[r * 4 + col] : 0;
     }
     function linked(r1, c1, r2, c2) {
       if (r1 === r2 && c2 === c1 + 1) return !!(getConn(r1,c1) & 8) || !!(getConn(r2,c2) & 4);
@@ -2307,7 +2309,11 @@ const Wizard = (() => {
       return [[r-1,col],[r+1,col],[r,col-1],[r,col+1]].some(
         ([nr,nc]) => nr>=0&&nr<5&&nc>=0&&nc<4 && ownedAt(nr*4+nc) && linked(r,col,nr,nc));
     }
-    function canBuy(r, col)   { return !ownedAt(r*4+col) && !!names[r*4+col] && (r===0 || adjacentPurchased(r,col)); }
+    function canBuy(r, col) {
+      if (ownedAt(r*4+col) || !names[r*4+col]) return false;
+      if (!routed) return true;   // routing unknown, so the printed tree is the referee
+      return r === 0 || adjacentPurchased(r, col);
+    }
     // A refund has to leave EVERY owned tree legal, not just this one: the
     // talent being given up may be the free inherited link another tree was
     // built through.
@@ -2461,6 +2467,12 @@ const Wizard = (() => {
         ${isExtra ? `<button class="btn btn-secondary btn-sm" data-drop-spec="${esc(specKey)}"
             title="Refund this specialization and everything bought in its tree">Drop specialization</button>` : ''}
       </div>
+      ${routed ? '' : `<div class="tt-unrouted">
+        <strong>Connector routing missing for this tree.</strong>
+        The printed layout of which boxes link to which never made it into the data set for
+        ${esc(spec.name)}, so no connectors are drawn and prerequisites are not enforced here.
+        Buy from the printed tree in your book and the costs, XP, and talent effects all still apply.
+      </div>`}
       <div class="talent-tree-wrap">
         <div class="tt-grid" id="talent-tree-grid">${cells}</div>
       </div>
