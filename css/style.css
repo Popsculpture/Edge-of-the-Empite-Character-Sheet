@@ -2198,6 +2198,29 @@ body.on-craft #app { padding-bottom: 200px; }
 /* Creation cart line frozen by play-mode history */
 .cart-row-locked { opacity: 0.75; }
 
+/* ── In-app confirmation ────────────────────────────────────────────── */
+.ask-backdrop {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0, 0, 0, 0.62);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.ask-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  padding: 20px 22px;
+  max-width: 460px; width: 100%;
+}
+.ask-msg {
+  white-space: pre-line;
+  line-height: 1.5;
+  font-size: 0.9rem;
+  margin-bottom: 18px;
+}
+.ask-acts { display: flex; justify-content: flex-end; gap: 10px; }
+
 /* ── Attachments bench ──────────────────────────────────────────────── */
 .att-panel {
   background: var(--surface2);

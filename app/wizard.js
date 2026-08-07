@@ -1122,6 +1122,38 @@ const Wizard = (() => {
     saveState(); render();
   }
 
+  // In-app confirmation. Native confirm() looks wrong on mobile and, worse,
+  // browsers let a page's dialogs be suppressed after a few of them: every
+  // later confirm() then returns false with nothing shown, so buying or
+  // selling anything would silently do nothing. Asking in the page instead
+  // keeps these prompts under our control.
+  function askConfirm(message, onYes) {
+    const wrap = document.createElement('div');
+    wrap.className = 'ask-backdrop';
+    wrap.innerHTML = `
+      <div class="ask-box" role="alertdialog" aria-modal="true">
+        <div class="ask-msg"></div>
+        <div class="ask-acts">
+          <button class="btn btn-secondary btn-sm" data-ask="no">Cancel</button>
+          <button class="btn btn-primary btn-sm" data-ask="yes">Confirm</button>
+        </div>
+      </div>`;
+    wrap.querySelector('.ask-msg').textContent = message;   // newlines kept by CSS
+    document.body.appendChild(wrap);
+    const close = () => { wrap.remove(); document.removeEventListener('keydown', onKey, true); };
+    const yes = () => { close(); onYes(); };
+    function onKey(e) {
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      else if (e.key === 'Enter') { e.preventDefault(); yes(); }
+    }
+    document.addEventListener('keydown', onKey, true);
+    wrap.addEventListener('click', e => {
+      if (e.target === wrap || e.target.closest('[data-ask="no"]')) close();
+      else if (e.target.closest('[data-ask="yes"]')) yes();
+    });
+    wrap.querySelector('[data-ask="yes"]').focus();
+  }
+
   function fmtCr(n) {
     const neg = n < 0;
     const s = Math.abs(Math.round(n)).toLocaleString('en-US');
@@ -2090,15 +2122,16 @@ const Wizard = (() => {
     const after = (d ? d.xp_remaining : 0) - cost;
     const msg = `Buy the ${sp.name} specialization for ${cost} XP?` +
       (after < 0 ? `\n\nThat is more XP than you have. Your balance would go to ${after}.` : `\n\nThat leaves you ${after} XP.`);
-    if (!confirm(msg)) return;
-    if (!Array.isArray(state.extraSpecKeys)) state.extraSpecKeys = [];
-    state.extraSpecKeys.push(key);
-    // A tree bought now starts empty, even if this specialization was briefly
-    // the starting one earlier in the session and left purchases behind.
-    if (state.talentPurchases) delete state.talentPurchases[key];
-    if (getPlayMode() === 'play') postLedger('xp', 'Specialization: ' + sp.name, -cost);
-    _ttSpec = key; _ttPicker = false; _ttQuery = '';
-    saveState(); render();
+    askConfirm(msg, () => {
+      if (!Array.isArray(state.extraSpecKeys)) state.extraSpecKeys = [];
+      state.extraSpecKeys.push(key);
+      // A tree bought now starts empty, even if this specialization was briefly
+      // the starting one earlier in the session and left purchases behind.
+      if (state.talentPurchases) delete state.talentPurchases[key];
+      if (getPlayMode() === 'play') postLedger('xp', 'Specialization: ' + sp.name, -cost);
+      _ttSpec = key; _ttPicker = false; _ttQuery = '';
+      saveState(); render();
+    });
   }
   // Dropping a bought specialization refunds it and everything sunk into its
   // tree. The starting specialization cannot be dropped; it is changed on the
@@ -2132,15 +2165,16 @@ const Wizard = (() => {
     const msg = `Drop the ${sp ? sp.name : key} specialization?` +
       (talents ? `\n\nThis also refunds the ${talents} talent${talents > 1 ? 's' : ''} bought in its tree.` : '') +
       `\n\n${refund} XP comes back.`;
-    if (!confirm(msg)) return;
-    state.extraSpecKeys.splice(i, 1);
-    if (state.talentPurchases) delete state.talentPurchases[key];
-    for (const id of Object.keys(state.dedicationChoices || {})) {
-      if (id.slice(0, key.length + 1) === key + ':') delete state.dedicationChoices[id];
-    }
-    if (getPlayMode() === 'play') postLedger('xp', 'Dropped: ' + (sp ? sp.name : key), refund);
-    if (_ttSpec === key) _ttSpec = null;
-    saveState(); render();
+    askConfirm(msg, () => {
+      state.extraSpecKeys.splice(i, 1);
+      if (state.talentPurchases) delete state.talentPurchases[key];
+      for (const id of Object.keys(state.dedicationChoices || {})) {
+        if (id.slice(0, key.length + 1) === key + ':') delete state.dedicationChoices[id];
+      }
+      if (getPlayMode() === 'play') postLedger('xp', 'Dropped: ' + (sp ? sp.name : key), refund);
+      if (_ttSpec === key) _ttSpec = null;
+      saveState(); render();
+    });
   }
 
   // The buy-a-specialization picker: every specialization the character does
@@ -3521,13 +3555,14 @@ const Wizard = (() => {
     if (!v) return;
     const price = typeof v.price === 'number' ? v.price : null;
     if (blockedByBudget(price)) return;
-    if (!confirm(`Buy the ${v.name} for ${price === null ? 'an unlisted price (0 cr)' : fmtCr(price) + ' cr'}?`)) return;
-    if (!Array.isArray(state.playVehicles)) state.playVehicles = [];
-    state.playVehicles.push({ id: genId(), key, nickname: v.name, notes: '' });
-    if (price !== null) state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
-    postLedger('buy', v.name, -(price || 0));
-    saveState();
-    drawVehicleList(); drawVehicleStats(); renderHeaderCredits(); refreshLedger();
+    askConfirm(`Buy the ${v.name} for ${price === null ? 'an unlisted price (0 cr)' : fmtCr(price) + ' cr'}?`, () => {
+      if (!Array.isArray(state.playVehicles)) state.playVehicles = [];
+      state.playVehicles.push({ id: genId(), key, nickname: v.name, notes: '' });
+      if (price !== null) state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+      postLedger('buy', v.name, -(price || 0));
+      saveState();
+      drawVehicleList(); drawVehicleStats(); renderHeaderCredits(); refreshLedger();
+    });
   }
 
   function renderMarket() {
@@ -3651,20 +3686,21 @@ const Wizard = (() => {
     const msg = p === null
       ? `Sell one ${it.name}? It has no listed price, so the sale brings in nothing.`
       : `Sell one ${it.name} for ${fmtCr(half)} cr (half the listed ${fmtCr(p)} cr)?`;
-    if (!confirm(msg)) return;
-    const bag = playBag(cat);
-    const line = bag[key] || (bag[key] = { qty: 0 });
-    line.qty = (line.qty || 0) - 1;
-    state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
-    postLedger('sell', it.name, half);
-    // You cannot wear or wield what you no longer own: when the last copy
-    // goes, clear the equipped election so a later re-buy comes back stowed.
-    const after = Engine.mergedLine(state, cat, key);
-    if (after && !after.qty && after.equip) line.equip = false;
-    tidyPlayLine(cat, key);
-    pruneSets();
-    if (Engine.isCompanionItem(cat, it)) syncCompanions();
-    saveState(); render();
+    askConfirm(msg, () => {
+      const bag = playBag(cat);
+      const line = bag[key] || (bag[key] = { qty: 0 });
+      line.qty = (line.qty || 0) - 1;
+      state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+      postLedger('sell', it.name, half);
+      // You cannot wear or wield what you no longer own: when the last copy
+      // goes, clear the equipped election so a later re-buy comes back stowed.
+      const after = Engine.mergedLine(state, cat, key);
+      if (after && !after.qty && after.equip) line.equip = false;
+      tidyPlayLine(cat, key);
+      pruneSets();
+      if (Engine.isCompanionItem(cat, it)) syncCompanions();
+      saveState(); render();
+    });
   }
   function playSetNickname(cat, key, v) {
     const bag = playBag(cat);
@@ -3743,23 +3779,25 @@ const Wizard = (() => {
     const msg = p === null
       ? `Sell the ${label}? It has no listed price, so the sale brings in nothing.`
       : `Sell the ${label} for ${fmtCr(half)} cr (half the listed ${fmtCr(p)} cr)?`;
-    if (!confirm(msg)) return;
-    if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
-    else t.entry.soldInPlay = true;   // purchased stays true: creation spend frozen
-    state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
-    postLedger('sell', label, half);
-    saveState(); render();
+    askConfirm(msg, () => {
+      if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
+      else t.entry.soldInPlay = true;   // purchased stays true: creation spend frozen
+      state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+      postLedger('sell', label, half);
+      saveState(); render();
+    });
   }
   function playReleaseVehicle(target) {
     const t = fleetTarget(target);
     if (!t) return;
     const v = Engine.getVehicle(t.entry.key);
     const name = t.entry.nickname || (v && v.name) || 'this craft';
-    if (!confirm(`Release the ${name}? Borrowed craft go back to whoever lent them (no credits).`)) return;
-    if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
-    else t.entry.soldInPlay = true;
-    postLedger('sell', `${name} (released)`, 0);
-    saveState(); render();
+    askConfirm(`Release the ${name}? Borrowed craft go back to whoever lent them (no credits).`, () => {
+      if (t.source === 'play') state.playVehicles = state.playVehicles.filter(x => x.id !== t.entry.id);
+      else t.entry.soldInPlay = true;
+      postLedger('sell', `${name} (released)`, 0);
+      saveState(); render();
+    });
   }
   function playSetVehicleField(target, field, value) {
     const t = fleetTarget(target);
@@ -3836,17 +3874,18 @@ const Wizard = (() => {
     const msg = p === null
       ? `Sell ${label}? It has no listed price, so the sale brings in nothing.`
       : `Sell ${label} for ${fmtCr(half)} cr (half the listed ${fmtCr(p)} cr)?`;
-    if (!confirm(msg)) return;
-    const bag = playBag('gear');
-    const line = bag[rec.itemKey] || (bag[rec.itemKey] = { qty: 0 });
-    line.qty = (line.qty || 0) - 1;
-    state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
-    postLedger('sell', label, half);
-    tidyPlayLine('gear', rec.itemKey);
-    // Retire THIS record (the one being sold), then reconcile the rest.
-    state.companions = state.companions.filter(r => r.id !== id);
-    syncCompanions();
-    saveState(); render();
+    askConfirm(msg, () => {
+      const bag = playBag('gear');
+      const line = bag[rec.itemKey] || (bag[rec.itemKey] = { qty: 0 });
+      line.qty = (line.qty || 0) - 1;
+      state.creditsAdjustment = (state.creditsAdjustment || 0) + half;
+      postLedger('sell', label, half);
+      tidyPlayLine('gear', rec.itemKey);
+      // Retire THIS record (the one being sold), then reconcile the rest.
+      state.companions = state.companions.filter(r => r.id !== id);
+      syncCompanions();
+      saveState(); render();
+    });
   }
   function playSetCompanionField(id, field, value) {
     const rec = (state.companions || []).find(r => r.id === id);
@@ -3941,14 +3980,15 @@ const Wizard = (() => {
     const checkNote = def.installCheck
       ? `\n\nThis one needs an ${Engine.difficultyName(def.installCheck.difficulty)} ${def.installCheck.skill} check to fit; roll it at the table.`
       : '\n\nFitting an attachment needs no check, just a few minutes.';
-    if (!confirm(`Fit a ${def.name} to your ${inst.name} for ${fmtCr(price)} cr?` + checkNote)) return;
-    inst.attachments.push({ key: attKey, mods: {}, burned: {} });
-    state.customItems[instKey] = Engine.rebuildInstance(inst);
-    Engine.setCustomItems(state.customItems);
-    Engine.setJuryRig(state);
-    state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
-    postLedger('buy', def.name + ' on ' + inst.name, -price);
-    saveState(); render();
+    askConfirm(`Fit a ${def.name} to your ${inst.name} for ${fmtCr(price)} cr?` + checkNote, () => {
+      inst.attachments.push({ key: attKey, mods: {}, burned: {} });
+      state.customItems[instKey] = Engine.rebuildInstance(inst);
+      Engine.setCustomItems(state.customItems);
+      Engine.setJuryRig(state);
+      state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+      postLedger('buy', def.name + ' on ' + inst.name, -price);
+      saveState(); render();
+    });
   }
 
   // Seed the tray with the escalating Mechanics check for the next mod.
@@ -3982,22 +4022,22 @@ const Wizard = (() => {
     // cover the attempt regardless of how it turns out.
     if (blockedByBudget(cost.credits)) return;
     const spentMsg = `${fmtCr(cost.credits)} cr in components is spent either way.`;
-    if (outcome === 'despair') {
-      if (!confirm(`Despair on the check: the ${def.name} is ruined and comes off ${inst.name}.\n\n${spentMsg}`)) return;
-      inst.attachments.splice(attIdx, 1);
-    } else if (outcome === 'fail') {
-      if (!confirm(`Failed. "${opt.text}" can never be attempted on this ${def.name} again.\n\n${spentMsg}`)) return;
-      att.burned[modIdx] = true;
-    } else {
-      if (!confirm(`Installed "${opt.text}" for ${fmtCr(cost.credits)} cr?`)) return;
-      att.mods[modIdx] = (att.mods[modIdx] || 0) + 1;
-    }
-    state.creditsAdjustment = (state.creditsAdjustment || 0) - cost.credits;
-    postLedger('buy', `Mod on ${def.name}` + (outcome === 'success' ? '' : ' (failed)'), -cost.credits);
-    state.customItems[instKey] = Engine.rebuildInstance(inst);
-    Engine.setCustomItems(state.customItems);
-    Engine.setJuryRig(state);
-    saveState(); render();
+    const msg = outcome === 'despair'
+      ? `Despair on the check: the ${def.name} is ruined and comes off ${inst.name}.\n\n${spentMsg}`
+      : outcome === 'fail'
+      ? `Failed. "${opt.text}" can never be attempted on this ${def.name} again.\n\n${spentMsg}`
+      : `Installed "${opt.text}" for ${fmtCr(cost.credits)} cr?`;
+    askConfirm(msg, () => {
+      if (outcome === 'despair') inst.attachments.splice(attIdx, 1);
+      else if (outcome === 'fail') att.burned[modIdx] = true;
+      else att.mods[modIdx] = (att.mods[modIdx] || 0) + 1;
+      state.creditsAdjustment = (state.creditsAdjustment || 0) - cost.credits;
+      postLedger('buy', `Mod on ${def.name}` + (outcome === 'success' ? '' : ' (failed)'), -cost.credits);
+      state.customItems[instKey] = Engine.rebuildInstance(inst);
+      Engine.setCustomItems(state.customItems);
+      Engine.setJuryRig(state);
+      saveState(); render();
+    });
   }
 
   // ── Step: Crafting (Play mode) ────────────────────────────────────────────
@@ -4034,23 +4074,25 @@ const Wizard = (() => {
     const price = template.price || 0;
     if (blockedByBudget(price)) return;
     const diff = Engine.difficultyName(template.difficulty);
-    if (!confirm(`Buy materials for a ${template.name}?\n\n` +
-                 `${fmtCr(price)} cr, rarity ${template.rarity}. ` +
-                 `Construction is a ${diff} ${(template.skills || []).join(' or ')} check taking ${template.hours} hours.\n\n` +
-                 `Materials are spent now, and lost if the check fails.`)) return;
-    state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
-    postLedger('buy', 'Materials: ' + template.name, -price);
-    if (!Array.isArray(state.craftProjects)) state.craftProjects = [];
-    state.craftProjects.push({ id: genId(), templateKey, name: template.name, categoryKey: category.key });
-    saveState(); render();
+    askConfirm(`Buy materials for a ${template.name}?\n\n` +
+               `${fmtCr(price)} cr, rarity ${template.rarity}. ` +
+               `Construction is a ${diff} ${(template.skills || []).join(' or ')} check taking ${template.hours} hours.\n\n` +
+               `Materials are spent now, and lost if the check fails.`, () => {
+      state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+      postLedger('buy', 'Materials: ' + template.name, -price);
+      if (!Array.isArray(state.craftProjects)) state.craftProjects = [];
+      state.craftProjects.push({ id: genId(), templateKey, name: template.name, categoryKey: category.key });
+      saveState(); render();
+    });
   }
 
   function abandonCraftProject(id) {
     const p = (state.craftProjects || []).find(x => x.id === id);
     if (!p) return;
-    if (!confirm(`Scrap the ${p.name} project?\n\nThe materials are already spent and do not come back.`)) return;
-    state.craftProjects = state.craftProjects.filter(x => x.id !== id);
-    saveState(); render();
+    askConfirm(`Scrap the ${p.name} project?\n\nThe materials are already spent and do not come back.`, () => {
+      state.craftProjects = state.craftProjects.filter(x => x.id !== id);
+      saveState(); render();
+    });
   }
 
   // Send the template's check to the dice tray, tagged so the roller can offer
@@ -4068,11 +4110,12 @@ const Wizard = (() => {
     const p = (state.craftProjects || []).find(x => x.id === id);
     const found = p && Engine.craftTemplate(p.templateKey);
     if (!found) return;
-    if (!confirm(`Record the ${found.template.name} as a failed build?\n\nThe materials are lost.`)) return;
-    state.craftProjects = state.craftProjects.filter(x => x.id !== id);
-    postLedger('sell', 'Failed build: ' + found.template.name, 0);
-    _craftFinishing = null;
-    saveState(); render();
+    askConfirm(`Record the ${found.template.name} as a failed build?\n\nThe materials are lost.`, () => {
+      state.craftProjects = state.craftProjects.filter(x => x.id !== id);
+      postLedger('sell', 'Failed build: ' + found.template.name, 0);
+      _craftFinishing = null;
+      saveState(); render();
+    });
   }
 
   // Committing a successful build: the options taken on the check are part of
@@ -4301,7 +4344,7 @@ const Wizard = (() => {
 
   // ── Navigation ────────────────────────────────────────────────────────────
   function newCharacter() {
-    if (confirm('Start a new character? Current character will be cleared.')) {
+    askConfirm('Start a new character? Current character will be cleared.', () => {
       // A blank character has nothing to show in Play mode's trimmed tabs, so
       // drop back to Creation regardless of what the last character used.
       localStorage.setItem(PLAY_KEY, 'creation');
@@ -4311,7 +4354,7 @@ const Wizard = (() => {
       Engine.setCustomItems(state.customItems);
       Engine.setJuryRig(state);
       saveState(); render(); window.scrollTo(0, 0);
-    }
+    });
   }
 
   // ── Character roster (multiple saved characters) ───────────────────────────
@@ -4376,8 +4419,8 @@ const Wizard = (() => {
     const id = sel && sel.value;
     if (!id) { alert('Pick a saved character to load.'); return; }
     if (id === state.id) { close(); return; }   // already the working character
-    if (!confirm('Load this character? Any unsaved changes to your current character will be lost.')) return;
-    close(); loadFromRoster(id);
+    askConfirm('Load this character? Any unsaved changes to your current character will be lost.',
+      () => { close(); loadFromRoster(id); });
   }
 
   function rosterDelete(modal) {
@@ -4385,10 +4428,11 @@ const Wizard = (() => {
     const id = sel && sel.value;
     if (!id) { alert('Pick a saved character to delete.'); return; }
     const ent = getRoster().find(e => e.id === id);
-    if (!confirm('Delete the saved character "' + ((ent && ent.name) || 'Unnamed') + '"? This cannot be undone.')) return;
-    try { localStorage.removeItem('sw_saved_v1_' + id); } catch (e) {}
-    setRoster(getRoster().filter(e => e.id !== id));
-    refreshRosterSelect();
+    askConfirm('Delete the saved character "' + ((ent && ent.name) || 'Unnamed') + '"? This cannot be undone.', () => {
+      try { localStorage.removeItem('sw_saved_v1_' + id); } catch (e) {}
+      setRoster(getRoster().filter(e => e.id !== id));
+      refreshRosterSelect();
+    });
   }
 
   // Download the current character as a JSON save file (backup / share / transfer).
@@ -4431,15 +4475,16 @@ const Wizard = (() => {
           alert('That file does not look like a saved character.');
           return;
         }
-        if (!confirm('Import this character? Your current character will be replaced.')) return;
-        state = Object.assign(defaultState(), incoming);
-        state.id = genId();   // treat an imported character as a new roster entry
-        // Repair structures that may be missing from older save files.
-        repairState(state);
-        migrateDetails(state);
-        state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
-        ensurePlayStepValid();
-        saveState(); render(); window.scrollTo(0, 0);
+        askConfirm('Import this character? Your current character will be replaced.', () => {
+          state = Object.assign(defaultState(), incoming);
+          state.id = genId();   // treat an imported character as a new roster entry
+          // Repair structures that may be missing from older save files.
+          repairState(state);
+          migrateDetails(state);
+          state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
+          ensurePlayStepValid();
+          saveState(); render(); window.scrollTo(0, 0);
+        });
       };
       reader.readAsText(file);
     });
