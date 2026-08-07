@@ -355,6 +355,118 @@ const Engine = (() => {
     return customItem(cat, key) || eqMaps()[cat][key] || null;
   }
 
+  // ── Attachments ──────────────────────────────────────────────────────────
+  // Attachments belong to one specific weapon or suit, so an item carrying
+  // them is an INSTANCE: its own entry in customItems, with a baseKey naming
+  // the catalog entry it was promoted from. The instance's stats are the base
+  // stats with every attachment's base modifiers folded in.
+  const RANGE_BANDS = ['Engaged', 'Short', 'Medium', 'Long', 'Extreme'];
+  function attachmentList() { return SW.attachments || []; }
+  function getAttachment(key) { return attachmentList().find(a => a.key === key) || null; }
+  function attachmentsFor(cat) { return attachmentList().filter(a => a.cat === cat); }
+
+  // Hard points an item has spent and how many it started with.
+  function hardPointsUsed(item) {
+    return ((item && item.attachments) || []).reduce((n, a) => {
+      const def = getAttachment(a.key);
+      return n + (def ? (def.hp || 0) : 0);
+    }, 0);
+  }
+  function hardPointsFree(item) {
+    return Math.max(0, ((item && item.hp) || 0) - hardPointsUsed(item));
+  }
+
+  // What a mod costs and rolls, given how many are already in that attachment
+  // (EotE Core p.187). Gearhead halves the credits.
+  function modCost(installedCount, gearheadRanks) {
+    const cfg = SW.attachmentMods || {};
+    const credits = (cfg.baseCredits || 100) + (cfg.stepCredits || 100) * installedCount;
+    return {
+      credits: gearheadRanks > 0 ? Math.floor(credits / 2) : credits,
+      difficulty: (cfg.baseDifficulty || 3) + (cfg.stepDifficulty || 1) * installedCount,
+    };
+  }
+
+  // What an installed modification option does to the item. The printed mod
+  // options are formulaic, so one table by text covers every attachment.
+  // Options naming a skill or a talent have no numeric field to change and
+  // are left to the table.
+  const MOD_APPLY = {
+    'Damage +1':        { damage: 1 },
+    'Accurate +1':      { quality: ['ACCURATE', 'Accurate', 1] },
+    'Pierce +1':        { quality: ['PIERCE', 'Pierce', 1] },
+    'Blast +1':         { quality: ['BLAST', 'Blast', 1] },
+    'Concussive +1':    { quality: ['CONCUSSIVE', 'Concussive', 1] },
+    'Limited Ammo +1':  { quality: ['LIMITEDAMMO', 'Limited Ammo', 1] },
+    'Cumbersome -1':    { qualityAdjust: ['CUMBERSOME', -1] },
+    'Auto-fire':        { quality: ['AUTOFIRE', 'Auto-fire'] },
+    'Reduce encumbrance by 1, to a minimum of 1': { encumbrance: -1 },
+  };
+
+  // Fold one attachment's base modifiers into an item being assembled.
+  function applyAttachmentBase(item, def) {
+    applySpec(item, def && def.apply);
+  }
+  function applySpec(item, ap) {
+    if (!ap) return;
+    if (typeof ap.damage === 'number' && typeof item.damage === 'number') item.damage += ap.damage;
+    if (typeof ap.crit === 'number' && typeof item.crit === 'number') item.crit = Math.max(1, item.crit + ap.crit);
+    if (typeof ap.encumbrance === 'number') {
+      // Reductions floor at 1; something always weighs something.
+      item.encumbrance = ap.encumbrance < 0
+        ? Math.max(1, (item.encumbrance || 0) + ap.encumbrance)
+        : (item.encumbrance || 0) + ap.encumbrance;
+    }
+    if (typeof ap.range === 'number' && item.range) {
+      const i = RANGE_BANDS.indexOf(item.range);
+      if (i >= 0) item.range = RANGE_BANDS[Math.max(0, Math.min(RANGE_BANDS.length - 1, i + ap.range))];
+    }
+    if (!Array.isArray(item.qualities)) item.qualities = [];
+    if (ap.quality) {
+      const [key, name, count] = ap.quality;
+      const have = item.qualities.find(q => q.key === key);
+      if (have) { if (count) have.count = (have.count || 0) + count; }
+      else item.qualities.push(count ? { key, name, count } : { key, name });
+    }
+    if (ap.qualityAdjust) {
+      const [key, delta] = ap.qualityAdjust;
+      const have = item.qualities.find(q => q.key === key);
+      if (have) {
+        have.count = (have.count || 0) + delta;
+        if (have.count <= 0) item.qualities = item.qualities.filter(q => q !== have);
+      }
+    }
+  }
+
+  // Rebuild an instance's stats from its base item plus everything bolted on.
+  // Called whenever attachments change so the stored item always reflects them.
+  function rebuildInstance(instance) {
+    const src = instance.baseKey ? (eqMaps()[instance.cat] || {})[instance.baseKey] : null;
+    const from = src || instance.baseSnapshot;
+    if (!from) return instance;
+    const kept = { key: instance.key, cat: instance.cat, name: instance.name,
+                   baseKey: instance.baseKey, baseSnapshot: instance.baseSnapshot,
+                   attachments: instance.attachments || [], instance: true,
+                   crafted: instance.crafted, templateKey: instance.templateKey,
+                   categoryKey: instance.categoryKey, craftOptions: instance.craftOptions };
+    const built = Object.assign({}, from, kept, {
+      qualities: (from.qualities || []).map(q => Object.assign({}, q)),
+    });
+    for (const a of built.attachments) {
+      const def = getAttachment(a.key);
+      if (!def) continue;
+      applyAttachmentBase(built, def);
+      // Then every modification option actually installed in it, as many
+      // times as it was taken.
+      for (const [mi, n] of Object.entries(a.mods || {})) {
+        const opt = (def.mods || [])[mi];
+        const spec = opt && MOD_APPLY[opt.text];
+        for (let i = 0; i < n && spec; i++) applySpec(built, spec);
+      }
+    }
+    return built;
+  }
+
   // ── Jury Rigged ──────────────────────────────────────────────────────────
   // One weapon or piece of armor per rank gets a single permanent tweak. The
   // item-shaped effects are pre-applied into an overlay so every reader (the
@@ -914,6 +1026,8 @@ const Engine = (() => {
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
     treeConnected, refundIsSafe,
     setCustomItems, setJuryRig, juryEntries, JURY_EFFECTS,
+    attachmentList, getAttachment, attachmentsFor,
+    hardPointsUsed, hardPointsFree, modCost, rebuildInstance,
     craftingCategories, craftCategory, craftTemplate, difficultyName, craftedItemFrom,
     applyCraftOptions,
     derive,

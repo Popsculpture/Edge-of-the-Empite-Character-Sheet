@@ -94,9 +94,80 @@ const Play = (() => {
         </div>
         <div class="pg-row-ctl">
           <div class="cart-flags">${flagBoxes(cat, key, line, it)}</div>
+          ${(cat === 'weapon' || cat === 'armor') && (it.hp || 0) > 0 ? `
+            <button class="btn btn-secondary btn-sm" data-pg-act="attach" data-cat="${cat}" data-key="${esc(key)}"
+              title="Fit and modify attachments">HP ${Engine.hardPointsFree(it)}/${it.hp}</button>` : ''}
           <button class="btn btn-secondary btn-sm pg-sell" data-pg-act="sell" data-cat="${cat}" data-key="${esc(key)}"
             title="Sell one at half the listed price">${sellLabel}<i>cr</i></button>
         </div>
+      </div>
+      ${line.attachPanel || ''}`;
+  }
+
+  // Everything bolted onto one specific weapon or suit, and the bench for
+  // adding more. Only shown for the item the player opened.
+  function attachPanelHtml(cat, key, it, api) {
+    const free = Engine.hardPointsFree(it);
+    const fitted = (it.attachments || []).map((a, ai) => {
+      const def = Engine.getAttachment(a.key);
+      if (!def) return '';
+      const installed = Object.values(a.mods || {}).reduce((x, y) => x + y, 0);
+      const cost = Engine.modCost(installed, api.gearheadRanks());
+      const opts = (def.mods || []).map((m, mi) => {
+        const taken = (a.mods || {})[mi] || 0;
+        const burned = (a.burned || {})[mi];
+        const maxed = taken >= (m.count || 1);
+        const state = burned ? 'burned' : maxed ? 'done' : 'open';
+        return `<li class="att-mod att-mod-${state}">
+          <span class="att-mod-n">${taken}/${m.count || 1}</span>
+          <span>${esc(m.text)}</span>
+          ${state === 'open' ? `<span class="att-mod-acts">
+            <button class="btn btn-secondary btn-sm" data-att-act="roll" data-ai="${ai}">&#127922;</button>
+            <button class="btn btn-secondary btn-sm" data-att-act="success" data-ai="${ai}" data-mi="${mi}">Installed</button>
+            <button class="btn btn-secondary btn-sm" data-att-act="fail" data-ai="${ai}" data-mi="${mi}">Failed</button>
+            <button class="btn btn-secondary btn-sm" data-att-act="despair" data-ai="${ai}" data-mi="${mi}" title="Failure showing despair wrecks the attachment">Despair</button>
+          </span>` : burned ? '<em>burned out</em>' : '<em>installed</em>'}
+        </li>`;
+      }).join('');
+      return `
+        <div class="att-fitted">
+          <div class="att-fitted-head"><strong>${esc(def.name)}</strong>
+            <span class="pf-tag">${def.hp} HP</span></div>
+          <div class="att-base">${esc(def.base)}</div>
+          ${def.mods && def.mods.length
+            ? `<div class="att-mod-cost">Next mod: ${Engine.difficultyName(cost.difficulty)} Mechanics, ${fmtCr(cost.credits)} cr</div>
+               <ul class="att-mods">${opts}</ul>`
+            : '<div class="att-mod-cost">No modification options.</div>'}
+        </div>`;
+    }).join('');
+
+    const avail = Engine.attachmentsFor(cat)
+      .filter(a => (a.hp || 0) <= free)
+      .map(a => `
+        <div class="att-avail">
+          <div class="att-avail-main">
+            <div class="att-avail-name">${esc(a.name)}
+              ${a.restricted ? '<span class="r-badge">R</span>' : ''}
+              <span class="pf-tag">${a.hp} HP</span></div>
+            <div class="att-fits">${esc(a.fits)}</div>
+            <div class="att-base">${esc(a.base)}</div>
+            ${a.note ? `<div class="att-fits"><em>${esc(a.note)}</em></div>` : ''}
+          </div>
+          <div class="spick-buy">
+            <div class="spick-cost">${fmtCr(a.price)}<i>cr</i></div>
+            <button class="btn btn-primary btn-sm" data-att-add="${esc(a.key)}">Fit</button>
+          </div>
+        </div>`).join('');
+
+    return `
+      <div class="att-panel" data-att-cat="${cat}" data-att-key="${esc(key)}">
+        <div class="att-head">${esc(it.name)}: ${free} of ${it.hp} hard points free
+          <button class="cart-x" data-att-act="close" title="Close">&times;</button></div>
+        ${fitted || '<div class="att-none">Nothing fitted yet.</div>'}
+        <details class="att-shop"${free > 0 ? ' open' : ''}>
+          <summary>Fit something (${Engine.attachmentsFor(cat).filter(a => (a.hp || 0) <= free).length} will fit)</summary>
+          ${avail || '<div class="att-none">No attachment fits in the remaining hard points.</div>'}
+        </details>
       </div>`;
   }
 
@@ -138,7 +209,12 @@ const Play = (() => {
       if (!keys.length) return '';
       const rows = keys.map(k => {
         const it = Engine.getItem(cat, k);
-        return it ? gearRow(cat, k, bag[k], it) : '';
+        if (!it) return '';
+        // The attachment bench renders under the row it belongs to.
+        const line = ctx.attachFor === k
+          ? Object.assign({}, bag[k], { attachPanel: attachPanelHtml(cat, k, it, api) })
+          : bag[k];
+        return gearRow(cat, k, line, it);
       }).join('');
       return `<div class="cart-section pg-section"><div class="cart-section-title">${title}</div>${rows}</div>`;
     };
@@ -180,10 +256,20 @@ const Play = (() => {
         }
         return;
       }
+      // Attachment bench actions, which live inside a row's panel.
+      const att = e.target.closest('[data-att-act], [data-att-add]');
+      if (att) {
+        const panel = att.closest('.att-panel');
+        if (att.dataset.attAdd) api.attach(panel.dataset.attKey, att.dataset.attAdd);
+        else if (att.dataset.attAct === 'close') api.openAttach(null, null);
+        else api.modAction(panel.dataset.attKey, +att.dataset.ai, +att.dataset.mi, att.dataset.attAct);
+        return;
+      }
       const el = e.target.closest('[data-pg-act]');
       if (!el) return;
       const { pgAct, cat, key } = el.dataset;
       if (pgAct === 'sell') api.sell(cat, key);
+      else if (pgAct === 'attach') api.openAttach(cat, key);
       else api.toggleFlag(cat, key, pgAct);
     });
     root.addEventListener('input', e => {

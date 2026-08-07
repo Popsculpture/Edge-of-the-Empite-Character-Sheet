@@ -335,6 +335,15 @@ const Wizard = (() => {
     // overlay has to match whichever character is loaded. Jury Rigged tunes
     // items on top of that, so it is rebuilt second.
     Engine.setCustomItems(s.customItems);
+    // Instances store their assembled stats, so rebuild them from the current
+    // catalog and attachment data: a saved character should reflect any later
+    // correction to an attachment rather than keeping the stats it was saved
+    // with. Rebuilding is idempotent when nothing has changed.
+    for (const k of Object.keys(s.customItems)) {
+      const it = s.customItems[k];
+      if (it && it.instance) s.customItems[k] = Engine.rebuildInstance(it);
+    }
+    Engine.setCustomItems(s.customItems);
     Engine.setJuryRig(s);
     if (!Array.isArray(s.extraSpecKeys)) s.extraSpecKeys = [];
     // An extra specialization must be real, and must not restate the starting
@@ -3684,7 +3693,7 @@ const Wizard = (() => {
     const d = Engine.derive(state);
     if (!d) { c.innerHTML = '<div class="empty-state">No character yet. Switch to Creation mode to build one.</div>'; return; }
     Play.renderGear(c, {
-      state, d,
+      state, d, attachFor: _attachFor,
       api: {
         toggleFlag: playToggleFlag,
         sell: playSellItem,
@@ -3692,6 +3701,20 @@ const Wizard = (() => {
         pairSet: playPairSet,
         deleteSet: playDeleteSet,
         gotoMarket: gotoMarketStep,
+        gearheadRanks,
+        // Opening the bench on a stacked line splits one unit off first, so
+        // attachments land on that specific weapon and not on all of them.
+        openAttach: (cat, key) => {
+          if (!cat || !key) { _attachFor = null; render(); return; }
+          const it = Engine.getItem(cat, key);
+          _attachFor = (it && it.instance) ? key : promoteToInstance(cat, key);
+          saveState(); render();
+        },
+        attach: attachTo,
+        modAction: (instKey, ai, mi, act) => {
+          if (act === 'roll') rollModCheck(instKey, ai);
+          else resolveMod(instKey, ai, mi, act);
+        },
       },
     });
     initTipListeners(c.querySelector('.play-inv') || c);
@@ -3844,6 +3867,114 @@ const Wizard = (() => {
         gotoMarket: gotoMarketStep,
       },
     });
+  }
+
+  // ── Attachments (Play mode) ───────────────────────────────────────────────
+  // An item carrying attachments becomes an instance of its own so the bolt-ons
+  // belong to that specific weapon and not to every copy of the model.
+  let _attachFor = null;    // instance key whose attachment panel is open
+
+  function gearheadRanks() {
+    const d = Engine.derive(state);
+    const t = d && d.talents.find(x => x.name === 'Gearhead');
+    return t ? t.rank : 0;
+  }
+
+  // Split one unit off a stacked line and give it its own identity.
+  function promoteToInstance(cat, key) {
+    const merged = Engine.mergedLine(state, cat, key);
+    if (!merged || merged.qty < 1) return null;
+    const base = Engine.getItem(cat, key);
+    if (!base) return null;
+    if (base.instance) return key;           // already one of a kind
+    const instKey = 'INST-' + genId();
+    if (!state.customItems) state.customItems = {};
+    state.customItems[instKey] = Engine.rebuildInstance({
+      key: instKey, cat, name: base.name, baseKey: base.crafted ? null : key,
+      baseSnapshot: base.crafted ? JSON.parse(JSON.stringify(base)) : null,
+      attachments: [], instance: true,
+      crafted: base.crafted, templateKey: base.templateKey,
+      categoryKey: base.categoryKey, craftOptions: base.craftOptions,
+    });
+    // Move exactly one unit across, keeping the original line's elections.
+    const bag = playBag(cat);
+    const line = bag[key] || (bag[key] = { qty: 0 });
+    line.qty = (line.qty || 0) - 1;
+    tidyPlayLine(cat, key);
+    bag[instKey] = { qty: 1, carry: merged.carry !== false, show: merged.show !== false, equip: !!merged.equip };
+    Engine.setCustomItems(state.customItems);
+    Engine.setJuryRig(state);
+    return instKey;
+  }
+
+  function attachTo(instKey, attKey) {
+    const inst = state.customItems && state.customItems[instKey];
+    const def = Engine.getAttachment(attKey);
+    if (!inst || !def) return;
+    if (Engine.hardPointsFree(inst) < (def.hp || 0)) {
+      alert(`${inst.name} has ${Engine.hardPointsFree(inst)} hard point(s) free; ${def.name} needs ${def.hp}.`);
+      return;
+    }
+    const price = def.buyable === false ? def.price : def.price;
+    if (blockedByBudget(price)) return;
+    const checkNote = def.installCheck
+      ? `\n\nThis one needs an ${Engine.difficultyName(def.installCheck.difficulty)} ${def.installCheck.skill} check to fit; roll it at the table.`
+      : '\n\nFitting an attachment needs no check, just a few minutes.';
+    if (!confirm(`Fit a ${def.name} to your ${inst.name} for ${fmtCr(price)} cr?` + checkNote)) return;
+    inst.attachments.push({ key: attKey, mods: {}, burned: {} });
+    state.customItems[instKey] = Engine.rebuildInstance(inst);
+    Engine.setCustomItems(state.customItems);
+    Engine.setJuryRig(state);
+    state.creditsAdjustment = (state.creditsAdjustment || 0) - price;
+    postLedger('buy', def.name + ' on ' + inst.name, -price);
+    saveState(); render();
+  }
+
+  // Seed the tray with the escalating Mechanics check for the next mod.
+  function rollModCheck(instKey, attIdx) {
+    const inst = state.customItems && state.customItems[instKey];
+    const att = inst && inst.attachments[attIdx];
+    const def = att && Engine.getAttachment(att.key);
+    if (!def) return;
+    const installed = Object.values(att.mods || {}).reduce((a, b) => a + b, 0);
+    const cost = Engine.modCost(installed, gearheadRanks());
+    const d = Engine.derive(state);
+    const sk = Engine.getSkill('MECH');
+    const cv = (d.characteristics || {})[sk.characteristic.toLowerCase()] || 0;
+    const rk = (d.skill_ranks || {})[sk.key] || 0;
+    const prof = Math.min(cv, rk), ability = Math.max(cv, rk) - prof;
+    Dice.setPoolFromUpgrade(`Mod: ${def.name}`, ability, prof, cost.difficulty, 'skill', 'Mechanics');
+  }
+
+  // Three outcomes, exactly as the rules read: installed, failed (that option
+  // is gone for good), or failed with despair (the attachment is wrecked).
+  function resolveMod(instKey, attIdx, modIdx, outcome) {
+    const inst = state.customItems && state.customItems[instKey];
+    const att = inst && inst.attachments[attIdx];
+    const def = att && Engine.getAttachment(att.key);
+    if (!def) return;
+    const opt = (def.mods || [])[modIdx];
+    if (!opt) return;
+    const installed = Object.values(att.mods || {}).reduce((a, b) => a + b, 0);
+    const cost = Engine.modCost(installed, gearheadRanks());
+    if (outcome === 'success' && blockedByBudget(cost.credits)) return;
+    const spentMsg = `${fmtCr(cost.credits)} cr in components is spent either way.`;
+    if (outcome === 'despair') {
+      if (!confirm(`Despair on the check: the ${def.name} is ruined and comes off ${inst.name}.\n\n${spentMsg}`)) return;
+      inst.attachments.splice(attIdx, 1);
+    } else if (outcome === 'fail') {
+      if (!confirm(`Failed. "${opt.text}" can never be attempted on this ${def.name} again.\n\n${spentMsg}`)) return;
+      att.burned[modIdx] = true;
+    } else {
+      if (!confirm(`Installed "${opt.text}" for ${fmtCr(cost.credits)} cr?`)) return;
+      att.mods[modIdx] = (att.mods[modIdx] || 0) + 1;
+    }
+    state.creditsAdjustment = (state.creditsAdjustment || 0) - cost.credits;
+    postLedger('buy', `Mod on ${def.name}` + (outcome === 'success' ? '' : ' (failed)'), -cost.credits);
+    state.customItems[instKey] = Engine.rebuildInstance(inst);
+    Engine.setCustomItems(state.customItems);
+    Engine.setJuryRig(state);
+    saveState(); render();
   }
 
   // ── Step: Crafting (Play mode) ────────────────────────────────────────────
