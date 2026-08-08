@@ -303,7 +303,18 @@ const Engine = (() => {
 
   // Universal Force specializations hand out a Force rating of 1 on purchase if
   // the character has none yet (EotE Core p.276 and its AoR/FaD counterparts).
-  const FORCE_RATING_SPECS = new Set(['force_sensitive_exile', 'force_sensitive_emergent', 'force_sensitive_outcast']);
+  // Specializations whose tree header reads "Gain Force Rating 1". Padawan
+  // Survivor carries it too (Dawn of Rebellion p.103), and without it a
+  // character built on that tree alone reads as Force rating 0 and loses every
+  // Force talent and power on the sheet.
+  const FORCE_RATING_SPECS = new Set([
+    'force_sensitive_exile', 'force_sensitive_emergent', 'force_sensitive_outcast',
+    'padawan_survivor',
+  ]);
+
+  // Careers where the Force rating comes from the career rather than a
+  // specialization, so every character in them starts Force sensitive.
+  const FORCE_RATING_CAREERS = new Set([]);
 
   // Routing drawn in the app's editor, keyed by spec key. It overrides whatever
   // shipped in the data file so a tree can be corrected, or supplied for the
@@ -1058,10 +1069,14 @@ const Engine = (() => {
     const soakBonus   = rk('Enduring');
     const defMBonus   = rk('Superior Reflexes');
     const defRBonus   = rk('Sixth Sense');
-    // A Force-sensitive universal specialization confers a Force rating of 1 in
-    // its own right, which Force Rating talents then build on. Owning a second
-    // such specialization grants nothing further (EotE Core p.276).
-    const forceSpecBase = ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k)) ? 1 : 0;
+    // Becoming Force sensitive grants a Force rating of 1, which Force Rating
+    // talents then build on. It is a floor rather than a bonus: "when a
+    // character purchases this specialization, he automatically receives a
+    // Force rating of 1, if he did not already have it. If he already has a
+    // Force rating of 1 or higher, it does not increase" (EotE Core p.284), so
+    // a second Force-sensitive specialization adds nothing.
+    const forceSpecBase = (ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k))
+      || FORCE_RATING_CAREERS.has(state.careerKey)) ? 1 : 0;
     const forceRating = forceSpecBase + rk('Force Rating') + rk('Witchcraft');
 
     // Per-skill setback dice removed by always-on whole-skill talents. Resolved
