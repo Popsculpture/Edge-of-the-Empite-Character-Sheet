@@ -315,7 +315,7 @@ const Wizard = (() => {
   // showing. That belongs to the character on screen, so swapping characters
   // has to forget it or the next one opens on a stale tree or mid-purchase.
   function resetTalentTabUi() {
-    _ttSpec = null; _ttPicker = false; _ttQuery = '';
+    _ttSpec = null; _ttPicker = false; _ttQuery = ''; _ttEdit = false;
     _craftCat = 'melee'; _craftFinishing = null; _attachFor = null;
   }
 
@@ -1152,6 +1152,32 @@ const Wizard = (() => {
       else if (e.target.closest('[data-ask="yes"]')) yes();
     });
     wrap.querySelector('[data-ask="yes"]').focus();
+  }
+
+  // Same reason askConfirm exists: a browser told to stop showing this page's
+  // dialogs makes alert() a no-op, and the message the player needed never
+  // appears. Anything worth interrupting for gets shown in the page instead.
+  function askNotice(message) {
+    const wrap = document.createElement('div');
+    wrap.className = 'ask-backdrop';
+    wrap.innerHTML = `
+      <div class="ask-box" role="alertdialog" aria-modal="true">
+        <div class="ask-msg"></div>
+        <div class="ask-acts">
+          <button class="btn btn-primary btn-sm" data-ask="ok">OK</button>
+        </div>
+      </div>`;
+    wrap.querySelector('.ask-msg').textContent = message;   // newlines kept by CSS
+    document.body.appendChild(wrap);
+    const close = () => { wrap.remove(); document.removeEventListener('keydown', onKey, true); };
+    function onKey(e) {
+      if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); close(); }
+    }
+    document.addEventListener('keydown', onKey, true);
+    wrap.addEventListener('click', e => {
+      if (e.target === wrap || e.target.closest('[data-ask="ok"]')) close();
+    });
+    wrap.querySelector('[data-ask="ok"]').focus();
   }
 
   function fmtCr(n) {
@@ -2104,6 +2130,52 @@ const Wizard = (() => {
   let _ttSpec = null;
   let _ttPicker = false;
   let _ttQuery = '';
+  let _ttEdit = false;          // routing editor open on the current tree
+
+  // ── Talent tree routing editor ────────────────────────────────────────────
+  // Seventeen official trees shipped without their printed connector layout,
+  // and any of the rest could be wrong. Routing drawn here is kept apart from
+  // the character (it describes the book, not the build) and can be copied out
+  // as a data patch for data/specializations.js.
+  const ROUTING_KEY = 'sw_routing_v1';
+  let _routing = {};
+  function loadRouting() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(ROUTING_KEY) || '{}');
+      _routing = {};
+      for (const k of Object.keys(raw)) if (Engine.isConnArray(raw[k])) _routing[k] = raw[k];
+    } catch (_) { _routing = {}; }
+    Engine.setRouting(_routing);
+  }
+  function saveRouting() {
+    try { localStorage.setItem(ROUTING_KEY, JSON.stringify(_routing)); } catch (_) {}
+    Engine.setRouting(_routing);
+  }
+
+  // A link is one edge shared by two boxes, so both masks carry it: right on
+  // the left box pairs with left on the right box, down with up. Writing both
+  // keeps the array in the same shape the shipped data uses.
+  const EDGE_BITS = { h: [8, 4], v: [2, 1] };
+  function edgeIndices(kind, r, c) {
+    return kind === 'h' ? [r * 4 + c, r * 4 + c + 1] : [r * 4 + c, (r + 1) * 4 + c];
+  }
+  function edgeOn(conns, kind, r, c) {
+    if (!conns) return false;
+    const [i, j] = edgeIndices(kind, r, c), [bi, bj] = EDGE_BITS[kind];
+    return !!(conns[i] & bi) || !!(conns[j] & bj);
+  }
+  function toggleEdge(specKey, kind, r, c) {
+    const spec = Engine.getSpec(specKey);
+    // Seed from the normalized view, so the four shipped trees that record a
+    // link on one box only do not carry that asymmetry into the patch.
+    const conns = (Engine.specConnections(spec) || new Array(20).fill(0)).slice();
+    const [i, j] = edgeIndices(kind, r, c), [bi, bj] = EDGE_BITS[kind];
+    if (edgeOn(conns, kind, r, c)) { conns[i] &= ~bi; conns[j] &= ~bj; }
+    else                           { conns[i] |=  bi; conns[j] |=  bj; }
+    _routing[specKey] = conns;
+    saveRouting();
+  }
+  function resetRouting(specKey) { delete _routing[specKey]; saveRouting(); }
 
   const TALENT_COSTS = [5, 10, 15, 20, 25];
   function treeXp(specKey) {
@@ -2152,11 +2224,20 @@ const Wizard = (() => {
       talentPurchases: Object.assign({}, state.talentPurchases),
     });
     delete probe.talentPurchases[key];
+    // Only trees this drop actually breaks count. A tree already carrying
+    // stranded talents is not this specialization's fault, and blocking on it
+    // would make that tree impossible to get rid of.
     const broken = Engine.ownedSpecKeys(probe)
-      .filter(k => !Engine.treeConnected(probe, k))
+      .filter(k => {
+        const after = Engine.strandedTalents(probe, k);
+        if (!after.size) return false;
+        const before = Engine.strandedTalents(state, k);
+        for (const i of after) if (!before.has(i)) return true;
+        return false;
+      })
       .map(k => (Engine.getSpec(k) || {}).name || k);
     if (broken.length) {
-      alert(`Dropping ${sp ? sp.name : key} would strand talents in ${broken.join(' and ')}, ` +
+      askNotice(`Dropping ${sp ? sp.name : key} would strand talents in ${broken.join(' and ')}, ` +
             `which were bought through a talent this tree supplies for free.\n\n` +
             `Refund those talents first, then drop this specialization.`);
       return;
@@ -2275,8 +2356,10 @@ const Wizard = (() => {
 
     // Trees whose printed routing never made it into the data set draw no
     // connectors and enforce no prerequisites, with a banner saying as much.
-    const routed   = Engine.treeRoutingKnown(spec);
-    const conns    = routed ? spec.connections : null;   // array of 20 bitmasks
+    const conns    = Engine.specConnections(spec);   // array of 20 bitmasks, or null
+    const routed   = !!conns;
+    const editing  = _ttEdit;
+    const edited   = Object.prototype.hasOwnProperty.call(_routing, specKey);
     if (!state.talentPurchases)          state.talentPurchases = {};
     if (!state.talentPurchases[specKey]) state.talentPurchases[specKey] = new Array(20).fill(false);
     const purchases = state.talentPurchases[specKey];
@@ -2358,14 +2441,22 @@ const Wizard = (() => {
         } else if (isTR && !isTC) {
           const has = linked(r,col,r,col+1);
           const act = has && ownedAt(r*4+col) && ownedAt(r*4+col+1);
-          cells += `<div class="tt-hconn" style="grid-row:${gRow};grid-column:${gCol}">
+          const edit = editing
+            ? ` tt-edge${has ? ' tt-edge-on' : ''}" data-edge="h" data-er="${r}" data-ec="${col}"
+                title="${has ? 'Remove' : 'Add'} the link between ${esc(names[r*4+col]||'?')} and ${esc(names[r*4+col+1]||'?')}`
+            : '';
+          cells += `<div class="tt-hconn${edit}" style="grid-row:${gRow};grid-column:${gCol}">
             ${has ? `<div class="tt-hline${act?' tt-lit':''}"></div>` : ''}
           </div>`;
 
         } else if (!isTR && isTC) {
           const has = r<4 && linked(r,col,r+1,col);
           const act = has && ownedAt(r*4+col) && ownedAt((r+1)*4+col);
-          cells += `<div class="tt-vconn" style="grid-row:${gRow};grid-column:${gCol}">
+          const edit = editing && r<4
+            ? ` tt-edge${has ? ' tt-edge-on' : ''}" data-edge="v" data-er="${r}" data-ec="${col}"
+                title="${has ? 'Remove' : 'Add'} the link between ${esc(names[r*4+col]||'?')} and ${esc(names[(r+1)*4+col]||'?')}`
+            : '';
+          cells += `<div class="tt-vconn${edit}" style="grid-row:${gRow};grid-column:${gCol}">
             ${has ? `<div class="tt-vline${act?' tt-lit':''}"></div>` : ''}
           </div>`;
 
@@ -2466,15 +2557,49 @@ const Wizard = (() => {
         <span class="pf-tag">${statusLabel}</span>
         ${isExtra ? `<button class="btn btn-secondary btn-sm" data-drop-spec="${esc(specKey)}"
             title="Refund this specialization and everything bought in its tree">Drop specialization</button>` : ''}
+        <button class="btn btn-secondary btn-sm tt-edit-btn${editing ? ' active' : ''}" data-tt-edit="toggle"
+          title="Draw which boxes this tree links together">${editing ? 'Stop editing' : 'Edit routing'}</button>
+        ${!editing && edited ? '<span class="pf-tag tt-edited-tag">Routing edited</span>' : ''}
       </div>
-      ${routed ? '' : `<div class="tt-unrouted">
+      ${routed || editing ? '' : `<div class="tt-unrouted">
         <strong>Connector routing missing for this tree.</strong>
         The printed layout of which boxes link to which never made it into the data set for
         ${esc(spec.name)}, so no connectors are drawn and prerequisites are not enforced here.
         Buy from the printed tree in your book and the costs, XP, and talent effects all still apply.
+        Draw it once with <em>Edit routing</em> and it sticks.
       </div>`}
+      ${editing ? `<div class="tt-editbar">
+        <div class="tt-editbar-head">
+          <strong>Routing editor</strong>
+          <span class="pf-tag">${edited ? 'Edited here' : routed ? 'From the data file' : 'Nothing drawn yet'}</span>
+        </div>
+        <p>Click the gap between two boxes to add or remove the link that joins them. Buying is paused
+        while you draw. Connections save as you go and apply to every character on this device;
+        <em>Copy patch</em> gives you the data-file version.</p>
+        <div class="tt-editbar-acts">
+          <button class="btn btn-primary btn-sm" data-tt-edit="done">Done</button>
+          <button class="btn btn-secondary btn-sm" data-tt-edit="copy">Copy patch</button>
+          <button class="btn btn-secondary btn-sm" data-tt-edit="copyall">Copy all edited (${Object.keys(_routing).length})</button>
+          <button class="btn btn-secondary btn-sm" data-tt-edit="clear">Clear tree</button>
+          ${edited ? `<button class="btn btn-secondary btn-sm" data-tt-edit="reset">Revert to data file</button>` : ''}
+        </div>
+        ${(() => {
+          // Buying is unrestricted while a tree has no routing, so the moment
+          // one is drawn some of those purchases can end up with no path to
+          // them. Name them rather than let the tree quietly lock.
+          const cut = [...Engine.strandedTalents(state, specKey)];
+          if (!cut.length) return '';
+          return `<div class="tt-stranded">
+            <strong>${cut.length} bought talent${cut.length === 1 ? '' : 's'} now ${cut.length === 1 ? 'has' : 'have'} no path:</strong>
+            ${cut.map(i => esc(names[i] || '?') + ` <span class="tt-stranded-at">row ${Math.floor(i/4)+1}</span>`).join(', ')}.
+            Link ${cut.length === 1 ? 'it' : 'them'} to the rest of the tree, or refund
+            ${cut.length === 1 ? 'it' : 'them'} once you are done drawing.
+          </div>`;
+        })()}
+        <div class="tt-editbar-out" id="tt-routing-out"></div>
+      </div>` : ''}
       <div class="talent-tree-wrap">
-        <div class="tt-grid" id="talent-tree-grid">${cells}</div>
+        <div class="tt-grid${editing ? ' tt-grid-editing' : ''}" id="talent-tree-grid">${cells}</div>
       </div>
       ${dedSection}
       ${jurySection}`;
@@ -2522,6 +2647,43 @@ const Wizard = (() => {
     const dropBtn = c.querySelector('[data-drop-spec]');
     if (dropBtn) dropBtn.addEventListener('click', () => dropSpec(dropBtn.dataset.dropSpec));
 
+    // Routing editor controls. Bound on the freshly-rendered buttons, not on a
+    // container that outlives the render, so handlers cannot stack up.
+    c.querySelectorAll('[data-tt-edit]').forEach(btn => btn.addEventListener('click', () => {
+      const act = btn.dataset.ttEdit;
+      const out = () => $('#tt-routing-out');
+      const show = (label, text) => {
+        const el = out(); if (!el) return;
+        el.innerHTML = `<div class="tt-out-label">${esc(label)}</div><textarea readonly rows="3"></textarea>`;
+        const ta = el.querySelector('textarea');
+        ta.value = text; ta.focus(); ta.select();
+        try { document.execCommand('copy'); el.querySelector('.tt-out-label').textContent = label + ' (copied)'; } catch (_) {}
+      };
+      if (act === 'toggle') { _ttEdit = !_ttEdit; renderTalents(); return; }
+      if (act === 'done')   { _ttEdit = false;   renderTalents(); renderHeaderXp(); return; }
+      if (act === 'copy') {
+        const cur = Engine.specConnections(spec) || new Array(20).fill(0);
+        show(`"connections" for ${spec.name}`, `"connections": [${cur.join(', ')}]`);
+        return;
+      }
+      if (act === 'copyall') {
+        show(`${Object.keys(_routing).length} edited tree(s), for apply_routing.py`, JSON.stringify(_routing, null, 2));
+        return;
+      }
+      if (act === 'clear') {
+        askConfirm(`Clear every connection in ${spec.name}?\n\nThe tree goes back to having no routing at all, so you can draw it from scratch.`, () => {
+          _routing[specKey] = new Array(20).fill(0);
+          saveRouting(); renderTalents();
+        });
+        return;
+      }
+      if (act === 'reset') {
+        askConfirm(`Discard your routing edits for ${spec.name}?\n\nThe tree goes back to whatever shipped in the data file.`, () => {
+          resetRouting(specKey); renderTalents(); renderHeaderXp();
+        });
+      }
+    }));
+
     // No hover: the first tap of a node previews it (shows its rules text and
     // arms it, marked by the tt-armed outline); a second tap on the same node
     // commits the buy/refund. Tapping a different node previews that one; tapping
@@ -2533,6 +2695,16 @@ const Wizard = (() => {
     // commit straight away without its own preview.
     let armed = null;
     grid.addEventListener('click', e => {
+      // Drawing routing and buying talents are separate jobs, so the grid does
+      // one or the other: while the editor is open, nodes are inert and the
+      // gaps between them are the only live targets.
+      if (editing) {
+        const edge = e.target.closest('[data-edge]');
+        if (!edge) return;
+        toggleEdge(specKey, edge.dataset.edge, +edge.dataset.er, +edge.dataset.ec);
+        renderTalents();
+        return;
+      }
       const node = e.target.closest('.tt-node');
       if (!node) { hideTooltip(); armed = null; return; }
       const r = +node.dataset.r, col = +node.dataset.c, idx = r*4+col;
@@ -3097,7 +3269,7 @@ const Wizard = (() => {
     const d = Engine.derive(state);
     const remaining = d ? d.credits_remaining : 0;
     if (price > remaining) {
-      alert(`Not enough credits. This costs ${fmtCr(price)} cr; you have ${fmtCr(remaining)} cr.`);
+      askNotice(`Not enough credits. This costs ${fmtCr(price)} cr; you have ${fmtCr(remaining)} cr.`);
       return true;
     }
     return false;
@@ -3106,7 +3278,7 @@ const Wizard = (() => {
     const bag = eqBag(cat);
     const it = Engine.getItem(cat, key);
     if (creationLineLocked(cat, key)) {
-      alert('This item changed hands during play, so its commerce now lives there. Buy more of it from the Market in Play mode.');
+      askNotice('This item changed hands during play, so its commerce now lives there. Buy more of it from the Market in Play mode.');
       return;
     }
     if (bag[key] && bag[key].qty) bag[key].qty++;
@@ -3984,7 +4156,7 @@ const Wizard = (() => {
     const def = Engine.getAttachment(attKey);
     if (!inst || !def) return;
     if (Engine.hardPointsFree(inst) < (def.hp || 0)) {
-      alert(`${inst.name} has ${Engine.hardPointsFree(inst)} hard point(s) free; ${def.name} needs ${def.hp}.`);
+      askNotice(`${inst.name} has ${Engine.hardPointsFree(inst)} hard point(s) free; ${def.name} needs ${def.hp}.`);
       return;
     }
     const price = def.buyable === false ? def.price : def.price;
@@ -4402,7 +4574,7 @@ const Wizard = (() => {
   function saveToRoster() {
     if (!state.id) state.id = genId();
     try { localStorage.setItem('sw_saved_v1_' + state.id, JSON.stringify(state)); }
-    catch (e) { alert('Could not save the character (browser storage may be full).'); return false; }
+    catch (e) { askNotice('Could not save the character (browser storage may be full).'); return false; }
     const species = Engine.getSpecies(state.speciesKey);
     const entry = {
       id: state.id, name: (state.name || '').trim() || 'Unnamed',
@@ -4416,7 +4588,7 @@ const Wizard = (() => {
   function loadFromRoster(id) {
     let saved;
     try { saved = JSON.parse(localStorage.getItem('sw_saved_v1_' + id)); } catch (e) {}
-    if (!saved) { alert('That saved character could not be found.'); return; }
+    if (!saved) { askNotice('That saved character could not be found.'); return; }
     state = Object.assign(defaultState(), saved);
     state.id = id;
     repairState(state);
@@ -4429,7 +4601,7 @@ const Wizard = (() => {
   function rosterLoad(modal, close) {
     const sel = modal.querySelector('#roster-select');
     const id = sel && sel.value;
-    if (!id) { alert('Pick a saved character to load.'); return; }
+    if (!id) { askNotice('Pick a saved character to load.'); return; }
     if (id === state.id) { close(); return; }   // already the working character
     askConfirm('Load this character? Any unsaved changes to your current character will be lost.',
       () => { close(); loadFromRoster(id); });
@@ -4438,7 +4610,7 @@ const Wizard = (() => {
   function rosterDelete(modal) {
     const sel = modal.querySelector('#roster-select');
     const id = sel && sel.value;
-    if (!id) { alert('Pick a saved character to delete.'); return; }
+    if (!id) { askNotice('Pick a saved character to delete.'); return; }
     const ent = getRoster().find(e => e.id === id);
     askConfirm('Delete the saved character "' + ((ent && ent.name) || 'Unnamed') + '"? This cannot be undone.', () => {
       try { localStorage.removeItem('sw_saved_v1_' + id); } catch (e) {}
@@ -4460,7 +4632,7 @@ const Wizard = (() => {
       setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
     } catch (err) {
       console.error(err);
-      alert('Could not export the character: ' + ((err && err.message) || err));
+      askNotice('Could not export the character: ' + ((err && err.message) || err));
     }
   }
 
@@ -4479,12 +4651,12 @@ const Wizard = (() => {
           const data = JSON.parse(reader.result);
           incoming = (data && typeof data === 'object' && data.character) ? data.character : data;
         } catch (e) {
-          alert('That file is not valid JSON, so it cannot be imported.');
+          askNotice('That file is not valid JSON, so it cannot be imported.');
           return;
         }
         const SIG = ['game', 'characteristics', 'careerKey', 'speciesKey', 'equipment', 'talentPurchases'];
         if (!incoming || typeof incoming !== 'object' || !SIG.some(k => k in incoming)) {
-          alert('That file does not look like a saved character.');
+          askNotice('That file does not look like a saved character.');
           return;
         }
         askConfirm('Import this character? Your current character will be replaced.', () => {
@@ -4525,6 +4697,7 @@ const Wizard = (() => {
     initTheme();
     initViewMode();
     initTooltipDismiss();
+    loadRouting();   // before loadState, so the first render already has it
     loadState();
     // The mode preference (device-level) and the autosaved step (character-
     // level) are stored separately, so boot can land on a step the current

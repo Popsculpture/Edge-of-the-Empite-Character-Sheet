@@ -2385,6 +2385,55 @@ body.on-craft #app { padding-bottom: 200px; }
 }
 .tt-unrouted strong { display: block; margin-bottom: 2px; }
 
+/* Routing editor: draw which boxes a tree joins together. */
+.tt-editbar {
+  border: 1px solid var(--accent, #f5c518);
+  border-radius: 6px;
+  background: rgba(245, 197, 24, 0.07);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+.tt-editbar-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.tt-editbar p { margin: 0 0 10px; line-height: 1.5; opacity: 0.85; }
+.tt-editbar-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.tt-stranded {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-left: 3px solid #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 4px;
+  line-height: 1.5;
+}
+.tt-stranded strong { display: block; margin-bottom: 2px; }
+.tt-stranded-at { opacity: 0.65; font-size: 0.85em; }
+.tt-editbar-out:empty { display: none; }
+.tt-editbar-out { margin-top: 10px; }
+.tt-out-label { font-size: 0.8rem; opacity: 0.75; margin-bottom: 4px; }
+.tt-editbar-out textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  resize: vertical;
+}
+.tt-edit-btn.active { border-color: var(--accent, #f5c518); color: var(--accent, #f5c518); }
+.tt-edited-tag { opacity: 0.8; }
+
+/* While drawing, the boxes go inert and the gaps become the targets. */
+.tt-grid-editing .tt-node { pointer-events: none; opacity: 0.72; }
+.tt-edge { cursor: pointer; position: relative; }
+.tt-edge::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px dashed rgba(148, 163, 184, 0.45);
+  border-radius: 3px;
+}
+.tt-edge:hover::after { border-color: var(--accent, #f5c518); background: rgba(245, 197, 24, 0.16); }
+.tt-edge.tt-edge-on::after { border-style: solid; border-color: rgba(245, 197, 24, 0.55); }
+.tt-edge.tt-edge-on:hover::after { background: rgba(239, 68, 68, 0.18); border-color: #ef4444; }
+
 .spick-toolbar {
   display: flex;
   gap: 10px;

@@ -255,19 +255,56 @@ const Engine = (() => {
   // the character has none yet (EotE Core p.276 and its AoR/FaD counterparts).
   const FORCE_RATING_SPECS = new Set(['force_sensitive_exile', 'force_sensitive_emergent', 'force_sensitive_outcast']);
 
-  // Does this tree carry the printed connector routing? Seventeen official
+  // Routing drawn in the app's editor, keyed by spec key. It overrides whatever
+  // shipped in the data file so a tree can be corrected, or supplied for the
+  // first time, without waiting on a rebuild of specializations.js.
+  let _routing = {};
+  function setRouting(map) { _routing = map && typeof map === 'object' ? map : {}; }
+  function isConnArray(a) { return Array.isArray(a) && a.length === 20 && a.every(n => Number.isInteger(n) && n >= 0 && n <= 15); }
+
+  // Both boxes on a link should carry it, but four shipped trees record one
+  // side only. Copying the missing half changes nothing (treeLinker already
+  // accepts either side) and keeps anything derived from the array honest.
+  const _normCache = new WeakMap();
+  function normalizeConns(a) {
+    const hit = _normCache.get(a);
+    if (hit) return hit;
+    const out = a.slice();
+    for (let r = 0; r < 5; r++) {
+      for (let c = 0; c < 4; c++) {
+        const i = r * 4 + c;
+        if (c < 3) { const j = i + 1;     if ((out[i] & 8) || (out[j] & 4)) { out[i] |= 8; out[j] |= 4; } }
+        if (r < 4) { const j = i + 4;     if ((out[i] & 2) || (out[j] & 1)) { out[i] |= 2; out[j] |= 1; } }
+      }
+    }
+    _normCache.set(a, out);
+    return out;
+  }
+
+  // The 20 link bitmasks in force for a tree, or null when none are on file.
+  // A tree with no links at all is the same thing as a tree with no routing:
+  // there is nothing to enforce either way, and reporting it as routed would
+  // lock every box below the top row while claiming the layout is known.
+  function specConnections(spec) {
+    if (!spec) return null;
+    const drawn = _routing[spec.key];
+    const raw = isConnArray(drawn) ? drawn
+              : isConnArray(spec.connections) ? spec.connections : null;
+    if (!raw || raw.every(n => n === 0)) return null;
+    return normalizeConns(raw);
+  }
+
+  // Does this tree carry connector routing at all? Seventeen official
   // specializations came from books the extraction never covered, so their
   // connections array is missing. There is no honest default for a tree's
   // wiring, so the app says so rather than inventing one.
-  function treeRoutingKnown(spec) {
-    return !!(spec && Array.isArray(spec.connections) && spec.connections.length === 20);
-  }
+  function treeRoutingKnown(spec) { return !!specConnections(spec); }
 
   // Connection helpers for a tree's 20 boxes. The bitmask per box is
   // up=1, down=2, left=4, right=8. Callers must check treeRoutingKnown first;
   // without routing every box reads as unlinked and prerequisites go unenforced.
   function treeLinker(spec) {
-    const conns = treeRoutingKnown(spec) ? spec.connections : null;
+    const conns = specConnections(spec);
     const conn = (r, c) => conns ? conns[r * 4 + c] : 0;
     return function linked(r1, c1, r2, c2) {
       if (r1 === r2 && c2 === c1 + 1) return !!(conn(r1,c1) & 8) || !!(conn(r2,c2) & 4);
@@ -278,18 +315,18 @@ const Engine = (() => {
     };
   }
 
-  // Is every talent owned in this tree still legally reachable? A talent is
-  // eligible only from the top row or through a link to one already owned
+  // Which owned talents in this tree are no longer legally reachable? A talent
+  // is eligible only from the top row or through a link to one already owned
   // (EotE Core p.93), and an inherited free talent is granted outright wherever
-  // it sits, so it roots a chain of its own. Checking this per tree is what
-  // makes a refund safe: the talent being given up may be the free link that
-  // some OTHER tree was built through.
-  function treeConnected(state, specKey) {
+  // it sits, so it roots a chain of its own. Returns the set of stranded box
+  // indices, empty when the tree is legal.
+  function strandedTalents(state, specKey) {
     const spec = getSpec(specKey);
     const bought = (state.talentPurchases || {})[specKey];
-    if (!spec || !bought) return true;
+    const out = new Set();
+    if (!spec || !bought) return out;
     // No printed routing on file means no adjacency rule to break.
-    if (!treeRoutingKnown(spec)) return true;
+    if (!treeRoutingKnown(spec)) return out;
     const names = treeTalentNames(spec);
     const linked = treeLinker(spec);
     const owned = [];
@@ -307,18 +344,34 @@ const Engine = (() => {
         visited.add(ni); queue.push(ni);
       }
     }
-    return owned.every((o, i) => !o || visited.has(i));
+    for (let i = 0; i < 20; i++) if (owned[i] && !visited.has(i)) out.add(i);
+    return out;
   }
 
-  // Would refunding one box leave every owned tree legal? Copies the purchase
-  // flags so the probe never touches the real character.
+  // Checking this per tree is what makes a refund safe: the talent being given
+  // up may be the free link that some OTHER tree was built through.
+  function treeConnected(state, specKey) { return strandedTalents(state, specKey).size === 0; }
+
+  // Would refunding one box make any owned tree worse? The test is that no
+  // talent which is reachable now becomes stranded, rather than that every tree
+  // ends up perfect. The difference matters when a tree is already broken:
+  // routing drawn after the fact can strand talents bought while the tree had
+  // none, and demanding a legal end state would then refuse every refund and
+  // leave the XP locked up with no way to unwind it. Copies the purchase flags
+  // so the probe never touches the real character.
   function refundIsSafe(state, specKey, index) {
     const flags = ((state.talentPurchases || {})[specKey] || []).slice();
     flags[index] = false;
     const probe = Object.assign({}, state, {
       talentPurchases: Object.assign({}, state.talentPurchases, { [specKey]: flags }),
     });
-    return ownedSpecKeys(state).every(k => treeConnected(probe, k));
+    return ownedSpecKeys(state).every(k => {
+      const after = strandedTalents(probe, k);
+      if (!after.size) return true;
+      const before = strandedTalents(state, k);
+      for (const i of after) if (!before.has(i)) return false;
+      return true;
+    });
   }
 
   // Talent ranks a species grants for free, parsed from its special-abilities text
@@ -1049,7 +1102,8 @@ const Engine = (() => {
     specBonusSkillKeys,
     ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
-    treeConnected, refundIsSafe, treeRoutingKnown,
+    treeConnected, refundIsSafe, treeRoutingKnown, specConnections, setRouting, isConnArray,
+    strandedTalents, normalizeConns,
     setCustomItems, setJuryRig, juryEntries, JURY_EFFECTS, baseItem,
     attachmentList, getAttachment, attachmentsFor,
     hardPointsUsed, hardPointsFree, modCost, rebuildInstance,
