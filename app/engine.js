@@ -126,6 +126,56 @@ const Engine = (() => {
     'Street Smarts':         ['Streetwise', 'Underworld'],
   };
 
+  // Talents that add boost dice to EVERY check of a named skill, per rank. Same
+  // bar as the setback list: always on, no trigger, no spend, and the whole
+  // skill rather than a named subset of its checks. Sleight of Mind is the
+  // instructive exclusion, since its boost lapses against anything immune to
+  // Force powers, which is a call for the table and not a number for the sheet.
+  const BOOST_SKILL_TALENTS = {
+    'Combat Veteran':    ['Brawl', 'Discipline'],
+    'Command':           ['Leadership'],
+    'Physical Training': ['Athletics', 'Resilience'],
+    'Savvy':             ['Charm', 'Negotiation'],
+    'Stalker':           ['Coordination', 'Stealth'],
+    'Uncanny Reactions': ['Vigilance'],
+    'Uncanny Senses':    ['Perception'],
+  };
+
+  // Talents that permanently turn named skills into career skills. A talent
+  // that lets the player pick instead carries a count, and the pick is stored
+  // on the character rather than guessed here. 'Well Traveled' is in the data
+  // twice under two spellings, so both are listed.
+  const CAREER_SKILL_TALENTS = {
+    'Basic Combat Training':        ['Brawl', 'Ranged - Light'],
+    'Improved Secrets of the Jedi': ['Discipline'],
+    'Insight':                      ['Perception', 'Discipline'],
+    'Pilot Training':               ['Piloting - Planetary', 'Piloting - Space'],
+    'Secrets of the Force':         ['Lore', 'Lightsaber'],
+    'Secrets of the Jedi':          ['Lightsaber'],
+    'Tactical Combat Training':     ['Melee', 'Ranged - Heavy'],
+    'Vehicle Combat Training':      ['Gunnery', 'Piloting - Planetary'],
+    'Well Traveled':                ['Core Worlds', 'Outer Rim'],
+    'Well-Traveled':                ['Core Worlds', 'Outer Rim'],
+    'Well Read':                    { choose: 3, from: 'Knowledge' },
+    'Well Rounded':                 { choose: 2 },
+  };
+
+  // How many skills a talent lets the player pick, at its current rank. A
+  // ranked talent grants its pick again for every rank.
+  function careerSkillPickCount(name, rank) {
+    const spec = CAREER_SKILL_TALENTS[name];
+    if (!spec || Array.isArray(spec) || !spec.choose) return 0;
+    const t = getTalent(name);
+    return spec.choose * (t && t.ranked ? Math.max(1, rank) : 1);
+  }
+
+  // The skills a pick may be made from, honouring any restriction on the talent.
+  function careerSkillPickPool(name) {
+    const spec = CAREER_SKILL_TALENTS[name];
+    const from = (!spec || Array.isArray(spec)) ? '' : (spec.from || '');
+    return (SW.skills || []).filter(s => !from || (s.type || '') === from);
+  }
+
   // ── Specializations owned ────────────────────────────────────────────────
   // A character starts with one specialization (state.specKey, the only one that
   // ever grants free skill ranks) and may buy more (state.extraSpecKeys, in
@@ -1027,6 +1077,40 @@ const Engine = (() => {
       }
     }
 
+    // Per-skill boost dice added by always-on whole-skill talents, same shape.
+    const skillBoostAdded = {};
+    for (const [tname, skillNames] of Object.entries(BOOST_SKILL_TALENTS)) {
+      const amount = rk(tname);
+      if (!amount) continue;
+      for (const sn of skillNames) {
+        const keys = sn === 'ALL_KNOWLEDGE' ? knowledgeKeys : [nameToKey(sn)].filter(Boolean);
+        for (const k of keys) skillBoostAdded[k] = (skillBoostAdded[k] || 0) + amount;
+      }
+    }
+
+    // Skills a talent turns into career skills. Talents that let the player
+    // pick read their choice off the character; anything unchosen is simply
+    // absent until it is picked.
+    const talentSkillKeys = [];
+    const talentSkillPicks = state.talentSkillChoices || {};
+    const talentSkillSlots = [];
+    for (const [tname, spec] of Object.entries(CAREER_SKILL_TALENTS)) {
+      const rank = rk(tname);
+      if (!rank) continue;
+      const named = Array.isArray(spec) ? spec : [];
+      for (const sn of named) {
+        const k = nameToKey(sn);
+        if (k && !talentSkillKeys.includes(k)) talentSkillKeys.push(k);
+      }
+      const picks = careerSkillPickCount(tname, rank);
+      for (let i = 0; i < picks; i++) {
+        const id = tname + ':' + i;
+        const k = talentSkillPicks[id];
+        talentSkillSlots.push({ id, talent: tname, chosen: k || '' });
+        if (k && !talentSkillKeys.includes(k)) talentSkillKeys.push(k);
+      }
+    }
+
     // Talent list for the sheet (name, rank, source, activation, effect, setback).
     const talentList = Object.keys(talentCounts).sort().map(name => {
       const t    = getTalent(name);
@@ -1035,6 +1119,8 @@ const Engine = (() => {
       const fromTree    = !!treeCounts[name];
       const fromSpecies = !!grantCounts[name];
       const setbackSkills = SETBACK_SKILL_TALENTS[name] || null;
+      const boostSkills   = BOOST_SKILL_TALENTS[name]   || null;
+      const careerSpec    = CAREER_SKILL_TALENTS[name]  || null;
       return {
         name, rank,
         ranked:      t ? !!t.ranked : false,
@@ -1043,6 +1129,11 @@ const Engine = (() => {
         source:      fromTree && fromSpecies ? 'both' : fromSpecies ? 'species' : 'tree',
         effect: eff ? { stat: eff.stat, delta: eff.delta, total: eff.delta * rank, needsChoice: !!eff.needsChoice } : null,
         setback: setbackSkills ? { skills: setbackSkills, perRank: 1, total: rank } : null,
+        boost:   boostSkills   ? { skills: boostSkills,   perRank: 1, total: rank } : null,
+        careerSkills: careerSpec
+          ? { skills: Array.isArray(careerSpec) ? careerSpec : (careerSpec.skills || []),
+              choose: Array.isArray(careerSpec) ? 0 : (careerSpec.choose || 0) }
+          : null,
       };
     });
 
@@ -1078,6 +1169,9 @@ const Engine = (() => {
       primary_bonus_skill_keys: primaryBonusSkillKeys,
       skill_ranks:       skillRanks,
       skill_setback_removed: skillSetbackRemoved,
+      skill_boost_added:     skillBoostAdded,
+      talent_skill_keys:     talentSkillKeys,
+      talent_skill_slots:    talentSkillSlots,
       characteristics:   effChars,
       talents:           talentList,
       talent_stat_bonuses: { wound: woundBonus, strain: strainBonus, soak: soakBonus,
@@ -1098,6 +1192,7 @@ const Engine = (() => {
     COMPANION_TYPES, isCompanionItem,
     mergedLine, mergedEquipment, mergedFleet,
     talentEffect, purchasedTalentCounts,
+    careerSkillPickCount, careerSkillPickPool,
     creditBonusFor, activeMechanic,
     specBonusSkillKeys,
     ownedSpecKeys, specStatus, specCost, nextSpecCost, specXpSpent,

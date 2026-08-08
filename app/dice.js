@@ -187,7 +187,7 @@ const Dice = (() => {
     if (lbl) lbl.textContent = labelText;
   }
 
-  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill) {
+  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill, boost) {
     labelText = label || '';
     // Remember what kind of check this is so the results can offer the right
     // spend options. A hand-built pool (no seeding button) stays generic.
@@ -197,10 +197,12 @@ const Dice = (() => {
     ctxSkill = skill || '';
     // Start a clean check: this skill/weapon's Ability + Proficiency, no leftover
     // context dice from a previous roll. The player then adds difficulty/boost/etc.
-    // An optional starting difficulty seeds two-weapon penalty dice.
+    // An optional starting difficulty seeds two-weapon penalty dice, and an
+    // optional boost seeds the dice an always-on talent grants this skill.
     pool.ability = Math.max(0, ability | 0);
     pool.proficiency = Math.max(0, prof | 0);
-    pool.boost = pool.setback = pool.challenge = pool.force = 0;
+    pool.setback = pool.challenge = pool.force = 0;
+    pool.boost = Math.max(0, boost | 0);
     pool.difficulty = Math.max(0, difficulty | 0);
     renderPool();
     const r = document.getElementById('dc-results');
@@ -379,7 +381,7 @@ const Dice = (() => {
       const roller = e.target.closest('[data-dice-ability]');
       if (roller) {
         setPoolFromUpgrade(roller.dataset.diceLabel || '', +roller.dataset.diceAbility || 0, +roller.dataset.diceProf || 0, +roller.dataset.diceDifficulty || 0,
-                           roller.dataset.diceContext || '', roller.dataset.diceSkill || '');
+                           roller.dataset.diceContext || '', roller.dataset.diceSkill || '', +roller.dataset.diceBoost || 0);
         return;
       }
       const t = e.target.closest('[data-dc],[data-dc-die],[data-dc-diff]');

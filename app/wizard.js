@@ -282,6 +282,7 @@ const Wizard = (() => {
       talentPurchases:    {},
       extraSpecKeys:      [], // specializations bought beyond the free starting one, in purchase order
       dedicationChoices:  {}, // 'specKey:treeIndex' -> characteristic chosen for that Dedication box
+      talentSkillChoices: {}, // 'talentName:n' -> skill key a pick-your-own career skill talent took
       juryRigged:         [], // [{cat, key, effect}] one owned item tuned per rank of Jury Rigged
       woundCur:           0,
       strainCur:          0,
@@ -351,6 +352,7 @@ const Wizard = (() => {
     s.extraSpecKeys = s.extraSpecKeys.filter((k, i) =>
       k && k !== s.specKey && Engine.getSpec(k) && s.extraSpecKeys.indexOf(k) === i);
     migrateDedication(s);
+    if (!s.talentSkillChoices || typeof s.talentSkillChoices !== 'object') s.talentSkillChoices = {};
     // Talent purchases for a tree the character does not own (a specialization
     // browsed and then swapped during creation) are already ignored by the
     // engine; drop them so they can never resurface as spend if that
@@ -2490,6 +2492,33 @@ const Wizard = (() => {
         </div>`;
     }
 
+    // Talents whose career skills the player picks (Well Rounded, Well Read).
+    // One row per slot the character has earned; an unpicked slot grants nothing.
+    const skillSlots = (d && d.talent_skill_slots) || [];
+    let skillPickSection = '';
+    if (skillSlots.length) {
+      const picks = state.talentSkillChoices || (state.talentSkillChoices = {});
+      const taken = new Set(Object.entries(picks).map(([, v]) => v).filter(Boolean));
+      const rows = skillSlots.map(slot => {
+        const pool = Engine.careerSkillPickPool(slot.talent);
+        const opts = pool.map(s => {
+          // A skill already taken by another slot cannot be picked twice.
+          const dup = taken.has(s.key) && picks[slot.id] !== s.key;
+          return `<option value="${esc(s.key)}"${picks[slot.id] === s.key ? ' selected' : ''}${dup ? ' disabled' : ''}>${esc(s.name)}${dup ? ' (already chosen)' : ''}</option>`;
+        }).join('');
+        return `<label class="ded-choice-row">
+          <span>${esc(slot.talent)}: career skill</span>
+          <select class="tsk-choice" data-tsk-id="${esc(slot.id)}"><option value="">&mdash; choose &mdash;</option>${opts}</select>
+        </label>`;
+      });
+      skillPickSection = `
+        <div class="ded-choices">
+          <div class="ded-choices-title">Career skills of your choosing</div>
+          ${rows.join('')}
+          <p class="ded-choices-note">These talents let you name the skills yourself. Chosen skills are highlighted on the sheet alongside your career and specialization skills.</p>
+        </div>`;
+    }
+
     // Jury Rigged: one owned weapon or suit gets a permanent tweak per rank.
     const juryRank = (d && d.talents.find(t => t.name === 'Jury Rigged') || {}).rank || 0;
     let jurySection = '';
@@ -2602,6 +2631,7 @@ const Wizard = (() => {
         <div class="tt-grid${editing ? ' tt-grid-editing' : ''}" id="talent-tree-grid">${cells}</div>
       </div>
       ${dedSection}
+      ${skillPickSection}
       ${jurySection}`;
 
     // Dedication characteristic pickers
@@ -2612,6 +2642,16 @@ const Wizard = (() => {
       sel.addEventListener('change', () => {
         state.dedicationChoices[sel.dataset.dedId] = sel.value;
         saveState();
+      });
+    });
+
+    // Career-skill picks DO re-render: the other pickers have to grey out the
+    // skill just taken so the same one cannot be spent twice.
+    c.querySelectorAll('.tsk-choice').forEach(sel => {
+      sel.addEventListener('change', () => {
+        state.talentSkillChoices[sel.dataset.tskId] = sel.value;
+        saveState();
+        renderTalents();
       });
     });
 

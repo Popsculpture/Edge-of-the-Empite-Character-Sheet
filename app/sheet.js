@@ -220,33 +220,42 @@ const Sheet = (() => {
   const DIE_PROF    = '<svg class="die die-prof" viewBox="0 0 20 20" aria-hidden="true"><polygon points="19,10 14.5,2.2 5.5,2.2 1,10 5.5,17.8 14.5,17.8"/></svg>';
   // A black Setback die (d6) struck out in red = "remove one setback" from a talent.
   const DIE_SETBACK_OUT = '<svg class="die die-setback-out" viewBox="0 0 20 20" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5"/><line x1="2.6" y1="10" x2="17.4" y2="10"/></svg>';
+  // A light blue Boost die (d6) = "add one boost" from a talent.
+  const DIE_BOOST = '<svg class="die die-boost" viewBox="0 0 20 20" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13" rx="2.5"/></svg>';
 
   // Build the dice-pool glyphs for a characteristic value + skill rank.
-  // removedSetback appends that many struck-out setback dice (talent benefit).
-  function dicePool(charVal, rank, removedSetback) {
+  // addedBoost prepends that many boost dice and removedSetback appends that
+  // many struck-out setback dice, both always-on talent benefits.
+  function dicePool(charVal, rank, removedSetback, addedBoost) {
     const c = Math.max(0, Number(charVal) || 0);
     const r = Math.max(0, Number(rank)    || 0);
     const rsb = Math.max(0, Number(removedSetback) || 0);
+    const abo = Math.max(0, Number(addedBoost)     || 0);
     const total = Math.max(c, r);
+    const boostGlyphs = abo
+      ? `<span class="skill-boost-set" title="Talent adds ${abo} boost ${abo === 1 ? 'die' : 'dice'} to this skill">${DIE_BOOST.repeat(abo)}</span>`
+      : '';
     const setbackGlyphs = rsb
       ? `<span class="skill-setback-set" title="Talent removes ${rsb} setback ${rsb === 1 ? 'die' : 'dice'} from this skill">${DIE_SETBACK_OUT.repeat(rsb)}</span>`
       : '';
-    if (total <= 0) return `<span class="skill-dice-none">&mdash;</span>${setbackGlyphs}`;
+    if (total <= 0) return `<span class="skill-dice-none">&mdash;</span>${boostGlyphs}${setbackGlyphs}`;
     const yellow = Math.min(c, r);      // Proficiency dice
     const green  = total - yellow;      // Ability dice
     const parts = [];
     if (yellow) parts.push(`${yellow} Proficiency`);
     if (green)  parts.push(`${green} Ability`);
     const glyphs = DIE_PROF.repeat(yellow) + DIE_ABILITY.repeat(green);
-    return `<span class="skill-dice-set" title="${parts.join(', ')}">${glyphs}</span>${setbackGlyphs}`;
+    return `<span class="skill-dice-set" title="${parts.join(', ')}">${glyphs}</span>${boostGlyphs}${setbackGlyphs}`;
   }
 
   function skillsBlock(derived, chars) {
     chars = chars || {};
     const careerKeys = derived.career_skill_keys || [];
     const bonusKeys  = derived.bonus_skill_keys  || [];
+    const talentKeys = derived.talent_skill_keys || [];
     const ranks      = derived.skill_ranks        || {};
     const setbackOut = derived.skill_setback_removed || {};
+    const boostIn    = derived.skill_boost_added     || {};
 
     const groups = {};
     for (const skill of SW.skills) {
@@ -267,15 +276,19 @@ const Sheet = (() => {
         const charVal  = chars[skill.characteristic.toLowerCase()] || 0;
         const isCareer = careerKeys.includes(skill.key);
         const isBonus  = bonusKeys.includes(skill.key);
-        const nameCol  = (isCareer || isBonus) ? 'color:var(--accent)' : '';
+        const isTalent = talentKeys.includes(skill.key);
+        const nameCol  = (isCareer || isBonus || isTalent) ? 'color:var(--accent)' : '';
         const zebra    = (zi++ % 2 === 1) ? ' zebra' : '';
         const c = Math.max(0, charVal), r = Math.max(0, rank);
         const prof = Math.min(c, r), abil = Math.max(c, r) - prof;   // dice pool for the roller
+        const boost = boostIn[skill.key] || 0;
+        const seeds = [`${abil} ability`, `${prof} proficiency`];
+        if (boost) seeds.push(`${boost} boost`);
         html += `
           <div class="sheet-skill-row${zebra}">
             <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span></span>
-            <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key])}</div>
-            <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="${esc(skill.name)} check" data-dice-context="skill" data-dice-skill="${esc(skill.name)}" title="Send ${abil} ability + ${prof} proficiency to the dice pool">&#127922;</button>
+            <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key], boost)}</div>
+            <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-boost="${boost}" data-dice-label="${esc(skill.name)} check" data-dice-context="skill" data-dice-skill="${esc(skill.name)}" title="Send ${seeds.join(' + ')} to the dice pool">&#127922;</button>
           </div>`;
       }
     }
@@ -286,6 +299,7 @@ const Sheet = (() => {
         <div class="skill-dice-legend">
           <span>${DIE_PROF} Proficiency (d12)</span>
           <span>${DIE_ABILITY} Ability (d8)</span>
+          ${Object.keys(boostIn).length ? `<span>${DIE_BOOST} Boost added by talent</span>` : ''}
           ${Object.keys(setbackOut).length ? `<span>${DIE_SETBACK_OUT} Setback removed by talent</span>` : ''}
           <span class="skill-dice-legend-note">pool = higher of characteristic or rank; ranks upgrade green to yellow</span>
         </div>
@@ -311,6 +325,20 @@ const Sheet = (() => {
     const skills = setback.skills.map(s => s === 'ALL_KNOWLEDGE' ? 'Knowledge' : s).join(', ');
     return `<span class="talent-effect setback">&minus;${setback.total} setback: ${esc(skills)}</span>`;
   }
+  // Badge for whole-skill boost dice, e.g. "+2 boost: Vigilance".
+  function boostBadge(boost) {
+    if (!boost) return '';
+    const skills = boost.skills.map(s => s === 'ALL_KNOWLEDGE' ? 'Knowledge' : s).join(', ');
+    return `<span class="talent-effect boost">+${boost.total} boost: ${esc(skills)}</span>`;
+  }
+  // Badge for career skills a talent grants, e.g. "Career skill: Perception, Discipline".
+  function careerSkillBadge(cs) {
+    if (!cs) return '';
+    const named = cs.skills.length ? esc(cs.skills.join(', ')) : '';
+    const pick  = cs.choose ? `${named ? ', plus ' : ''}${cs.choose} of your choice` : '';
+    if (!named && !pick) return '';
+    return `<span class="talent-effect career">Career skill: ${named}${pick}</span>`;
+  }
 
   // Panel listing species abilities + every purchased talent (rank, type, effect, text).
   function talentsBlock(d, species) {
@@ -330,7 +358,7 @@ const Sheet = (() => {
       return `
         <div class="talent-card">
           <div class="talent-name">${esc(t.name)}</div>
-          <div class="talent-chips">${rankTag}${srcTag}${effectBadge(t.effect)}${setbackBadge(t.setback)}${typeTag}</div>
+          <div class="talent-chips">${rankTag}${srcTag}${effectBadge(t.effect)}${boostBadge(t.boost)}${setbackBadge(t.setback)}${careerSkillBadge(t.careerSkills)}${typeTag}</div>
           ${desc}
         </div>`;
     }).join('');

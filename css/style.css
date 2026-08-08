@@ -1218,6 +1218,8 @@ body.swiping-tabs { overflow-x: hidden; }
   color: var(--success); border: 1px solid var(--success);
   border-radius: 999px; padding: 1px 7px;
 }
+.talent-effect.boost  { color: #7fd3f7; border-color: #7fd3f7; }
+.talent-effect.career { color: var(--accent); border-color: var(--accent); }
 .talent-source {
   font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--muted); background: var(--surface);
@@ -1284,6 +1286,8 @@ body.swiping-tabs { overflow-x: hidden; }
 .die-setback-out rect { fill: #15171a; stroke: #45474c; stroke-width: 1; }
 .die-setback-out line { stroke: #e23b3b; stroke-width: 2.6; stroke-linecap: round; }
 .skill-setback-set { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
+.die-boost rect { fill: #7fd3f7; stroke: #4aa8d8; stroke-width: 1; }
+.skill-boost-set { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
 
 .skill-dice-legend {
   display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px;
