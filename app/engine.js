@@ -303,18 +303,26 @@ const Engine = (() => {
 
   // Universal Force specializations hand out a Force rating of 1 on purchase if
   // the character has none yet (EotE Core p.276 and its AoR/FaD counterparts).
-  // Specializations whose tree header reads "Gain Force Rating 1". Padawan
-  // Survivor carries it too (Dawn of Rebellion p.103), and without it a
-  // character built on that tree alone reads as Force rating 0 and loses every
-  // Force talent and power on the sheet.
+  // Specializations whose tree header reads "Gain Force Rating 1". Without the
+  // full list a character built on one of these alone reads as Force rating 0
+  // and loses every Force talent and power on the sheet. Nightsister is
+  // deliberately absent: its tree earns the rating through Witchcraft and the
+  // Force Rating talent rather than off the header.
   const FORCE_RATING_SPECS = new Set([
     'force_sensitive_exile', 'force_sensitive_emergent', 'force_sensitive_outcast',
-    'padawan_survivor',
+    'padawan_survivor', 'force_adherent',
   ]);
 
-  // Careers where the Force rating comes from the career rather than a
-  // specialization, so every character in them starts Force sensitive.
-  const FORCE_RATING_CAREERS = new Set([]);
+  // Careers that are Force sensitive in their own right, so every character in
+  // them starts at Force rating 1 with no specialization needed. Every Force
+  // and Destiny career works this way, so they are matched by game line rather
+  // than listed, and the crossover Jedi career joins them.
+  const FORCE_RATING_CAREER_KEYS = new Set(['JEDI']);
+  function careerGrantsForceRating(careerKey) {
+    if (FORCE_RATING_CAREER_KEYS.has(careerKey)) return true;
+    const c = getCareer(careerKey);
+    return !!c && c.game === 'fad';
+  }
 
   // Routing drawn in the app's editor, keyed by spec key. It overrides whatever
   // shipped in the data file so a tree can be corrected, or supplied for the
@@ -1076,7 +1084,7 @@ const Engine = (() => {
     // Force rating of 1 or higher, it does not increase" (EotE Core p.284), so
     // a second Force-sensitive specialization adds nothing.
     const forceSpecBase = (ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k))
-      || FORCE_RATING_CAREERS.has(state.careerKey)) ? 1 : 0;
+      || careerGrantsForceRating(state.careerKey)) ? 1 : 0;
     const forceRating = forceSpecBase + rk('Force Rating') + rk('Witchcraft');
 
     // Per-skill setback dice removed by always-on whole-skill talents. Resolved
