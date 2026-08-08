@@ -6663,7 +6663,29 @@ window.SW.specializations = [
       }
     ],
     "homebrew": false,
-    "homebrew_source": ""
+    "homebrew_source": "",
+    "connections": [
+      2,
+      0,
+      2,
+      0,
+      11,
+      12,
+      15,
+      6,
+      9,
+      6,
+      9,
+      7,
+      10,
+      7,
+      8,
+      7,
+      9,
+      13,
+      12,
+      5
+    ]
   },
   {
     "key": "pathfinder",
