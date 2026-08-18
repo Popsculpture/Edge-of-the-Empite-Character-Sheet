@@ -2519,41 +2519,17 @@ const Wizard = (() => {
         </div>`;
     }
 
-    // Jury Rigged: one owned weapon or suit gets a permanent tweak per rank.
+    // Jury Rigged used to be picked here, which meant choosing an item from a
+    // dropdown on a tab that shows no items. It lives on the gear row now,
+    // beside the attachments and crafted options that also change the thing.
     const juryRank = (d && d.talents.find(t => t.name === 'Jury Rigged') || {}).rank || 0;
-    let jurySection = '';
-    if (juryRank > 0) {
-      if (!Array.isArray(state.juryRigged)) state.juryRigged = [];
-      const owned = Engine.mergedEquipment(state);
-      const opts = [];
-      for (const cat of ['weapon', 'armor']) {
-        for (const k of Object.keys(owned[cat])) {
-          const it = Engine.getItem(cat, k);
-          if (it) opts.push({ cat, key: k, name: it.name });
-        }
-      }
-      const rows = [];
-      for (let i = 0; i < juryRank; i++) {
-        const e = state.juryRigged[i] || {};
-        const itemOpts = opts.map(o =>
-          `<option value="${esc(o.cat + '|' + o.key)}"${e.key === o.key && e.cat === o.cat ? ' selected' : ''}>${esc(o.name)}</option>`).join('');
-        const effOpts = Object.keys(Engine.JURY_EFFECTS)
-          .filter(fx => !e.cat || Engine.JURY_EFFECTS[fx].cats.includes(e.cat))
-          .map(fx => `<option value="${fx}"${e.effect === fx ? ' selected' : ''}>${esc(Engine.JURY_EFFECTS[fx].label)}</option>`).join('');
-        rows.push(`<label class="ded-choice-row">
-          <span>Jury Rigged ${i + 1}</span>
-          <select class="jury-item" data-jury-i="${i}"><option value="">&mdash; choose an item &mdash;</option>${itemOpts}</select>
-          <select class="jury-effect" data-jury-i="${i}"><option value="">&mdash; choose an effect &mdash;</option>${effOpts}</select>
-        </label>`);
-      }
-      jurySection = `
-        <div class="ded-choices">
-          <div class="ded-choices-title">Jury Rigged: tuned equipment</div>
-          ${rows.join('')}
-          <p class="ded-choices-note">Each rank permanently improves one weapon or suit of armor you own. The bonus
-          applies while you are using that item; if it is ever lost or destroyed, point the rank at something else.</p>
-        </div>`;
-    }
+    const jurySection = juryRank > 0 ? `
+      <div class="ded-choices">
+        <div class="ded-choices-title">Jury Rigged: tuned equipment</div>
+        <p class="ded-choices-note">You have ${juryRank} rank${juryRank === 1 ? '' : 's'}. Point ${juryRank === 1 ? 'it' : 'them'} at a
+        weapon or a suit from the <strong>Gear</strong> tab in Play mode: open an item's bench and the
+        Jury Rigged options sit under its attachments.</p>
+      </div>` : '';
 
     // One sub-tab per owned tree, plus the door to buying another.
     const tabs = owned.map(k => {
@@ -2655,26 +2631,6 @@ const Wizard = (() => {
       });
     });
 
-    // Jury Rigged picks change what the item itself is, so these DO re-render:
-    // the overlay has to be rebuilt and the sheet's numbers move with it.
-    c.querySelectorAll('.jury-item, .jury-effect').forEach(sel => {
-      sel.addEventListener('change', () => {
-        const i = +sel.dataset.juryI;
-        const e = state.juryRigged[i] || (state.juryRigged[i] = { cat: '', key: '', effect: '' });
-        if (sel.classList.contains('jury-item')) {
-          const [cat, key] = (sel.value || '|').split('|');
-          e.cat = cat; e.key = key;
-          // Effects are category specific, so a switch between a weapon and a
-          // suit of armor drops a pick that no longer applies.
-          const spec = Engine.JURY_EFFECTS[e.effect];
-          if (!spec || !spec.cats.includes(cat)) e.effect = '';
-        } else {
-          e.effect = sel.value;
-        }
-        Engine.setJuryRig(state);
-        saveState(); render();
-      });
-    });
 
     c.querySelector('.tt-tabs').addEventListener('click', e => {
       const t = e.target.closest('[data-tt-spec]');
@@ -3948,6 +3904,29 @@ const Wizard = (() => {
     const ix = STEPS.findIndex(s => s.id === 'market');
     if (ix >= 0) { state.step = ix; saveState(); render(); window.scrollTo(0, 0); }
   }
+  // Aim one Jury Rigged rank at an item, or take it back. Ranks are slots, so
+  // applying claims the first free one and removing frees it for another item.
+  function juryToggle(cat, key, effect, on) {
+    if (!Array.isArray(state.juryRigged)) state.juryRigged = [];
+    const rank = Engine.purchasedTalentCounts(state)['Jury Rigged'] || 0;
+    const spec = Engine.JURY_EFFECTS[effect];
+    if (!rank || !spec || !spec.cats.includes(cat)) return;
+    while (state.juryRigged.length < rank) state.juryRigged.push({ cat: '', key: '', effect: '' });
+    const at = state.juryRigged.findIndex((e, i) =>
+      i < rank && e && e.cat === cat && e.key === key && e.effect === effect);
+    if (on) {
+      if (at >= 0) return;                     // already aimed here
+      const free = state.juryRigged.findIndex((e, i) => i < rank && (!e || !e.key || !e.effect));
+      if (free < 0) return;                    // every rank is spoken for
+      state.juryRigged[free] = { cat, key, effect };
+    } else {
+      if (at < 0) return;
+      state.juryRigged[at] = { cat: '', key: '', effect: '' };
+    }
+    Engine.setJuryRig(state);
+    saveState(); render();
+  }
+
   function renderPlayGear() {
     const c = $('#step-content');
     const d = Engine.derive(state);
@@ -3962,6 +3941,8 @@ const Wizard = (() => {
         deleteSet: playDeleteSet,
         gotoMarket: gotoMarketStep,
         gearheadRanks,
+        juryRanks: () => Engine.purchasedTalentCounts(state)['Jury Rigged'] || 0,
+        juryToggle,
         // Opening the bench on a stacked line splits one unit off first, so
         // attachments land on that specific weapon and not on all of them.
         openAttach: (cat, key) => {

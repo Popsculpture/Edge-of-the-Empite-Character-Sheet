@@ -111,7 +111,59 @@ const Play = (() => {
 
   // Everything bolted onto one specific weapon or suit, and the bench for
   // adding more. Only shown for the item the player opened.
-  function attachPanelHtml(cat, key, it, api) {
+  // Jury Rigged and crafted options are customization that does not spend hard
+  // points, so they sit in the same bench as the attachments rather than off on
+  // the Talents tab where the item they change is nowhere in sight.
+  function juryPanelHtml(cat, key, it, api, state) {
+    const rank = api.juryRanks();
+    if (!rank) return '';
+    const slots = (state.juryRigged || []).slice(0, rank);
+    const used  = slots.filter(e => e && e.key && e.effect).length;
+    const mine  = slots.filter(e => e && e.key === key && e.cat === cat && e.effect).map(e => e.effect);
+    const free  = rank - used;
+    const rows = Object.keys(Engine.JURY_EFFECTS)
+      .filter(fx => Engine.JURY_EFFECTS[fx].cats.includes(cat))
+      .map(fx => {
+        const spec = Engine.JURY_EFFECTS[fx];
+        const on = mine.includes(fx);
+        return `<li class="att-mod att-mod-${on ? 'done' : 'open'}">
+          <span>${esc(spec.label)}${spec.noteOnly ? ' <em>(note only)</em>' : ''}</span>
+          <span class="att-mod-acts">
+            <button class="btn ${on ? 'btn-secondary' : 'btn-primary'} btn-sm"
+              data-jury-fx="${esc(fx)}" data-jury-on="${on ? '1' : '0'}"
+              ${!on && free <= 0 ? 'disabled title="No Jury Rigged ranks left"' : ''}>${on ? 'Remove' : 'Apply'}</button>
+          </span>
+        </li>`;
+      }).join('');
+    return `
+      <div class="att-fitted att-jury">
+        <div class="att-fitted-head"><strong>Jury Rigged</strong>
+          <span class="pf-tag">${used} of ${rank} rank${rank === 1 ? '' : 's'} used</span></div>
+        <div class="att-base">One permanent tweak per rank, on a weapon or suit you own. It costs no hard
+          points. Point a rank somewhere else at any time if the item is lost.</div>
+        <ul class="att-mods">${rows}</ul>
+      </div>`;
+  }
+
+  // Options baked in when the item was built. They cannot be changed now, but
+  // this is where a player looks to see what the thing actually is.
+  function craftedPanelHtml(it) {
+    const opts = it.craftOptions || [];
+    if (!opts.length) return '';
+    const rows = opts.map(o => `<li class="att-mod att-mod-done">
+      <span><strong>${esc(o.name)}</strong>${o.text ? ' &middot; ' + esc(o.text) : ''}</span>
+      <em>${o.kind === 'flaw' ? 'flaw' : 'improvement'}</em>
+    </li>`).join('');
+    return `
+      <div class="att-fitted att-crafted">
+        <div class="att-fitted-head"><strong>Built in</strong>
+          <span class="pf-tag">${opts.length} from crafting</span></div>
+        <div class="att-base">Chosen while this item was being made, and part of it now.</div>
+        <ul class="att-mods">${rows}</ul>
+      </div>`;
+  }
+
+  function attachPanelHtml(cat, key, it, api, state) {
     const free = Engine.hardPointsFree(it);
     const fitted = (it.attachments || []).map((a, ai) => {
       const def = Engine.getAttachment(a.key);
@@ -168,7 +220,9 @@ const Play = (() => {
       <div class="att-panel" data-att-cat="${cat}" data-att-key="${esc(key)}">
         <div class="att-head">${esc(it.name)}: ${free} of ${it.hp} hard points free
           <button class="cart-x" data-att-act="close" title="Close">&times;</button></div>
+        ${craftedPanelHtml(it)}
         ${fitted || '<div class="att-none">Nothing fitted yet.</div>'}
+        ${juryPanelHtml(cat, key, it, api, state)}
         <details class="att-shop"${free > 0 ? ' open' : ''}>
           <summary>Fit something (${Engine.attachmentsFor(cat).filter(a => (a.hp || 0) <= free).length} will fit)</summary>
           ${avail || '<div class="att-none">No attachment fits in the remaining hard points.</div>'}
@@ -217,7 +271,7 @@ const Play = (() => {
         if (!it) return '';
         // The attachment bench renders under the row it belongs to.
         const line = ctx.attachFor === k
-          ? Object.assign({}, bag[k], { attachPanel: attachPanelHtml(cat, k, it, api) })
+          ? Object.assign({}, bag[k], { attachPanel: attachPanelHtml(cat, k, it, api, state) })
           : bag[k];
         return gearRow(cat, k, line, it);
       }).join('');
@@ -259,6 +313,13 @@ const Play = (() => {
         } else {
           api.deleteSet(+setEl.dataset.setI);
         }
+        return;
+      }
+      // Jury Rigged sits in the same panel, so claim its clicks first.
+      const jf = e.target.closest('[data-jury-fx]');
+      if (jf) {
+        const panel = jf.closest('.att-panel');
+        api.juryToggle(panel.dataset.attCat, panel.dataset.attKey, jf.dataset.juryFx, jf.dataset.juryOn !== '1');
         return;
       }
       // Attachment bench actions, which live inside a row's panel.
