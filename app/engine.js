@@ -493,6 +493,19 @@ const Engine = (() => {
   // the catalog entry it was promoted from. The instance's stats are the base
   // stats with every attachment's base modifiers folded in.
   const RANGE_BANDS = ['Engaged', 'Short', 'Medium', 'Long', 'Extreme'];
+
+  // Move an item up or down the range track. Some modifications stop short of
+  // the ends: a shortened barrel bottoms out at short range rather than putting
+  // the muzzle in a fist, and a crafted range increase caps at extreme.
+  function shiftRange(item, delta, floorBand, ceilBand) {
+    if (!item || !item.range || typeof delta !== 'number') return;
+    const i = RANGE_BANDS.indexOf(item.range);
+    if (i < 0) return;
+    const lo = Math.max(0, RANGE_BANDS.indexOf(floorBand || RANGE_BANDS[0]));
+    const ceilIdx = RANGE_BANDS.indexOf(ceilBand || '');
+    const hi = ceilIdx >= 0 ? ceilIdx : RANGE_BANDS.length - 1;
+    item.range = RANGE_BANDS[Math.min(hi, Math.max(lo, i + delta))];
+  }
   function attachmentList() { return SW.attachments || []; }
   function getAttachment(key) { return attachmentList().find(a => a.key === key) || null; }
   function attachmentsFor(cat) { return attachmentList().filter(a => a.cat === cat); }
@@ -549,13 +562,7 @@ const Engine = (() => {
         ? Math.max(1, (item.encumbrance || 0) + ap.encumbrance)
         : (item.encumbrance || 0) + ap.encumbrance;
     }
-    if (typeof ap.range === 'number' && item.range) {
-      const i = RANGE_BANDS.indexOf(item.range);
-      // Some attachments floor the shift short of Engaged (a shortened barrel
-      // bottoms out at short range rather than putting the muzzle in a fist).
-      const floor = Math.max(0, RANGE_BANDS.indexOf(ap.rangeFloor || RANGE_BANDS[0]));
-      if (i >= 0) item.range = RANGE_BANDS[Math.max(floor, Math.min(RANGE_BANDS.length - 1, i + ap.range))];
-    }
+    if (typeof ap.range === 'number') shiftRange(item, ap.range, ap.rangeFloor, ap.rangeMax);
     if (!Array.isArray(item.qualities)) item.qualities = [];
     // quality / quality2 / ... let one modifier grant more than one quality.
     for (const field of ['quality', 'quality2', 'quality3']) {
@@ -723,6 +730,10 @@ const Engine = (() => {
     'Prepare':        { quality: ['PREPARE', 'Prepare', 1] },
     'Slow-Firing':    { quality: ['SLOWFIRING', 'Slow-Firing', 1] },
     'Limited Ammo':   { quality: ['LIMITEDAMMO', 'Limited Ammo', 3] },
+    // Numeric options that print a number on the item rather than a quality.
+    'Increased Range':      { range: 1, rangeMax: 'Extreme' },
+    'Extra Melee Defense':  { defMelee: 1 },
+    'Extra Ranged Defense': { defRanged: 1 },
   };
 
   // Fold the options taken on the construction check into a crafted item.
@@ -741,6 +752,11 @@ const Engine = (() => {
       }
       if (typeof rule.hp === 'number') item.hp = (item.hp || 0) + rule.hp;
       if (typeof rule.soak === 'number') item.soak = (item.soak || 0) + rule.soak;
+      if (typeof rule.range === 'number' && item.range) shiftRange(item, rule.range, null, rule.rangeMax);
+      // Armor prints one Defense, but these two improvements name an arc, so
+      // they ride alongside it and derive adds them to that arc only.
+      if (typeof rule.defMelee  === 'number') item.defMelee  = (item.defMelee  || 0) + rule.defMelee;
+      if (typeof rule.defRanged === 'number') item.defRanged = (item.defRanged || 0) + rule.defRanged;
       if (rule.hands) item.hands = rule.hands;
       if (rule.quality && Array.isArray(item.qualities)) {
         const [key, qname, count] = rule.quality;
@@ -1003,6 +1019,10 @@ const Engine = (() => {
     const creditsRemaining = startingCredits - creditsSpent + (state.creditsAdjustment || 0);
     const armorSoak    = wornArmor ? (wornArmor.soak    || 0) : 0;
     const armorDefense = wornArmor ? (wornArmor.defense || 0) : 0;
+    // Crafted armor can carry defense that applies to one arc only, which the
+    // single printed Defense value has no room for.
+    const armorDefMelee  = wornArmor ? (wornArmor.defMelee  || 0) : 0;
+    const armorDefRanged = wornArmor ? (wornArmor.defRanged || 0) : 0;
     // Jury Rigged can add defense to the worn suit, and the rules let it pick
     // one arc, which the single armor defense field cannot express.
     const juryDef = juryDefense(state, wornArmor ? wornArmor.key : null);
@@ -1164,8 +1184,8 @@ const Engine = (() => {
       wound_threshold:  (species.wound_threshold  || 10) + (effChars[wtStat]  || 2) + woundBonus,
       strain_threshold: (species.strain_threshold || 10) + (effChars[stStat] || 2) + strainBonus,
       soak:             (effChars.brawn || 1) + armorSoak + soakBonus + cyberSoak,
-      defense_ranged:   armorDefense + defRBonus + wpnDefRanged + juryDef.ranged,
-      defense_melee:    armorDefense + defMBonus + wpnDefMelee + juryDef.melee,
+      defense_ranged:   armorDefense + armorDefRanged + defRBonus + wpnDefRanged + juryDef.ranged,
+      defense_melee:    armorDefense + armorDefMelee  + defMBonus + wpnDefMelee  + juryDef.melee,
       force_rating:     forceRating,
       armor_soak:       armorSoak,
       cyber_soak:       cyberSoak,
