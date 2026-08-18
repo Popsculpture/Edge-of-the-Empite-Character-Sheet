@@ -546,6 +546,17 @@ const Engine = (() => {
     'Cumbersome -1':    { qualityAdjust: ['CUMBERSOME', -1] },
     'Auto-fire':        { quality: ['AUTOFIRE', 'Auto-fire'] },
     'Reduce encumbrance by 1, to a minimum of 1': { encumbrance: -1 },
+    // Options that hand the wielder a talent rank or a skill rank rather than
+    // changing a printed number. They only count while the item is equipped.
+    'Brace':             { grantTalent: 'Brace' },
+    'Quick Draw':        { grantTalent: 'Quick Draw' },
+    'Sniper Shot':       { grantTalent: 'Sniper Shot' },
+    'Point Blank +1':    { grantTalent: 'Point Blank' },
+    'Master of Shadows': { grantTalent: 'Master of Shadows' },
+    'Athletics +1':      { grantSkill: 'Athletics' },
+    'Perception +1':     { grantSkill: 'Perception' },
+    'Stealth +1':        { grantSkill: 'Stealth' },
+    'Vigilance +1':      { grantSkill: 'Vigilance' },
   };
 
   // Fold one attachment's base modifiers into an item being assembled.
@@ -563,6 +574,14 @@ const Engine = (() => {
         : (item.encumbrance || 0) + ap.encumbrance;
     }
     if (typeof ap.range === 'number') shiftRange(item, ap.range, ap.rangeFloor, ap.rangeMax);
+    if (ap.grantTalent) {
+      item.grantsTalents = item.grantsTalents || {};
+      item.grantsTalents[ap.grantTalent] = (item.grantsTalents[ap.grantTalent] || 0) + 1;
+    }
+    if (ap.grantSkill) {
+      item.grantsSkills = item.grantsSkills || {};
+      item.grantsSkills[ap.grantSkill] = (item.grantsSkills[ap.grantSkill] || 0) + 1;
+    }
     if (!Array.isArray(item.qualities)) item.qualities = [];
     // quality / quality2 / ... let one modifier grant more than one quality.
     for (const field of ['quality', 'quality2', 'quality3']) {
@@ -595,6 +614,8 @@ const Engine = (() => {
                    categoryKey: instance.categoryKey, craftOptions: instance.craftOptions };
     const built = Object.assign({}, from, kept, {
       qualities: (from.qualities || []).map(q => Object.assign({}, q)),
+      // Rebuilt from scratch every time, so grants never accumulate.
+      grantsTalents: {}, grantsSkills: {},
     });
     for (const a of built.attachments) {
       const def = getAttachment(a.key);
@@ -969,6 +990,8 @@ const Engine = (() => {
     // right now, including play-mode acquisitions and sales.
     const owned = mergedEquipment(state);
     let encumbrance = 0, wornArmor = null, wornArmorLine = null;
+    // Talents and skill ranks contributed by equipped gear.
+    const gearTalents = {}, gearSkills = {};
     let wpnDefMelee = 0, wpnDefRanged = 0, encThresholdBonus = 0, cyberSoak = 0;
     const cyberChar = {};   // characteristic -> flat bonus from installed cybernetics
     for (const cat of ['weapon', 'armor', 'gear']) {
@@ -1001,6 +1024,13 @@ const Engine = (() => {
           }
         }
         if (cat === 'armor' && line.equip && (!wornArmor || (item.soak || 0) > (wornArmor.soak || 0))) { wornArmor = item; wornArmorLine = line; }
+        // Attachment modifications can hand the wielder a talent or a skill
+        // rank. They belong to the item, not the character, so they only count
+        // while it is actually equipped, and they leave when it does.
+        if ((cat === 'weapon' || cat === 'armor') && line.equip) {
+          for (const [n, r] of Object.entries(item.grantsTalents || {})) gearTalents[n] = (gearTalents[n] || 0) + r;
+          for (const [n, r] of Object.entries(item.grantsSkills  || {})) gearSkills[n]  = (gearSkills[n]  || 0) + r;
+        }
       }
     }
     // A worn suit of armor has its encumbrance reduced by 3, min 0 (EotE Core p.165).
@@ -1047,6 +1077,15 @@ const Engine = (() => {
     for (const key of bonusPickKeys) {
       skillRanks[key] = Math.min(2, (skillRanks[key] || 0) + 1);
     }
+    // Ranks from equipped gear stack on top of the picks rather than competing
+    // with the rank-2 ceiling those picks share.
+    const gearSkillKeys = {};
+    for (const [name, r] of Object.entries(gearSkills)) {
+      const key = nameToKey(name);
+      if (!key) continue;
+      skillRanks[key] = (skillRanks[key] || 0) + r;
+      gearSkillKeys[key] = (gearSkillKeys[key] || 0) + r;
+    }
 
     // ── Talent stat bonuses (always-on passive talents) ───────────────────
     // Character's talents = specialization-tree purchases + species-granted ranks.
@@ -1055,6 +1094,7 @@ const Engine = (() => {
     const talentCounts = {};
     for (const [n, r] of Object.entries(treeCounts))  talentCounts[n] = (talentCounts[n] || 0) + r;
     for (const [n, r] of Object.entries(grantCounts)) talentCounts[n] = (talentCounts[n] || 0) + r;
+    for (const [n, r] of Object.entries(gearTalents))  talentCounts[n] = (talentCounts[n] || 0) + r;
     const rk = name => talentCounts[name] || 0;
 
     // Dedication: +1 to a chosen characteristic per rank (capped at 6). Applied
@@ -1161,6 +1201,7 @@ const Engine = (() => {
       const rank = talentCounts[name];
       const fromTree    = !!treeCounts[name];
       const fromSpecies = !!grantCounts[name];
+      const fromGear    = !!gearTalents[name];
       const setbackSkills = SETBACK_SKILL_TALENTS[name] || null;
       const boostSkills   = BOOST_SKILL_TALENTS[name]   || null;
       const careerSpec    = CAREER_SKILL_TALENTS[name]  || null;
@@ -1169,7 +1210,9 @@ const Engine = (() => {
         ranked:      t ? !!t.ranked : false,
         activation:  t ? (t.activation  || '') : '',
         description: t ? (t.description || '') : '',
-        source:      fromTree && fromSpecies ? 'both' : fromSpecies ? 'species' : 'tree',
+        source:      fromGear && !fromTree && !fromSpecies ? 'gear'
+                   : fromTree && fromSpecies ? 'both' : fromSpecies ? 'species' : 'tree',
+        fromGear:    fromGear,
         effect: eff ? { stat: eff.stat, delta: eff.delta, total: eff.delta * rank, needsChoice: !!eff.needsChoice } : null,
         setback: setbackSkills ? { skills: setbackSkills, perRank: 1, total: rank } : null,
         boost:   boostSkills   ? { skills: boostSkills,   perRank: 1, total: rank } : null,
@@ -1213,6 +1256,8 @@ const Engine = (() => {
       skill_ranks:       skillRanks,
       skill_setback_removed: skillSetbackRemoved,
       skill_boost_added:     skillBoostAdded,
+      gear_skill_ranks:      gearSkillKeys,
+      gear_talents:          gearTalents,
       talent_skill_keys:     talentSkillKeys,
       talent_skill_slots:    talentSkillSlots,
       characteristics:   effChars,

@@ -68,6 +68,7 @@ window.SW.attachments = [
     price: 25, rarity: 0, hp: 1,
     fits: 'Pistol-sized weapons',
     base: 'Grants Quick Draw with this weapon. Raises the difficulty of attacks beyond short range by one.',
+    apply: { grantTalent: 'Quick Draw' },
     installCheck: { difficulty: 2, skill: 'Mechanics' },
     note: 'The price is paying someone else to do it. Filing it yourself needs the check.',
     mods: [{ count: 1, text: 'Reduce the difficulty of checks to conceal the weapon by 1' }] },

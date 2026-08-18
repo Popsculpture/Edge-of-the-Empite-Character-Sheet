@@ -256,6 +256,7 @@ const Sheet = (() => {
     const ranks      = derived.skill_ranks        || {};
     const setbackOut = derived.skill_setback_removed || {};
     const boostIn    = derived.skill_boost_added     || {};
+    const gearRanks  = derived.gear_skill_ranks      || {};
 
     const groups = {};
     for (const skill of SW.skills) {
@@ -286,7 +287,7 @@ const Sheet = (() => {
         if (boost) seeds.push(`${boost} boost`);
         html += `
           <div class="sheet-skill-row${zebra}">
-            <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span></span>
+            <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span>${gearRanks[skill.key] ? `<span class="skill-from-gear" title="${gearRanks[skill.key]} rank(s) from equipped gear">+${gearRanks[skill.key]} gear</span>` : ''}</span>
             <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key], boost)}</div>
             <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-boost="${boost}" data-dice-label="${esc(skill.name)} check" data-dice-context="skill" data-dice-skill="${esc(skill.name)}" title="Send ${seeds.join(' + ')} to the dice pool">&#127922;</button>
           </div>`;
@@ -350,8 +351,10 @@ const Sheet = (() => {
       const isActive = t.activation && !t.activation.toLowerCase().includes('passive');
       const typeTag  = `<span class="talent-type ${isActive ? 'active' : 'passive'}">${esc(t.activation || (isActive ? 'Active' : 'Passive'))}</span>`;
       const rankTag  = t.ranked ? `<span class="talent-rank">Rank ${t.rank}</span>` : '';
-      const srcTag   = (t.source === 'species' || t.source === 'both')
-        ? '<span class="talent-source">Species</span>' : '';
+      const srcTag   = t.fromGear && t.source === 'gear'
+        ? '<span class="talent-source gear">From gear</span>'
+        : (t.source === 'species' || t.source === 'both')
+          ? '<span class="talent-source">Species</span>' : '';
       const desc     = t.description
         ? `<div class="talent-desc">${esc(t.description)}</div>`
         : `<div class="talent-desc talent-desc-empty">No description on file.</div>`;

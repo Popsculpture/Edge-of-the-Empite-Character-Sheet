@@ -1288,6 +1288,13 @@ body.swiping-tabs { overflow-x: hidden; }
 .skill-setback-set { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
 .die-boost rect { fill: #7fd3f7; stroke: #4aa8d8; stroke-width: 1; }
 .skill-boost-set { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
+.talent-source.gear { color: #7fd3f7; border-color: #7fd3f7; }
+.skill-from-gear {
+  margin-left: 6px; font-size: 0.58rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  color: #7fd3f7; border: 1px solid #7fd3f7;
+  border-radius: 999px; padding: 0 5px;
+}
 
 .skill-dice-legend {
   display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px;
