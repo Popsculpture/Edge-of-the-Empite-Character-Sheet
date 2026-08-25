@@ -70,7 +70,7 @@ const Wizard = (() => {
   // instead of a linear build wizard. A global preference like Display/Theme,
   // not tied to any one character, so switching characters keeps it.
   const PLAY_KEY = 'sw_playmode';
-  const PLAY_TAB_IDS = ['sheet', 'talents', 'skills', 'play-gear', 'play-fleet', 'companions', 'market', 'crafting', 'reference'];
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'skills', 'force', 'play-gear', 'play-fleet', 'companions', 'market', 'crafting', 'reference'];
   function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
   function setPlayMode(mode) {
     localStorage.setItem(PLAY_KEY, mode);
@@ -286,6 +286,7 @@ const Wizard = (() => {
       talentSkillChoices: {}, // 'talentName:n' -> skill key a pick-your-own career skill talent took
       talentChoices:      {}, // 'talentName:n' -> what a talent that names a thing was pointed at
       signatureAbilities: {}, // sig key -> { specKey, base, upgrades[8] }
+      forcePowers:        {}, // power key -> { base, upgrades[] }
       juryRigged:         [], // [{cat, key, effect}] one owned item tuned per rank of Jury Rigged
       woundCur:           0,
       forceCommitted:     0, // Force dice tied up in ongoing effects
@@ -360,6 +361,16 @@ const Wizard = (() => {
     if (!s.talentChoices || typeof s.talentChoices !== 'object') s.talentChoices = {};
     if (!s.signatureAbilities || typeof s.signatureAbilities !== 'object'
         || Array.isArray(s.signatureAbilities)) s.signatureAbilities = {};
+    if (!s.forcePowers || typeof s.forcePowers !== 'object' || Array.isArray(s.forcePowers)) s.forcePowers = {};
+    for (const k of Object.keys(s.forcePowers)) {
+      const p = Engine.getForcePower(k), rec = s.forcePowers[k];
+      if (!p || !rec) { delete s.forcePowers[k]; continue; }
+      if (!Array.isArray(rec.upgrades) || rec.upgrades.length !== p.cells.length) {
+        const keep = Array.isArray(rec.upgrades) ? rec.upgrades : [];
+        rec.upgrades = p.cells.map((c, i) => !!keep[i]);
+      }
+      rec.base = !!rec.base;
+    }
     // An ability whose tree is gone is no longer attached to anything.
     for (const k of Object.keys(s.signatureAbilities)) {
       const rec = s.signatureAbilities[k];
@@ -944,6 +955,7 @@ const Wizard = (() => {
     { id: 'play-fleet', label: 'My Fleet',     tab: 'Fleet',    valid: () => true, mode: 'play' },
     { id: 'companions', label: 'Companions',   tab: 'Comp.',    valid: () => true, mode: 'play' },
     { id: 'crafting',   label: 'Crafting',     tab: 'Craft',    valid: () => true, mode: 'play' },
+    { id: 'force',      label: 'Force Powers', tab: 'Force',    valid: () => true },
   ];
   // The last creation-mode step (nav and step counters never see play tabs;
   // creation steps are the contiguous run at the front of the array).
@@ -1055,7 +1067,7 @@ const Wizard = (() => {
 
   function renderHeaderXp() {
     const bar = $('#header-xp');
-    const XP_STEPS = new Set(['oms', 'chars', 'talents', 'skills']);
+    const XP_STEPS = new Set(['oms', 'chars', 'talents', 'skills', 'force']);
     if (!state.speciesKey || !XP_STEPS.has(STEPS[state.step].id)) { bar.classList.add('hidden'); return; }
     const d = Engine.derive(state);
     if (!d) return;
@@ -1225,7 +1237,7 @@ const Wizard = (() => {
                   vehicle: renderVehicle, sheet: renderSheet, reference: renderReference,
                   market: renderMarket, 'play-gear': renderPlayGear,
                   'play-fleet': renderPlayFleet, companions: renderCompanions,
-                  crafting: renderCrafting };
+                  crafting: renderCrafting, force: renderForcePowers };
     fns[STEPS[state.step].id]();
   }
 
@@ -2327,6 +2339,115 @@ const Wizard = (() => {
       if (getPlayMode() === 'play') postLedger('xp', sig.name + ': ' + sig.upgrades[i].name, -cost);
     }
     saveState(); renderTalents(); renderHeaderXp();
+  }
+
+  // ── Step: Force Powers ────────────────────────────────────────────────────
+  let _fpOpen = '';   // which power's tree is expanded
+
+  function buyForcePowerBase(key) {
+    const d = Engine.derive(state), p = Engine.getForcePower(key);
+    if (!p || !Engine.fpCanBuyBase(state, key, d.force_rating)) return;
+    if ((p.baseXp || 0) > d.xp_remaining) return;
+    state.forcePowers[key] = { base: true, upgrades: p.cells.map(() => false) };
+    if (getPlayMode() === 'play') postLedger('xp', 'Force power: ' + p.name, -(p.baseXp || 0));
+    _fpOpen = key;
+    saveState(); renderForcePowers(); renderHeaderXp();
+  }
+  function sellForcePowerBase(key) {
+    const rec = Engine.fpRec(state, key);
+    if (!rec || !rec.base) return;
+    if ((rec.upgrades || []).some(Boolean)) return;   // upgrades hang off the basic power
+    delete state.forcePowers[key];
+    saveState(); renderForcePowers(); renderHeaderXp();
+  }
+  function toggleForceUpgrade(key, i) {
+    const p = Engine.getForcePower(key), rec = Engine.fpRec(state, key);
+    if (!p || !rec) return;
+    if (Engine.fpUpgradeOwned(state, key, i)) {
+      if (!Engine.fpRefundSafe(state, key, i)) return;
+      rec.upgrades[i] = false;
+    } else {
+      if (!Engine.fpCanBuyUpgrade(state, key, i)) return;
+      const cost = (p.cells[i] || {}).xp || 0;
+      if (cost > Engine.derive(state).xp_remaining) return;
+      rec.upgrades[i] = true;
+      if (getPlayMode() === 'play') postLedger('xp', p.name + ': ' + p.cells[i].name, -cost);
+    }
+    saveState(); renderForcePowers(); renderHeaderXp();
+  }
+
+  function renderForcePowers() {
+    const c = $('#step-content');
+    const d = Engine.derive(state);
+    if (!d) { c.innerHTML = '<div class="empty-state">No character yet.</div>'; return; }
+    const rating = d.force_rating || 0;
+    const powers = Engine.forcePowerList();
+
+    if (!d.force_sensitive) {
+      c.innerHTML = `
+        <div class="step-header"><h2>Force Powers</h2>
+          <p>A Force power is rolled with Force dice equal to your Force rating, so it needs one.
+          Take a Force sensitive specialization or career and this fills in.</p></div>
+        <div class="empty-state">No Force rating, so no Force powers yet.</div>`;
+      return;
+    }
+
+    const cards = powers.map(p => {
+      const owned = Engine.fpBaseOwned(state, p.key);
+      const openable = owned || _fpOpen === p.key;
+      const meets = rating >= (p.prereqRating || 1);
+      const spent = owned ? (p.baseXp || 0) + p.cells.reduce((n, cc, i) =>
+        n + (Engine.fpUpgradeOwned(state, p.key, i) ? (cc.xp || 0) : 0), 0) : 0;
+      let tree = '';
+      if (openable) {
+        const cells = p.cells.map((cc, i) => {
+          const has = Engine.fpUpgradeOwned(state, p.key, i);
+          const can = Engine.fpCanBuyUpgrade(state, p.key, i);
+          const cls = has ? 'fp-up owned' : can ? 'fp-up open' : 'fp-up locked';
+          return `<div class="${cls}" data-fp-up="${i}" data-fp-key="${esc(p.key)}"
+            style="grid-row:${cc.row + 1};grid-column:${cc.col + 1} / span ${cc.span}">
+            <div class="fp-up-name">${esc(cc.name)}<span class="fp-up-xp">${cc.xp} XP</span></div>
+            <div class="fp-up-text">${esc(cc.text)}</div>
+          </div>`;
+        }).join('');
+        tree = `<div class="fp-grid">${cells}</div>`;
+      }
+      return `<div class="fp-card${owned ? ' owned' : ''}">
+        <div class="fp-head">
+          <button class="fp-title" data-fp-toggle="${esc(p.key)}">
+            <strong>${esc(p.name)}</strong>
+            <span class="pf-tag">Force rating ${p.prereqRating}+</span>
+            <span class="pf-tag">${esc(p.source)}</span>
+            ${owned ? `<span class="pf-tag owned-tag">${spent} XP invested</span>` : ''}
+          </button>
+          ${owned
+            ? `<button class="btn btn-secondary btn-sm" data-fp-sell="${esc(p.key)}">Refund basic</button>`
+            : meets
+              ? `<button class="btn btn-primary btn-sm" data-fp-buy="${esc(p.key)}">Buy ${p.baseXp} XP</button>`
+              : `<em class="fp-need">needs Force rating ${p.prereqRating}</em>`}
+        </div>
+        <div class="fp-base">${esc(p.baseText)}</div>
+        ${tree}
+      </div>`;
+    }).join('');
+
+    c.innerHTML = `
+      <div class="step-header"><h2>Force Powers</h2>
+        <p>Your Force rating is <strong>${rating}</strong>, which is how many Force dice a power check
+        rolls. Buy a power's basic form first; each upgrade then needs a link to the basic form or to
+        an upgrade you already own. <strong>${d.force_power_xp} XP</strong> in powers.</p></div>
+      <div class="fp-list">${cards}</div>`;
+
+    c.querySelectorAll('[data-fp-toggle]').forEach(b => b.addEventListener('click', () => {
+      _fpOpen = _fpOpen === b.dataset.fpToggle ? '' : b.dataset.fpToggle;
+      renderForcePowers();
+    }));
+    c.querySelectorAll('[data-fp-buy]').forEach(b =>
+      b.addEventListener('click', () => buyForcePowerBase(b.dataset.fpBuy)));
+    c.querySelectorAll('[data-fp-sell]').forEach(b =>
+      b.addEventListener('click', () => sellForcePowerBase(b.dataset.fpSell)));
+    c.querySelectorAll('[data-fp-up]').forEach(el =>
+      el.addEventListener('click', () => toggleForceUpgrade(el.dataset.fpKey, +el.dataset.fpUp)));
   }
 
   // ── Step: Talents ─────────────────────────────────────────────────────────

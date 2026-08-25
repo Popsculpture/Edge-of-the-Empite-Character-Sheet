@@ -1378,6 +1378,33 @@ body.swiping-tabs { overflow-x: hidden; }
 .sig-up-text { margin-top: 3px; line-height: 1.35; color: var(--muted); }
 @media (max-width: 720px) { .sig-grid { grid-template-columns: repeat(2, 1fr); } }
 
+/* Force powers: one card per power, its upgrade tree drawn when opened. */
+.fp-list { display: flex; flex-direction: column; gap: 12px; }
+.fp-card { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+.fp-card.owned { border-color: var(--accent); }
+.fp-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.fp-title {
+  flex: 1; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  background: none; border: 0; color: inherit; font: inherit;
+  cursor: pointer; text-align: left; padding: 0;
+}
+.fp-title strong { font-size: 1rem; }
+.pf-tag.owned-tag { color: var(--accent); border-color: var(--accent); }
+.fp-need { color: var(--muted); font-size: 0.78rem; }
+.fp-base { margin: 6px 0 10px; font-size: 0.8rem; line-height: 1.5; color: var(--muted); }
+.fp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.fp-up {
+  border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px;
+  font-size: 0.72rem; cursor: pointer;
+}
+.fp-up.owned  { border-color: var(--accent); background: var(--accent-bg); }
+.fp-up.locked { opacity: 0.4; cursor: default; }
+.fp-up.open:hover { border-color: var(--text); }
+.fp-up-name { font-weight: 700; font-size: 0.74rem; display: flex; justify-content: space-between; gap: 6px; }
+.fp-up-xp { font-weight: 400; color: var(--muted); }
+.fp-up-text { margin-top: 3px; line-height: 1.35; color: var(--muted); }
+@media (max-width: 720px) { .fp-grid { grid-template-columns: repeat(2, 1fr); } }
+
 /* Force Pool: available / rating, a roll button, and the committed tracker. */
 .derived-cell-val.force-pool { display: inline-flex; align-items: center; gap: 6px; justify-content: center; }
 /* .skill-roll sits at opacity 0.35 and brightens on row hover, but the Force

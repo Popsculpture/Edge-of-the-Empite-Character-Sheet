@@ -1043,6 +1043,73 @@ const Engine = (() => {
     return out;
   }
 
+  // ── Force powers ─────────────────────────────────────────────────────────
+  // A power is bought in its basic form first, then upgrades, each of which
+  // "may only be purchased if it connects to the basic form or a previously
+  // purchased upgrade" (EotE Core p.287). A power also has a Force rating
+  // prerequisite, and since Force rating is what a power is rolled with, a
+  // character who is not Force sensitive cannot use one at all.
+  function forcePowerList() { return (SW.forcePowers || []); }
+  function getForcePower(key) { return forcePowerList().find(p => p.key === key) || null; }
+  function fpRec(state, key) {
+    const bag = (state && state.forcePowers) || {};
+    const r = bag[key];
+    return r && typeof r === 'object' ? r : null;
+  }
+  function fpBaseOwned(state, key) { const r = fpRec(state, key); return !!(r && r.base); }
+  function fpUpgradeOwned(state, key, i) {
+    const r = fpRec(state, key);
+    return !!(r && Array.isArray(r.upgrades) && r.upgrades[i]);
+  }
+  // Links index 0 as the basic power and 1..n as the upgrade cells.
+  function fpAdjacency(power) {
+    const adj = {};
+    for (const [a, b] of (power.links || [])) {
+      (adj[a] = adj[a] || []).push(b);
+      (adj[b] = adj[b] || []).push(a);
+    }
+    return adj;
+  }
+  function fpNodeOwned(state, key, node) {
+    return node === 0 ? fpBaseOwned(state, key) : fpUpgradeOwned(state, key, node - 1);
+  }
+  function fpCanBuyBase(state, key, rating) {
+    const p = getForcePower(key);
+    if (!p || fpBaseOwned(state, key)) return false;
+    return (rating || 0) >= (p.prereqRating || 1);
+  }
+  function fpCanBuyUpgrade(state, key, i) {
+    const p = getForcePower(key);
+    if (!p || !fpBaseOwned(state, key) || fpUpgradeOwned(state, key, i)) return false;
+    return (fpAdjacency(p)[i + 1] || []).some(n => fpNodeOwned(state, key, n));
+  }
+  // A refund may not cut an owned upgrade off from the basic power.
+  function fpRefundSafe(state, key, i) {
+    const p = getForcePower(key);
+    if (!p) return false;
+    const owned = n => (n === (i + 1) ? false : fpNodeOwned(state, key, n));
+    const adj = fpAdjacency(p);
+    const seen = new Set([0]), queue = [0];
+    while (queue.length) {
+      const n = queue.shift();
+      for (const m of (adj[n] || [])) {
+        if (!seen.has(m) && owned(m)) { seen.add(m); queue.push(m); }
+      }
+    }
+    for (let n = 1; n <= p.cells.length; n++) if (owned(n) && !seen.has(n)) return false;
+    return true;
+  }
+  function fpXpSpent(state) {
+    let total = 0;
+    for (const p of forcePowerList()) {
+      const r = fpRec(state, p.key);
+      if (!r || !r.base) continue;
+      total += p.baseXp || 0;
+      (p.cells || []).forEach((c, i) => { if (fpUpgradeOwned(state, p.key, i)) total += c.xp || 0; });
+    }
+    return total;
+  }
+
   // ── Signature abilities ──────────────────────────────────────────────────
   // A signature ability is attached to the bottom of one in-career
   // specialization tree, then bought: the basic form first, then upgrades that
@@ -1281,7 +1348,8 @@ const Engine = (() => {
 
     const skillXp     = skillXpSpent(state);
     const sigXp       = sigXpSpent(state);
-    const xpSpent     = totalCharXp(species, chars) + talentXp + specXp + skillXp + sigXp;
+    const forceXp     = fpXpSpent(state);
+    const xpSpent     = totalCharXp(species, chars) + talentXp + specXp + skillXp + sigXp + forceXp;
     // Play mode's "Add XP" control banks session awards here, on top of the
     // starting allotment; it is real spendable XP, not just a display figure.
     const xpRemaining = startingXp - xpSpent + (state.xpAdjustment || 0);
@@ -1600,6 +1668,7 @@ const Engine = (() => {
       talent_xp:        talentXp,
       skill_xp:         skillXp,
       signature_xp:     sigXp,
+      force_power_xp:   forceXp,
       bought_skill_ranks: boughtSkillKeys,
       spec_xp:          specXp,
       spec_keys:        ownedSpecKeys(state),
@@ -1658,6 +1727,8 @@ const Engine = (() => {
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
     treeConnected, refundIsSafe, treeRoutingKnown, specConnections, setRouting, isConnArray,
     strandedTalents, normalizeConns,
+    forcePowerList, getForcePower, fpRec, fpBaseOwned, fpUpgradeOwned, fpAdjacency,
+    fpNodeOwned, fpCanBuyBase, fpCanBuyUpgrade, fpRefundSafe, fpXpSpent,
     signatureList, getSignature, signaturesForCareer, sigState, sigAttachedSpec, sigOnSpec,
     sigRequiredTalents, sigMissingTalents, sigCanAttach, sigBaseOwned, sigUpgradeOwned,
     sigAdjacency, sigCanBuyUpgrade, sigRefundSafe, sigXpSpent,
