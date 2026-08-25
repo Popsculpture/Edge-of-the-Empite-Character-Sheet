@@ -284,6 +284,7 @@ const Wizard = (() => {
       extraSpecKeys:      [], // specializations bought beyond the free starting one, in purchase order
       dedicationChoices:  {}, // 'specKey:treeIndex' -> characteristic chosen for that Dedication box
       talentSkillChoices: {}, // 'talentName:n' -> skill key a pick-your-own career skill talent took
+      talentChoices:      {}, // 'talentName:n' -> what a talent that names a thing was pointed at
       juryRigged:         [], // [{cat, key, effect}] one owned item tuned per rank of Jury Rigged
       woundCur:           0,
       strainCur:          0,
@@ -354,6 +355,7 @@ const Wizard = (() => {
       k && k !== s.specKey && Engine.getSpec(k) && s.extraSpecKeys.indexOf(k) === i);
     migrateDedication(s);
     if (!s.talentSkillChoices || typeof s.talentSkillChoices !== 'object') s.talentSkillChoices = {};
+    if (!s.talentChoices || typeof s.talentChoices !== 'object') s.talentChoices = {};
     if (!s.skillPurchases || typeof s.skillPurchases !== 'object' || Array.isArray(s.skillPurchases)) s.skillPurchases = {};
     // Older saves stored a rank count; convert those to the prices they paid.
     Engine.migrateSkillPurchases(s);
@@ -2662,6 +2664,35 @@ const Wizard = (() => {
         </div>`;
     }
 
+    // Talents that name a skill or a characteristic when taken. The pick is
+    // permanent, so it lives with the character rather than being re-decided.
+    const choiceSlots = (d && d.talent_choice_slots) || [];
+    let choiceSection = '';
+    if (choiceSlots.length) {
+      const picks = state.talentChoices || (state.talentChoices = {});
+      const rows = choiceSlots.map(slot => {
+        const pool = Engine.talentChoicePool(slot.talent);
+        // A talent that forbids naming the same thing twice greys out what its
+        // own other slots already took.
+        const taken = new Set(slot.distinct
+          ? choiceSlots.filter(o => o.talent === slot.talent && o.id !== slot.id && o.chosen).map(o => o.chosen)
+          : []);
+        const opts = pool.map(o =>
+          `<option value="${esc(o.value)}"${picks[slot.id] === o.value ? ' selected' : ''}${taken.has(o.value) ? ' disabled' : ''}>${esc(o.label)}${taken.has(o.value) ? ' (already chosen)' : ''}</option>`).join('');
+        return `<label class="ded-choice-row">
+          <span>${esc(slot.talent)}: ${esc(slot.label)}</span>
+          <select class="tch-choice" data-tch-id="${esc(slot.id)}"><option value="">&mdash; choose &mdash;</option>${opts}</select>
+        </label>`;
+      });
+      choiceSection = `
+        <div class="ded-choices">
+          <div class="ded-choices-title">Talents that name a skill</div>
+          ${rows.join('')}
+          <p class="ded-choices-note">These talents ask you to name something when you take them, and it stands from
+          then on. The pick shows on the skill it applies to, so you can see it while you are rolling.</p>
+        </div>`;
+    }
+
     // Jury Rigged used to be picked here, which meant choosing an item from a
     // dropdown on a tab that shows no items. It lives on the gear row now,
     // beside the attachments and crafted options that also change the thing.
@@ -2751,6 +2782,7 @@ const Wizard = (() => {
       </div>
       ${dedSection}
       ${skillPickSection}
+      ${choiceSection}
       ${jurySection}`;
 
     // Dedication characteristic pickers
@@ -2766,6 +2798,16 @@ const Wizard = (() => {
 
     // Career-skill picks DO re-render: the other pickers have to grey out the
     // skill just taken so the same one cannot be spent twice.
+    // A pick can change a dice pool (Renegade Form) and greys out siblings,
+    // so this re-renders rather than only saving.
+    c.querySelectorAll('.tch-choice').forEach(sel => {
+      sel.addEventListener('change', () => {
+        state.talentChoices[sel.dataset.tchId] = sel.value;
+        saveState();
+        renderTalents();
+      });
+    });
+
     c.querySelectorAll('.tsk-choice').forEach(sel => {
       sel.addEventListener('change', () => {
         state.talentSkillChoices[sel.dataset.tskId] = sel.value;

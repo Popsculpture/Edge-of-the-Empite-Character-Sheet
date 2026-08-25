@@ -944,6 +944,76 @@ const Engine = (() => {
   }
   function talentCareerSkillKeys(state) { return talentCareerSkillTotals(state).keys; }
 
+  // ── Talents that name a thing when you take them ─────────────────────────
+  // A handful of talents ask the player to pick something permanent the moment
+  // the talent is acquired, and the pick has to live on the character or the
+  // talent means nothing later. Only choices that are made once and then stand
+  // belong here; choosing a target or choosing to suffer strain is a decision
+  // for the table, not a field on the sheet.
+  //
+  // perRank: a fresh pick for every rank, rather than one pick however many
+  // ranks are owned ("when a character FIRST acquires this talent").
+  // distinct: two slots of the same talent may not name the same thing.
+  const TALENT_CHOICES = {
+    'Smooth Talker':            { kind: 'skill', perRank: false,
+                                  pool: ['Charm', 'Coercion', 'Negotiation', 'Deception'],
+                                  label: 'applies to' },
+    'Knowledge Specialization': { kind: 'skill', perRank: false, poolType: 'Knowledge',
+                                  label: 'applies to' },
+    'Deadly Accuracy':          { kind: 'skill', perRank: true, distinct: true, poolType: 'Combat',
+                                  label: 'adds damage to' },
+    'Renegade Form':            { kind: 'characteristic', perRank: false,
+                                  label: 'uses this instead of Brawn for Lightsaber' },
+  };
+
+  // The options one of these talents may be pointed at.
+  function talentChoicePool(name) {
+    const spec = TALENT_CHOICES[name];
+    if (!spec) return [];
+    if (spec.kind === 'characteristic') {
+      return CHAR_STATS.map(st => ({ value: st, label: st.charAt(0).toUpperCase() + st.slice(1) }));
+    }
+    const named = spec.pool
+      ? spec.pool.map(n => getSkill(nameToKey(n))).filter(Boolean)
+      : (SW.skills || []).filter(sk => !spec.poolType || (sk.type || '') === spec.poolType);
+    return named.map(sk => ({ value: sk.key, label: sk.name }));
+  }
+
+  // One row per pick the character has earned but may not have made yet.
+  function talentChoiceSlots(state) {
+    if (!state) return [];
+    const counts = purchasedTalentCounts(state);
+    for (const [n, r] of Object.entries(speciesTalentGrants(getSpecies(state.speciesKey)))) {
+      counts[n] = (counts[n] || 0) + r;
+    }
+    const picks = state.talentChoices || {};
+    const out = [];
+    for (const [name, spec] of Object.entries(TALENT_CHOICES)) {
+      const rank = counts[name] || 0;
+      if (!rank) continue;
+      const n = spec.perRank ? rank : 1;
+      for (let i = 0; i < n; i++) {
+        const id = name + ':' + i;
+        out.push({ id, talent: name, kind: spec.kind, label: spec.label,
+                   distinct: !!spec.distinct, chosen: picks[id] || '' });
+      }
+    }
+    return out;
+  }
+
+  // Skills whose dice pool is rolled off a different characteristic because a
+  // talent says so. Renegade Form is the only one so far.
+  function skillCharOverrides(state) {
+    const out = {};
+    const picks = (state && state.talentChoices) || {};
+    const rf = picks['Renegade Form:0'];
+    if (rf && CHAR_STATS.includes(rf)) {
+      const k = nameToKey('Lightsaber');
+      if (k) out[k] = rf;
+    }
+    return out;
+  }
+
   // ── Skill training ───────────────────────────────────────────────────────
   // "Each skill has five ranks of training available", and "no skill can be
   // raised higher than rank 2 during character creation" (EotE Core p.100).
@@ -1330,6 +1400,14 @@ const Engine = (() => {
           ? { skills: Array.isArray(careerSpec) ? careerSpec : (careerSpec.skills || []),
               choose: Array.isArray(careerSpec) ? 0 : (careerSpec.choose || 0) }
           : null,
+        choices: TALENT_CHOICES[name]
+          ? { label: TALENT_CHOICES[name].label,
+              picked: talentChoiceSlots(state).filter(x => x.talent === name).map(x => {
+                if (!x.chosen) return '';
+                const opt = talentChoicePool(name).find(o => o.value === x.chosen);
+                return opt ? opt.label : x.chosen;
+              }) }
+          : null,
       };
     });
 
@@ -1372,6 +1450,8 @@ const Engine = (() => {
       gear_talents:          gearTalents,
       talent_skill_keys:     talentSkillKeys,
       talent_skill_slots:    talentSkillSlots,
+      talent_choice_slots:   talentChoiceSlots(state),
+      skill_char_overrides:  skillCharOverrides(state),
       characteristics:   effChars,
       talents:           talentList,
       talent_stat_bonuses: { wound: woundBonus, strain: strainBonus, soak: soakBonus,
@@ -1388,6 +1468,7 @@ const Engine = (() => {
     SKILL_MAX, SKILL_CREATION_MAX, skillCostToRaise, careerSkillSet,
     skillFreeRanks, skillBoughtRanks, skillOwnedRank, skillNextCost, skillXpSpent,
     skillPaidList, migrateSkillPurchases,
+    TALENT_CHOICES, talentChoicePool, talentChoiceSlots, skillCharOverrides,
     nameToKey, skillNameMap,
     getSpecies, getCareer, getSpec, getSkill, getTalent,
     getWeapon, getArmor, getGear, getItem,

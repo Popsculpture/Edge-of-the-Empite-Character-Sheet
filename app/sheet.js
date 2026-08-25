@@ -257,6 +257,13 @@ const Sheet = (() => {
     const setbackOut = derived.skill_setback_removed || {};
     const boostIn    = derived.skill_boost_added     || {};
     const gearRanks  = derived.gear_skill_ranks      || {};
+    const charOver   = derived.skill_char_overrides  || {};
+    // Which talents named this skill, so the row can say so while you roll.
+    const namedBy    = {};
+    for (const slot of (derived.talent_choice_slots || [])) {
+      if (slot.kind !== 'skill' || !slot.chosen) continue;
+      (namedBy[slot.chosen] = namedBy[slot.chosen] || []).push(slot.talent);
+    }
 
     const groups = {};
     for (const skill of SW.skills) {
@@ -274,7 +281,8 @@ const Sheet = (() => {
       let zi = 0;
       for (const skill of list) {
         const rank     = ranks[skill.key] || 0;
-        const charVal  = chars[skill.characteristic.toLowerCase()] || 0;
+        const useChar  = charOver[skill.key] || skill.characteristic.toLowerCase();
+        const charVal  = chars[useChar] || 0;
         const isCareer = careerKeys.includes(skill.key);
         const isBonus  = bonusKeys.includes(skill.key);
         const isTalent = talentKeys.includes(skill.key);
@@ -287,7 +295,7 @@ const Sheet = (() => {
         if (boost) seeds.push(`${boost} boost`);
         html += `
           <div class="sheet-skill-row${zebra}">
-            <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char">${skill.characteristic.slice(0,3).toUpperCase()}</span>${gearRanks[skill.key] ? `<span class="skill-from-gear" title="${gearRanks[skill.key]} rank(s) from equipped gear">+${gearRanks[skill.key]} gear</span>` : ''}</span>
+            <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char${charOver[skill.key] ? ' swapped' : ''}"${charOver[skill.key] ? ` title="Rolled off ${esc(useChar)} instead of ${esc(skill.characteristic)}"` : ''}>${(charOver[skill.key] || skill.characteristic).slice(0,3).toUpperCase()}</span>${gearRanks[skill.key] ? `<span class="skill-from-gear" title="${gearRanks[skill.key]} rank(s) from equipped gear">+${gearRanks[skill.key]} gear</span>` : ''}${namedBy[skill.key] ? `<span class="skill-named-by" title="${esc(namedBy[skill.key].join(', '))}">${esc(namedBy[skill.key][0])}</span>` : ''}</span>
             <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key], boost)}</div>
             <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-boost="${boost}" data-dice-label="${esc(skill.name)} check" data-dice-context="skill" data-dice-skill="${esc(skill.name)}" title="Send ${seeds.join(' + ')} to the dice pool">&#127922;</button>
           </div>`;
@@ -326,6 +334,13 @@ const Sheet = (() => {
     const skills = setback.skills.map(s => s === 'ALL_KNOWLEDGE' ? 'Knowledge' : s).join(', ');
     return `<span class="talent-effect setback">&minus;${setback.total} setback: ${esc(skills)}</span>`;
   }
+  // Badge naming what a talent was pointed at when it was taken.
+  function choiceBadge(ch) {
+    if (!ch) return '';
+    const picked = (ch.picked || []).filter(Boolean);
+    if (!picked.length) return '<span class="talent-effect unset">choose a skill</span>';
+    return `<span class="talent-effect career">${esc(ch.label)}: ${esc(picked.join(', '))}</span>`;
+  }
   // Badge for whole-skill boost dice, e.g. "+2 boost: Vigilance".
   function boostBadge(boost) {
     if (!boost) return '';
@@ -361,7 +376,7 @@ const Sheet = (() => {
       return `
         <div class="talent-card">
           <div class="talent-name">${esc(t.name)}</div>
-          <div class="talent-chips">${rankTag}${srcTag}${effectBadge(t.effect)}${boostBadge(t.boost)}${setbackBadge(t.setback)}${careerSkillBadge(t.careerSkills)}${typeTag}</div>
+          <div class="talent-chips">${rankTag}${srcTag}${effectBadge(t.effect)}${boostBadge(t.boost)}${setbackBadge(t.setback)}${careerSkillBadge(t.careerSkills)}${choiceBadge(t.choices)}${typeTag}</div>
           ${desc}
         </div>`;
     }).join('');
