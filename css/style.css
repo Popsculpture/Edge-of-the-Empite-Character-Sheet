@@ -1349,6 +1349,35 @@ body.swiping-tabs { overflow-x: hidden; }
 }
 .tt-force-warn strong { display: block; margin-bottom: 2px; }
 
+/* Signature ability, drawn under the tree it attaches to. */
+.sig-panel {
+  margin-top: 18px; border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px 14px;
+}
+.sig-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.sig-offer { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-top: 1px solid var(--border); }
+.sig-offer-main { flex: 1; }
+.sig-offer-name { font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sig-need { font-size: 0.72rem; color: var(--muted); margin: 2px 0 4px; }
+.sig-base {
+  border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px;
+  margin: 8px 0; cursor: pointer;
+}
+.sig-base.owned { border-color: var(--accent); background: var(--accent-bg); }
+.sig-base.open:hover { border-color: var(--text); }
+.sig-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.sig-up {
+  border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px;
+  cursor: pointer; font-size: 0.74rem;
+}
+.sig-up.owned  { border-color: var(--accent); background: var(--accent-bg); }
+.sig-up.locked { opacity: 0.4; cursor: default; }
+.sig-up.open:hover { border-color: var(--text); }
+.sig-up-name { font-weight: 700; font-size: 0.76rem; }
+.sig-up-xp { font-size: 0.66rem; color: var(--muted); }
+.sig-up-text { margin-top: 3px; line-height: 1.35; color: var(--muted); }
+@media (max-width: 720px) { .sig-grid { grid-template-columns: repeat(2, 1fr); } }
+
 /* Force Pool: available / rating, a roll button, and the committed tracker. */
 .derived-cell-val.force-pool { display: inline-flex; align-items: center; gap: 6px; justify-content: center; }
 /* .skill-roll sits at opacity 0.35 and brightens on row hover, but the Force

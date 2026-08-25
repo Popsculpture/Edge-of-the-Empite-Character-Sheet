@@ -1043,6 +1043,116 @@ const Engine = (() => {
     return out;
   }
 
+  // ── Signature abilities ──────────────────────────────────────────────────
+  // A signature ability is attached to the bottom of one in-career
+  // specialization tree, then bought: the basic form first, then upgrades that
+  // must connect to it or to an upgrade already owned. Attaching needs every
+  // bottom-row talent of the destination tree that lines up with one of the
+  // ability's active nodes (Enter the Unknown p.34).
+  function signatureList() { return (SW.signatureAbilities || []); }
+  function getSignature(key) { return signatureList().find(a => a.key === key) || null; }
+  function signaturesForCareer(careerKey) {
+    return signatureList().filter(a => a.careerKey === careerKey);
+  }
+  // What the character has going on, keyed by ability.
+  function sigState(state, key) {
+    const bag = (state && state.signatureAbilities) || {};
+    const rec = bag[key];
+    return rec && typeof rec === 'object' ? rec : null;
+  }
+  function sigAttachedSpec(state, key) {
+    const rec = sigState(state, key);
+    return rec && rec.specKey ? rec.specKey : '';
+  }
+  // Which ability, if any, is already attached to this tree. A tree takes one.
+  function sigOnSpec(state, specKey) {
+    for (const a of signatureList()) {
+      if (sigAttachedSpec(state, a.key) === specKey) return a.key;
+    }
+    return '';
+  }
+  // The bottom-row talents a tree must already own for this ability to attach.
+  function sigRequiredTalents(sig, spec) {
+    const out = [];
+    if (!sig || !spec) return out;
+    const names = treeTalentNames(spec);
+    sig.nodes.forEach((on, c) => { if (on) out.push({ index: 16 + c, name: names[16 + c] || '' }); });
+    return out;
+  }
+  function sigMissingTalents(state, sigKey, specKey) {
+    const sig = getSignature(sigKey), spec = getSpec(specKey);
+    const bought = ((state.talentPurchases || {})[specKey]) || [];
+    return sigRequiredTalents(sig, spec).filter(r => !bought[r.index]);
+  }
+  // In-career only, one ability per tree, and the nodes must line up.
+  function sigCanAttach(state, sigKey, specKey) {
+    const sig = getSignature(sigKey);
+    if (!sig || sig.careerKey !== state.careerKey) return false;
+    if (!ownedSpecKeys(state).includes(specKey)) return false;
+    if (specStatus(state, specKey) !== 'career') return false;
+    if (sigOnSpec(state, specKey)) return false;
+    if (sigAttachedSpec(state, sigKey)) return false;
+    return sigMissingTalents(state, sigKey, specKey).length === 0;
+  }
+  function sigBaseOwned(state, key) {
+    const rec = sigState(state, key);
+    return !!(rec && rec.base);
+  }
+  function sigUpgradeOwned(state, key, i) {
+    const rec = sigState(state, key);
+    return !!(rec && Array.isArray(rec.upgrades) && rec.upgrades[i]);
+  }
+  // Upgrade boxes 0 to 3 are the first row, 4 to 7 the second.
+  function sigAdjacency(sig) {
+    const adj = {}; for (let i = 0; i < 8; i++) adj[i] = [];
+    const L = sig.links || {};
+    for (let c = 0; c < 3; c++) {
+      if ((L.row1h || [])[c]) { adj[c].push(c + 1); adj[c + 1].push(c); }
+      if ((L.row2h || [])[c]) { adj[4 + c].push(5 + c); adj[5 + c].push(4 + c); }
+    }
+    for (let c = 0; c < 4; c++) {
+      if ((L.row1to2 || [])[c]) { adj[c].push(4 + c); adj[4 + c].push(c); }
+    }
+    return adj;
+  }
+  function sigCanBuyUpgrade(state, key, i) {
+    const sig = getSignature(key);
+    if (!sig || !sigBaseOwned(state, key) || sigUpgradeOwned(state, key, i)) return false;
+    if (i < 4 && (sig.links.baseDown || [])[i]) return true;
+    const adj = sigAdjacency(sig);
+    return adj[i].some(n => sigUpgradeOwned(state, key, n));
+  }
+  // Refunding may not orphan an upgrade that is still owned.
+  function sigRefundSafe(state, key, i) {
+    const sig = getSignature(key);
+    if (!sig) return false;
+    const rec = sigState(state, key);
+    if (!rec) return false;
+    const owned = (Array.isArray(rec.upgrades) ? rec.upgrades.slice() : new Array(8).fill(false));
+    owned[i] = false;
+    const adj = sigAdjacency(sig);
+    const seen = new Set(), queue = [];
+    for (let n = 0; n < 4; n++) {
+      if (owned[n] && (sig.links.baseDown || [])[n]) { seen.add(n); queue.push(n); }
+    }
+    while (queue.length) {
+      const n = queue.shift();
+      for (const m of adj[n]) if (owned[m] && !seen.has(m)) { seen.add(m); queue.push(m); }
+    }
+    for (let n = 0; n < 8; n++) if (owned[n] && !seen.has(n)) return false;
+    return true;
+  }
+  function sigXpSpent(state) {
+    let total = 0;
+    for (const a of signatureList()) {
+      const rec = sigState(state, a.key);
+      if (!rec || !rec.specKey) continue;
+      if (rec.base) total += a.baseXp || 0;
+      (a.upgrades || []).forEach((u, i) => { if (sigUpgradeOwned(state, a.key, i)) total += u.xp || 0; });
+    }
+    return total;
+  }
+
   // ── Skill training ───────────────────────────────────────────────────────
   // "Each skill has five ranks of training available", and "no skill can be
   // raised higher than rank 2 during character creation" (EotE Core p.100).
@@ -1170,7 +1280,8 @@ const Engine = (() => {
     const specXp   = specXpSpent(state);
 
     const skillXp     = skillXpSpent(state);
-    const xpSpent     = totalCharXp(species, chars) + talentXp + specXp + skillXp;
+    const sigXp       = sigXpSpent(state);
+    const xpSpent     = totalCharXp(species, chars) + talentXp + specXp + skillXp + sigXp;
     // Play mode's "Add XP" control banks session awards here, on top of the
     // starting allotment; it is real spendable XP, not just a display figure.
     const xpRemaining = startingXp - xpSpent + (state.xpAdjustment || 0);
@@ -1488,6 +1599,7 @@ const Engine = (() => {
       xp_remaining:     xpRemaining,
       talent_xp:        talentXp,
       skill_xp:         skillXp,
+      signature_xp:     sigXp,
       bought_skill_ranks: boughtSkillKeys,
       spec_xp:          specXp,
       spec_keys:        ownedSpecKeys(state),
@@ -1546,6 +1658,9 @@ const Engine = (() => {
     treeTalentNames, isRankedTalent, talentAutoOwned, talentXpSpent, dedicationNodes,
     treeConnected, refundIsSafe, treeRoutingKnown, specConnections, setRouting, isConnArray,
     strandedTalents, normalizeConns,
+    signatureList, getSignature, signaturesForCareer, sigState, sigAttachedSpec, sigOnSpec,
+    sigRequiredTalents, sigMissingTalents, sigCanAttach, sigBaseOwned, sigUpgradeOwned,
+    sigAdjacency, sigCanBuyUpgrade, sigRefundSafe, sigXpSpent,
     setCustomItems, setJuryRig, juryEntries, JURY_EFFECTS, baseItem,
     attachmentList, getAttachment, attachmentsFor,
     hardPointsUsed, hardPointsFree, modCost, rebuildInstance,

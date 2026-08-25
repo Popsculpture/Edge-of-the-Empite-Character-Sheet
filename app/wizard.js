@@ -285,6 +285,7 @@ const Wizard = (() => {
       dedicationChoices:  {}, // 'specKey:treeIndex' -> characteristic chosen for that Dedication box
       talentSkillChoices: {}, // 'talentName:n' -> skill key a pick-your-own career skill talent took
       talentChoices:      {}, // 'talentName:n' -> what a talent that names a thing was pointed at
+      signatureAbilities: {}, // sig key -> { specKey, base, upgrades[8] }
       juryRigged:         [], // [{cat, key, effect}] one owned item tuned per rank of Jury Rigged
       woundCur:           0,
       forceCommitted:     0, // Force dice tied up in ongoing effects
@@ -357,6 +358,17 @@ const Wizard = (() => {
     migrateDedication(s);
     if (!s.talentSkillChoices || typeof s.talentSkillChoices !== 'object') s.talentSkillChoices = {};
     if (!s.talentChoices || typeof s.talentChoices !== 'object') s.talentChoices = {};
+    if (!s.signatureAbilities || typeof s.signatureAbilities !== 'object'
+        || Array.isArray(s.signatureAbilities)) s.signatureAbilities = {};
+    // An ability whose tree is gone is no longer attached to anything.
+    for (const k of Object.keys(s.signatureAbilities)) {
+      const rec = s.signatureAbilities[k];
+      if (!rec || !Engine.getSignature(k) || !Engine.ownedSpecKeys(s).includes(rec.specKey)) {
+        delete s.signatureAbilities[k]; continue;
+      }
+      if (!Array.isArray(rec.upgrades) || rec.upgrades.length !== 8) rec.upgrades = new Array(8).fill(false);
+      rec.base = !!rec.base;
+    }
     if (!s.skillPurchases || typeof s.skillPurchases !== 'object' || Array.isArray(s.skillPurchases)) s.skillPurchases = {};
     // Older saves stored a rank count; convert those to the prices they paid.
     Engine.migrateSkillPurchases(s);
@@ -2272,6 +2284,51 @@ const Wizard = (() => {
 
   function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 
+  // ── Signature abilities ──────────────────────────────────────────────────
+  // Attaching is permanent: "the attached ability cannot be removed or switched
+  // to a different tree" (Enter the Unknown p.34), so it asks first.
+  function attachSignature(sigKey, specKey) {
+    if (!Engine.sigCanAttach(state, sigKey, specKey)) return;
+    const sig = Engine.getSignature(sigKey), sp = Engine.getSpec(specKey);
+    askConfirm('Attach ' + sig.name + ' to ' + (sp ? sp.name : specKey) + '?'
+      + String.fromCharCode(10) + String.fromCharCode(10)
+      + 'This is permanent. The ability cannot be moved to another tree later, and no other '
+      + 'signature ability can be attached to this one.', () => {
+      state.signatureAbilities[sigKey] = { specKey, base: false, upgrades: new Array(8).fill(false) };
+      saveState(); renderTalents(); renderHeaderXp();
+    });
+  }
+  function buySignatureBase(sigKey) {
+    const sig = Engine.getSignature(sigKey), rec = Engine.sigState(state, sigKey);
+    if (!sig || !rec || rec.base) return;
+    if ((sig.baseXp || 0) > Engine.derive(state).xp_remaining) return;
+    rec.base = true;
+    if (getPlayMode() === 'play') postLedger('xp', 'Signature ability: ' + sig.name, -(sig.baseXp || 0));
+    saveState(); renderTalents(); renderHeaderXp();
+  }
+  function sellSignatureBase(sigKey) {
+    const rec = Engine.sigState(state, sigKey);
+    if (!rec || !rec.base) return;
+    if ((rec.upgrades || []).some(Boolean)) return;   // upgrades hang off the basic form
+    rec.base = false;
+    saveState(); renderTalents(); renderHeaderXp();
+  }
+  function toggleSignatureUpgrade(sigKey, i) {
+    const sig = Engine.getSignature(sigKey), rec = Engine.sigState(state, sigKey);
+    if (!sig || !rec) return;
+    if (Engine.sigUpgradeOwned(state, sigKey, i)) {
+      if (!Engine.sigRefundSafe(state, sigKey, i)) return;
+      rec.upgrades[i] = false;
+    } else {
+      if (!Engine.sigCanBuyUpgrade(state, sigKey, i)) return;
+      const cost = (sig.upgrades[i] || {}).xp || 0;
+      if (cost > Engine.derive(state).xp_remaining) return;
+      rec.upgrades[i] = true;
+      if (getPlayMode() === 'play') postLedger('xp', sig.name + ': ' + sig.upgrades[i].name, -cost);
+    }
+    saveState(); renderTalents(); renderHeaderXp();
+  }
+
   // ── Step: Talents ─────────────────────────────────────────────────────────
   // UI-only state: which owned tree is on screen, and whether the buy-a-
   // specialization picker has replaced it.
@@ -2628,6 +2685,76 @@ const Wizard = (() => {
       }
     }
 
+    // Signature ability for this tree. It hangs off the bottom of the tree it is
+    // attached to, which is where the book draws it.
+    let sigSection = '';
+    (() => {
+      const attached = Engine.sigOnSpec(state, specKey);
+      const forCareer = Engine.signaturesForCareer(state.careerKey);
+      const isCareerSpec = Engine.specStatus(state, specKey) === 'career';
+      if (!forCareer.length) return;
+      if (!attached && !isCareerSpec) return;   // only in-career trees can take one
+
+      if (!attached) {
+        const rows = forCareer.map(sig => {
+          const taken = Engine.sigAttachedSpec(state, sig.key);
+          const missing = Engine.sigMissingTalents(state, sig.key, specKey);
+          const ok = Engine.sigCanAttach(state, sig.key, specKey);
+          const need = Engine.sigRequiredTalents(sig, spec)
+            .map(rq => esc(rq.name || '?')).join(', ');
+          return `<div class="sig-offer">
+            <div class="sig-offer-main">
+              <div class="sig-offer-name">${esc(sig.name)} <span class="pf-tag">${sig.baseXp} XP</span>
+                <span class="pf-tag">${esc(sig.source)}</span></div>
+              <div class="sig-need">Attaches through: ${need || 'no nodes'}</div>
+              <div class="att-base">${esc(sig.baseText)}</div>
+            </div>
+            <div class="spick-buy">
+              ${taken ? `<em>on ${esc((Engine.getSpec(taken) || {}).name || taken)}</em>`
+                : ok ? `<button class="btn btn-primary btn-sm" data-sig-attach="${esc(sig.key)}">Attach</button>`
+                : `<em>needs ${missing.map(m => esc(m.name || '?')).join(', ')}</em>`}
+            </div>
+          </div>`;
+        }).join('');
+        sigSection = `<div class="sig-panel">
+          <div class="sig-head"><strong>Signature ability</strong>
+            <span class="pf-tag">${esc((Engine.getCareer(state.careerKey) || {}).name || '')}</span></div>
+          <p class="ded-choices-note">Attach one to the bottom of this tree once you own the bottom-row
+          talents its nodes line up with. A tree takes only one, and the choice is permanent.</p>
+          ${rows}
+        </div>`;
+        return;
+      }
+
+      const sig = Engine.getSignature(attached);
+      const baseOwned = Engine.sigBaseOwned(state, attached);
+      const cells = sig.upgrades.map((u, i) => {
+        const owned = Engine.sigUpgradeOwned(state, attached, i);
+        const can = Engine.sigCanBuyUpgrade(state, attached, i);
+        const cls = owned ? 'sig-up owned' : can ? 'sig-up open' : 'sig-up locked';
+        return `<div class="${cls}" data-sig-up="${i}" data-sig-key="${esc(attached)}"
+          style="grid-row:${u.row + 1};grid-column:${u.col + 1}">
+          <div class="sig-up-name">${esc(u.name)}</div>
+          <div class="sig-up-xp">${u.xp} XP</div>
+          <div class="sig-up-text">${esc(u.text)}</div>
+        </div>`;
+      }).join('');
+      sigSection = `<div class="sig-panel">
+        <div class="sig-head"><strong>${esc(sig.name)}</strong>
+          <span class="pf-tag">signature ability</span>
+          <span class="pf-tag">${esc(sig.source)}</span></div>
+        <div class="sig-base ${baseOwned ? 'owned' : 'open'}" data-sig-base="${esc(attached)}">
+          <div class="sig-up-name">Basic form <span class="sig-up-xp">${sig.baseXp} XP</span>
+            ${baseOwned ? '<span class="tt-check">&#10003;</span>' : ''}</div>
+          <div class="sig-up-text">${esc(sig.baseText)}</div>
+        </div>
+        <div class="sig-grid">${cells}</div>
+        <p class="ded-choices-note">${baseOwned
+          ? 'An upgrade can be bought once it connects to the basic form or to one you already own.'
+          : 'Buy the basic form first; the upgrades hang off it.'}</p>
+      </div>`;
+    })();
+
     // Dedication grants +1 to a characteristic of the player's choice per rank.
     // Every owned tree can carry one, so the pickers cover all of them at once,
     // keyed to the box that earned each rank.
@@ -2822,6 +2949,7 @@ const Wizard = (() => {
       <div class="talent-tree-wrap">
         <div class="tt-grid${editing ? ' tt-grid-editing' : ''}" id="talent-tree-grid">${cells}</div>
       </div>
+      ${sigSection}
       ${dedSection}
       ${skillPickSection}
       ${choiceSection}
@@ -2872,6 +3000,16 @@ const Wizard = (() => {
 
     // Routing editor controls. Bound on the freshly-rendered buttons, not on a
     // container that outlives the render, so handlers cannot stack up.
+    c.querySelectorAll('[data-sig-attach]').forEach(b =>
+      b.addEventListener('click', () => attachSignature(b.dataset.sigAttach, specKey)));
+    const sigBase = c.querySelector('[data-sig-base]');
+    if (sigBase) sigBase.addEventListener('click', () => {
+      const k = sigBase.dataset.sigBase;
+      if (Engine.sigBaseOwned(state, k)) sellSignatureBase(k); else buySignatureBase(k);
+    });
+    c.querySelectorAll('[data-sig-up]').forEach(el =>
+      el.addEventListener('click', () => toggleSignatureUpgrade(el.dataset.sigKey, +el.dataset.sigUp)));
+
     c.querySelectorAll('[data-tt-edit]').forEach(btn => btn.addEventListener('click', () => {
       const act = btn.dataset.ttEdit;
       const out = () => $('#tt-routing-out');
