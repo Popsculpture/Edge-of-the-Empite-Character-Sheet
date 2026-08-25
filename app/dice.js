@@ -187,13 +187,13 @@ const Dice = (() => {
     if (lbl) lbl.textContent = labelText;
   }
 
-  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill, boost) {
+  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill, boost, force) {
     labelText = label || '';
     // Remember what kind of check this is so the results can offer the right
     // spend options. A hand-built pool (no seeding button) stays generic.
     ctxCraft = '';
     if (context && context.slice(0, 6) === 'craft:') { ctxType = 'craft'; ctxCraft = context.slice(6); }
-    else ctxType = context === 'combat' || context === 'skill' ? context : 'generic';
+    else ctxType = context === 'combat' || context === 'skill' || context === 'force' ? context : 'generic';
     ctxSkill = skill || '';
     // Start a clean check: this skill/weapon's Ability + Proficiency, no leftover
     // context dice from a previous roll. The player then adds difficulty/boost/etc.
@@ -201,8 +201,12 @@ const Dice = (() => {
     // optional boost seeds the dice an always-on talent grants this skill.
     pool.ability = Math.max(0, ability | 0);
     pool.proficiency = Math.max(0, prof | 0);
-    pool.setback = pool.challenge = pool.force = 0;
+    pool.setback = pool.challenge = 0;
     pool.boost = Math.max(0, boost | 0);
+    // A Force power check is "a dice pool that consists solely of a number of
+    // Force dice equal to his Force rating" (EotE Core p.286), so this seeds
+    // rather than always clearing.
+    pool.force = Math.max(0, force | 0);
     pool.difficulty = Math.max(0, difficulty | 0);
     renderPool();
     const r = document.getElementById('dc-results');
@@ -293,8 +297,29 @@ const Dice = (() => {
   // colored by what seeded the pool (combat, a specific skill, or generic).
   // The player narrates Advantage and Triumph; the GM narrates Threat and
   // Despair, so those sections are framed as what the GM may do.
+  // A Force check generates resources rather than successes: every light side
+  // result is one Force point, and dark side results generate none and are
+  // disregarded unless the user deliberately takes them. In Edge of the Empire
+  // that costs a Destiny Point flipped from light to dark plus strain equal to
+  // the number used (EotE Core p.286); Force and Destiny characters take
+  // Conflict for it instead.
+  function forceTipsHtml(t) {
+    const lt = t.lt || 0, dk = t.dk || 0;
+    const rows = [];
+    rows.push(`<li><strong>${lt}</strong> Force point${lt === 1 ? '' : 's'} to spend on the power.</li>`);
+    if (dk) {
+      rows.push(`<li><strong>${dk}</strong> dark side, generating nothing on ${dk === 1 ? 'its' : 'their'} own.`
+        + ` To use ${dk === 1 ? 'it' : 'them'}: flip a Destiny Point from light to dark and suffer ${dk} strain.`
+        + ` A Force and Destiny character takes Conflict instead.</li>`);
+    }
+    if (!lt && !dk) rows.push('<li>Nothing generated.</li>');
+    rows.push('<li>An ongoing effect commits dice rather than spending points, and a committed die is unavailable until you end it.</li>');
+    return `<div class="dc-tips"><div class="dc-tip-sec"><div class="dc-tip-h">Force</div><ul class="dc-tip-list">${rows.join('')}</ul></div></div>`;
+  }
+
   function tipsHtml(t, netA) {
     if (ctxType === 'craft') return craftTipsHtml(t, netA);
+    if (ctxType === 'force') return forceTipsHtml(t);
     const lib = ctxType === 'combat' ? SPEND.combat : SPEND.generic;
     const skill = ctxType === 'skill' ? SPEND.skills[ctxSkill] : null;
     const netH = -netA;
@@ -378,10 +403,11 @@ const Dice = (() => {
   // Click delegation for the console + any [data-dice-ability] roll buttons on the sheet.
   function wire() {
     document.addEventListener('click', e => {
-      const roller = e.target.closest('[data-dice-ability]');
+      const roller = e.target.closest('[data-dice-ability],[data-dice-force]');
       if (roller) {
         setPoolFromUpgrade(roller.dataset.diceLabel || '', +roller.dataset.diceAbility || 0, +roller.dataset.diceProf || 0, +roller.dataset.diceDifficulty || 0,
-                           roller.dataset.diceContext || '', roller.dataset.diceSkill || '', +roller.dataset.diceBoost || 0);
+                           roller.dataset.diceContext || '', roller.dataset.diceSkill || '', +roller.dataset.diceBoost || 0,
+                           +roller.dataset.diceForce || 0);
         return;
       }
       const t = e.target.closest('[data-dc],[data-dc-die],[data-dc-diff]');

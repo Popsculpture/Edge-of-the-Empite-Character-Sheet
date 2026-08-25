@@ -104,6 +104,35 @@ const Engine = (() => {
   };
   function talentEffect(name) { return TALENT_EFFECTS[name] || null; }
 
+  // Force talents "can only be used by individuals who have a Force rating of 1
+  // or higher" (EotE Core p.286). The data carries no flag for them; the only
+  // marker is the description opening with "Force talent.", which 142 of the
+  // 709 talents do. Three of those mention the phrase a second time in an
+  // errata note, but all three already carry the leading prefix, so testing the
+  // prefix and testing for the substring agree.
+  function isForceTalent(name) {
+    const t = name && getTalent(name);
+    return !!t && /^\s*Force talent\./.test(t.description || '');
+  }
+
+  // Every Force talent the character has actually bought, with the tree and box
+  // it sits in. Used to warn when a build loses the Force rating that made them
+  // legal; it never changes anything.
+  function forceTalentsOwned(state) {
+    const out = [];
+    if (!state) return out;
+    const bought = state.talentPurchases || {};
+    for (const specKey of ownedSpecKeys(state)) {
+      const flags = bought[specKey];
+      if (!flags) continue;
+      const names = treeTalentNames(getSpec(specKey));
+      for (let i = 0; i < 20; i++) {
+        if (flags[i] && isForceTalent(names[i])) out.push({ specKey, index: i, name: names[i] });
+      }
+    }
+    return out;
+  }
+
   // Talents that remove setback dice from EVERY check of a named skill, per rank
   // (verified whole-skill removers; conditional-subset removers are excluded so
   // they do not paint a blanket glyph). 'ALL_KNOWLEDGE' = every Knowledge skill.
@@ -1291,7 +1320,27 @@ const Engine = (() => {
     for (const [n, r] of Object.entries(treeCounts))  talentCounts[n] = (talentCounts[n] || 0) + r;
     for (const [n, r] of Object.entries(grantCounts)) talentCounts[n] = (talentCounts[n] || 0) + r;
     for (const [n, r] of Object.entries(gearTalents))  talentCounts[n] = (talentCounts[n] || 0) + r;
-    const rk = name => talentCounts[name] || 0;
+
+    // Becoming Force sensitive never comes from a Force talent, so this is
+    // settled before any talent effect is read and there is no circularity:
+    // a specialization or career grants the rating outright, and Witchcraft
+    // (which is not itself a Force talent) grants it as a floor, matching its
+    // own text and EotE Core p.284: "If he already has a Force rating of 1 or
+    // higher, there is no effect."
+    const forceSpecBase = (ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k))
+      || careerGrantsForceRating(state.careerKey)) ? 1 : 0;
+    const forceBase = Math.max(forceSpecBase, (talentCounts['Witchcraft'] || 0) > 0 ? 1 : 0);
+    const forceSensitive = forceBase >= 1;
+
+    // Force talents "can only be USED by individuals who have a Force rating of
+    // 1 or higher" (EotE Core p.286). Owning one is legal; using it is not. So
+    // they are bought like any other talent and simply contribute nothing while
+    // the character has no rating, rather than being blocked at the till. The
+    // raw counts survive for display so the sheet can still list them.
+    const inertTalents = forceSensitive ? [] : Object.keys(talentCounts).filter(isForceTalent);
+    const effCounts = Object.assign({}, talentCounts);
+    for (const n of inertTalents) delete effCounts[n];
+    const rk = name => effCounts[name] || 0;
 
     // Dedication: +1 to a chosen characteristic per rank (capped at 6). Applied
     // to an effective copy so it flows into thresholds, soak, and skill dice.
@@ -1338,10 +1387,14 @@ const Engine = (() => {
     // character purchases this specialization, he automatically receives a
     // Force rating of 1, if he did not already have it. If he already has a
     // Force rating of 1 or higher, it does not increase" (EotE Core p.284), so
-    // a second Force-sensitive specialization adds nothing.
-    const forceSpecBase = (ownedSpecKeys(state).some(k => FORCE_RATING_SPECS.has(k))
-      || careerGrantsForceRating(state.careerKey)) ? 1 : 0;
-    const forceRating = forceSpecBase + rk('Force Rating') + rk('Witchcraft');
+    // a second source adds nothing; the Force Rating talent then builds on it,
+    // and reads 0 here when the character is not Force sensitive because rk
+    // sees the suppressed counts.
+    const forceRating = forceBase + rk('Force Rating');
+    // Dice committed to an ongoing effect "may not be used in any future
+    // checks" while it is maintained, so the usable pool shrinks by that many
+    // (EotE Core p.287). Clamped here so a stale save cannot go negative.
+    const forceCommitted = Math.max(0, Math.min(forceRating, (state.forceCommitted | 0)));
 
     // Per-skill setback dice removed by always-on whole-skill talents. Resolved
     // to skill keys so the sheet can draw a "removed setback" glyph on each row.
@@ -1382,6 +1435,7 @@ const Engine = (() => {
       const fromTree    = !!treeCounts[name];
       const fromSpecies = !!grantCounts[name];
       const fromGear    = !!gearTalents[name];
+      const inert       = inertTalents.indexOf(name) >= 0;
       const setbackSkills = SETBACK_SKILL_TALENTS[name] || null;
       const boostSkills   = BOOST_SKILL_TALENTS[name]   || null;
       const careerSpec    = CAREER_SKILL_TALENTS[name]  || null;
@@ -1393,6 +1447,7 @@ const Engine = (() => {
         source:      fromGear && !fromTree && !fromSpecies ? 'gear'
                    : fromTree && fromSpecies ? 'both' : fromSpecies ? 'species' : 'tree',
         fromGear:    fromGear,
+        inert:       inert,   // a Force talent owned without a Force rating
         effect: eff ? { stat: eff.stat, delta: eff.delta, total: eff.delta * rank, needsChoice: !!eff.needsChoice } : null,
         setback: setbackSkills ? { skills: setbackSkills, perRank: 1, total: rank } : null,
         boost:   boostSkills   ? { skills: boostSkills,   perRank: 1, total: rank } : null,
@@ -1418,6 +1473,10 @@ const Engine = (() => {
       defense_ranged:   armorDefense + armorDefRanged + defRBonus + wpnDefRanged + juryDef.ranged,
       defense_melee:    armorDefense + armorDefMelee  + defMBonus + wpnDefMelee  + juryDef.melee,
       force_rating:     forceRating,
+      force_committed:  forceCommitted,
+      force_sensitive:  forceSensitive,
+      inert_talents:    inertTalents,
+      force_available:  Math.max(0, forceRating - forceCommitted),
       armor_soak:       armorSoak,
       cyber_soak:       cyberSoak,
       armor_defense:    armorDefense,
@@ -1455,7 +1514,11 @@ const Engine = (() => {
       characteristics:   effChars,
       talents:           talentList,
       talent_stat_bonuses: { wound: woundBonus, strain: strainBonus, soak: soakBonus,
-                             defenseRanged: defRBonus, defenseMelee: defMBonus, forceRating: forceRating },
+                             defenseRanged: defRBonus, defenseMelee: defMBonus,
+                             // Every sibling here is a talent-derived delta, so this must be
+                             // too: a rating that came off a specialization header is not a
+                             // talent bonus and must not be annotated as one.
+                             forceRating: forceRating - forceSpecBase },
       characteristic_bonuses: charBonuses,
       characteristic_bonus_src: charBonusSrc,
       dedication_total:  dedTotal,
@@ -1475,7 +1538,7 @@ const Engine = (() => {
     getVehicle, getVehicleWeapon, getVehicleWeaponMap,
     COMPANION_TYPES, isCompanionItem,
     mergedLine, mergedEquipment, mergedFleet,
-    talentEffect, purchasedTalentCounts,
+    talentEffect, purchasedTalentCounts, isForceTalent, forceTalentsOwned,
     careerSkillPickCount, careerSkillPickPool,
     creditBonusFor, activeMechanic,
     specBonusSkillKeys,

@@ -137,7 +137,24 @@ const Sheet = (() => {
       cell('Strain', tracker((state && state.strainCur) || 0, d.strain_threshold, '#e0a93a', 'strainCur', tb.strain), note(tb.strain)),
       cell('Defense', bigVal(enh(`${d.defense_melee} / ${d.defense_ranged}`, defBonus)), sub('melee / ranged') + (defParts.length ? sub(defParts.join(' + ')) : '')),
     ];
-    if (d.force_rating > 0) cells.push(cell('Force Pool', bigVal(enh(d.force_rating, tb.forceRating)), note(tb.forceRating)));
+    // Force Pool shows what is actually rollable: the rating less anything
+    // committed to an ongoing effect (EotE Core p.287). The tracker commits and
+    // releases dice; the die button rolls exactly the available ones.
+    if (d.force_rating > 0) {
+      const avail = d.force_available != null ? d.force_available : d.force_rating;
+      const committed = d.force_committed || 0;
+      cells.push(cell('Force Pool',
+        `<div class="derived-cell-val force-pool">${avail}<span class="track-max"> / ${enh(d.force_rating, tb.forceRating)}</span>
+           <button class="skill-roll force-roll" data-dice-force="${avail}" data-dice-label="Force power check"
+             data-dice-context="force" title="Send ${avail} Force ${avail === 1 ? 'die' : 'dice'} to the dice pool"${avail ? '' : ' disabled'}>&#127922;</button>
+         </div>
+         <div class="force-committed">
+           <button class="track-btn" data-track="forceCommitted" data-d="-1" aria-label="uncommit a Force die">&minus;</button>
+           <span>${committed} committed</span>
+           <button class="track-btn" data-track="forceCommitted" data-d="1" aria-label="commit a Force die">+</button>
+         </div>`,
+        note(tb.forceRating)));
+    }
 
     // Column count is exposed as --cells so the phone breakpoint can reflow the
     // strip (the base grid lives in .derived-strip in the stylesheet).

@@ -287,6 +287,7 @@ const Wizard = (() => {
       talentChoices:      {}, // 'talentName:n' -> what a talent that names a thing was pointed at
       juryRigged:         [], // [{cat, key, effect}] one owned item tuned per rank of Jury Rigged
       woundCur:           0,
+      forceCommitted:     0, // Force dice tied up in ongoing effects
       strainCur:          0,
       beginnings:         '',
       forceAttitude:      '',
@@ -2539,6 +2540,14 @@ const Wizard = (() => {
       return [[r-1,col],[r+1,col],[r,col-1],[r,col+1]].some(
         ([nr,nc]) => nr>=0&&nr<5&&nc>=0&&nc<4 && ownedAt(nr*4+nc) && linked(r,col,nr,nc));
     }
+    // A Force talent "can only be USED by individuals who have a Force rating of
+    // 1 or higher" (EotE Core p.286). Owning one is legal, so nothing is blocked
+    // at the till; the engine simply gives it no effect until the character is
+    // Force sensitive. Blocking the purchase instead would also wall off the
+    // ordinary talents sitting behind it in the tree, which no rule supports.
+    function forceInert(r, col) {
+      return Engine.isForceTalent(names[r*4+col]) && (!d || !d.force_sensitive);
+    }
     function canBuy(r, col) {
       if (ownedAt(r*4+col) || !names[r*4+col]) return false;
       if (!routed) return true;   // routing unknown, so the printed tree is the referee
@@ -2571,13 +2580,19 @@ const Wizard = (() => {
           const buyable = canBuy(r,col);
           const tal    = name ? Engine.getTalent(name) : null;
           const isActive = tal && tal.activation && !tal.activation.toLowerCase().includes('passive');
+          const fInert = forceInert(r, col);
           let cls = 'tt-node';
           if (bought)       cls += ' tt-purchased';
           else if (auto)    cls += ' tt-purchased tt-auto';
           else if (buyable) cls += ' tt-buyable';
           else              cls += ' tt-locked';
+          // Owned but doing nothing, or buyable but would do nothing yet.
+          const fOrphan = fInert && (bought || auto);
+          if (fInert && !fOrphan) cls += ' tt-force-locked';
+          if (fOrphan)            cls += ' tt-force-orphan';
           if (isActive)     cls += ' tt-active';
           cells += `<div class="${cls}" data-r="${r}" data-c="${col}"
+            ${fInert ? `title="Force talent. ${fOrphan ? 'Does nothing' : 'Will do nothing'} until you have a Force rating of 1 or higher."` : ''}
             data-tip-type="talent" data-tip-name="${name.replace(/"/g,'&quot;')}"
             style="grid-row:${gRow};grid-column:${gCol}">
             <div class="tt-name">${name}</div>
@@ -2740,6 +2755,33 @@ const Wizard = (() => {
           title="Draw which boxes this tree links together">${editing ? 'Stop editing' : 'Edit routing'}</button>
         ${!editing && edited ? '<span class="pf-tag tt-edited-tag">Routing edited</span>' : ''}
       </div>
+      ${(() => {
+        // Nothing is refunded when a build loses the rating that made its Force
+        // talents legal, because re-taking a Force specialization makes them
+        // legal again. Say so instead of quietly unwinding the purchase.
+        if (!d || d.force_sensitive) return '';
+        // The tree also warns before anything is bought, so a player is told
+        // BEFORE spending on a tree full of Force talents, not only after.
+        const owned = Engine.forceTalentsOwned(state);
+        const inThisTree = names.filter(n => n && Engine.isForceTalent(n)).length;
+        if (!owned.length && !inThisTree) return '';
+        // Ranks, not boxes: a talent taken twice is one talent at rank 2.
+        const byName = {};
+        for (const o of owned) (byName[o.name] = byName[o.name] || []).push(o.specKey);
+        const listed = Object.keys(byName).sort().map(n => {
+          const specs = byName[n];
+          const rank = specs.length > 1 ? ` <em>x${specs.length}</em>` : '';
+          const where = specs.some(k => k !== specKey)
+            ? ` <em>(${esc([...new Set(specs)].map(k => (Engine.getSpec(k) || {}).name || k).join(', '))})</em>` : '';
+          return esc(n) + rank + where;
+        });
+        return `<div class="tt-force-warn">
+          <strong>You have no Force rating.</strong>
+          ${inThisTree ? `This tree holds ${inThisTree} Force talent${inThisTree === 1 ? '' : 's'}; you can buy ${inThisTree === 1 ? 'it' : 'them'}, but ${inThisTree === 1 ? 'it does' : 'they do'} nothing until you are Force sensitive. ` : ''}
+          ${listed.length ? `You already own: ${listed.join(', ')}. Nothing has been refunded. ` : ''}
+          Take a Force sensitive specialization and they start working.
+        </div>`;
+      })()}
       ${routed || editing ? '' : `<div class="tt-unrouted">
         <strong>Connector routing missing for this tree.</strong>
         The printed layout of which boxes link to which never made it into the data set for
@@ -5134,10 +5176,17 @@ const Wizard = (() => {
       if (rm) { removeContact(rm.closest('[data-contact-id]').dataset.contactId); return; }
       const t = e.target.closest('[data-track]');
       if (!t) return;
-      const key = t.dataset.track;            // 'woundCur' | 'strainCur'
+      const key = t.dataset.track;
       const d = Engine.derive(state);
-      const max = key === 'woundCur' ? (d ? d.wound_threshold : 0) : (d ? d.strain_threshold : 0);
-      state[key] = Math.max(0, Math.min(max, (state[key] || 0) + (+t.dataset.d)));
+      // Each tracker has its own ceiling. A lookup rather than a ternary, so a
+      // new tracker cannot silently inherit the wrong one.
+      const CEIL = { woundCur: 'wound_threshold', strainCur: 'strain_threshold', forceCommitted: 'force_rating' };
+      const max = (d && CEIL[key]) ? (d[CEIL[key]] || 0) : 0;
+      // Seed from the clamped value, not the raw one: a rating that has since
+      // dropped would otherwise leave the minus button dead for several clicks
+      // while it worked an invisible surplus back down.
+      const cur = Math.max(0, Math.min(max, state[key] || 0));
+      state[key] = Math.max(0, Math.min(max, cur + (+t.dataset.d)));
       saveState();
       renderSheet();
     });

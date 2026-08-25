@@ -47,7 +47,7 @@ const PdfExport = (() => {
       'Text2.1.0.1':   d.strain_threshold, 'Text2.1.1.1': state.strainCur || 0,  // Strain thr / cur
       'Text2.1.0.2':   d.defense_melee,    'Text2.1.1.2': d.defense_ranged,      // Defense M / R
       'Text2.1.0.3':   d.encumbrance_threshold, 'Text2.1.1.3': d.encumbrance,    // Encumbrance thr / cur
-      'Text2.1.0.4':   0,                  'Text2.1.1.4': d.force_rating || 0,   // Force committed / available
+      'Text2.1.0.4':   d.force_committed || 0, 'Text2.1.1.4': d.force_available != null ? d.force_available : (d.force_rating || 0),   // Force committed / available
       'Morality': (state.game === 'fad' && state.morality && state.morality.score != null) ? state.morality.score : '',
       'Character Notes': notes,
     };
