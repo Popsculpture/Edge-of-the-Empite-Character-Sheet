@@ -915,6 +915,122 @@ const Engine = (() => {
   }
 
   // Get spec bonus skill keys (converting display names to keys)
+
+  // Career skills granted by talents, including the ones the player picks.
+  // Shared by derive and by skill pricing so the two never disagree.
+  function talentCareerSkillTotals(state) {
+    const counts = purchasedTalentCounts(state);
+    for (const [n, r] of Object.entries(speciesTalentGrants(getSpecies(state.speciesKey)))) {
+      counts[n] = (counts[n] || 0) + r;
+    }
+    const keys = [], slots = [];
+    const picks = state.talentSkillChoices || {};
+    for (const [tname, spec] of Object.entries(CAREER_SKILL_TALENTS)) {
+      const rank = counts[tname] || 0;
+      if (!rank) continue;
+      for (const sn of (Array.isArray(spec) ? spec : [])) {
+        const k = nameToKey(sn);
+        if (k && !keys.includes(k)) keys.push(k);
+      }
+      const n = careerSkillPickCount(tname, rank);
+      for (let i = 0; i < n; i++) {
+        const id = tname + ':' + i;
+        const k = picks[id];
+        slots.push({ id, talent: tname, chosen: k || '' });
+        if (k && !keys.includes(k)) keys.push(k);
+      }
+    }
+    return { keys, slots };
+  }
+  function talentCareerSkillKeys(state) { return talentCareerSkillTotals(state).keys; }
+
+  // ── Skill training ───────────────────────────────────────────────────────
+  // "Each skill has five ranks of training available", and "no skill can be
+  // raised higher than rank 2 during character creation" (EotE Core p.100).
+  const SKILL_MAX = 5;
+  const SKILL_CREATION_MAX = 2;
+
+  // "Training a career skill to the next highest rank costs five times the rank
+  // it is being raised to", and "each rank of a non-career skill costs 5
+  // additional experience points" (EotE Core p.100 and p.101).
+  function skillCostToRaise(newRank, isCareer) {
+    return 5 * newRank + (isCareer ? 0 : 5);
+  }
+
+  // Every skill that counts as a career skill for this character: the career's
+  // own eight, every owned specialization's bonus skills, and any a talent
+  // grants. Career status is read as it stands now, so a specialization or
+  // talent taken later makes the ranks already bought cheaper, the same way
+  // specialization prices already re-reckon.
+  function careerSkillSet(state) {
+    const out = new Set();
+    if (!state) return out;
+    const career = getCareer(state.careerKey);
+    for (const k of (career ? (career.career_skill_keys || []) : [])) out.add(k);
+    for (const key of ownedSpecKeys(state)) {
+      for (const sk of specBonusSkillKeys(getSpec(key))) out.add(sk);
+    }
+    for (const k of talentCareerSkillKeys(state)) out.add(k);
+    return out;
+  }
+
+  // Ranks a skill has before any XP is spent on it: one per free pick, and two
+  // if the same skill was picked from both lists.
+  function skillFreeRanks(state, key) {
+    if (!state) return 0;
+    return ((state.freeCareerSkillPicks || []).includes(key) ? 1 : 0)
+         + ((state.specBonusSkillPicks  || []).includes(key) ? 1 : 0);
+  }
+  // What was paid for each bought rank, oldest first. The price of a rank is
+  // fixed when it is bought: the book never refunds XP because a skill became a
+  // career skill later, nor charges more because it stopped being one.
+  function skillPaidList(state, key) {
+    const v = (state && state.skillPurchases || {})[key];
+    return Array.isArray(v) ? v.filter(n => Number.isInteger(n) && n >= 0) : [];
+  }
+  function skillBoughtRanks(state, key) { return skillPaidList(state, key).length; }
+  // The rank a skill sits at from picks plus purchases. Ranks an item lends
+  // while equipped are deliberately outside this: they are not owned, so they
+  // neither cost XP nor make the next rank dearer.
+  function skillOwnedRank(state, key) {
+    return Math.min(SKILL_MAX, skillFreeRanks(state, key) + skillBoughtRanks(state, key));
+  }
+  // What the next rank of this skill would cost, or null at the ceiling. Pass a
+  // prebuilt career set when pricing a whole table, so it is not rebuilt per row.
+  function skillNextCost(state, key, creating, careerSet) {
+    const cap = creating ? SKILL_CREATION_MAX : SKILL_MAX;
+    const at  = skillOwnedRank(state, key);
+    if (at >= cap) return null;
+    const set = careerSet || careerSkillSet(state);
+    return skillCostToRaise(at + 1, set.has(key));
+  }
+  // Total XP tied up in trained skills: simply what was paid, summed.
+  function skillXpSpent(state) {
+    let total = 0;
+    for (const key of Object.keys((state && state.skillPurchases) || {})) {
+      for (const n of skillPaidList(state, key)) total += n;
+    }
+    return total;
+  }
+
+  // Turn an older save's plain rank count into the per-rank prices it would have
+  // paid, so a character built before prices were recorded still adds up.
+  function migrateSkillPurchases(state) {
+    const bag = (state && state.skillPurchases) || {};
+    const career = careerSkillSet(state);
+    for (const key of Object.keys(bag)) {
+      const v = bag[key];
+      if (Array.isArray(v)) continue;
+      const n = Number.isInteger(v) && v > 0 ? v : 0;
+      if (!n) { delete bag[key]; continue; }
+      const free = skillFreeRanks(state, key);
+      const paid = [];
+      for (let i = 0; i < n; i++) paid.push(skillCostToRaise(free + i + 1, career.has(key)));
+      bag[key] = paid;
+    }
+    return bag;
+  }
+
   function specBonusSkillKeys(spec) {
     if (!spec) return [];
     return (spec.bonus_career_skills || [])
@@ -954,7 +1070,8 @@ const Engine = (() => {
     const talentXp = talentXpSpent(state);
     const specXp   = specXpSpent(state);
 
-    const xpSpent     = totalCharXp(species, chars) + talentXp + specXp;
+    const skillXp     = skillXpSpent(state);
+    const xpSpent     = totalCharXp(species, chars) + talentXp + specXp + skillXp;
     // Play mode's "Add XP" control banks session awards here, on top of the
     // starting allotment; it is real spendable XP, not just a display figure.
     const xpRemaining = startingXp - xpSpent + (state.xpAdjustment || 0);
@@ -1077,6 +1194,15 @@ const Engine = (() => {
     for (const key of bonusPickKeys) {
       skillRanks[key] = Math.min(2, (skillRanks[key] || 0) + 1);
     }
+    // Ranks bought with XP sit on top of the free picks and are the character's
+    // own, so they set the price of the next rank.
+    const boughtSkillKeys = {};
+    for (const key of Object.keys(state.skillPurchases || {})) {
+      const n = skillBoughtRanks(state, key);
+      if (!n) continue;
+      skillRanks[key] = Math.min(SKILL_MAX, (skillRanks[key] || 0) + n);
+      boughtSkillKeys[key] = n;
+    }
     // Ranks from equipped gear stack on top of the picks rather than competing
     // with the rank-2 ceiling those picks share.
     const gearSkillKeys = {};
@@ -1174,25 +1300,9 @@ const Engine = (() => {
     // Skills a talent turns into career skills. Talents that let the player
     // pick read their choice off the character; anything unchosen is simply
     // absent until it is picked.
-    const talentSkillKeys = [];
-    const talentSkillPicks = state.talentSkillChoices || {};
-    const talentSkillSlots = [];
-    for (const [tname, spec] of Object.entries(CAREER_SKILL_TALENTS)) {
-      const rank = rk(tname);
-      if (!rank) continue;
-      const named = Array.isArray(spec) ? spec : [];
-      for (const sn of named) {
-        const k = nameToKey(sn);
-        if (k && !talentSkillKeys.includes(k)) talentSkillKeys.push(k);
-      }
-      const picks = careerSkillPickCount(tname, rank);
-      for (let i = 0; i < picks; i++) {
-        const id = tname + ':' + i;
-        const k = talentSkillPicks[id];
-        talentSkillSlots.push({ id, talent: tname, chosen: k || '' });
-        if (k && !talentSkillKeys.includes(k)) talentSkillKeys.push(k);
-      }
-    }
+    const _tcs = talentCareerSkillTotals(state);
+    const talentSkillKeys  = _tcs.keys;
+    const talentSkillSlots = _tcs.slots;
 
     // Talent list for the sheet (name, rank, source, activation, effect, setback).
     const talentList = Object.keys(talentCounts).sort().map(name => {
@@ -1240,6 +1350,8 @@ const Engine = (() => {
       xp_spent:         xpSpent,
       xp_remaining:     xpRemaining,
       talent_xp:        talentXp,
+      skill_xp:         skillXp,
+      bought_skill_ranks: boughtSkillKeys,
       spec_xp:          specXp,
       spec_keys:        ownedSpecKeys(state),
       dedication_ids:   dedIds,
@@ -1273,6 +1385,9 @@ const Engine = (() => {
   return {
     CHAR_STATS, CHAR_ABBR,
     xpToRaise, totalCharXp,
+    SKILL_MAX, SKILL_CREATION_MAX, skillCostToRaise, careerSkillSet,
+    skillFreeRanks, skillBoughtRanks, skillOwnedRank, skillNextCost, skillXpSpent,
+    skillPaidList, migrateSkillPurchases,
     nameToKey, skillNameMap,
     getSpecies, getCareer, getSpec, getSkill, getTalent,
     getWeapon, getArmor, getGear, getItem,

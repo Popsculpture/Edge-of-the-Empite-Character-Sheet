@@ -1293,6 +1293,36 @@ body.swiping-tabs { overflow-x: hidden; }
 .att-jury    { border-left: 3px solid var(--accent, #f5c518); }
 .att-crafted { border-left: 3px solid #7fd3f7; }
 .att-jury .att-mods, .att-crafted .att-mods { margin-top: 6px; }
+
+/* Skill training table */
+.sk-train { margin-top: 18px; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+.sk-train-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.sk-train-note { margin: 0 0 10px; font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+.sk-train-rows { display: flex; flex-direction: column; }
+.sk-train-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto 5.5em auto;
+  align-items: center; gap: 10px;
+  padding: 4px 6px; border-radius: 4px;
+}
+.sk-train-row:nth-child(odd) { background: rgba(127, 127, 127, 0.05); }
+.sk-train-row.career .sk-train-name { color: var(--accent); font-weight: 600; }
+.sk-train-char { font-size: 0.6rem; letter-spacing: 0.06em; color: var(--muted); }
+.sk-train-pips { display: inline-flex; gap: 3px; }
+.sk-pip { width: 9px; height: 9px; border: 1px solid var(--border); border-radius: 2px; }
+.sk-pip-free   { background: var(--muted); border-color: var(--muted); }
+.sk-pip-bought { background: var(--accent, #f5c518); border-color: var(--accent, #f5c518); }
+.sk-train-cost { font-size: 0.72rem; color: var(--muted); text-align: right; }
+.sk-train-acts { display: inline-flex; gap: 4px; }
+.sk-train-sep {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--muted); margin: 6px 0 10px; padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 640px) {
+  .sk-train-row { grid-template-columns: 1fr auto auto; }
+  .sk-train-cost { grid-column: 2 / 3; }
+}
 .skill-from-gear {
   margin-left: 6px; font-size: 0.58rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.04em;

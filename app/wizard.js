@@ -70,7 +70,7 @@ const Wizard = (() => {
   // instead of a linear build wizard. A global preference like Display/Theme,
   // not tied to any one character, so switching characters keeps it.
   const PLAY_KEY = 'sw_playmode';
-  const PLAY_TAB_IDS = ['sheet', 'talents', 'play-gear', 'play-fleet', 'companions', 'market', 'crafting', 'reference'];
+  const PLAY_TAB_IDS = ['sheet', 'talents', 'skills', 'play-gear', 'play-fleet', 'companions', 'market', 'crafting', 'reference'];
   function getPlayMode() { return localStorage.getItem(PLAY_KEY) || 'creation'; }
   function setPlayMode(mode) {
     localStorage.setItem(PLAY_KEY, mode);
@@ -272,6 +272,7 @@ const Wizard = (() => {
       characteristics: null,
       freeCareerSkillPicks: [],
       specBonusSkillPicks: [],
+      skillPurchases:     {}, // skill key -> ranks bought with XP
       name: '',
       player: '',
       background: '',
@@ -353,6 +354,18 @@ const Wizard = (() => {
       k && k !== s.specKey && Engine.getSpec(k) && s.extraSpecKeys.indexOf(k) === i);
     migrateDedication(s);
     if (!s.talentSkillChoices || typeof s.talentSkillChoices !== 'object') s.talentSkillChoices = {};
+    if (!s.skillPurchases || typeof s.skillPurchases !== 'object' || Array.isArray(s.skillPurchases)) s.skillPurchases = {};
+    // Older saves stored a rank count; convert those to the prices they paid.
+    Engine.migrateSkillPurchases(s);
+    // A rank bought past a ceiling would be charged for and never shown, and a
+    // purchase against a skill that does not exist could never be seen or sold.
+    for (const k of Object.keys(s.skillPurchases)) {
+      if (!Engine.getSkill(k)) { delete s.skillPurchases[k]; continue; }
+      const room = Engine.SKILL_MAX - Engine.skillFreeRanks(s, k);
+      const paid = Engine.skillPaidList(s, k);
+      if (room <= 0 || !paid.length) { delete s.skillPurchases[k]; continue; }
+      if (paid.length > room) s.skillPurchases[k] = paid.slice(0, room);
+    }
     // Talent purchases for a tree the character does not own (a specialization
     // browsed and then swapped during creation) are already ignored by the
     // engine; drop them so they can never resurface as spend if that
@@ -1027,7 +1040,7 @@ const Wizard = (() => {
 
   function renderHeaderXp() {
     const bar = $('#header-xp');
-    const XP_STEPS = new Set(['oms', 'chars', 'talents']);
+    const XP_STEPS = new Set(['oms', 'chars', 'talents', 'skills']);
     if (!state.speciesKey || !XP_STEPS.has(STEPS[state.step].id)) { bar.classList.add('hidden'); return; }
     const d = Engine.derive(state);
     if (!d) return;
@@ -1601,13 +1614,129 @@ const Wizard = (() => {
     refresh();
   }
 
+  // Buy or refund one rank of a skill. Characteristics are creation-only by the
+  // rules, but skills are the main thing XP goes on at the table, so this works
+  // in both modes; only the ceiling differs (EotE Core p.100).
+  function buySkillRank(key) {
+    const cost = Engine.skillNextCost(state, key, getPlayMode() !== 'play');
+    if (cost === null) return;
+    if (cost > Engine.derive(state).xp_remaining) return;
+    const paid = Engine.skillPaidList(state, key).slice();
+    paid.push(cost);                       // the price is fixed now, not re-reckoned later
+    state.skillPurchases[key] = paid;
+    saveState(); renderSkills(); renderHeaderXp(); renderNav();
+  }
+  function refundSkillRank(key) {
+    const paid = Engine.skillPaidList(state, key).slice();
+    if (!paid.length) return;
+    paid.pop();                            // give back exactly what that rank cost
+    if (paid.length) state.skillPurchases[key] = paid;
+    else delete state.skillPurchases[key];
+    saveState(); renderSkills(); renderHeaderXp(); renderNav();
+  }
+
+  // Free picks arrive after purchases sometimes, and a pick raises the rank
+  // without spending anything, which can push a skill past the ceiling it is
+  // allowed at this point in the character's life. Hand back the surplus ranks
+  // at the price they were bought for rather than leaving an illegal rank.
+  function trimSkillPurchases() {
+    const cap = getPlayMode() === 'play' ? Engine.SKILL_MAX : Engine.SKILL_CREATION_MAX;
+    const trimmed = [];
+    for (const key of Object.keys(state.skillPurchases || {})) {
+      const free = Engine.skillFreeRanks(state, key);
+      const paid = Engine.skillPaidList(state, key);
+      const room = Math.max(0, cap - free);
+      if (paid.length <= room) continue;
+      const back = paid.slice(room).reduce((a, b) => a + b, 0);
+      const sk = Engine.getSkill(key);
+      trimmed.push(`${sk ? sk.name : key}: ${paid.length - room} rank(s), ${back} XP back`);
+      if (room) state.skillPurchases[key] = paid.slice(0, room);
+      else delete state.skillPurchases[key];
+    }
+    if (trimmed.length) {
+      askNotice(['A free rank took this skill to the cap, so ranks you had bought were refunded:', '']
+        .concat(trimmed).join(String.fromCharCode(10)));
+    }
+    return trimmed.length;
+  }
+
   // ── Step: Skills ──────────────────────────────────────────────────────────
+  // The training table, shared by both modes. Every skill, its current rank,
+  // what the next one costs, and whether it can be afforded.
+  function skillTrainingHtml(creating) {
+    const d = Engine.derive(state);
+    const careerSet = Engine.careerSkillSet(state);
+    const cap = creating ? Engine.SKILL_CREATION_MAX : Engine.SKILL_MAX;
+    const groups = {};
+    for (const sk of SW.skills) (groups[sk.type || 'General'] = groups[sk.type || 'General'] || []).push(sk);
+    const order = ['General', 'Combat', 'Knowledge'];
+    let rows = '';
+    for (const g of order) {
+      for (const sk of (groups[g] || [])) {
+        const free   = Engine.skillFreeRanks(state, sk.key);
+        const bought = Engine.skillBoughtRanks(state, sk.key);
+        const at     = free + bought;
+        const isCar  = careerSet.has(sk.key);
+        const cost   = Engine.skillNextCost(state, sk.key, creating, careerSet);
+        const afford = cost !== null && cost <= d.xp_remaining;
+        const pips = Array.from({ length: Engine.SKILL_MAX }, (_, i) =>
+          `<span class="sk-pip${i < free ? ' sk-pip-free' : i < at ? ' sk-pip-bought' : ''}"></span>`).join('');
+        rows += `<div class="sk-train-row${isCar ? ' career' : ''}">
+          <span class="sk-train-name" data-tip-type="skill" data-tip-name="${esc(sk.name)}">${esc(sk.name)}</span>
+          <span class="sk-train-char">${esc(sk.characteristic.slice(0,3).toUpperCase())}</span>
+          <span class="sk-train-pips" title="${free} free, ${bought} bought">${pips}</span>
+          <span class="sk-train-cost">${cost === null ? (at >= cap ? (creating && at >= Engine.SKILL_CREATION_MAX ? 'creation cap' : 'max') : '') : cost + ' XP'}</span>
+          <span class="sk-train-acts">
+            <button class="btn btn-secondary btn-sm" data-sk-act="down" data-sk="${esc(sk.key)}" ${bought ? '' : 'disabled'}>&minus;</button>
+            <button class="btn btn-primary btn-sm" data-sk-act="up" data-sk="${esc(sk.key)}" ${afford ? '' : 'disabled'}>+</button>
+          </span>
+        </div>`;
+      }
+      if ((groups[g] || []).length) rows += `<div class="sk-train-sep">${g} skills above</div>`;
+    }
+    return `
+      <div class="sk-train">
+        <div class="sk-train-head">
+          <strong>Train a skill</strong>
+          <span class="pf-tag">${d.skill_xp} XP in skills</span>
+          <span class="pf-tag">${d.xp_remaining} XP left</span>
+        </div>
+        <p class="sk-train-note">A career skill costs five times the rank you are raising it to; anything else costs
+        five more on top. ${creating
+          ? 'No skill goes past rank 2 during creation.'
+          : 'Skills top out at rank 5.'} Career skills are highlighted.</p>
+        <div class="sk-train-rows">${rows}</div>
+      </div>`;
+  }
+
+  function bindSkillTraining(root) {
+    root.querySelectorAll('[data-sk-act]').forEach(b => b.addEventListener('click', () => {
+      if (b.dataset.skAct === 'up') buySkillRank(b.dataset.sk);
+      else refundSkillRank(b.dataset.sk);
+    }));
+  }
+
   function renderSkills() {
     const c      = $('#step-content');
     const career = Engine.getCareer(state.careerKey);
     const spec   = Engine.getSpec(state.specKey);
     if (!career || !spec) {
       c.innerHTML = '<div class="empty-state">Please complete earlier steps first.</div>'; return;
+    }
+    // Play mode has no free picks left to make; it is purely about spending the
+    // XP earned at the table.
+    if (getPlayMode() === 'play') {
+      c.innerHTML = `
+        <div class="step-header"><h2>Skills</h2>
+          <p>Spend the XP you earn at the table to train skills. Ranks bought here are permanent, and
+          refunds stay open so long as you have not spent past them.</p></div>
+        ${skillTrainingHtml(false)}`;
+      // Bind on the freshly-built table, never on #step-content: that element
+      // outlives every render, so listeners would stack up one per visit.
+      const host = c.querySelector('.sk-train');
+      bindSkillTraining(host);
+      initTipListeners(host);
+      return;
     }
 
     const careerKeys   = career.career_skill_keys || [];
@@ -1633,7 +1762,8 @@ const Wizard = (() => {
           : `<p style="margin-top:14px;font-size:0.78rem;color:var(--muted)">
             This specialization grants no bonus career skills; it provides a Force rating and Force powers instead.</p>`}
         </div>
-      </div>`;
+      </div>
+      <div id="sk-train-host"></div>`;
 
     function rankOf(key) {
       const cP = state.freeCareerSkillPicks || [];
@@ -1668,7 +1798,8 @@ const Wizard = (() => {
           if (idx !== -1) cPicks.splice(idx, 1);
           else if (cPicks.length < 4) cPicks.push(key);
           state.freeCareerSkillPicks = cPicks;
-          saveState(); refresh(); renderNav(); hideTooltip();
+          trimSkillPurchases();
+          saveState(); refresh(); renderNav(); renderHeaderXp(); hideTooltip();
         });
         pickList.appendChild(row);
       }
@@ -1695,9 +1826,21 @@ const Wizard = (() => {
           if (idx !== -1) bPicks.splice(idx, 1);
           else if (bPicks.length < bonusNeeded) bPicks.push(key);
           state.specBonusSkillPicks = bPicks;
-          saveState(); refresh(); renderNav(); hideTooltip();
+          trimSkillPurchases();
+          saveState(); refresh(); renderNav(); renderHeaderXp(); hideTooltip();
         });
         bonusList.appendChild(row);
+      }
+
+      // Free picks set the rank a purchase starts from, so the training table
+      // is rebuilt alongside them rather than once at the top.
+      const host = $('#sk-train-host');
+      if (host) {
+        host.innerHTML = skillTrainingHtml(true);
+        // Same reason: #sk-train-host survives refresh(), the table inside does not.
+        const table = host.querySelector('.sk-train');
+        bindSkillTraining(table);
+        initTipListeners(table);
       }
     }
 
