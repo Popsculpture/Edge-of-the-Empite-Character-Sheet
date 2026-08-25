@@ -30,6 +30,10 @@ const Reference = (() => {
     BOOST: ['b', '#90D5FF'], ABILITY: ['d', '#0BDA51'], PROFICIENCY: ['c', '#FBEC5D'],
     SETBACK: ['b', '#353839'], DIFFICULTY: ['d', '#51158C'], CHALLENGE: ['c', '#FA5053'],
     FORCE: ['c', '#FAFAFA'], LIGHT: ['z', '#FAFAFA'], DARK: ['z', '#3a3a3a'],
+    // A Force point is the pip you spend, as opposed to FORCE, the die you
+    // commit. The books draw it as the white pip, the same as a light side
+    // result, so the two deliberately render alike.
+    FORCEPOINT: ['z', '#FAFAFA'],
   };
   function fmt(html) {
     return String(html).replace(/@([A-Z]+)@/g, (m, k) =>

@@ -16,7 +16,7 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, the character may choose a known minion NPC on the same planet to be her mark, spend 2 Destiny Points and make a Hard (ddd ) Streetwise check. If she succeeds, the character tracks down the chosen mark, a new encounter begins as the character reaches the mark's location. The exact nature of the encounter, as well as the circumstances under which it takes place, must by approved by the GM (see Narrative Abilities, ND:40).",
+    "baseText": "Once per game session, the character may choose a known minion NPC on the same planet to be her mark, spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Streetwise check. If she succeeds, the character tracks down the chosen mark, a new encounter begins as the character reaches the mark's location. The exact nature of the encounter, as well as the circumstances under which it takes place, must by approved by the GM (see Narrative Abilities, ND:40).",
     "upgrades": [
       {
         "row": 0,
@@ -51,7 +51,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Always Get My Mark to Average (dd )"
+        "text": "Reduce the difficulty of the skill check to activate Always Get My Mark to Average ([DIFFICULTY][DIFFICULTY])"
       },
       {
         "row": 1,
@@ -141,7 +141,7 @@ window.SW.signatureAbilities = [
         "col": 3,
         "name": "Remove Setback",
         "xp": 10,
-        "text": "When making a combat check as part of Unmatched Devastation, remove b equal to ranks in Remove Setback upgrade."
+        "text": "When making a combat check as part of Unmatched Devastation, remove [SETBACK] equal to ranks in Remove Setback upgrade."
       },
       {
         "row": 1,
@@ -155,7 +155,7 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Remove Setback",
         "xp": 15,
-        "text": "When making a combat check as part of Unmatched Devastation, remove b equal to ranks in Remove Setback upgrade."
+        "text": "When making a combat check as part of Unmatched Devastation, remove [SETBACK] equal to ranks in Remove Setback upgrade."
       },
       {
         "row": 1,
@@ -217,21 +217,21 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Increase Effect",
         "xp": 10,
-        "text": "The character's assistance instead adds sa."
+        "text": "The character's assistance instead adds [SUCCESS][ADVANTAGE]."
       },
       {
         "row": 0,
         "col": 1,
         "name": "Increase Effect",
         "xp": 10,
-        "text": "The character's assistance instead adds s."
+        "text": "The character's assistance instead adds [SUCCESS]."
       },
       {
         "row": 0,
         "col": 2,
         "name": "Remove Setback",
         "xp": 10,
-        "text": "The character's assistance also removes b."
+        "text": "The character's assistance also removes [SETBACK]."
       },
       {
         "row": 0,
@@ -245,7 +245,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Increase Effect",
         "xp": 15,
-        "text": "The character's assistance instead adds x."
+        "text": "The character's assistance instead adds [TRIUMPH]."
       },
       {
         "row": 1,
@@ -307,14 +307,14 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, the character may perform an Insightful Revelation action and spend 2 Destiny points to make a Hard (ddd ) Knowledge (Education) check. If he succeeds, he learns some valuable information that he did not previously possess pertaining to his current situation. What he learns is up to the GM, but it must be valuable to the player overcoming his immediate encounter or situation, and the information cannot be obtainable by any other immediately available means.",
+    "baseText": "Once per game session, the character may perform an Insightful Revelation action and spend 2 Destiny points to make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Knowledge (Education) check. If he succeeds, he learns some valuable information that he did not previously possess pertaining to his current situation. What he learns is up to the GM, but it must be valuable to the player overcoming his immediate encounter or situation, and the information cannot be obtainable by any other immediately available means.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Insightful Revelation."
+        "text": "Remove [SETBACK] from skill check to activate Insightful Revelation."
       },
       {
         "row": 0,
@@ -328,7 +328,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Reduce Difficulty",
         "xp": 10,
-        "text": "Reduce the difficulty of the skill check to activate Insightful Revelation to Average (dd )."
+        "text": "Reduce the difficulty of the skill check to activate Insightful Revelation to Average ([DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 0,
@@ -342,21 +342,21 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Add Boost",
         "xp": 15,
-        "text": "Add b to skill check to activate Insightful Revelation."
+        "text": "Add [BOOST] to skill check to activate Insightful Revelation."
       },
       {
         "row": 1,
         "col": 1,
         "name": "Reduce Setback",
         "xp": 15,
-        "text": "Remove b from skill check to activate Insightful Revelation."
+        "text": "Remove [SETBACK] from skill check to activate Insightful Revelation."
       },
       {
         "row": 1,
         "col": 2,
         "name": "Increase Effect",
         "xp": 15,
-        "text": "If the check is successful, the character may spend x to gain one additional piece of equally useful information."
+        "text": "If the check is successful, the character may spend [TRIUMPH] to gain one additional piece of equally useful information."
       },
       {
         "row": 1,
@@ -411,7 +411,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Unmatched Expertise."
+        "text": "Remove [SETBACK] from skill check to activate Unmatched Expertise."
       },
       {
         "row": 0,
@@ -432,14 +432,14 @@ window.SW.signatureAbilities = [
         "col": 3,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Unmatched Expertise."
+        "text": "Remove [SETBACK] from skill check to activate Unmatched Expertise."
       },
       {
         "row": 1,
         "col": 0,
         "name": "Reduce Setback",
         "xp": 15,
-        "text": "Remove b from skill check to activate Unmatched Expertise."
+        "text": "Remove [SETBACK] from skill check to activate Unmatched Expertise."
       },
       {
         "row": 1,
@@ -501,7 +501,7 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, the character may perform a Rousing Oratory action, spend 2 Destiny Points and make a Hard (ddd ) Leadership check to inspire a group to take action in a military situation about which members were previously hesitant.",
+    "baseText": "Once per game session, the character may perform a Rousing Oratory action, spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Leadership check to inspire a group to take action in a military situation about which members were previously hesitant.",
     "upgrades": [
       {
         "row": 0,
@@ -515,7 +515,7 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Rousing Oratory."
+        "text": "Remove [SETBACK] from skill check to activate Rousing Oratory."
       },
       {
         "row": 0,
@@ -536,14 +536,14 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Boost Allies",
         "xp": 15,
-        "text": "After triggering Rousing Oratory, add b per Boost Allies upgrade to all Discipline and Cool checks that other friendly characters and NPC's make until the end of the encounter."
+        "text": "After triggering Rousing Oratory, add [BOOST] per Boost Allies upgrade to all Discipline and Cool checks that other friendly characters and NPC's make until the end of the encounter."
       },
       {
         "row": 1,
         "col": 1,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Rousing Oratory to Average ( dd )."
+        "text": "Reduce the difficulty of the skill check to activate Rousing Oratory to Average ( [DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -647,7 +647,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Increase Effect",
         "xp": 15,
-        "text": "May remove b from an ally's skill check instead of downgrading the difficulty."
+        "text": "May remove [SETBACK] from an ally's skill check instead of downgrading the difficulty."
       },
       {
         "row": 1,
@@ -695,7 +695,7 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session the character may spend 2 Destiny Points and make a Hard (ddd ) Knowledge (Education) check, then choose one talent that the character possesses for the remainder of the current encounter, on allied character within medium range counts as having that talent. If that talent is ranked, the allied character counts as having as many ranks in the talent as the character with this signature ability does.",
+    "baseText": "Once per game session the character may spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Knowledge (Education) check, then choose one talent that the character possesses for the remainder of the current encounter, on allied character within medium range counts as having that talent. If that talent is ranked, the allied character counts as having as many ranks in the talent as the character with this signature ability does.",
     "upgrades": [
       {
         "row": 0,
@@ -709,7 +709,7 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Reduce Difficulty",
         "xp": 10,
-        "text": "Reduce the difficulty of the skill check to activate Much to Learn to Average (dd )."
+        "text": "Reduce the difficulty of the skill check to activate Much to Learn to Average ([DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 0,
@@ -792,7 +792,7 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points. For the rest of the round, whenever that character makes a Charm, Coercion, Deception, or Negotiation check,, the character downgrades the difficulty of the check the number of times needed to remove all c from the pool",
+    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points. For the rest of the round, whenever that character makes a Charm, Coercion, Deception, or Negotiation check,, the character downgrades the difficulty of the check the number of times needed to remove all [CHALLENGE] from the pool",
     "upgrades": [
       {
         "row": 0,
@@ -827,7 +827,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Remove Setback",
         "xp": 15,
-        "text": "Remove b from any checks affected by Unmatched Negotiation."
+        "text": "Remove [SETBACK] from any checks affected by Unmatched Negotiation."
       },
       {
         "row": 1,
@@ -848,7 +848,7 @@ window.SW.signatureAbilities = [
         "col": 3,
         "name": "Add Triumph",
         "xp": 15,
-        "text": "Whenever the character fails a Charm, Coercion, Deception, or Negotiation check, while this power is active, the character adds automatic x to the results."
+        "text": "Whenever the character fails a Charm, Coercion, Deception, or Negotiation check, while this power is active, the character adds automatic [TRIUMPH] to the results."
       }
     ],
     "links": {
@@ -889,7 +889,7 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, when a combat encounter against one or more sentient creatures is about to begin, the character may spend 2 Destiny Points and make a Daunting (dddd ) Charm check to turn the encounter into a social encounter instead.",
+    "baseText": "Once per game session, when a combat encounter against one or more sentient creatures is about to begin, the character may spend 2 Destiny Points and make a Daunting ([DIFFICULTY][DIFFICULTY][DIFFICULTY][DIFFICULTY]) Charm check to turn the encounter into a social encounter instead.",
     "upgrades": [
       {
         "row": 0,
@@ -903,14 +903,14 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Diplomatic Solution."
+        "text": "Remove [SETBACK] from skill check to activate Diplomatic Solution."
       },
       {
         "row": 0,
         "col": 2,
         "name": "Boost Allies",
         "xp": 10,
-        "text": "Other friendly characters gain b on social checks until the end of the encounter per Boost Allies upgrade."
+        "text": "Other friendly characters gain [BOOST] on social checks until the end of the encounter per Boost Allies upgrade."
       },
       {
         "row": 0,
@@ -931,7 +931,7 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Diplomatic Solution to Hard ( ddd )."
+        "text": "Reduce the difficulty of the skill check to activate Diplomatic Solution to Hard ( [DIFFICULTY][DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -945,7 +945,7 @@ window.SW.signatureAbilities = [
         "col": 3,
         "name": "Boost Allies",
         "xp": 15,
-        "text": "Other friendly characters gain b on social checks until the end of the encounter per Boost Allies upgrade."
+        "text": "Other friendly characters gain [BOOST] on social checks until the end of the encounter per Boost Allies upgrade."
       }
     ],
     "links": {
@@ -1083,14 +1083,14 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points and make a Hard (ddd ) Mechanics check. If successful, for the remainder of the encounter, combat checks the character makes against vehicles, structures, or droids that inflict wounds or hull trauma automatically inflict Critical Injury or Critical Hit (depending on the target). a or x can be spent to trigger the attack's critical rating additional times, adding +10 to the critical roll as usual.",
+    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Mechanics check. If successful, for the remainder of the encounter, combat checks the character makes against vehicles, structures, or droids that inflict wounds or hull trauma automatically inflict Critical Injury or Critical Hit (depending on the target). [ADVANTAGE] or [TRIUMPH] can be spent to trigger the attack's critical rating additional times, adding +10 to the critical roll as usual.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Increase Number",
         "xp": 10,
-        "text": "The effects of The Harder They Fall extend to a number of allies withing medium range equal to ranks in Increase Number."
+        "text": "The effects of The Harder They Fall extend to a number of allies within medium range equal to ranks in Increase Number."
       },
       {
         "row": 0,
@@ -1104,7 +1104,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Increase Number",
         "xp": 10,
-        "text": "The effects of The Harder They Fall extend to a number of allies withing medium range equal to ranks in Increase Number."
+        "text": "The effects of The Harder They Fall extend to a number of allies within medium range equal to ranks in Increase Number."
       },
       {
         "row": 0,
@@ -1132,7 +1132,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "The difficulty of the skill check to activate The Harder They Fall is Average (ddd ) instead of Hard (ddd )."
+        "text": "The difficulty of the skill check to activate The Harder They Fall is Average ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) instead of Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -1180,14 +1180,14 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session as an action, the character may spend 2 Destiny Points and make a Hard (ddd ) Mechanics check. If successful, he can add one item quality (except Breach or Concussive) to a weapon or item he is holding or operating. If applicable, the item quality has rating of 1. The character may spend x to add one additional quality to the same item, and a to increase and item's quality rating by 1. This alteration lasts for 2 rounds, or ten minutes of narrative time.",
+    "baseText": "Once per game session as an action, the character may spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Mechanics check. If successful, he can add one item quality (except Breach or Concussive) to a weapon or item he is holding or operating. If applicable, the item quality has rating of 1. The character may spend [TRIUMPH] to add one additional quality to the same item, and [ADVANTAGE] to increase and item's quality rating by 1. This alteration lasts for 2 rounds, or ten minutes of narrative time.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Add Boost",
         "xp": 10,
-        "text": "When making the skill check to activate Unmatched Ingenuity, the character adds b per Add Boost upgrade."
+        "text": "When making the skill check to activate Unmatched Ingenuity, the character adds [BOOST] per Add Boost upgrade."
       },
       {
         "row": 0,
@@ -1201,7 +1201,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Add Boost",
         "xp": 10,
-        "text": "When making the skill check to activate Unmatched Ingenuity, the character adds b per Add Boost upgrade."
+        "text": "When making the skill check to activate Unmatched Ingenuity, the character adds [BOOST] per Add Boost upgrade."
       },
       {
         "row": 0,
@@ -1229,7 +1229,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "The difficulty of the skill check to activate Unmatched Ingenuity is Average (dd ) instead of Hard (ddd )."
+        "text": "The difficulty of the skill check to activate Unmatched Ingenuity is Average ([DIFFICULTY][DIFFICULTY]) instead of Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -1277,28 +1277,28 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, the character may spend 2 Destiny Points to make a Hard (ddd ) Knowledge (Outer Rim) or Knowledge (Core Worlds) check. If he succeeds, the character can pinpoint his exact location without a map or other guide, discover a lost or hidden item or location, or identify a safe and fast path through any terrain. The exact nature of what the character is trying to accomplish, as well as the end results, must be approved by the",
+    "baseText": "Once per game session, the character may spend 2 Destiny Points to make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Knowledge (Outer Rim) or Knowledge (Core Worlds) check. If he succeeds, the character can pinpoint his exact location without a map or other guide, discover a lost or hidden item or location, or identify a safe and fast path through any terrain. The exact nature of what the character is trying to accomplish, as well as the end results, must be approved by the GM.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
-        "name": "Gm. Add Boost",
+        "name": "Add Boost",
         "xp": 10,
-        "text": "Add b to skill check to activate Sudden Discovery."
+        "text": "Add [BOOST] to skill check to activate Sudden Discovery."
       },
       {
         "row": 0,
         "col": 1,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Sudden Discovery."
+        "text": "Remove [SETBACK] from skill check to activate Sudden Discovery."
       },
       {
         "row": 0,
         "col": 2,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Sudden Discovery."
+        "text": "Remove [SETBACK] from skill check to activate Sudden Discovery."
       },
       {
         "row": 0,
@@ -1312,14 +1312,14 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Add Boost",
         "xp": 15,
-        "text": "Add b to skill check to activate Sudden Discovery."
+        "text": "Add [BOOST] to skill check to activate Sudden Discovery."
       },
       {
         "row": 1,
         "col": 1,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Sudden Discovery to Average (dd )."
+        "text": "Reduce the difficulty of the skill check to activate Sudden Discovery to Average ([DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -1471,21 +1471,21 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, during a combat encounter, the character may spend 2 Destiny Points and make a Hard (ddd ) Discipline check to challenge another character. If he succeeds. the two characters are locked in a duel for 3 rounds. For the duration or the duel, the two dueling characters can only make attacks targeting each other and no other characters can target the dueling characters with attacks (or otherwise intervene).",
+    "baseText": "Once per game session, during a combat encounter, the character may spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Discipline check to challenge another character. If he succeeds. the two characters are locked in a duel for 3 rounds. For the duration or the duel, the two dueling characters can only make attacks targeting each other and no other characters can target the dueling characters with attacks (or otherwise intervene).",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Reduce Difficulty",
         "xp": 10,
-        "text": "Reduce the difficulty of the skill check to activate Fated Duel to Average (dd )."
+        "text": "Reduce the difficulty of the skill check to activate Fated Duel to Average ([DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 0,
         "col": 1,
         "name": "Inspiration",
         "xp": 10,
-        "text": "Add b per ranks in Inspiration purchased to checks made by allies while Fated Duel is active."
+        "text": "Add [BOOST] per ranks in Inspiration purchased to checks made by allies while Fated Duel is active."
       },
       {
         "row": 0,
@@ -1520,7 +1520,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Inspiration",
         "xp": 15,
-        "text": "Add b per ranks in Inspiration purchased to checks made by allies while Fated Duel is active."
+        "text": "Add [BOOST] per ranks in Inspiration purchased to checks made by allies while Fated Duel is active."
       },
       {
         "row": 1,
@@ -1665,42 +1665,42 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, during a combat encounter, the character may spend 2 Destiny Points to make a Hard (ddd ) Resilience check. If he succeeds, he skips his next turn and eliminates all enemy minions in the encounter. (The minions are all eliminated immediately, so will not get to participate further in the combat, but for the sake of the narrative, the PC can spend the next round of combat incapacitating them). The narrative means by which he accomplishes this is up to the player, must be approved by the",
+    "baseText": "Once per game session, during a combat encounter, the character may spend 2 Destiny Points to make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Resilience check. If he succeeds, he skips his next turn and eliminates all enemy minions in the encounter. (The minions are all eliminated immediately, so will not get to participate further in the combat, but for the sake of the narrative, the PC can spend the next round of combat incapacitating them). The narrative means by which he accomplishes this is up to the player, must be approved by the GM.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
-        "name": "Gm. Reduce Setback",
+        "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Last One Standing."
+        "text": "Remove [SETBACK] from skill check to activate Last One Standing."
       },
       {
         "row": 0,
         "col": 1,
         "name": "Add Boost",
         "xp": 10,
-        "text": "Add b to skill check to active Last One Standing."
+        "text": "Add [BOOST] to skill check to active Last One Standing."
       },
       {
         "row": 0,
         "col": 2,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Last One Standing."
+        "text": "Remove [SETBACK] from skill check to activate Last One Standing."
       },
       {
         "row": 0,
         "col": 3,
         "name": "Add Boost",
         "xp": 10,
-        "text": "Add b to skill check to active Last One Standing."
+        "text": "Add [BOOST] to skill check to active Last One Standing."
       },
       {
         "row": 1,
         "col": 0,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Last One Standing to Average (dd )."
+        "text": "Reduce the difficulty of the skill check to activate Last One Standing to Average ([DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -1887,7 +1887,7 @@ window.SW.signatureAbilities = [
         "col": 3,
         "name": "Critical Counter",
         "xp": 10,
-        "text": "When the character spends y to inflict a hit on their attacker using Improved Parry or Improved Reflect, they also inflict a Critical Injury."
+        "text": "When the character spends [DESPAIR] to inflict a hit on their attacker using Improved Parry or Improved Reflect, they also inflict a Critical Injury."
       },
       {
         "row": 1,
@@ -1908,7 +1908,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Effortless Counter",
         "xp": 15,
-        "text": "Once per round, character may use Improved Parry or Improved Reflect to inflict a hit on their attacker without spending t or y."
+        "text": "Once per round, character may use Improved Parry or Improved Reflect to inflict a hit on their attacker without spending [THREAT] or [DESPAIR]."
       },
       {
         "row": 1,
@@ -1956,21 +1956,21 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, the character may spend 1 Destiny point and make a Hard (ddd ) Vigilance check to utter a prophecy. If they succeed, they foretell a single event, the focus of which is centered around themself. At any time before the end of the game session, they may spend 1 Destiny Point, at which point the foretold event transpires. The GM should interpret the prophecy to fit the scene, possibly revealing truths the character did not foresee in the process.",
+    "baseText": "Once per game session, the character may spend 1 Destiny point and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Vigilance check to utter a prophecy. If they succeed, they foretell a single event, the focus of which is centered around themself. At any time before the end of the game session, they may spend 1 Destiny Point, at which point the foretold event transpires. The GM should interpret the prophecy to fit the scene, possibly revealing truths the character did not foresee in the process.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from the check to activate Prophecy per Reduce Setback upgrade purchased."
+        "text": "Remove [SETBACK] from the check to activate Prophecy per Reduce Setback upgrade purchased."
       },
       {
         "row": 0,
         "col": 1,
         "name": "Flow of the Universe",
         "xp": 10,
-        "text": "Add b to the character's checks to bring the foretold event to fruition."
+        "text": "Add [BOOST] to the character's checks to bring the foretold event to fruition."
       },
       {
         "row": 0,
@@ -1984,7 +1984,7 @@ window.SW.signatureAbilities = [
         "col": 3,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from the check to activate Prophecy per Reduce Setback upgrade purchased."
+        "text": "Remove [SETBACK] from the check to activate Prophecy per Reduce Setback upgrade purchased."
       },
       {
         "row": 1,
@@ -1998,14 +1998,14 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Prophecy to Average (dd )."
+        "text": "Reduce the difficulty of the skill check to activate Prophecy to Average ([DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
         "col": 2,
         "name": "Doom",
         "xp": 15,
-        "text": "Add b to any character's checks to prevent the foretold event from occurring."
+        "text": "Add [SETBACK] to any character's checks to prevent the foretold event from occurring."
       },
       {
         "row": 1,
@@ -2102,7 +2102,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Unleashed Power",
         "xp": 15,
-        "text": "For each ZZ result, add automatic Z to the check. For each zz result add automatic z to the check."
+        "text": "For each [LIGHT][LIGHT] result, add automatic [LIGHT] to the check. For each [DARK][DARK] result add automatic [DARK] to the check."
       },
       {
         "row": 1,
@@ -2150,14 +2150,14 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per session as an action, the character may spend 2 Destiny Points and make a Hard (ddd ) Perception check. If successful, for the next 2 rounds the character may spend 1 maneuver to add 1 automatic x to his next combat check made in that turn. In addition, for the next 2 rounds when the character inflicts a Critical Injury on a rival NPC, the target is immediately incapacitated in the same way as a minion NPC (See page 400 of the Force and Destiny Core Rulebook).",
+    "baseText": "Once per session as an action, the character may spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Perception check. If successful, for the next 2 rounds the character may spend 1 maneuver to add 1 automatic [TRIUMPH] to his next combat check made in that turn. In addition, for the next 2 rounds when the character inflicts a Critical Injury on a rival NPC, the target is immediately incapacitated in the same way as a minion NPC (See page 400 of the Force and Destiny Core Rulebook).",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "When making a combat check while Unexpected Demise is active, the character removes b per Reduce Setback upgrade purchased."
+        "text": "When making a combat check while Unexpected Demise is active, the character removes [SETBACK] per Reduce Setback upgrade purchased."
       },
       {
         "row": 0,
@@ -2171,14 +2171,14 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "When making a combat check while Unexpected Demise is active, the character removes b per Reduce Setback upgrade purchased."
+        "text": "When making a combat check while Unexpected Demise is active, the character removes [SETBACK] per Reduce Setback upgrade purchased."
       },
       {
         "row": 0,
         "col": 3,
         "name": "Reduce Difficulty",
         "xp": 10,
-        "text": "The skill check difficulty to activate Unexpected Demise is Average (dd ) instead of Hard (ddd )."
+        "text": "The skill check difficulty to activate Unexpected Demise is Average ([DIFFICULTY][DIFFICULTY]) instead of Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -2344,21 +2344,21 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session when in an urban setting, the character may spend 2 Destiny Points and make a Hard (ddd ) Knowledge (Core Worlds) or Knowledge (Outer Rim) check. If successful, for the remainder of the game session, the character may suffer 2 strain to recall or learn the location of any individual, group, or establishment within that city, and any relevant information.",
+    "baseText": "Once per game session when in an urban setting, the character may spend 2 Destiny Points and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Knowledge (Core Worlds) or Knowledge (Outer Rim) check. If successful, for the remainder of the game session, the character may suffer 2 strain to recall or learn the location of any individual, group, or establishment within that city, and any relevant information.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Boost Skill",
         "xp": 10,
-        "text": "When making a a skill check while My City is active, the character adds b to Streetwise and Survival checks."
+        "text": "When making a a skill check while My City is active, the character adds [BOOST] to Streetwise and Survival checks."
       },
       {
         "row": 0,
         "col": 1,
         "name": "Reducedifficulty",
         "xp": 10,
-        "text": "The skill check difficulty to activate My City is Average ( dd ) instead of Hard (ddd )."
+        "text": "The skill check difficulty to activate My City is Average ( [DIFFICULTY][DIFFICULTY]) instead of Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 0,
@@ -2372,7 +2372,7 @@ window.SW.signatureAbilities = [
         "col": 3,
         "name": "Boost Skill",
         "xp": 10,
-        "text": "When making a a skill check while My City is active, the character adds b to Skulduggery and Stealth checks."
+        "text": "When making a a skill check while My City is active, the character adds [BOOST] to Skulduggery and Stealth checks."
       },
       {
         "row": 1,
@@ -2455,14 +2455,14 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Group Vigilance",
         "xp": 10,
-        "text": "All PCs add b fto their combat checks targeting any NPC who has already taken a turn during the current round."
+        "text": "All PCs add [BOOST] fto their combat checks targeting any NPC who has already taken a turn during the current round."
       },
       {
         "row": 0,
         "col": 2,
         "name": "Group Preparation",
         "xp": 10,
-        "text": "All NPCs add b to their combat checks targeting any PC who has not yet taken a turn in the current round."
+        "text": "All NPCs add [SETBACK] to their combat checks targeting any PC who has not yet taken a turn in the current round."
       },
       {
         "row": 0,
@@ -2538,14 +2538,14 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, the character may spend two Destiny Points to make a Hard (ddd ) Streetwise check. If successful, the character is immediately able to flee from the current personal-scale combat encounter unscathed. The challenge is not overcome or defeated, but the character is able to evade the hazard or threat for the time being. The exact nature of what the character is trying to accomplish, as well as the end results, must be approved by the GM (see Narrative Abilities on page FC38), but should be suitably creative or daring.",
+    "baseText": "Once per game session, the character may spend two Destiny Points to make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Streetwise check. If successful, the character is immediately able to flee from the current personal-scale combat encounter unscathed. The challenge is not overcome or defeated, but the character is able to evade the hazard or threat for the time being. The exact nature of what the character is trying to accomplish, as well as the end results, must be approved by the GM (see Narrative Abilities on page FC38), but should be suitably creative or daring.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from the skill check to activate Narrow Escape."
+        "text": "Remove [SETBACK] from the skill check to activate Narrow Escape."
       },
       {
         "row": 0,
@@ -2559,7 +2559,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Add Boost",
         "xp": 10,
-        "text": "Add b to the skill check to activate Narrow Escape."
+        "text": "Add [BOOST] to the skill check to activate Narrow Escape."
       },
       {
         "row": 0,
@@ -2573,7 +2573,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Narrow Escape to Average (dd )."
+        "text": "Reduce the difficulty of the skill check to activate Narrow Escape to Average ([DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -2635,12 +2635,12 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points to change the face of one positive die in the character's dice pool to another face adjacent to it. An \"adjacent\" face is any die face sharing an edge not a point with the rolled face. Unmatched Fortune cannot be used on a",
+    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points to change the face of one positive die in the character's dice pool to another face adjacent to it. An \"adjacent\" face is any die face sharing an edge not a point with the rolled face. Unmatched Fortune cannot be used on a [FORCE].",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
-        "name": "C. Frequency",
+        "name": "Frequency",
         "xp": 10,
         "text": "Unmatched Fortune can be used one additional time each game session per Frequency upgrade purchased."
       },
@@ -2732,7 +2732,7 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session as an action, the character may spend 2 Destiny Points, nominate one vehicle, starship or living creature of silhouette 2 or smaller that he can see and make a Hard (ddd ) Knowledge (Warfare) check. If he succeeds, for the next 3 rounds, he and each other friendly character within medium range of him ignore the target's armor (or soak) when inflicting damage on the target with non- vehicle/starship weapons.",
+    "baseText": "Once per game session as an action, the character may spend 2 Destiny Points, nominate one vehicle, starship or living creature of silhouette 2 or smaller that he can see and make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Knowledge (Warfare) check. If he succeeds, for the next 3 rounds, he and each other friendly character within medium range of him ignore the target's armor (or soak) when inflicting damage on the target with non-vehicle/starship weapons.",
     "upgrades": [
       {
         "row": 0,
@@ -2781,7 +2781,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "The difficulty of the skill check to activate The Bigger They Are... is Average (dd ) instead of Hard (ddd )."
+        "text": "The difficulty of the skill check to activate The Bigger They Are... is Average ([DIFFICULTY][DIFFICULTY]) instead of Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -2850,7 +2850,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Survivor",
         "xp": 10,
-        "text": "While Unmatched Courage is active, add b to checks to remove Critical Injuries."
+        "text": "While Unmatched Courage is active, add [BOOST] to checks to remove Critical Injuries."
       },
       {
         "row": 0,
@@ -2878,14 +2878,14 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Survivor",
         "xp": 15,
-        "text": "While Unmatched Courage is active, add b to checks to remove Critical Injuries."
+        "text": "While Unmatched Courage is active, add [BOOST] to checks to remove Critical Injuries."
       },
       {
         "row": 1,
         "col": 3,
         "name": "Too Tough to Die",
         "xp": 15,
-        "text": "When Unmatched Courage ends, make a Hard (ddd ) Resilience check to remove one Critical Injury."
+        "text": "When Unmatched Courage ends, make a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Resilience check to remove one Critical Injury."
       }
     ],
     "links": {
@@ -2933,7 +2933,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Add Boost",
         "xp": 10,
-        "text": "When making the skill check to activate Counterespionage, the character adds b per Add Boost upgrade."
+        "text": "When making the skill check to activate Counterespionage, the character adds [BOOST] per Add Boost upgrade."
       },
       {
         "row": 0,
@@ -2947,7 +2947,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from the character's skill check as part of using Counterespionage."
+        "text": "Remove [SETBACK] from the character's skill check as part of using Counterespionage."
       },
       {
         "row": 0,
@@ -2968,21 +2968,21 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Reduce Setback",
         "xp": 15,
-        "text": "Remove b from the character's skill check as part of using Counterespionage."
+        "text": "Remove [SETBACK] from the character's skill check as part of using Counterespionage."
       },
       {
         "row": 1,
         "col": 2,
         "name": "Add Boost",
         "xp": 15,
-        "text": "When making the skill check to activate Counterespionage, the character adds b per Add Boost upgrade."
+        "text": "When making the skill check to activate Counterespionage, the character adds [BOOST] per Add Boost upgrade."
       },
       {
         "row": 1,
         "col": 3,
         "name": "Turn Agent",
         "xp": 15,
-        "text": "Spend x on a successful check to activate Counterespionage to turn one identified enemy agent into a double agent secretly working for the character."
+        "text": "Spend [TRIUMPH] on a successful check to activate Counterespionage to turn one identified enemy agent into a double agent secretly working for the character."
       }
     ],
     "links": {
@@ -3023,14 +3023,14 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per session as an incidental, after the player rolls the dice for a Deception, but before resolving the results, he may spend 2 Destiny Points to remove one of the rolled d from the pool. The results from that d are ignored, and the check is then resolved as normal.",
+    "baseText": "Once per session as an incidental, after the player rolls the dice for a Deception, but before resolving the results, he may spend 2 Destiny Points to remove one of the rolled [DIFFICULTY] from the pool. The results from that [DIFFICULTY] are ignored, and the check is then resolved as normal.",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Increase Effect",
         "xp": 10,
-        "text": "Unmatched Tradecraft may also be used on b."
+        "text": "Unmatched Tradecraft may also be used on [SETBACK]."
       },
       {
         "row": 0,
@@ -3058,7 +3058,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Increase Effect",
         "xp": 15,
-        "text": "Unmatched Tradecraft may also be used on c."
+        "text": "Unmatched Tradecraft may also be used on [CHALLENGE]."
       },
       {
         "row": 1,
@@ -3120,14 +3120,14 @@ window.SW.signatureAbilities = [
       false
     ],
     "baseXp": 30,
-    "baseText": "Once per game session, as an action, the character may spend 2 Destiny Points and make a Daunting (dddd ) Mechanics check. If he succeeds, the character immediately uses available parts to build a device that functions as an item of his choice with a rarity of 5 or lower. The item functions until the end of the encounter, at which point it falls apart, shorts out, or otherwise ceases to function permanently. The exact nature of the device the character is trying to construct, as well as the end results, must be approved by the GM (see Narrative Abilities on SM38).",
+    "baseText": "Once per game session, as an action, the character may spend 2 Destiny Points and make a Daunting ([DIFFICULTY][DIFFICULTY][DIFFICULTY][DIFFICULTY]) Mechanics check. If he succeeds, the character immediately uses available parts to build a device that functions as an item of his choice with a rarity of 5 or lower. The item functions until the end of the encounter, at which point it falls apart, shorts out, or otherwise ceases to function permanently. The exact nature of the device the character is trying to construct, as well as the end results, must be approved by the GM (see Narrative Abilities on SM38).",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Inventive Creation."
+        "text": "Remove [SETBACK] from skill check to activate Inventive Creation."
       },
       {
         "row": 0,
@@ -3141,7 +3141,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Reduce Setback",
         "xp": 10,
-        "text": "Remove b from skill check to activate Inventive Creation."
+        "text": "Remove [SETBACK] from skill check to activate Inventive Creation."
       },
       {
         "row": 0,
@@ -3155,7 +3155,7 @@ window.SW.signatureAbilities = [
         "col": 0,
         "name": "Reduce Difficulty",
         "xp": 15,
-        "text": "Reduce the difficulty of the skill check to activate Inventive Creation to Hard ( ddd )."
+        "text": "Reduce the difficulty of the skill check to activate Inventive Creation to Hard ( [DIFFICULTY][DIFFICULTY][DIFFICULTY])."
       },
       {
         "row": 1,
@@ -3217,14 +3217,14 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points to re-roll up to two dice in the character's dice pool. Unmatched Calibration cannot he used on a",
+    "baseText": "Once per game session as an incidental, the character may spend 2 Destiny Points to re-roll up to two dice in the character's dice pool. Unmatched Calibration cannot be used on a [FORCE].",
     "upgrades": [
       {
         "row": 0,
         "col": 0,
-        "name": "C. Reduce Setback",
+        "name": "Reduce Setback",
         "xp": 10,
-        "text": "May remove b instead of re- rolling it."
+        "text": "May remove [SETBACK] instead of re-rolling it."
       },
       {
         "row": 0,
@@ -3259,14 +3259,14 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Minimize Risk",
         "xp": 15,
-        "text": "Downgrade one c to be re- rolled with Unmatched Calibration to d ."
+        "text": "Downgrade one [CHALLENGE] to be re-rolled with Unmatched Calibration to [DIFFICULTY]."
       },
       {
         "row": 1,
         "col": 2,
         "name": "Optimization",
         "xp": 15,
-        "text": "Upgrade one d to be re- rolled with Unmatched Calibration to c."
+        "text": "Upgrade one [ABILITY] to be re-rolled with Unmatched Calibration to [PROFICIENCY]."
       },
       {
         "row": 1,
@@ -3529,7 +3529,7 @@ window.SW.signatureAbilities = [
         "col": 2,
         "name": "Add Setback",
         "xp": 10,
-        "text": "Add b per Add Setback upgrades purchased to checks affected by Deadly Reputation"
+        "text": "Add [SETBACK] per Add Setback upgrades purchased to checks affected by Deadly Reputation"
       },
       {
         "row": 0,
@@ -3550,7 +3550,7 @@ window.SW.signatureAbilities = [
         "col": 1,
         "name": "Add Setback",
         "xp": 15,
-        "text": "Add b per Add Setback upgrades purchased to checks affected by Deadly Reputation"
+        "text": "Add [SETBACK] per Add Setback upgrades purchased to checks affected by Deadly Reputation"
       },
       {
         "row": 1,
@@ -3605,7 +3605,7 @@ window.SW.signatureAbilities = [
       true
     ],
     "baseXp": 30,
-    "baseText": "Once per session after resolving a successful Melee combat check against a target engaged with the character, the character may spend 2 Destiny Points. The character then suffers 4 strain and 1 Conflict to immediately make a Melee attack as an incidental against the same target, increasing the difficulty of the check by one, to a maximum difficulty of Formidable (ddddd ). If successful. the character may repeat the process (suffering further strain and Conflict).",
+    "baseText": "Once per session after resolving a successful Melee combat check against a target engaged with the character, the character may spend 2 Destiny Points. The character then suffers 4 strain and 1 Conflict to immediately make a Melee attack as an incidental against the same target, increasing the difficulty of the check by one, to a maximum difficulty of Formidable ([DIFFICULTY][DIFFICULTY][DIFFICULTY][DIFFICULTY][DIFFICULTY]). If successful. the character may repeat the process (suffering further strain and Conflict).",
     "upgrades": [
       {
         "row": 0,

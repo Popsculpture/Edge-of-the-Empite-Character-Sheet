@@ -10,7 +10,7 @@ window.SW.forcePowers = [
     "source": "Unlimited Power 42",
     "page": 174,
     "baseXp": 15,
-    "baseText": "The Force user can tap into the Living Force of their surroundings, manipulating the nearby environs. The Force user may spend [FORCE] to make all terrain currently withing short range difficulty terrain until the end of their next turn. The Force user may spend [FORCE] to make all terrain currently withing short range normal terrain until the end of their next turn.",
+    "baseText": "The Force user can tap into the Living Force of their surroundings, manipulating the nearby environs. The Force user may spend [FORCEPOINT] to make all terrain currently within short range difficulty terrain until the end of their next turn. The Force user may spend [FORCEPOINT] to make all terrain currently within short range normal terrain until the end of their next turn.",
     "rows": 4,
     "cells": [
       {
@@ -19,7 +19,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 5,
-        "text": "Spend [FORCE] and make an Average (dd ) Survival check to instantly discover food, water, or other critical supplies withing extreme range."
+        "text": "Spend [FORCEPOINT] and make an Average ([DIFFICULTY][DIFFICULTY]) Survival check to instantly discover food, water, or other critical supplies within extreme range."
       },
       {
         "row": 0,
@@ -27,7 +27,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 0,
@@ -35,7 +35,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "The Force user may spend [FORCE] to give all characters within short range of the user concealment adding b or b to appropriate checks."
+        "text": "The Force user may spend [FORCEPOINT] to give all characters within short range of the user concealment adding [SETBACK] or [BOOST] to appropriate checks."
       },
       {
         "row": 1,
@@ -43,7 +43,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Spend [FORCE] to share the senses of animals within range of this power, adding b to Perception and Vigilance checks, and gaining other benefits."
+        "text": "Spend [FORCEPOINT] to share the senses of animals within range of this power, adding [BOOST] to Perception and Vigilance checks, and gaining other benefits."
       },
       {
         "row": 1,
@@ -67,7 +67,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] to allow a number of targets equal to the number of Strength upgrades to ignore this power's effects."
+        "text": "Spend [FORCEPOINT] to allow a number of targets equal to the number of Strength upgrades to ignore this power's effects."
       },
       {
         "row": 2,
@@ -75,7 +75,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -83,7 +83,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 15,
-        "text": "Spend [FORCE] [FORCE] to make a small patch of terrain within the affected area impassable."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to make a small patch of terrain within the affected area impassable."
       },
       {
         "row": 2,
@@ -91,7 +91,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] to allow a number of targets equal to the number of Strength upgrades to ignore this power's effects."
+        "text": "Spend [FORCEPOINT] to allow a number of targets equal to the number of Strength upgrades to ignore this power's effects."
       },
       {
         "row": 2,
@@ -99,7 +99,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 15,
-        "text": "Spend [FORCE] [FORCE] to create a corrosive atmosphere in a small area (up to 3m across) within the affected area."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to create a corrosive atmosphere in a small area (up to 3m across) within the affected area."
       },
       {
         "row": 3,
@@ -107,7 +107,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 20,
-        "text": "Spend [FORCE] [FORCE] to upgrade the difficulty of all checks made by opponents while in the power's area of effect once."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to upgrade the difficulty of all checks made by opponents while in the power's area of effect once."
       },
       {
         "row": 3,
@@ -115,7 +115,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Mastery",
         "xp": 25,
-        "text": "When the user activates this power without spending [FORCE] generated from z results, add Z to all other Force power checks made within this power's area of effect. When the user activates this power without spending [FORCE] generated from Z results, add z to all other Force power checks made within this power's area of effect."
+        "text": "When the user activates this power without spending [FORCEPOINT] generated from [DARK] results, add [LIGHT] to all other Force power checks made within this power's area of effect. When the user activates this power without spending [FORCEPOINT] generated from [LIGHT] results, add [DARK] to all other Force power checks made within this power's area of effect."
       },
       {
         "row": 3,
@@ -123,7 +123,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 15,
-        "text": "Spend [FORCE] to allow a number of targets equal to the number of Strength upgrades to ignore this power's effects."
+        "text": "Spend [FORCEPOINT] to allow a number of targets equal to the number of Strength upgrades to ignore this power's effects."
       }
     ],
     "links": [
@@ -204,7 +204,7 @@ window.SW.forcePowers = [
     "source": "Force and Destiny core 284",
     "page": 175,
     "baseXp": 15,
-    "baseText": "The Force user directs allies in battle, making them more effective as a coordinated unit. The user may spend [FORCE] to add one automatic s to all checks made by a number of engaged friendly targets up to his Presence before the end of turn. If the user used any z to generate [FORCE], reduce each target's Willpower by 1 (to a minimum of 1) until the end of the encounter.",
+    "baseText": "The Force user directs allies in battle, making them more effective as a coordinated unit. The user may spend [FORCEPOINT] to add one automatic [SUCCESS] to all checks made by a number of engaged friendly targets up to his Presence before the end of turn. If the user used any [DARK] to generate [FORCEPOINT], reduce each target's Willpower by 1 (to a minimum of 1) until the end of the encounter.",
     "rows": 4,
     "cells": [
       {
@@ -213,7 +213,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
       },
       {
         "row": 0,
@@ -221,7 +221,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 0,
@@ -229,7 +229,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "When making a Battle Meditation power check, the user may make an Easy (d ) Leadership check as part of the pool. If the user is able to activate the power and succeeds on the check, he may send simple orders as part of the power."
+        "text": "When making a Battle Meditation power check, the user may make an Easy ([DIFFICULTY]) Leadership check as part of the pool. If the user is able to activate the power and succeeds on the check, he may send simple orders as part of the power."
       },
       {
         "row": 1,
@@ -237,7 +237,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
       },
       {
         "row": 1,
@@ -245,7 +245,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -253,7 +253,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to add one additional automatic s to affected characters' checks."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to add one additional automatic [SUCCESS] to affected characters' checks."
       },
       {
         "row": 2,
@@ -261,7 +261,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 15,
-        "text": "Spend [FORCE] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
       },
       {
         "row": 2,
@@ -269,7 +269,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -277,7 +277,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Duration",
         "xp": 25,
-        "text": "Commit [FORCE] [FORCE] [FORCE] to sustain the ongoing effects of the power on each affected target while it remains in range."
+        "text": "Commit [FORCE][FORCE][FORCE] to sustain the ongoing effects of the power on each affected target while it remains in range."
       },
       {
         "row": 3,
@@ -285,7 +285,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 20,
-        "text": "Spend [FORCE] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT] to affect a number of additional targets equal to Presence per rank of Magnitude purchased."
       },
       {
         "row": 3,
@@ -301,7 +301,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Mastery",
         "xp": 25,
-        "text": "If no z was used to generate [FORCE], choose one skill. While affected bu the power, each affected character counts as having the same number of ranks in the chosen skill as the affected character with the most ranks in the skill. If the user used any z to generate [FORCE], each affected character must make an Easy (d ) Discipline check if he wishes to resist obeying orders."
+        "text": "If no [DARK] was used to generate [FORCEPOINT], choose one skill. While affected bu the power, each affected character counts as having the same number of ranks in the chosen skill as the affected character with the most ranks in the skill. If the user used any [DARK] to generate [FORCEPOINT], each affected character must make an Easy ([DIFFICULTY]) Discipline check if he wishes to resist obeying orders."
       }
     ],
     "links": [
@@ -370,7 +370,7 @@ window.SW.forcePowers = [
     "source": "Force and Destiny core 286",
     "page": 176,
     "baseXp": 15,
-    "baseText": "The Force user restrains an enemy, preventing the target from acting. The user may spend [FORCE] to immobilize a target within short range until the end of the user's next turn. If the user used any z to generate [FORCE], the target also suffers 1 wound per [FORCE] spent on the check (ignoring soak).",
+    "baseText": "The Force user restrains an enemy, preventing the target from acting. The user may spend [FORCEPOINT] to immobilize a target within short range until the end of the user's next turn. If the user used any [DARK] to generate [FORCEPOINT], the target also suffers 1 wound per [FORCEPOINT] spent on the check (ignoring soak).",
     "rows": 4,
     "cells": [
       {
@@ -379,7 +379,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 0,
@@ -387,7 +387,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 15,
-        "text": "Spend [FORCE] [FORCE] to affect 1 additional target within range per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to affect 1 additional target within range per rank of Magnitude purchased."
       },
       {
         "row": 0,
@@ -395,7 +395,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] to Disorient the target for a number of rounds equal to Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to Disorient the target for a number of rounds equal to Strength upgrades purchased."
       },
       {
         "row": 0,
@@ -403,7 +403,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Spend [FORCE], whenever a target affected by Bind takes an action, that target suffers strain equal to user's Willpower"
+        "text": "Spend [FORCEPOINT], whenever a target affected by Bind takes an action, that target suffers strain equal to user's Willpower"
       },
       {
         "row": 1,
@@ -411,7 +411,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -419,7 +419,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 20,
-        "text": "Spend [FORCE] [FORCE] to affect 1 additional target within range per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to affect 1 additional target within range per rank of Magnitude purchased."
       },
       {
         "row": 1,
@@ -427,7 +427,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] to Disorient the target for a number of rounds equal to Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to Disorient the target for a number of rounds equal to Strength upgrades purchased."
       },
       {
         "row": 1,
@@ -435,7 +435,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 15,
-        "text": "Commit [FORCE] [FORCE] [FORCE] to sustain the ongoing effects of the power on each affected target."
+        "text": "Commit [FORCE][FORCE][FORCE] to sustain the ongoing effects of the power on each affected target."
       },
       {
         "row": 2,
@@ -443,7 +443,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Spend [FORCE] to move the target one range band closer or farther away."
+        "text": "Spend [FORCEPOINT] to move the target one range band closer or farther away."
       },
       {
         "row": 2,
@@ -451,7 +451,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 25,
-        "text": "Spend [FORCE] [FORCE] to affect 1 additional target within range per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to affect 1 additional target within range per rank of Magnitude purchased."
       },
       {
         "row": 2,
@@ -459,7 +459,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 15,
-        "text": "Spend [FORCE] to Disorient the target for a number of rounds equal to Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to Disorient the target for a number of rounds equal to Strength upgrades purchased."
       },
       {
         "row": 3,
@@ -467,7 +467,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 20,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 3,
@@ -475,7 +475,7 @@ window.SW.forcePowers = [
         "span": 3,
         "name": "Mastery",
         "xp": 20,
-        "text": "When the user is making a Bind power check, if the check was not already opposed, the user may roll an opposed Discipline vs. Discipline check against one target of the power. If no z were used to generate [FORCE] and the user succeeds on the check, he may immediately stagger the target until the end of his next turn. If any z were used to generate [FORCE] and the check succeeds, the target suffers a Critical Injury, adding +10 to the roll per [FORCE] spent on the check."
+        "text": "When the user is making a Bind power check, if the check was not already opposed, the user may roll an opposed Discipline vs. Discipline check against one target of the power. If no [DARK] were used to generate [FORCEPOINT] and the user succeeds on the check, he may immediately stagger the target until the end of his next turn. If any [DARK] were used to generate [FORCEPOINT] and the check succeeds, the target suffers a Critical Injury, adding +10 to the roll per [FORCEPOINT] spent on the check."
       }
     ],
     "links": [
@@ -548,7 +548,7 @@ window.SW.forcePowers = [
     "source": "Unlimited Power 40",
     "page": 177,
     "baseXp": 20,
-    "baseText": "The Force user calls forth a spectral object to their hand, which lasts for a short time The user may spend [FORCE] to create a facsimile of a Brawl or Melee weapon anywhere within engaged range. At the end of the user's next turn, this item dissipates. At the GM's discretion, the user can instead conjure a simple tool or other useful low-tech item with an encumbrance no greater than 1.",
+    "baseText": "The Force user calls forth a spectral object to their hand, which lasts for a short time The user may spend [FORCEPOINT] to create a facsimile of a Brawl or Melee weapon anywhere within engaged range. At the end of the user's next turn, this item dissipates. At the GM's discretion, the user can instead conjure a simple tool or other useful low-tech item with an encumbrance no greater than 1.",
     "rows": 4,
     "cells": [
       {
@@ -565,7 +565,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Number",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to create additional identical conjurations equal to ranks in Number upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to create additional identical conjurations equal to ranks in Number upgrades purchased."
       },
       {
         "row": 0,
@@ -573,7 +573,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to increase the maximum encumbrance of the facsimile that can be conjured by 2 per Magnitude upgrade purchased."
+        "text": "Spend [FORCEPOINT] to increase the maximum encumbrance of the facsimile that can be conjured by 2 per Magnitude upgrade purchased."
       },
       {
         "row": 1,
@@ -581,7 +581,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Magnitude",
         "xp": 20,
-        "text": "Spend [FORCE] to increase the maximum encumbrance of the facsimile that can be conjured by 2 per Magnitude upgrade purchased."
+        "text": "Spend [FORCEPOINT] to increase the maximum encumbrance of the facsimile that can be conjured by 2 per Magnitude upgrade purchased."
       },
       {
         "row": 1,
@@ -589,7 +589,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Spend [FORCE] to add 1 of the following weapon qualities to the conjuration: Defensive 1, Deflection 1, Stun 4."
+        "text": "Spend [FORCEPOINT] to add 1 of the following weapon qualities to the conjuration: Defensive 1, Deflection 1, Stun 4."
       },
       {
         "row": 1,
@@ -605,7 +605,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Number",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to create additional identical conjurations equal to ranks in Number upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to create additional identical conjurations equal to ranks in Number upgrades purchased."
       },
       {
         "row": 2,
@@ -613,7 +613,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 15,
-        "text": "Spend [FORCE] to add 1 of the following weapon qualities to the conjuration: Burn 3, Pierce 3, Vicious 3."
+        "text": "Spend [FORCEPOINT] to add 1 of the following weapon qualities to the conjuration: Burn 3, Pierce 3, Vicious 3."
       },
       {
         "row": 2,
@@ -621,7 +621,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 20,
-        "text": "Spend [FORCE] to increase the range at which the facsimile can be conjured and sustained by 1 (to a maximum of extreme)."
+        "text": "Spend [FORCEPOINT] to increase the range at which the facsimile can be conjured and sustained by 1 (to a maximum of extreme)."
       },
       {
         "row": 2,
@@ -637,7 +637,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Mastery",
         "xp": 20,
-        "text": "Spend [FORCE] [FORCE] [FORCE] to summon the facsimile of a creature of silhouette 1 or smaller instead of an object. This creature is bound to the user's will, and mindlessly follows that character's commands until the end of the Force user's next turn. If the user has the corpse of the creature being conjured to imbue with false life, this facsimile lasts until the end of the encounter instead, but the user gains 7 conflict for doing so."
+        "text": "Spend [FORCEPOINT][FORCEPOINT][FORCEPOINT] to summon the facsimile of a creature of silhouette 1 or smaller instead of an object. This creature is bound to the user's will, and mindlessly follows that character's commands until the end of the Force user's next turn. If the user has the corpse of the creature being conjured to imbue with false life, this facsimile lasts until the end of the encounter instead, but the user gains 7 conflict for doing so."
       }
     ],
     "links": [
@@ -714,7 +714,7 @@ window.SW.forcePowers = [
     "source": "Disciples of Harmony 38",
     "page": 178,
     "baseXp": 10,
-    "baseText": "The Force user's actions empower himself or sap strength from this foes. Ebb: When the Force user makes a skill check, he may roll an Ebb power check as part of roll. The user may spend [FORCE] to suffer 1 strain, then inflict 1 strain on all other engaged characters. The Force user may not activate this multiple times. Flow: When the Force user makes a skill check, he may roll a Flow power check as part of the roll. The user may spend [FORCE] to heal 1 strain. The Force user may not activate this multiple times.",
+    "baseText": "The Force user's actions empower himself or sap strength from this foes. Ebb: When the Force user makes a skill check, he may roll an Ebb power check as part of roll. The user may spend [FORCEPOINT] to suffer 1 strain, then inflict 1 strain on all other engaged characters. The Force user may not activate this multiple times. Flow: When the Force user makes a skill check, he may roll a Flow power check as part of the roll. The user may spend [FORCEPOINT] to heal 1 strain. The Force user may not activate this multiple times.",
     "rows": 4,
     "cells": [
       {
@@ -723,7 +723,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to exclude number of targets equal to Magnitude upgrades purchased from being affected."
+        "text": "Spend [FORCEPOINT] to exclude number of targets equal to Magnitude upgrades purchased from being affected."
       },
       {
         "row": 0,
@@ -731,7 +731,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to affect all other characters at short range."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to affect all other characters at short range."
       },
       {
         "row": 0,
@@ -739,7 +739,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "The Force user may spend [FORCE] to increase the strain healed or inflicted by 1."
+        "text": "The Force user may spend [FORCEPOINT] to increase the strain healed or inflicted by 1."
       },
       {
         "row": 1,
@@ -747,7 +747,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] [FORCE] once per encounter to ask the GM a single yes/no question."
+        "text": "Spend [FORCEPOINT][FORCEPOINT][FORCEPOINT] once per encounter to ask the GM a single yes/no question."
       },
       {
         "row": 1,
@@ -755,7 +755,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "Ebb: When making a combined Ebb power check may spend [FORCE] to add t to any checks made by the engaged opponents until next turn. Flow: When making a combined Flow power check may spend [FORCE] to add a to any checks using the same skill until the end of next turn."
+        "text": "Ebb: When making a combined Ebb power check may spend [FORCEPOINT] to add [THREAT] to any checks made by the engaged opponents until next turn. Flow: When making a combined Flow power check may spend [FORCEPOINT] to add [ADVANTAGE] to any checks using the same skill until the end of next turn."
       },
       {
         "row": 1,
@@ -763,7 +763,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "The Force user may spend [FORCE] to increase the t or a added by 1."
+        "text": "The Force user may spend [FORCEPOINT] to increase the [THREAT] or [ADVANTAGE] added by 1."
       },
       {
         "row": 2,
@@ -771,7 +771,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to exclude number of targets equal to Magnitude upgrades purchased from being affected."
+        "text": "Spend [FORCEPOINT] to exclude number of targets equal to Magnitude upgrades purchased from being affected."
       },
       {
         "row": 2,
@@ -779,7 +779,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "Ebb: When making a combined Ebb power check may spend [FORCE] to add f to any checks made by the engaged opponents until next turn. Flow: When making a combined Flow power check may spend [FORCE] to add s to any checks using the same skill until the end of next turn."
+        "text": "Ebb: When making a combined Ebb power check may spend [FORCEPOINT] to add [FAILURE] to any checks made by the engaged opponents until next turn. Flow: When making a combined Flow power check may spend [FORCEPOINT] to add [SUCCESS] to any checks using the same skill until the end of next turn."
       },
       {
         "row": 2,
@@ -787,7 +787,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "The Force user may spend [FORCE] to increase the s or f added by 1."
+        "text": "The Force user may spend [FORCEPOINT] to increase the [SUCCESS] or [FAILURE] added by 1."
       },
       {
         "row": 3,
@@ -795,7 +795,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "Commit [FORCE] until the end of the current encounter. For the remainder of the current encounter, add [FORCE] to all skill checks. Each Z and z adds either s or a to the check; each z causes the user to suffer 1 strain and gain 1 conflict."
+        "text": "Commit [FORCE] until the end of the current encounter. For the remainder of the current encounter, add [FORCE] to all skill checks. Each [LIGHT] and [DARK] adds either [SUCCESS] or [ADVANTAGE] to the check; each [DARK] causes the user to suffer 1 strain and gain 1 conflict."
       },
       {
         "row": 3,
@@ -803,7 +803,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 20,
-        "text": "Ebb: Once per session, if a target suffered at least 5 strain from this power, add y to the target's next check. Flow: Once per session, if the user healed at least 5 strain from this power, add x to user's next check."
+        "text": "Ebb: Once per session, if a target suffered at least 5 strain from this power, add [DESPAIR] to the target's next check. Flow: Once per session, if the user healed at least 5 strain from this power, add [TRIUMPH] to user's next check."
       }
     ],
     "links": [
@@ -868,7 +868,7 @@ window.SW.forcePowers = [
     "source": "Knights of Fate 36",
     "page": 179,
     "baseXp": 10,
-    "baseText": "When the character suffers a Critical Injury with a severity no greater than Easy (d ) the character may activate Endure as an out-of-turn incidental and commit [FORCE] to temporarily ignore the effects of that injury. The character does not apply any results from the Critical Injury or add +10 to further rolls on the Critical Injury Result table while [FORCE] remains committed. When this ongoing effect ends, the character suffers all effects of the Critical Injury (unless it has been treated).",
+    "baseText": "When the character suffers a Critical Injury with a severity no greater than Easy ([DIFFICULTY]) the character may activate Endure as an out-of-turn incidental and commit [FORCE] to temporarily ignore the effects of that injury. The character does not apply any results from the Critical Injury or add +10 to further rolls on the Critical Injury Result table while [FORCE] remains committed. When this ongoing effect ends, the character suffers all effects of the Critical Injury (unless it has been treated).",
     "rows": 4,
     "cells": [
       {
@@ -957,7 +957,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Mastery",
         "xp": 20,
-        "text": "When activating Endure. the character may make an Endure power check, making a Discipline check with a difficulty equal to the severity of the Critical Injury and adding [FORCE] up the character's Force rating. If the character succeeds on the check and generates [FORCE] equal to the Severity of the Critical Injury, the Critical Injury is not suffered."
+        "text": "When activating Endure. the character may make an Endure power check, making a Discipline check with a difficulty equal to the severity of the Critical Injury and adding [FORCE] up the character's Force rating. If the character succeeds on the check and generates [FORCEPOINT] equal to the Severity of the Critical Injury, the Critical Injury is not suffered."
       }
     ],
     "links": [
@@ -1014,7 +1014,7 @@ window.SW.forcePowers = [
     "source": "Age of Rebellion core 298, Force and Destiny core 288",
     "page": 180,
     "baseXp": 10,
-    "baseText": "When making an Athletics check, the Force user may roll an Enhance power check as part of the pool. The user may spend [FORCE] to gain s or a (user's choice) on the check.",
+    "baseText": "When making an Athletics check, the Force user may roll an Enhance power check as part of the pool. The user may spend [FORCEPOINT] to gain [SUCCESS] or [ADVANTAGE] (user's choice) on the check.",
     "rows": 4,
     "cells": [
       {
@@ -1039,7 +1039,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "Take a Force Leap action: make a Enhance power check. The user may spend [FORCE] to jump horizontally to any location in short range."
+        "text": "Take a Force Leap action: make a Enhance power check. The user may spend [FORCEPOINT] to jump horizontally to any location in short range."
       },
       {
         "row": 1,
@@ -1087,7 +1087,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase Force Leap range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase Force Leap range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 3,
@@ -1160,7 +1160,7 @@ window.SW.forcePowers = [
     "source": "Savage Spirits 36",
     "page": 181,
     "baseXp": 5,
-    "baseText": "The Force user expands normal visual senses through a connection to the Force. The user may spend [FORCE] to ignore the effects of darkness or blindness and see normally at up to medium range for the remainder of the round (or one minute). This allows the user to view everything most sentients could normally be able to see on a well lit day.",
+    "baseText": "The Force user expands normal visual senses through a connection to the Force. The user may spend [FORCEPOINT] to ignore the effects of darkness or blindness and see normally at up to medium range for the remainder of the round (or one minute). This allows the user to view everything most sentients could normally be able to see on a well lit day.",
     "rows": 3,
     "cells": [
       {
@@ -1169,7 +1169,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 5,
-        "text": "Spend [FORCE] to see microscopic details of a single object within engaged range."
+        "text": "Spend [FORCEPOINT] to see microscopic details of a single object within engaged range."
       },
       {
         "row": 0,
@@ -1177,7 +1177,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 5,
-        "text": "Spend [FORCE] to see through a single object at a medium range."
+        "text": "Spend [FORCEPOINT] to see through a single object at a medium range."
       },
       {
         "row": 0,
@@ -1185,7 +1185,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 5,
-        "text": "Spend [FORCE] to make out fine details on a single object within medium range."
+        "text": "Spend [FORCEPOINT] to make out fine details on a single object within medium range."
       },
       {
         "row": 0,
@@ -1193,7 +1193,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase duration by number of rounds (or minutes) equal to Duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase duration by number of rounds (or minutes) equal to Duration upgrades purchased."
       },
       {
         "row": 1,
@@ -1201,7 +1201,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by one range band equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by one range band equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -1209,7 +1209,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase duration by number of rounds (or minutes) equal to Duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase duration by number of rounds (or minutes) equal to Duration upgrades purchased."
       },
       {
         "row": 1,
@@ -1217,7 +1217,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "When making a Vigilance or Perception check, make a Farsight power check as part of the pool and spend [FORCE] to gain s or a on the check."
+        "text": "When making a Vigilance or Perception check, make a Farsight power check as part of the pool and spend [FORCEPOINT] to gain [SUCCESS] or [ADVANTAGE] on the check."
       },
       {
         "row": 1,
@@ -1225,7 +1225,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by one range band equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by one range band equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -1241,7 +1241,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to see in every direction simultaneously, noticing and observing things in a full 360-degree arc."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to see in every direction simultaneously, noticing and observing things in a full 360-degree arc."
       },
       {
         "row": 2,
@@ -1249,7 +1249,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Mastery",
         "xp": 20,
-        "text": "Spend [FORCE] [FORCE]. The user now can see as through from a spot within close range (planetary scale) of the user's body."
+        "text": "Spend [FORCEPOINT][FORCEPOINT]. The user now can see as through from a spot within close range (planetary scale) of the user's body."
       }
     ],
     "links": [
@@ -1318,7 +1318,7 @@ window.SW.forcePowers = [
     "source": "Age of Rebellion core 300, Force and Destiny core 290",
     "page": 182,
     "baseXp": 10,
-    "baseText": "The Force user can feel the Force flowing around everything, seeing what is and what will be. The user may spend [FORCE] to gain vague hints of events to come, up to a day into his future.",
+    "baseText": "The Force user can feel the Force flowing around everything, seeing what is and what will be. The user may spend [FORCEPOINT] to gain vague hints of events to come, up to a day into his future.",
     "rows": 4,
     "cells": [
       {
@@ -1327,7 +1327,7 @@ window.SW.forcePowers = [
         "span": 3,
         "name": "Control",
         "xp": 10,
-        "text": "When making a skill check to determine initiative, the Force user may roll a Foresee power check as part of the pool. He may spend [FORCE] to gain s on the check."
+        "text": "When making a skill check to determine initiative, the Force user may roll a Foresee power check as part of the pool. He may spend [FORCEPOINT] to gain [SUCCESS] on the check."
       },
       {
         "row": 0,
@@ -1335,7 +1335,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] to pick out specific details equal to Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to pick out specific details equal to Strength upgrades purchased."
       },
       {
         "row": 1,
@@ -1343,7 +1343,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to affect a number of targets equal to Magnitude upgrades purchased within engaged range."
+        "text": "Spend [FORCEPOINT] to affect a number of targets equal to Magnitude upgrades purchased within engaged range."
       },
       {
         "row": 1,
@@ -1351,7 +1351,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase the range to affect additional targets by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the range to affect additional targets by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -1367,7 +1367,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase the number of days into the future the user can see equal to Duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the number of days into the future the user can see equal to Duration upgrades purchased."
       },
       {
         "row": 2,
@@ -1375,7 +1375,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to affect a number of targets equal to Magnitude upgrades purchased within engaged range."
+        "text": "Spend [FORCEPOINT] to affect a number of targets equal to Magnitude upgrades purchased within engaged range."
       },
       {
         "row": 2,
@@ -1383,7 +1383,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase the range to affect additional targets by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the range to affect additional targets by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -1391,7 +1391,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase the range to affect additional targets by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the range to affect additional targets by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -1399,7 +1399,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] to pick out specific details equal to Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to pick out specific details equal to Strength upgrades purchased."
       },
       {
         "row": 3,
@@ -1407,7 +1407,7 @@ window.SW.forcePowers = [
         "span": 3,
         "name": "Control",
         "xp": 15,
-        "text": "When performing a Foresee power check as part of an initiative check, the Force user may spend [FORCE] to allow all affected targets to take one free maneuver before the first round of combat begins."
+        "text": "When performing a Foresee power check as part of an initiative check, the Force user may spend [FORCEPOINT] to allow all affected targets to take one free maneuver before the first round of combat begins."
       },
       {
         "row": 3,
@@ -1415,7 +1415,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase the number of days into the future the user can see equal to Duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the number of days into the future the user can see equal to Duration upgrades purchased."
       }
     ],
     "links": [
@@ -1480,7 +1480,7 @@ window.SW.forcePowers = [
     "source": "Force and Destiny core 292",
     "page": 183,
     "baseXp": 15,
-    "baseText": "The Force user bolsters his ally with renewed vigor, or saps his foe of vital energy. Heal (Light side Force user only): Spend [FORCE] to heal a number of wounds equal to Intellect from an engaged living creature (including user). Harm: Spend [FORCE] to inflict a number of wounds equal to Intellect (Ignoring soak) on an engaged living target. The user gains 1 Conflict.",
+    "baseText": "The Force user bolsters his ally with renewed vigor, or saps his foe of vital energy. Heal (Light side Force user only): Spend [FORCEPOINT] to heal a number of wounds equal to Intellect from an engaged living creature (including user). Harm: Spend [FORCEPOINT] to inflict a number of wounds equal to Intellect (Ignoring soak) on an engaged living target. The user gains 1 Conflict.",
     "rows": 3,
     "cells": [
       {
@@ -1489,7 +1489,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 0,
@@ -1497,7 +1497,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] [FORCE] to affect 1 additional target within range per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to affect 1 additional target within range per rank of Magnitude purchased."
       },
       {
         "row": 0,
@@ -1505,7 +1505,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] [FORCE] to affect 1 additional target within range per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to affect 1 additional target within range per rank of Magnitude purchased."
       },
       {
         "row": 0,
@@ -1513,7 +1513,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 20,
-        "text": "Heal: If no z generated [FORCE] target heals strain equal to wounds healed. Harm: If any z were used to generate [FORCE] user heals strain equal to wounds inflicted."
+        "text": "Heal: If no [DARK] generated [FORCEPOINT] target heals strain equal to wounds healed. Harm: If any [DARK] were used to generate [FORCEPOINT] user heals strain equal to wounds inflicted."
       },
       {
         "row": 1,
@@ -1521,7 +1521,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 20,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -1529,7 +1529,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to affect 1 additional target within range per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to affect 1 additional target within range per rank of Magnitude purchased."
       },
       {
         "row": 1,
@@ -1537,7 +1537,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 15,
-        "text": "Heal: Spend [FORCE] to increase wounds healed by 1 per rank of Strength upgrades purchased. Harm: Spend [FORCE] in increase wounds inflicted by 1 per rank of Strength upgrades purchased."
+        "text": "Heal: Spend [FORCEPOINT] to increase wounds healed by 1 per rank of Strength upgrades purchased. Harm: Spend [FORCEPOINT] in increase wounds inflicted by 1 per rank of Strength upgrades purchased."
       },
       {
         "row": 1,
@@ -1545,7 +1545,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 20,
-        "text": "Heal: Spend [FORCE] to remove one status effect from target. Harm: The user may spend [FORCE] to heal wounds equal to wounds inflicted on target. Healed character gains 1 Conflict."
+        "text": "Heal: Spend [FORCEPOINT] to remove one status effect from target. Harm: The user may spend [FORCEPOINT] to heal wounds equal to wounds inflicted on target. Healed character gains 1 Conflict."
       },
       {
         "row": 2,
@@ -1561,7 +1561,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 20,
-        "text": "Heal: May make a Heal power check combined with a Hard (ddd ) Medicine check. If check succeeds, one target who heals wounds also heals one Critical Injury. Harm: May make a Harm power check combined with a Hard (ddd ) Medicine vs. Resilience check. If check succeeds, one target who suffers wounds also suffers one Critical Injury (adding +10 to the roll per aa)."
+        "text": "Heal: May make a Heal power check combined with a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Medicine check. If check succeeds, one target who heals wounds also heals one Critical Injury. Harm: May make a Harm power check combined with a Hard ([DIFFICULTY][DIFFICULTY][DIFFICULTY]) Medicine vs. Resilience check. If check succeeds, one target who suffers wounds also suffers one Critical Injury (adding +10 to the roll per [ADVANTAGE][ADVANTAGE])."
       },
       {
         "row": 2,
@@ -1569,7 +1569,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Mastery",
         "xp": 20,
-        "text": "Heal: Once per session, spend [FORCE] [FORCE] [FORCE] [FORCE] to restore 1 target who died after end of user's last turn to life. Harm: Once per session, when this power kills a target, may restore one engaged character who dies this encounter to life. Each character gains 7 conflict."
+        "text": "Heal: Once per session, spend [FORCEPOINT][FORCEPOINT][FORCEPOINT][FORCEPOINT] to restore 1 target who died after end of user's last turn to life. Harm: Once per session, when this power kills a target, may restore one engaged character who dies this encounter to life. Each character gains 7 conflict."
       },
       {
         "row": 2,
@@ -1577,7 +1577,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 15,
-        "text": "Heal: Spend [FORCE] to increase wounds healed by 1 per rank of Strength upgrades purchased. Harm: Spend [FORCE] in increase wounds inflicted by 1 per rank of Strength upgrades purchased."
+        "text": "Heal: Spend [FORCEPOINT] to increase wounds healed by 1 per rank of Strength upgrades purchased. Harm: Spend [FORCEPOINT] in increase wounds inflicted by 1 per rank of Strength upgrades purchased."
       }
     ],
     "links": [
@@ -1650,7 +1650,7 @@ window.SW.forcePowers = [
     "source": "Disciples of Harmony 36",
     "page": 184,
     "baseXp": 15,
-    "baseText": "The Force user lends strength to allies, making them more potent, resourceful, or resilient for a time. The user may spend [FORCE] [FORCE] to increase one of another engaged character's characteristics by 1 (to a maximum of 6) until the end of the Force user's next turn. This can only be used once per character per encounter. If the user uses z to generate [FORCE], the target increases a second characteristic by 1 (to a maximum of 6) until the end of the user's next turn, but both the Force user and target suffer 3 strain.",
+    "baseText": "The Force user lends strength to allies, making them more potent, resourceful, or resilient for a time. The user may spend [FORCEPOINT][FORCEPOINT] to increase one of another engaged character's characteristics by 1 (to a maximum of 6) until the end of the Force user's next turn. This can only be used once per character per encounter. If the user uses [DARK] to generate [FORCEPOINT], the target increases a second characteristic by 1 (to a maximum of 6) until the end of the user's next turn, but both the Force user and target suffer 3 strain.",
     "rows": 4,
     "cells": [
       {
@@ -1659,7 +1659,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 5,
-        "text": "If no z were used to generate [FORCE] decrease all Critical Injuries suffered and inflicted by the target by 10 per Strength upgrade purchased. If no Z were used to generate [FORCE] increase all Critical Injuries suffered and inflicted by 10 per Strength upgrade purchased."
+        "text": "If no [DARK] were used to generate [FORCEPOINT] decrease all Critical Injuries suffered and inflicted by the target by 10 per Strength upgrade purchased. If no [LIGHT] were used to generate [FORCEPOINT] increase all Critical Injuries suffered and inflicted by 10 per Strength upgrade purchased."
       },
       {
         "row": 0,
@@ -1667,7 +1667,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Spend [FORCE] to allow the target to count as having ranks in a skill equal to user's ranks in the skill."
+        "text": "Spend [FORCEPOINT] to allow the target to count as having ranks in a skill equal to user's ranks in the skill."
       },
       {
         "row": 0,
@@ -1675,7 +1675,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -1683,7 +1683,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -1691,7 +1691,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -1699,7 +1699,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 10,
-        "text": "If no z were used to generate [FORCE] decrease all Critical Injuries suffered and inflicted by the target by 10 per Strength upgrade purchased. If no Z were used to generate [FORCE] increase all Critical Injuries suffered and inflicted by 10 per Strength upgrade purchased."
+        "text": "If no [DARK] were used to generate [FORCEPOINT] decrease all Critical Injuries suffered and inflicted by the target by 10 per Strength upgrade purchased. If no [LIGHT] were used to generate [FORCEPOINT] increase all Critical Injuries suffered and inflicted by 10 per Strength upgrade purchased."
       },
       {
         "row": 2,
@@ -1723,7 +1723,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 3,
@@ -1731,7 +1731,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 20,
-        "text": "If no z were used to generate [FORCE] decrease all Critical Injuries suffered and inflicted by the target by 10 per Strength upgrade purchased. If no Z were used to generate [FORCE] increase all Critical Injuries suffered and inflicted by 10 per Strength upgrade purchased."
+        "text": "If no [DARK] were used to generate [FORCEPOINT] decrease all Critical Injuries suffered and inflicted by the target by 10 per Strength upgrade purchased. If no [LIGHT] were used to generate [FORCEPOINT] increase all Critical Injuries suffered and inflicted by 10 per Strength upgrade purchased."
       },
       {
         "row": 3,
@@ -1800,7 +1800,7 @@ window.SW.forcePowers = [
     "source": "Edge of the Empire core 282, Force and Destiny core 294",
     "page": 185,
     "baseXp": 10,
-    "baseText": "The character may attempt to guide, shape, and even twist the thoughts and feelings of others. Special Rule (Z/z use): When guiding and shaping thoughts, only [FORCE] generated from z may be used to generate negative emotions such as rage, fear, and hatred. Only [FORCE] generated from Z may be used to generate positive emotions such as peace, tranquility, and friendliness. Other emotions such as confusion can be created from [FORCE] generated from either Z or z. The character may spend [FORCE] to stress the mind of one living target he is engaged with, inflicting 1 strain.",
+    "baseText": "The character may attempt to guide, shape, and even twist the thoughts and feelings of others. Special Rule ([LIGHT]/[DARK] use): When guiding and shaping thoughts, only [FORCEPOINT] generated from [DARK] may be used to generate negative emotions such as rage, fear, and hatred. Only [FORCEPOINT] generated from [LIGHT] may be used to generate positive emotions such as peace, tranquility, and friendliness. Other emotions such as confusion can be created from [FORCEPOINT] generated from either [LIGHT] or [DARK]. The character may spend [FORCEPOINT] to stress the mind of one living target he is engaged with, inflicting 1 strain.",
     "rows": 4,
     "cells": [
       {
@@ -1809,7 +1809,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 0,
@@ -1817,7 +1817,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 0,
@@ -1825,7 +1825,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "The Force user may make an opposed Discipline vs Discipline check combined with an Influence Power check. If the user spends [FORCE] and succeeds on the check, he can force the target to adopt an emotional state or believe something untrue, lasting for 1 round or 5 minutes."
+        "text": "The Force user may make an opposed Discipline vs Discipline check combined with an Influence Power check. If the user spends [FORCEPOINT] and succeeds on the check, he can force the target to adopt an emotional state or believe something untrue, lasting for 1 round or 5 minutes."
       },
       {
         "row": 1,
@@ -1833,7 +1833,7 @@ window.SW.forcePowers = [
         "span": 3,
         "name": "Control",
         "xp": 15,
-        "text": "When making a Coercion, Charm, Deception, Leadership, or Negotiation check, the Force user may roll an Influence Power check as part of his dice pool. He may spend [FORCE] to gain s or a (user's choice) on the check."
+        "text": "When making a Coercion, Charm, Deception, Leadership, or Negotiation check, the Force user may roll an Influence Power check as part of his dice pool. He may spend [FORCEPOINT] to gain [SUCCESS] or [ADVANTAGE] (user's choice) on the check."
       },
       {
         "row": 1,
@@ -1849,7 +1849,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 2,
@@ -1857,7 +1857,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 2,
@@ -1865,7 +1865,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
       },
       {
         "row": 2,
@@ -1873,7 +1873,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
       },
       {
         "row": 3,
@@ -1881,7 +1881,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 3,
@@ -1889,7 +1889,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 3,
@@ -1897,7 +1897,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
       },
       {
         "row": 3,
@@ -1905,7 +1905,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Spend [FORCE] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase duration by number of rounds (or minutes) equal to duration upgrades purchased."
       }
     ],
     "links": [
@@ -1978,7 +1978,7 @@ window.SW.forcePowers = [
     "source": "Endless Vigil 36",
     "page": 186,
     "baseXp": 15,
-    "baseText": "The Force user shapes machine components on a molecular level, allowing him to mend damaged mechanical systems. The Force user may spend [FORCE] to cause one vehicle or starship he is engaged with to recover on system strain. The user may activate this multiple times.",
+    "baseText": "The Force user shapes machine components on a molecular level, allowing him to mend damaged mechanical systems. The Force user may spend [FORCEPOINT] to cause one vehicle or starship he is engaged with to recover on system strain. The user may activate this multiple times.",
     "rows": 4,
     "cells": [
       {
@@ -1995,7 +1995,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "When using this power, spend [FORCE] to cause targets to recover 1 additional strain or system strain, or heal 1 additional wound for every Strength upgrade purchased."
+        "text": "When using this power, spend [FORCEPOINT] to cause targets to recover 1 additional strain or system strain, or heal 1 additional wound for every Strength upgrade purchased."
       },
       {
         "row": 0,
@@ -2011,7 +2011,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "When making a Mechanics skill check, the user may roll a Manipulate power check as part of the pool and may spend [FORCE] to gain s or a on the check."
+        "text": "When making a Mechanics skill check, the user may roll a Manipulate power check as part of the pool and may spend [FORCEPOINT] to gain [SUCCESS] or [ADVANTAGE] on the check."
       },
       {
         "row": 1,
@@ -2019,7 +2019,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase the power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -2027,7 +2027,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "The user may spend [FORCE] to heal a number of wounds equal to his Intellect in an engaged droid."
+        "text": "The user may spend [FORCEPOINT] to heal a number of wounds equal to his Intellect in an engaged droid."
       },
       {
         "row": 1,
@@ -2035,7 +2035,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "When performing a combat check against a droid, ship vehicle or other mechanical construct within engaged range, the user may spend [FORCE] to inflict 1 additional strain or system strain on the target."
+        "text": "When performing a combat check against a droid, ship vehicle or other mechanical construct within engaged range, the user may spend [FORCEPOINT] to inflict 1 additional strain or system strain on the target."
       },
       {
         "row": 2,
@@ -2051,7 +2051,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase the power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -2059,7 +2059,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "When using this power, spend [FORCE] to cause targets to recover 1 additional strain or system strain, or heal 1 additional wound for every Strength upgrade purchased."
+        "text": "When using this power, spend [FORCEPOINT] to cause targets to recover 1 additional strain or system strain, or heal 1 additional wound for every Strength upgrade purchased."
       },
       {
         "row": 3,
@@ -2075,7 +2075,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] to increase the power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase the power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 3,
@@ -2083,7 +2083,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Mastery",
         "xp": 20,
-        "text": "When performing a Manipulate power check as part of a Mechanics skill check, the user may spend [FORCE] [FORCE] to gain x on the check."
+        "text": "When performing a Manipulate power check as part of a Mechanics skill check, the user may spend [FORCEPOINT][FORCEPOINT] to gain [TRIUMPH] on the check."
       }
     ],
     "links": [
@@ -2164,7 +2164,7 @@ window.SW.forcePowers = [
     "source": "Force and Destiny core 296",
     "page": 187,
     "baseXp": 15,
-    "baseText": "The Force user creates illusions to fool those around him. The user may spend [FORCE] to make a target at up to short range unable to perceive a chosen person or object of silhouette 1 or smaller. Until the beginning of the user's next turn, the target cannot see or sense the hidden person or object.",
+    "baseText": "The Force user creates illusions to fool those around him. The user may spend [FORCEPOINT] to make a target at up to short range unable to perceive a chosen person or object of silhouette 1 or smaller. Until the beginning of the user's next turn, the target cannot see or sense the hidden person or object.",
     "rows": 4,
     "cells": [
       {
@@ -2173,7 +2173,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 0,
@@ -2181,7 +2181,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 5,
-        "text": "Commit [FORCE] [FORCE] to sustain this power while the beguiled target remains in range."
+        "text": "Commit [FORCE][FORCE] to sustain this power while the beguiled target remains in range."
       },
       {
         "row": 0,
@@ -2189,7 +2189,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] [FORCE] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
       },
       {
         "row": 0,
@@ -2205,7 +2205,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to affect additional targets equal to Presence per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT] to affect additional targets equal to Presence per rank of Magnitude purchased."
       },
       {
         "row": 1,
@@ -2213,7 +2213,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to affect additional targets equal to Presence per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT] to affect additional targets equal to Presence per rank of Magnitude purchased."
       },
       {
         "row": 1,
@@ -2221,7 +2221,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
       },
       {
         "row": 1,
@@ -2237,7 +2237,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -2245,7 +2245,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 15,
-        "text": "Commit one or more [FORCE]. Add t per [FORCE] to all combat checks targeting the Force user."
+        "text": "Commit one or more [FORCE]. Add [THREAT] per [FORCE] to all combat checks targeting the Force user."
       },
       {
         "row": 2,
@@ -2253,7 +2253,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 15,
-        "text": "Spend [FORCE] [FORCE] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
       },
       {
         "row": 2,
@@ -2261,7 +2261,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Mastery",
         "xp": 20,
-        "text": "Spend [FORCE] [FORCE] to obscure additional object or create illusions equal to Cunning plus Deception."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to obscure additional object or create illusions equal to Cunning plus Deception."
       },
       {
         "row": 3,
@@ -2269,7 +2269,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 3,
@@ -2277,7 +2277,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 15,
-        "text": "Spend [FORCE] [FORCE] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase the silhouette of the object obscured or illusion created by 1 per Strength upgrade purchased."
       }
     ],
     "links": [
@@ -2354,7 +2354,7 @@ window.SW.forcePowers = [
     "source": "Age of Rebellion core 296, Edge of the Empire core 284, Force and Destiny core 298",
     "page": 188,
     "baseXp": 10,
-    "baseText": "The Force user can move small objects via the power of the Force. The user may spend [FORCE] to move one object of silhouette 0 that is within short range up to his maximum range. The default maximum range is short range.",
+    "baseText": "The Force user can move small objects via the power of the Force. The user may spend [FORCEPOINT] to move one object of silhouette 0 that is within short range up to his maximum range. The default maximum range is short range.",
     "rows": 4,
     "cells": [
       {
@@ -2363,7 +2363,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 0,
@@ -2371,7 +2371,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] to increase silhouette able to be targeted equal to strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase silhouette able to be targeted equal to strength upgrades purchased."
       },
       {
         "row": 0,
@@ -2379,7 +2379,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 0,
@@ -2387,7 +2387,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 1,
@@ -2395,7 +2395,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 1,
@@ -2403,7 +2403,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] to increase silhouette able to be targeted equal to strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase silhouette able to be targeted equal to strength upgrades purchased."
       },
       {
         "row": 1,
@@ -2419,7 +2419,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 2,
@@ -2427,7 +2427,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 15,
-        "text": "Spend [FORCE] to increase silhouette able to be targeted equal to strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase silhouette able to be targeted equal to strength upgrades purchased."
       },
       {
         "row": 2,
@@ -2443,7 +2443,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 15,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 3,
@@ -2451,7 +2451,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 3,
@@ -2459,7 +2459,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 20,
-        "text": "Spend [FORCE] to increase silhouette able to be targeted equal to strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase silhouette able to be targeted equal to strength upgrades purchased."
       },
       {
         "row": 3,
@@ -2544,7 +2544,7 @@ window.SW.forcePowers = [
     "source": "Force and Destiny core 300",
     "page": 189,
     "baseXp": 20,
-    "baseText": "The Force user guides the flow of energy, protecting himself and others or unleashing blasts of power upon his foes. Protect: The user makes a Protect power check and rolls Average (dd ) Discipline check as part of the pool. Spend [FORCE] [FORCE] to reduce damage from an energy-based weapon that this himself or an engaged character by amount equal to Willpower plus 1 per s. Dark side Force users may only protect themselves. Unleash: The user makes an Unleash power check as ranged attack and rolls an Average (dd ) Discipline check for difficulty. If check succeeds and spends [FORCE] [FORCE] the attack hits. It has a range of short, a base damage equal to Willpower, and a critical rating of 4. User gains 1 Conflict.",
+    "baseText": "The Force user guides the flow of energy, protecting himself and others or unleashing blasts of power upon his foes. Protect: The user makes a Protect power check and rolls Average ([DIFFICULTY][DIFFICULTY]) Discipline check as part of the pool. Spend [FORCEPOINT][FORCEPOINT] to reduce damage from an energy-based weapon that this himself or an engaged character by amount equal to Willpower plus 1 per [SUCCESS]. Dark side Force users may only protect themselves. Unleash: The user makes an Unleash power check as ranged attack and rolls an Average ([DIFFICULTY][DIFFICULTY]) Discipline check for difficulty. If check succeeds and spends [FORCEPOINT][FORCEPOINT] the attack hits. It has a range of short, a base damage equal to Willpower, and a critical rating of 4. User gains 1 Conflict.",
     "rows": 4,
     "cells": [
       {
@@ -2553,7 +2553,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 0,
@@ -2561,7 +2561,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] to decrease damage equal to ranks of Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to decrease damage equal to ranks of Strength upgrades purchased."
       },
       {
         "row": 0,
@@ -2569,7 +2569,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] to decrease damage equal to ranks of Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to decrease damage equal to ranks of Strength upgrades purchased."
       },
       {
         "row": 0,
@@ -2577,7 +2577,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 10,
-        "text": "Protect: Spend a to gain +1 defense. Unleash: Spend a to inflict 1 strain on target."
+        "text": "Protect: Spend [ADVANTAGE] to gain +1 defense. Unleash: Spend [ADVANTAGE] to inflict 1 strain on target."
       },
       {
         "row": 1,
@@ -2585,7 +2585,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -2593,7 +2593,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to affect 1 additional target within range per rank of Magnitude purchased."
+        "text": "Spend [FORCEPOINT] to affect 1 additional target within range per rank of Magnitude purchased."
       },
       {
         "row": 1,
@@ -2601,7 +2601,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -2609,7 +2609,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 15,
-        "text": "Protect: Spend [FORCE] to allow power to protect against all types of attack. Unleash: Spend [FORCE] to give the attack Ensnare 2."
+        "text": "Protect: Spend [FORCEPOINT] to allow power to protect against all types of attack. Unleash: Spend [FORCEPOINT] to give the attack Ensnare 2."
       },
       {
         "row": 2,
@@ -2617,7 +2617,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 20,
-        "text": "Spend [FORCE] [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT][FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -2625,7 +2625,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 15,
-        "text": "Spend [FORCE] to decrease damage equal to ranks of Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to decrease damage equal to ranks of Strength upgrades purchased."
       },
       {
         "row": 2,
@@ -2633,7 +2633,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 20,
-        "text": "Spend [FORCE] to decrease damage equal to ranks of Strength upgrades purchased."
+        "text": "Spend [FORCEPOINT] to decrease damage equal to ranks of Strength upgrades purchased."
       },
       {
         "row": 2,
@@ -2641,7 +2641,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Duration",
         "xp": 15,
-        "text": "Protect: If no z generated [FORCE] the power reduces damage of all attacks hitting the target. Unleash: Spend [FORCE] to give the attack Burn 2."
+        "text": "Protect: If no [DARK] generated [FORCEPOINT] the power reduces damage of all attacks hitting the target. Unleash: Spend [FORCEPOINT] to give the attack Burn 2."
       },
       {
         "row": 3,
@@ -2657,7 +2657,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Mastery",
         "xp": 25,
-        "text": "Protect: Light side Force user may spend [FORCE] [FORCE] to reflect all attacks they reduce to 0 damage, dealing damage equal to initial attack to attacker. Unleash: Dark side Force users may spend [FORCE] to reduce critical rating of attacks to 1."
+        "text": "Protect: Light side Force user may spend [FORCEPOINT][FORCEPOINT] to reflect all attacks they reduce to 0 damage, dealing damage equal to initial attack to attacker. Unleash: Dark side Force users may spend [FORCEPOINT] to reduce critical rating of attacks to 1."
       }
     ],
     "links": [
@@ -2742,7 +2742,7 @@ window.SW.forcePowers = [
     "source": "Force and Destiny core 302",
     "page": 190,
     "baseXp": 10,
-    "baseText": "The Force user allows the will of the Force to lead the way to something lost or forgotten. The user may spend [FORCE] [FORCE] to gain insight into the general location or direction of a person or object that he knows about, regardless of current distance. The user may spend [FORCE] and succeed at an Average (dd ) Vigilance check (or opposed Vigilance vs. Discipline check) to see through illusions.",
+    "baseText": "The Force user allows the will of the Force to lead the way to something lost or forgotten. The user may spend [FORCEPOINT][FORCEPOINT] to gain insight into the general location or direction of a person or object that he knows about, regardless of current distance. The user may spend [FORCEPOINT] and succeed at an Average ([DIFFICULTY][DIFFICULTY]) Vigilance check (or opposed Vigilance vs. Discipline check) to see through illusions.",
     "rows": 4,
     "cells": [
       {
@@ -2751,7 +2751,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to gain additional detail per Magnitude upgrade purchased."
+        "text": "Spend [FORCEPOINT] to gain additional detail per Magnitude upgrade purchased."
       },
       {
         "row": 0,
@@ -2767,7 +2767,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] to eliminate 1 Force-based illusion per Strength upgrade purchased."
+        "text": "Spend [FORCEPOINT] to eliminate 1 Force-based illusion per Strength upgrade purchased."
       },
       {
         "row": 1,
@@ -2775,7 +2775,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to gain additional detail per Magnitude upgrade purchased."
+        "text": "Spend [FORCEPOINT] to gain additional detail per Magnitude upgrade purchased."
       },
       {
         "row": 1,
@@ -2783,7 +2783,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to gain additional detail per Magnitude upgrade purchased."
+        "text": "Spend [FORCEPOINT] to gain additional detail per Magnitude upgrade purchased."
       },
       {
         "row": 2,
@@ -2791,7 +2791,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Control",
         "xp": 15,
-        "text": "Spend [FORCE] track one additional target."
+        "text": "Spend [FORCEPOINT] track one additional target."
       },
       {
         "row": 2,
@@ -2799,7 +2799,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 15,
-        "text": "Spend [FORCE] to eliminate 1 Force-based illusion per Strength upgrade purchased."
+        "text": "Spend [FORCEPOINT] to eliminate 1 Force-based illusion per Strength upgrade purchased."
       },
       {
         "row": 2,
@@ -2807,7 +2807,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 15,
-        "text": "Spend [FORCE] to gain additional detail per Magnitude upgrade purchased."
+        "text": "Spend [FORCEPOINT] to gain additional detail per Magnitude upgrade purchased."
       },
       {
         "row": 3,
@@ -2823,7 +2823,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 15,
-        "text": "Ongoing effect: [FORCE] [FORCE] [FORCE]. The user's attacks gain Pierce with rating equal to Cunning plus ranks in Perception."
+        "text": "Ongoing effect: [FORCE][FORCE][FORCE]. The user's attacks gain Pierce with rating equal to Cunning plus ranks in Perception."
       },
       {
         "row": 3,
@@ -2831,7 +2831,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Mastery",
         "xp": 20,
-        "text": "Make Seek power check and spend [FORCE] [FORCE] [FORCE] to add x to combat checks against one target for remainder of encounter."
+        "text": "Make Seek power check and spend [FORCEPOINT][FORCEPOINT][FORCEPOINT] to add [TRIUMPH] to combat checks against one target for remainder of encounter."
       }
     ],
     "links": [
@@ -2892,7 +2892,7 @@ window.SW.forcePowers = [
     "source": "Edge of the Empire core 280, Force and Destiny core 304",
     "page": 191,
     "baseXp": 10,
-    "baseText": "The Force User can sense the Force interacting with the world around him. The user may spend [FORCE] to sense all living things within short range (including sentient and non-sentient beings). The user may spend [FORCE] to sense the current emotional state of one living target with whom he is engaged.",
+    "baseText": "The Force User can sense the Force interacting with the world around him. The user may spend [FORCEPOINT] to sense all living things within short range (including sentient and non-sentient beings). The user may spend [FORCEPOINT] to sense the current emotional state of one living target with whom he is engaged.",
     "rows": 4,
     "cells": [
       {
@@ -2909,7 +2909,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 10,
-        "text": "Effect: Spend [FORCE]. The Force user senses the current thoughts of one living target with whom he is engaged."
+        "text": "Effect: Spend [FORCEPOINT]. The Force user senses the current thoughts of one living target with whom he is engaged."
       },
       {
         "row": 1,
@@ -2925,7 +2925,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 1,
@@ -2933,7 +2933,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 5,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 2,
@@ -2949,7 +2949,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 2,
@@ -2957,7 +2957,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       },
       {
         "row": 3,
@@ -2973,7 +2973,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 10,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to range upgrades purchased."
       },
       {
         "row": 3,
@@ -2981,7 +2981,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Magnitude",
         "xp": 10,
-        "text": "Spend [FORCE] to increase number of targets affected by power equal to magnitude upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase number of targets affected by power equal to magnitude upgrades purchased."
       }
     ],
     "links": [
@@ -3038,7 +3038,7 @@ window.SW.forcePowers = [
     "source": "Keeping the Peace 39",
     "page": 192,
     "baseXp": 5,
-    "baseText": "The Force user can dampen the effect of incoming Force powers, dramatically diminishing their effect on himself and his allies. The user may spend [FORCE] to add automatic f to Force power checks made against him or any ally within short range until the end of his next turn.",
+    "baseText": "The Force user can dampen the effect of incoming Force powers, dramatically diminishing their effect on himself and his allies. The user may spend [FORCEPOINT] to add automatic [FAILURE] to Force power checks made against him or any ally within short range until the end of his next turn.",
     "rows": 4,
     "cells": [
       {
@@ -3047,7 +3047,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 5,
-        "text": "Spend [FORCE] to add additional automatic f equal to Strength upgrades purchased to hostile Force power checks."
+        "text": "Spend [FORCEPOINT] to add additional automatic [FAILURE] equal to Strength upgrades purchased to hostile Force power checks."
       },
       {
         "row": 0,
@@ -3063,7 +3063,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 1,
@@ -3071,7 +3071,7 @@ window.SW.forcePowers = [
         "span": 3,
         "name": "Control",
         "xp": 10,
-        "text": "Commit one or more [FORCE] When an opponent targets the user with a Force power, after the opponent generates [FORCE], reduce the total [FORCE] generated by 1 per [FORCE] committed. to a minimum of 0."
+        "text": "Commit one or more [FORCE] When an opponent targets the user with a Force power, after the opponent generates [FORCEPOINT], reduce the total [FORCEPOINT] generated by 1 per [FORCE] committed. to a minimum of 0."
       },
       {
         "row": 1,
@@ -3079,7 +3079,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 2,
@@ -3087,7 +3087,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Strength",
         "xp": 10,
-        "text": "Spend [FORCE] to add additional automatic f equal to Strength upgrades purchased to hostile Force power checks."
+        "text": "Spend [FORCEPOINT] to add additional automatic [FAILURE] equal to Strength upgrades purchased to hostile Force power checks."
       },
       {
         "row": 2,
@@ -3103,7 +3103,7 @@ window.SW.forcePowers = [
         "span": 1,
         "name": "Range",
         "xp": 5,
-        "text": "Spend [FORCE] to increase power's range by a number of range bands equal to Range upgrades purchased."
+        "text": "Spend [FORCEPOINT] to increase power's range by a number of range bands equal to Range upgrades purchased."
       },
       {
         "row": 3,
@@ -3111,7 +3111,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 20,
-        "text": "Thee user may make a Suppress power check along with an opposed Discipline vs. Discipline check targeting another Force user within short range. If the user spends [FORCE] [FORCE] and succeeds on the check, the target Force user immediately uncommits all [FORCE] and ends all ongoing effects of Force powers and Force talents that required committed [FORCE]."
+        "text": "Thee user may make a Suppress power check along with an opposed Discipline vs. Discipline check targeting another Force user within short range. If the user spends [FORCEPOINT][FORCEPOINT] and succeeds on the check, the target Force user immediately uncommits all [FORCE] and ends all ongoing effects of Force powers and Force talents that required committed [FORCE]."
       },
       {
         "row": 3,
@@ -3119,7 +3119,7 @@ window.SW.forcePowers = [
         "span": 2,
         "name": "Control",
         "xp": 15,
-        "text": "Whenever a Force user targets a character affected by Suppress with a hostile Force power, if that opponent used z to generate [FORCE] on the check, he suffers strain equal to the user's ranks in Discipline."
+        "text": "Whenever a Force user targets a character affected by Suppress with a hostile Force power, if that opponent used [DARK] to generate [FORCEPOINT] on the check, he suffers strain equal to the user's ranks in Discipline."
       }
     ],
     "links": [

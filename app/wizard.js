@@ -2296,6 +2296,15 @@ const Wizard = (() => {
 
   function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
 
+  // Rules text that carries dice symbols as [BOOST], [FORCEPOINT] and so on.
+  // Escaped first, so the only markup that survives is the glyph spans the
+  // token converter puts in.
+  function sym(s) {
+    const safe = esc(s);
+    return (typeof Reference !== 'undefined' && Reference.symbols)
+      ? Reference.symbols(safe) : glyphify(safe);
+  }
+
   // ── Signature abilities ──────────────────────────────────────────────────
   // Attaching is permanent: "the attached ability cannot be removed or switched
   // to a different tree" (Enter the Unknown p.34), so it asks first.
@@ -2407,7 +2416,7 @@ const Wizard = (() => {
           return `<div class="${cls}" data-fp-up="${i}" data-fp-key="${esc(p.key)}"
             style="grid-row:${cc.row + 1};grid-column:${cc.col + 1} / span ${cc.span}">
             <div class="fp-up-name">${esc(cc.name)}<span class="fp-up-xp">${cc.xp} XP</span></div>
-            <div class="fp-up-text">${esc(cc.text)}</div>
+            <div class="fp-up-text">${sym(cc.text)}</div>
           </div>`;
         }).join('');
         tree = `<div class="fp-grid">${cells}</div>`;
@@ -2426,7 +2435,7 @@ const Wizard = (() => {
               ? `<button class="btn btn-primary btn-sm" data-fp-buy="${esc(p.key)}">Buy ${p.baseXp} XP</button>`
               : `<em class="fp-need">needs Force rating ${p.prereqRating}</em>`}
         </div>
-        <div class="fp-base">${esc(p.baseText)}</div>
+        <div class="fp-base">${sym(p.baseText)}</div>
         ${tree}
       </div>`;
     }).join('');
@@ -2828,7 +2837,7 @@ const Wizard = (() => {
               <div class="sig-offer-name">${esc(sig.name)} <span class="pf-tag">${sig.baseXp} XP</span>
                 <span class="pf-tag">${esc(sig.source)}</span></div>
               <div class="sig-need">Attaches through: ${need || 'no nodes'}</div>
-              <div class="att-base">${esc(sig.baseText)}</div>
+              <div class="att-base">${sym(sig.baseText)}</div>
             </div>
             <div class="spick-buy">
               ${taken ? `<em>on ${esc((Engine.getSpec(taken) || {}).name || taken)}</em>`
@@ -2857,7 +2866,7 @@ const Wizard = (() => {
           style="grid-row:${u.row + 1};grid-column:${u.col + 1}">
           <div class="sig-up-name">${esc(u.name)}</div>
           <div class="sig-up-xp">${u.xp} XP</div>
-          <div class="sig-up-text">${esc(u.text)}</div>
+          <div class="sig-up-text">${sym(u.text)}</div>
         </div>`;
       }).join('');
       sigSection = `<div class="sig-panel">
@@ -2867,7 +2876,7 @@ const Wizard = (() => {
         <div class="sig-base ${baseOwned ? 'owned' : 'open'}" data-sig-base="${esc(attached)}">
           <div class="sig-up-name">Basic form <span class="sig-up-xp">${sig.baseXp} XP</span>
             ${baseOwned ? '<span class="tt-check">&#10003;</span>' : ''}</div>
-          <div class="sig-up-text">${esc(sig.baseText)}</div>
+          <div class="sig-up-text">${sym(sig.baseText)}</div>
         </div>
         <div class="sig-grid">${cells}</div>
         <p class="ded-choices-note">${baseOwned

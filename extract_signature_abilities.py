@@ -135,6 +135,22 @@ def parse_text(flat):
         stop = boxes[i + 1]['start'] if i + 1 < len(boxes) else len(body2)
         b['text'] = ' '.join(body2[b['end']:stop].split())
         del b['start'], b['end']
+
+    # A box's text can end on a short capitalised word or a symbol followed by
+    # a full stop, which the name pattern then swallows onto the front of the
+    # NEXT box's name. No real box name contains a full stop, so hand the lead
+    # back to the text it came from.
+    for i, b in enumerate(boxes):
+        lead = re.match(r'^([A-Z]{1,3})\.\s+(.+)$', b['name'])
+        if not lead:
+            continue
+        tail = ' ' + lead.group(1) + '.'
+        if i == 0:
+            base_text = (base_text + tail).strip()
+        else:
+            boxes[i - 1]['text'] = (boxes[i - 1]['text'] + tail).strip()
+        b['name'] = lead.group(2)
+
     return {'career': career, 'name': name, 'source': source,
             'baseXp': base_xp, 'baseText': base_text, 'upgrades': boxes}
 

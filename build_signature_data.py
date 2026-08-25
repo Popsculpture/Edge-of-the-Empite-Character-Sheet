@@ -1,6 +1,8 @@
 """Turn the extracted signature abilities into data/signature-abilities.js."""
 import json, re, sys, io
 
+from swtext import clean
+
 CAREER_KEYS = {
     'ACE': 'THEACE', 'BOUNTY HUNTER': 'BOUNT', 'CLONE SOLDIER': 'CLONE',
     'COLONIST': 'COLO', 'COMMANDER': 'COMMANDER', 'CONSULAR': 'CONSULAR',
@@ -38,7 +40,7 @@ def main():
         ups = []
         for i, u in enumerate(a['upgrades']):
             ups.append({'row': i // 4, 'col': i % 4, 'name': title(u['name']),
-                        'xp': u['xp'], 'text': u['text']})
+                        'xp': u['xp'], 'text': clean(u['text'])})
         out.append({
             'key': key_of(a['name']),
             'name': title(a['name']),
@@ -47,7 +49,7 @@ def main():
             'page': a['page'],
             'nodes': a['nodes'],
             'baseXp': a['baseXp'],
-            'baseText': a['baseText'],
+            'baseText': clean(a['baseText']),
             'upgrades': ups,
             'links': {'baseDown': a['baseDown'], 'row1h': a['row1h'],
                       'row2h': a['row2h'], 'row1to2': a['row1to2']},
