@@ -667,7 +667,7 @@ const Sheet = (() => {
               <span class="sveh-card-name">${esc(displayName)}</span>
               ${displayName !== v.name ? `<span class="sveh-card-model">${esc(v.name)}</span>` : ''}
             </div>
-            <span class="sveh-card-type">${esc(v.type || '')}</span>
+            <span class="sveh-card-type">${esc(v.hullClass || v.type || '')}</span>
             ${v.homebrew ? `<span class="hb-badge" title="${esc(v.homebrew_source || 'Homebrew')}">Homebrew</span>` : ''}
             ${entry.purchased ? '' : '<span class="sheet-eq-free">(not purchased)</span>'}
           </div>

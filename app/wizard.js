@@ -3827,8 +3827,14 @@ const Wizard = (() => {
     const remain = d ? d.credits_remaining : Infinity;
     let list = SW.vehicles || [];
     if (f.q) {
-      const q = f.q.toLowerCase();
-      list = list.filter(v => v.name.toLowerCase().includes(q) || (v.type || '').toLowerCase().includes(q));
+      // Match the display name, the generic type, and the hull class a named
+      // ship belongs to, so searching a class turns up its famous examples as
+      // well as the stock hull. Hyphens and runs of space are levelled on both
+      // sides, so "dynamic class" finds "Dynamic-Class" and vice versa.
+      const norm = s => (s || '').toLowerCase().replace(/[-_/]+/g, ' ').replace(/\s+/g, ' ').trim();
+      const q = norm(f.q);
+      list = list.filter(v =>
+        norm(v.name).includes(q) || norm(v.type).includes(q) || norm(v.hullClass).includes(q));
     }
     if (f.group) list = list.filter(v => vehicleGroup(v) === f.group);
     if (f.sil) {
@@ -3946,7 +3952,7 @@ const Wizard = (() => {
             <span class="eq-stat"><span>Armor</span><strong>${v.armor ?? '—'}</strong></span>
             <span class="eq-stat"><span>HT</span><strong>${v.hullTrauma ?? '—'}</strong></span>
             <span class="eq-stat"><span>SS</span><strong>${v.systemStrain ?? '—'}</strong></span>
-            <span class="veh-type-tag veh-group-${group.toLowerCase()}">${esc(v.type || group)}</span>
+            <span class="veh-type-tag veh-group-${group.toLowerCase()}">${esc(v.hullClass || v.type || group)}</span>
           </div>
         </div>
         <div class="eq-row-buy">
@@ -4005,7 +4011,7 @@ const Wizard = (() => {
           <div>
             <div class="veh-stats-name">${esc(v.name)}
               ${v.homebrew ? `<span class="hb-badge" title="${esc(v.homebrew_source || 'Homebrew')}">Homebrew</span>` : ''}</div>
-            <div class="veh-stats-sub">${esc(v.type || '')} &middot; <span class="eq-detail-muted">${esc(src)}</span></div>
+            <div class="veh-stats-sub">${esc(v.hullClass || v.type || '')} &middot; <span class="eq-detail-muted">${esc(src)}</span></div>
           </div>
           ${!owned
             ? `<button class="btn btn-sm btn-accent" data-vadd="${esc(v.key)}">${_storeCtx === 'market' ? '+ Buy' : '+ Add to Fleet'}</button>`
