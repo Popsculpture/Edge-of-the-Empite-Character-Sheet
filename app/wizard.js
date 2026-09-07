@@ -3937,6 +3937,7 @@ const Wizard = (() => {
             <span class="veh-sil-badge" title="Silhouette ${v.silhouette ?? '?'}">${v.silhouette ?? '?'}</span>
             <span class="eq-name">${esc(v.name)}</span>
             ${v.restricted ? '<span class="r-badge">R</span>' : ''}
+            ${v.homebrew ? `<span class="hb-badge" title="${esc(v.homebrew_source || 'Homebrew')}">Homebrew</span>` : ''}
             ${owned ? '<span class="eq-owned">&#10003;</span>' : ''}
           </div>
           <div class="veh-row-stats">
@@ -4002,7 +4003,8 @@ const Wizard = (() => {
       <div class="veh-stats-inner">
         <div class="veh-stats-head">
           <div>
-            <div class="veh-stats-name">${esc(v.name)}</div>
+            <div class="veh-stats-name">${esc(v.name)}
+              ${v.homebrew ? `<span class="hb-badge" title="${esc(v.homebrew_source || 'Homebrew')}">Homebrew</span>` : ''}</div>
             <div class="veh-stats-sub">${esc(v.type || '')} &middot; <span class="eq-detail-muted">${esc(src)}</span></div>
           </div>
           ${!owned
@@ -4071,6 +4073,7 @@ const Wizard = (() => {
         <div class="veh-fleet-card">
           <div class="veh-fleet-card-head">
             <span class="veh-type-tag veh-group-${group.toLowerCase()}">${esc(group)}</span>
+            ${vd.homebrew ? `<span class="hb-badge" title="${esc(vd.homebrew_source || 'Homebrew')}">Homebrew</span>` : ''}
             <input class="veh-nickname" type="text" value="${esc(entry.nickname)}"
               placeholder="${esc(vd.name)}" data-vfield="nickname" data-vkey="${esc(entry.key)}" maxlength="60">
             ${entry.soldInPlay
@@ -4082,6 +4085,11 @@ const Wizard = (() => {
                ['Armor',vd.armor],['HT',vd.hullTrauma],['SS',vd.systemStrain]]
               .map(([l,val]) => `<span class="eq-stat"><span>${l}</span><strong>${val ?? '—'}</strong></span>`).join('')}
           </div>
+          ${(vd.baseMods || []).length ? `
+          <div class="veh-fleet-card-mods">
+            <div class="veh-detail-lbl">Special Features</div>
+            ${vd.baseMods.map(m => `<p class="veh-detail-mod">${esc(m)}</p>`).join('')}
+          </div>` : ''}
           <div class="veh-fleet-card-footer">
             <label class="cart-flag" style="gap:5px">
               <input type="checkbox" data-vact="toggle-purchased" data-vkey="${esc(entry.key)}"${entry.purchased?' checked':''}${entry.soldInPlay?' disabled':''}>

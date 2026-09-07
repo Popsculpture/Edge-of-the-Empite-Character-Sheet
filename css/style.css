@@ -1822,6 +1822,26 @@ body.on-craft #app { padding-bottom: 200px; }
   vertical-align: middle;
 }
 
+/* Marks content that is not from a published book. Outlined rather than
+   filled so it reads as a provenance note and never competes with the
+   restricted badge, which is a rule the GM has to enforce. */
+.hb-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 5px;
+  border: 1px solid var(--fad);
+  border-radius: 3px;
+  background: var(--fad-bg);
+  color: var(--fad);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
 /* ── Equipment storefront tabs ─────────────────────────────────────── */
 .equip-tabs {
   display: flex;
@@ -3098,6 +3118,9 @@ body.on-craft #app { padding-bottom: 200px; }
 }
 .veh-fleet-card-head { display: flex; align-items: center; gap: 7px; }
 .veh-fleet-card-meta { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+/* A ship's own rules travel with it into the fleet, so they are readable
+   without opening the store entry again. */
+.veh-fleet-card-mods { padding-top: 8px; border-top: 1px solid var(--border); }
 .veh-fleet-card-footer { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 .veh-nickname {

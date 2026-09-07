@@ -668,6 +668,7 @@ const Sheet = (() => {
               ${displayName !== v.name ? `<span class="sveh-card-model">${esc(v.name)}</span>` : ''}
             </div>
             <span class="sveh-card-type">${esc(v.type || '')}</span>
+            ${v.homebrew ? `<span class="hb-badge" title="${esc(v.homebrew_source || 'Homebrew')}">Homebrew</span>` : ''}
             ${entry.purchased ? '' : '<span class="sheet-eq-free">(not purchased)</span>'}
           </div>
           <div class="sveh-primary-stats">
@@ -698,7 +699,10 @@ const Sheet = (() => {
               <div class="sveh-detail-row"><span>Price</span><strong>${cr(v.price)} cr</strong></div>
             </div>
           </div>
-          ${(v.baseMods || []).length ? `<div class="sveh-mods">${v.baseMods.map(m => `<p>${esc(m)}</p>`).join('')}</div>` : ''}
+          ${(v.baseMods || []).length
+            ? `<div class="sveh-mods"><div class="sveh-weapons-title">Special Features</div>
+               ${v.baseMods.map(m => `<p>${esc(m)}</p>`).join('')}</div>`
+            : ''}
           ${wRows ? `<div class="sveh-weapons"><div class="sveh-weapons-title">Weapons</div><div class="wpn-cards">${wRows}</div></div>` : ''}
           ${entry.notes ? `<div class="sveh-notes">${esc(entry.notes)}</div>` : ''}
         </div>`;
