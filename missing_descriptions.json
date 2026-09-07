@@ -1,0 +1,4863 @@
+{
+  "generated": "2026-07-09",
+  "note": "Items across weapons.js/armor.js/gear.js/vehicles.js whose description field is empty (the app falls back to a page-reference message for these). Excludes the 7 intentionally generic gear placeholders (Small Item, Large Item, etc.), which have no source to cite.",
+  "summary": {
+    "items": 414,
+    "citations": 487,
+    "sourcebooks": 36,
+    "by_category": {
+      "Armor": 22,
+      "Gear": 152,
+      "Vehicle": 102,
+      "Weapon": 138
+    }
+  },
+  "items": [
+    {
+      "category": "Armor",
+      "key": "MOUNTARMOR",
+      "name": "A/KT Mountaineer Armor",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "UTILITYVEST",
+      "name": "A/KT Tracker Utility Vest",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "WINGCOMMANDER",
+      "name": "A/KT Wing Commander Armored Flight Suit",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "42"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "AEG",
+      "name": "Adverse Environmental Gear",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "169"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "184"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "178"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "CARGOCL",
+      "name": "Cargo Clothing",
+      "sources": [
+        {
+          "book": "Desperate Allies",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "FLIGHTCF9",
+      "name": "CF-9 Naval Flight Suit",
+      "sources": [
+        {
+          "book": "Rise of the Separatists",
+          "page": "56"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "DESTRIBEAST",
+      "name": "Destri-Series Laminated Beast Armor",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "EODMKII",
+      "name": "EOD-Mk II Armor",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "42"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "JEDITRAINSUIT",
+      "name": "Jedi Training Suit (Unweighted)",
+      "sources": [
+        {
+          "book": "Keeping the Peace",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "JEDITRAINSUITW",
+      "name": "Jedi Training Suit (Weighted)",
+      "sources": [
+        {
+          "book": "Keeping the Peace",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "THINSUIT",
+      "name": "Karflo Thinsuit",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "50"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "KOROHALFVEST",
+      "name": "Koromondian Half-Vest",
+      "sources": [
+        {
+          "book": "Keeping the Peace",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "LAM",
+      "name": "Laminate",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "169"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "185"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "MIMETICSUIT",
+      "name": "Mimetic Suit",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "MK1KATARN",
+      "name": "Mk I Katarn-Class Commando Armor",
+      "sources": [
+        {
+          "book": "Knights of Fate",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "MKINIGHTSTALK",
+      "name": "Mk I Nightstalker Suit",
+      "sources": [
+        {
+          "book": "Cyphers and Masks",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "N57",
+      "name": "N-57 Armor",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "BODYSUIT",
+      "name": "Polis Masson Bodysuit",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "PROTECTOR",
+      "name": "Protector 1 Combat Armor",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "POWARMOR",
+      "name": "PX-11 \"Battlement\" Powered Armor",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "51"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "SKAKPRESS",
+      "name": "Skakoan Pressure Suit",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "23"
+        }
+      ]
+    },
+    {
+      "category": "Armor",
+      "key": "TAILOREDJACKET",
+      "name": "Tailored Armored Jacket",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "44"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SURVMESSKIT",
+      "name": "\"Survivalist\" Mess Kit",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROID87RMCOLL",
+      "name": "87-RM Scout Collector Droid",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "AGLMKIII",
+      "name": "AG/L Mk. III Targeting Goggles",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEASTAIWHA",
+      "name": "Aiwha Riding Beast",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "83"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDATED",
+      "name": "All-Terrain Exploration Droid",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "55"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "ATGARARTREM",
+      "name": "Atgar Artillery Remote",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "B310",
+      "name": "B310 Micro-Imager",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEASTBANTHA",
+      "name": "Bantha Riding Beast",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "83"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TALISBARDOTSPH",
+      "name": "Bardottan Sphere",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BC7COCOON",
+      "name": "BC-7 Environmental Cocoon",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDBD10",
+      "name": "BD10-Series Assay Suport Droid",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEARSLOTHANTIVENOM",
+      "name": "Bearsloth Antivenom (dose)",
+      "sources": [
+        {
+          "book": "Chronicles of the Gatekeeper",
+          "page": "23"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BIOMEGEN",
+      "name": "Biome Generator",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BIOSCAN",
+      "name": "Bioscan",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "53"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BIOSCANMED",
+      "name": "Bioscan (Medical)",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "50"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDBLO",
+      "name": "BLO-Series Non-Lethal Combat Droid",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FS19RELOADCOMPBROAD",
+      "name": "Broadhead Arrow (FS19 Compound Bow)",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CYAVIONCAAF2",
+      "name": "CAAF-2 Avionics Interface",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "101"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDCAM",
+      "name": "Cam Droid",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "102"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CANTEEN",
+      "name": "Canteen",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CHEMLURE",
+      "name": "Chem Lure",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CAMONETROLL",
+      "name": "CN-15 Camouflage Netting (Roll)",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CAMOPAINT",
+      "name": "CN-21 Camouflage Paint",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "COLLARAMP",
+      "name": "Collar-Amp",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "COLLARAMPUP",
+      "name": "Collar-Amp (Upgraded)",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CRATARMENH",
+      "name": "Cratala's Arm Enhancement Implant",
+      "sources": [
+        {
+          "book": "Beyond the Rim",
+          "page": "66"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CRATLEGENH",
+      "name": "Cratala's Leg Enhancement Implant",
+      "sources": [
+        {
+          "book": "Beyond the Rim",
+          "page": "66"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CRATVISCYC",
+      "name": "Cratala's Vision Cycling Implant",
+      "sources": [
+        {
+          "book": "Beyond the Rim",
+          "page": "66"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TALISCROWNVER",
+      "name": "Crown of Verity",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "110"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CYARMVI",
+      "name": "Cybernetic Arms (Mod VI)",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "173"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "189"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "182"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CYLEGII",
+      "name": "Cybernetic Leg (Mod II)",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "173"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "189"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "183"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CYLEGIII",
+      "name": "Cybernetic Leg (Mod III)",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "173"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "189"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "183"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CYDROIDINTF",
+      "name": "Cyborg/Droid Interface",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "112"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEASTDALGO",
+      "name": "Dalgo Riding Beast",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "84"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DATABR",
+      "name": "Data Breaker",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "186"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEASTDEWBACK",
+      "name": "Dewback Riding Beast",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "85"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DF15FUSIONGEN",
+      "name": "DF-15 Medium-Yield Fusion Generator",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TALISDRAMORPH",
+      "name": "Dram of Orphne",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "111"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MEDBCKPCK",
+      "name": "ECM-598 Medical Backpack",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "ELECFENCE",
+      "name": "Electric Perimeter Fence",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "ATMOSPROC",
+      "name": "Elysium Atmospheric Processor",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "EXCAVKIT",
+      "name": "Excavator's Precision Tool Kit",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "RELOADCOMPEXP",
+      "name": "Explosive Tipped Arrow (Corellian Compound Bow)",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "97"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FS19RELOADCOMPEXPL",
+      "name": "Explosive Tipped Arrow (FS19 Compound Bow)",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TALISEYESLAQ",
+      "name": "Eyes of Laqasa",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "108"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "EZ1",
+      "name": "EZ1 Analyzer",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FAB7000GEO",
+      "name": "Fabritech 7000 Geoscanner",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FALSECRED",
+      "name": "False Credentials",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "50"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEASTFAMBAA",
+      "name": "Fambaa Riding Beast",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "86"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDFIRE",
+      "name": "FD-Series Extinguisher Droid",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "102"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FLDKITCHEN",
+      "name": "Field Kitchen",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "50"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FIELDRAT",
+      "name": "Field Rations",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FLASHCAMPST",
+      "name": "FlashFire Camp Stove",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FLESHCAM",
+      "name": "Flesh Camouflage Set",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "186"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "193"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDG2REP",
+      "name": "G2 Repair Droid",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "113"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "GRAVBELT",
+      "name": "Gravity Belt",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "103"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TALISGRIMSYC",
+      "name": "Grimoire of Syclos the Lame",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "107"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "GRNDPENPCK",
+      "name": "Ground-Penetrating Sensor Pack",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDGYRO",
+      "name": "Gyrowheel 1.42.08 Recycling Droid",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "50"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TALISHERDGAUNT",
+      "name": "Herder's Gauntlet",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "110"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "AVTRNSLTR",
+      "name": "Holo V Audio/Visual Translator",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONASGU",
+      "name": "Holocron of Astrogation and Gunnery",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONBRSW",
+      "name": "Holocron of Brawl and Streetwise",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONCOPER",
+      "name": "Holocron of Computers and Perception",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONCOCO",
+      "name": "Holocron of Cool and Coordination",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONDIME",
+      "name": "Holocron of Discipline and Medicine",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONLOLS",
+      "name": "Holocron of Lore and Lightsaber",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONMERL",
+      "name": "Holocron of Mechanics and Ranged Light",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONORPS",
+      "name": "Holocron of Outer Rim and  Piloting Space",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONSKVI",
+      "name": "Holocron of Skulduggery and Vigilance",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONXESU",
+      "name": "Holocron of Xenology and Survival",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "109"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLORELAY",
+      "name": "HoloNet Relay",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TROPHYINTBADGE",
+      "name": "Imperial Intelligence Badge",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "96"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TROPHYCAP",
+      "name": "Imperial Officer's Cap",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "96"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FS19RELOADCOMPINCEN",
+      "name": "Incendiary Arrow (FS19 Compound Bow)",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CERESTAB",
+      "name": "IRAPS Cerebral Stabilizer",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDJ9WORK",
+      "name": "J9 Worker Drone",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "113"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDJCPILOT",
+      "name": "JC Series Pilot Droid",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "56"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "JEDIMULTITOOL",
+      "name": "Jedi Multi-Tool",
+      "sources": [
+        {
+          "book": "Keeping the Peace",
+          "page": "53"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDK9",
+      "name": "K-9 Series Hunting Droid",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEASTKAADU",
+      "name": "Kaadu Riding Beast",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "86"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDKLC",
+      "name": "KLC Series Exchequer Droid",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "56"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BEASTKYBUCK",
+      "name": "Kybuck Riding Beast",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "86"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "LOCKPICKSET",
+      "name": "Lockpic Set",
+      "sources": [
+        {
+          "book": "Cyphers and Masks",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "LNGRNGSCNR",
+      "name": "Long Range Terrain Scanner",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SCANDEMO",
+      "name": "Mark 10 Demolitions Scanner",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SCANCOMBAT",
+      "name": "Mark 6  Combat Scanner",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "56"
+        },
+        {
+          "book": "Knights of Fate",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MARKSMANHREMOTE",
+      "name": "Marksman-H Combat Training Remote",
+      "sources": [
+        {
+          "book": "Keeping the Peace",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MAGNACUFF",
+      "name": "MC-100 Magnacuffs",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DATAPADMERCH",
+      "name": "Mercantiler Datapad",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "BELTPOUCHMIL",
+      "name": "Military Belt Pouch",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MEDPACMIL",
+      "name": "Military Medpac",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MILMODBACK",
+      "name": "Military Modular Backpack Frame",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "55"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDMINIMED",
+      "name": "Mini-Med Droid",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLSTERCONC",
+      "name": "Model 58 Concealment Holster",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MUSICCOMMON",
+      "name": "Musical Instrument (Common)",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MUSICHIGHQ",
+      "name": "Musical Instrument (High Quality)",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MUSICLEGEND",
+      "name": "Musical Instrument (Legendary)",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FS19RELOADCOMPNET",
+      "name": "Net Arrow (FS19 Compound Bow)",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "NULLCAINE",
+      "name": "Nullcaine",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "53"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "P2POCKETATT",
+      "name": "P-2 Pocket Attaché",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "111"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DISTRESSBCN",
+      "name": "PED-21 Personal Distress Beacon",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "50"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HYPERTRANSPIO",
+      "name": "Pioneer Long-Range Hypertransceiver",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "100"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "PMVOICE",
+      "name": "Polis Masson Voicebox",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "111"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "PHK",
+      "name": "Portable Healing Kit",
+      "sources": [
+        {
+          "book": "Force and Destiny Beta Rulebook",
+          "page": "129"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "PORTSHELTER",
+      "name": "Portable Survival Shelter",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "49"
+        },
+        {
+          "book": "Knights of Fate",
+          "page": "50"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "PRIVACY7CUR",
+      "name": "Privacy-7 Audio Curtain",
+      "sources": [
+        {
+          "book": "Endless Vigil",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "QUESTIONER9",
+      "name": "Questioner-9 (1 dose)",
+      "sources": [
+        {
+          "book": "Endless Vigil",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "QUESTIONER9100",
+      "name": "Questioner-9 (100 doses)",
+      "sources": [
+        {
+          "book": "Endless Vigil",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "RATION",
+      "name": "Ration Pack",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "179"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "196"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "188"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "RECONREM",
+      "name": "Recon Remote",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "ACTIVATORDVISHORT",
+      "name": "Remote DVI Activator (Short Range)",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "100"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CYREPLIMB",
+      "name": "Repli-Limb Prosthetic (limb)",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "174"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "190"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "184"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CYREPORG",
+      "name": "Repli-Limb Prosthetic (organ)",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "174"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "190"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "184"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "RLR331AMMO",
+      "name": "RLR-331 Rocket",
+      "sources": [
+        {
+          "book": "Knights of Fate",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONSAMP1",
+      "name": "Sample Holocron",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "190"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONSANC",
+      "name": "Sanctuary Holocron",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "439"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "ANTIGRAVCHUTESAV",
+      "name": "Savior Anti-Grav Chute",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "103"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FIELDGOGG",
+      "name": "Scout 5 Field Goggles",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SDS632",
+      "name": "SDS-632 Surveillance Detector",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDSIAK",
+      "name": "Siak-Series Protocol Droid",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "113"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SIGSCENT",
+      "name": "Signature Scent Synthesizer",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SPECLRG",
+      "name": "Speciman Container, Large",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SPECMED",
+      "name": "Specimen Container, Medium",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SPECTINY",
+      "name": "Specimen Container, Tiny",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "MICROAXSTARMAP",
+      "name": "Starmapper Handheld NaviComputer",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TROPHYSTHELM",
+      "name": "Stormtrooper Helmet/ComLink",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "96"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "RELOADCOMPSTUN",
+      "name": "Stun Arrow (Corellian Compound Bow)",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "97"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FS19RELOADCOMPSTUN",
+      "name": "Stun Arrow (FS19 Compound Bow)",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "HOLOCRONWARDE",
+      "name": "Suljo Warde's Holocron",
+      "sources": [
+        {
+          "book": "Chronicles of the Gatekeeper",
+          "page": "19"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SURVEYTOOLS",
+      "name": "Surveyer's Tools",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SYNTHEROPE",
+      "name": "Syntherope",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SYNTHEROPE",
+      "name": "Syntherope",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SSA",
+      "name": "Synthetic Standard Anesthetic",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "172"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "188"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "181"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SSNP",
+      "name": "Synthetic Standard Neuroparalytic",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "172"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "188"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "181"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SSNT",
+      "name": "Synthetic Standard Neurotoxin",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "172"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "188"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "181"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TENTTAUN",
+      "name": "Tauntaun Pup Tent",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "SECCOLLAR",
+      "name": "Thalassian Security Collar",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "108"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "THERMCUT",
+      "name": "Thermal Cutter",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "105"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "THUNDERPES",
+      "name": "Thunderhead PES",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "A212TRACECONS",
+      "name": "Tracing Console",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "51"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "TRANSLIT",
+      "name": "Transliterator",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "FLDDRSKIT",
+      "name": "Viscera Field Dressing Kit",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "51"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "VURKORB",
+      "name": "Vurk Medication Orb",
+      "sources": [
+        {
+          "book": "Unlimited Power",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROIDWANDSC",
+      "name": "Wanderer Scout Survey Droid",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "113"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "DROID87RMSURV",
+      "name": "Wanderer Scout Surveyor Droid",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "ENCRYPWHIS",
+      "name": "Whistler Encryption Module",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "100"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CORWHISKEYWHYCASE",
+      "name": "Whyren's Reserve Corellian Whiskey (20 Bottle Case)",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "102"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "CORWHISKEYWHY",
+      "name": "Whyren's Reserve Corellian Whiskey (Bottle)",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "102"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "WORKMAN",
+      "name": "Workshop Manual",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "WPR60",
+      "name": "WPR-60 Water Purifier",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Gear",
+      "key": "XV38",
+      "name": "XV-38 Veterinary Kit",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "44"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "A24SLEUTH",
+      "name": "A-24 Sleuth-class Scout Ship",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "A36PTHFNDR",
+      "name": "A-36 Pathfinder-class Force Recon Vessel",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "AD1SMOD",
+      "name": "AD-1S Modular Multi-Role Starfighter",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "AIRSPEEDER",
+      "name": "Airspeeder",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "248"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "254"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "AKAJOR",
+      "name": "Aka'jor-class Shuttle",
+      "sources": [
+        {
+          "book": "Friends Like These",
+          "page": "38"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "T47ALLIANCE",
+      "name": "Alliance T-47 Airspeeder",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "249"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "ALPHA3VWING",
+      "name": "Alpha-3 Nimbus \"V-Wing\" Interceptor",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "74ZSPEEDERBIKE",
+      "name": "Aratech 74-Z Speeder Bike",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "250"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "263"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "R82JUMPBOOTS",
+      "name": "Aratech R82 Jump Boots",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "115"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "ATTE",
+      "name": "AT-TE All Terrain Tactical Enforcer",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "57"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "69"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "BFF1",
+      "name": "BFF-1 Series Bulk Freighter",
+      "sources": [
+        {
+          "book": "Beyond the Rim",
+          "page": "96"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "BT900",
+      "name": "BT-900 Bulk Transport",
+      "sources": [
+        {
+          "book": "Friends Like These",
+          "page": "16"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "BTLA4",
+      "name": "BTL-A4 Y-Wing Attack Starfighter",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "257"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "268"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "257"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "BTLS3",
+      "name": "BTL-S3 Y-Wing Attack Starfighter",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "257"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "268"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "CB7INTCEPTOR",
+      "name": "C-B7 \"Interceptor\"",
+      "sources": [
+        {
+          "book": "Cyphers and Masks",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TAG102LIFTER",
+      "name": "Cargohopper 102 Cargo Lifter",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "CATSEYESENS",
+      "name": "Cat's Eye Multipurpose Sensor Suite",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "PATHSCOUTCIV",
+      "name": "Civilian Pathfinder Scout Ship",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "260"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "CMCDIGGER",
+      "name": "CMC Digger Crawler",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "251"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "CONQUEROR",
+      "name": "Conqueror-class Assault Ship",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "67"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "CONSSALONPOD",
+      "name": "Consular-Class Cruiser's Salon Pod",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "63"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "CONSCRUIS",
+      "name": "Consular-Class Light Assault Cruiser",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "276"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "COURYACHT",
+      "name": "Courier-Class Yacht",
+      "sources": [
+        {
+          "book": "Jewel of Yavin",
+          "page": "91"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SPEEDERCECD22",
+      "name": "D-22 \"Screamer\" Speeder Bike",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "104"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "D45PROJPLAT",
+      "name": "D-45 Projection Platform",
+      "sources": [
+        {
+          "book": "Keeping the Peace",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "DELTA7STAR",
+      "name": "Delta-7/7B Aethersprite Light Interceptor",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "258"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "71"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "DF11",
+      "name": "DF.11 Anti-Infantry Battery",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "DUSTCRAWLER",
+      "name": "Dustcrawler",
+      "sources": [
+        {
+          "book": "Unlimited Power",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "EF76",
+      "name": "EF76 Nebulon-B Escort Frigate",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "268"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "278"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SPACESLUG",
+      "name": "Enormous Space Slug",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "51"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "EXSUBM",
+      "name": "Explorer Submersible",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "116"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "FANGFIGHT",
+      "name": "Fang Fighter",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "58"
+        },
+        {
+          "book": "Unlimited Power",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "FIRESPRAY",
+      "name": "Firespray Patrol Craft",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "255"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "DUNELIZARD",
+      "name": "G1-M4-C Dunelizard",
+      "sources": [
+        {
+          "book": "Long Arm of the Hutt",
+          "page": "12"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "GALLIS48ROLLER",
+      "name": "Gallis-Tech 48 Roller",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "256"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "GOLAN1SPACEDEF",
+      "name": "Golan 1 Space Defense Platform",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "E2ESCAPEBIKE",
+      "name": "Guardian E2 Escape Speeder Bike",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "63"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "GYMSNOR3",
+      "name": "Gymsnor-3 Light Freighter",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "GYMSNOR4",
+      "name": "Gymsnor-4 Light Freighter",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "HAET221",
+      "name": "HAET-221 Transport",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "63"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "HAULERAIRSKIFF",
+      "name": "Hauler Air Skiff",
+      "sources": [
+        {
+          "book": "Unlimited Power",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "HAVRA9",
+      "name": "HAVr A9 Floating Fortress",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "HEATSINKPOW",
+      "name": "Heat Sink Power Generator",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "HERDSHIP",
+      "name": "Herd Ship",
+      "sources": [
+        {
+          "book": "Unlimited Power",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "HOMEHVYSTCR",
+      "name": "Home One-Class Heavy Star Cruiser",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "HWK1000LTFREIGHT",
+      "name": "HWK-1000 Light Freighter",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "IMMOB418",
+      "name": "Immobilizer 418 Cruiser",
+      "sources": [
+        {
+          "book": "Age of Rebellion Beta Rulebook",
+          "page": "186"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "IMPTROOPTRANS",
+      "name": "Imperial Troop Transport",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "T16SKYHOPPER",
+      "name": "Incom T-16 Skyhopper",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "248"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "T47AIRSPEEDER",
+      "name": "Incom T-47 Airspeeder",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "249"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "INTERCEPIV",
+      "name": "Interceptor IV-Class Frigate",
+      "sources": [
+        {
+          "book": "Mask of the Pirate Queen",
+          "page": "81"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "IPV1",
+      "name": "IPV-1 System Patrol Craft",
+      "sources": [
+        {
+          "book": "Beyond the Rim",
+          "page": "93"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "J15",
+      "name": "J-15 Rapid Service Speeder",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "JM5000",
+      "name": "JM-5000 Jumpmaster Long Range Scout",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "256"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "KOSSAKFRIG",
+      "name": "Kossak-Class Frigate",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "117"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "KRI80",
+      "name": "KRI-80 Portable Store",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "L2783",
+      "name": "L-2783 Deep Space Recovery Vessel",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "LAATC",
+      "name": "LAAT/c Carrier Transport",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "LAATI",
+      "name": "LAAT/i Infantry Transport",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "61"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "67"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "LEGATECOUR",
+      "name": "Legate-Class Courier",
+      "sources": [
+        {
+          "book": "Endless Vigil",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "LORONARE9",
+      "name": "Loronar E-9 Explorer-class Long Range Scout",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "LUXURYSAILBARGE",
+      "name": "Luxury-Class Sail Barge",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "112"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "M22KRAYT",
+      "name": "M22-T Krayt Gunship",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "114"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "MC-2CMMNDSPDR",
+      "name": "MC-2 Moble Command Speeder",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "MC80STARCRUIS",
+      "name": "MC80 Liberty Type Star Cruiser",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "284"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "FLARESSWOOP",
+      "name": "Mobquet Flare-S Swoop",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "250"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "F221MOD",
+      "name": "Modular Barracks",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "C52MOD",
+      "name": "Modular Command Center",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "F104MOD",
+      "name": "Modular Hangar",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "L120MOD",
+      "name": "Modular Motor Pool",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "B70MOD",
+      "name": "Modular Reinforced Bunker",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "NEUTRON",
+      "name": "Neutron Star-Class Bulk Cruiser",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "69"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "NYALPLANSH",
+      "name": "Nyalsan II Planetary Shield Generator",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "PTOWER",
+      "name": "P-Tower Light Anti-Vehicle Battery",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "PLUGFMAM",
+      "name": "Plug-F Mammoth",
+      "sources": [
+        {
+          "book": "Endless Vigil",
+          "page": "55"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "PODCOCK",
+      "name": "Podracer Cockpit",
+      "sources": [
+        {
+          "book": "Endless Vigil",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "PONGEETASWAMP",
+      "name": "Pongeeta-Class Swamp Speeder",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "113"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "R444SKYSWOOP",
+      "name": "R-444 Imperial Sky Swooper",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "116"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "RHO1LUMULUS",
+      "name": "Rho-1 Limulus-Class Courier",
+      "sources": [
+        {
+          "book": "Endless Vigil",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "S461SCOUT",
+      "name": "S-461-Series Scout Ship",
+      "sources": [
+        {
+          "book": "Cyphers and Masks",
+          "page": "88"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SWOOPS5",
+      "name": "S-5 \"Flashfury\" Swoop",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "105"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SELTISS2",
+      "name": "Seltiss-2 Caravel",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "115"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SENTSHUTTLE",
+      "name": "Sentinel-Class Landing Shuttle",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "273"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SPEEDERSERAPH",
+      "name": "Seraph \"Flash Speeder\"",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "105"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SHEATHIPEDESPY",
+      "name": "Sheathipede-Class Spy Shuttle",
+      "sources": [
+        {
+          "book": "Rise of the Separatists",
+          "page": "74"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SHEATHIPEDE",
+      "name": "Sheathipede-Class Transport Shuttle",
+      "sources": [
+        {
+          "book": "Unlimited Power",
+          "page": "63"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "73"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SKYSCOUT",
+      "name": "Skywatcher-Class Deep Space Scout Ship",
+      "sources": [
+        {
+          "book": "Beyond the Rim",
+          "page": "70"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SUPERFLARE",
+      "name": "Superflare/Modified Flare-S Swoop",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "65"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "SYLIUREHYPERRING",
+      "name": "Syliure-31 Hyperdrive Docking Ring",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "259"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "T65BXWING",
+      "name": "T-65B X-Wing Starfighter",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "267"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "261"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TALON1CLOUD",
+      "name": "Talon I Combat Cloud Car",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "254"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TIEBR",
+      "name": "TIE/BR Boarding Shuttle",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "272"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TIEIT",
+      "name": "TIE/IT Interdictor Starfighter",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TIERP",
+      "name": "TIE/rp \"Reaper\" Attack Lander",
+      "sources": [
+        {
+          "book": "Knights of Fate",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TIESH",
+      "name": "TIE/SH VIP Shuttle",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "272"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TL1200",
+      "name": "TL-1200 Transport",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "115"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "TRL03",
+      "name": "TRL-03 SkyClaw",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "UHXH",
+      "name": "UH-XH Heavy Work Platform",
+      "sources": [
+        {
+          "book": "Special Modifications",
+          "page": "59"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "VERATHWALK",
+      "name": "Versatile-Athletic Walker",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "58"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "CECWUD500",
+      "name": "WUD-500 Star Yacht",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "55"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "YV865",
+      "name": "YV-865 Freighter",
+      "sources": [
+        {
+          "book": "Friends Like These",
+          "page": "88"
+        }
+      ]
+    },
+    {
+      "category": "Vehicle",
+      "key": "YV929",
+      "name": "YV-929 Armored Transport",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "275"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PEACESTUNBAT",
+      "name": "\"Peacekeeper\" Stun Baton",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ATGAR18FD",
+      "name": "1.8 FD Anti-Infantry Autoturret",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "411HOLDOUT",
+      "name": "411 Holdout Blaster",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "8GAUGESCATTER",
+      "name": "8-Gauge Scatter Gun",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "44"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "A280",
+      "name": "A280 Heavy Blaster Rifle",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ACPARRAYGUN",
+      "name": "ACP Array Gun",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "42"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "AFCML",
+      "name": "Alternating-Fire Concussion Missile Launcher",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "56"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ANTIAIR",
+      "name": "Anti-Air Rockets",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ANTIPERSLASER",
+      "name": "Anti-Personnel Laser",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "NETGUN",
+      "name": "AO14 \"Aranea\" Net Gun",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "42"
+        },
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ACML",
+      "name": "Assault Concussion Missile Launcher",
+      "sources": [
+        {
+          "book": "Age of Rebellion Beta Rulebook",
+          "page": "188"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "AUTOBLAST",
+      "name": "Auto-Blaster",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IONBATT",
+      "name": "Battleship Ion Cannon",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BEAMDRIL",
+      "name": "Beamdrill",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "107"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BOLA",
+      "name": "Bola/Net",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "164"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BORNEURLASH",
+      "name": "Borstel Neuronic Lash",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "44"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FRAGMISSILEC88",
+      "name": "C-88 Fragmentation Missile",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "42"
+        },
+        {
+          "book": "Knights of Fate",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "INCENMISSILEC908",
+      "name": "C-908 Incendiary Missile",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "42"
+        },
+        {
+          "book": "Knights of Fate",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "CLUSTERBOMB",
+      "name": "Cluster Bomb Launcher",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "119"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINECONC",
+      "name": "Concussion Mine",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINENET",
+      "name": "Connor Net Mine",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "CORALPIKE",
+      "name": "Coral Pike",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "108"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTPISHVYCR2",
+      "name": "CR-2 Heavy Blaster Pistol",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "96"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "CR8",
+      "name": "CR-8 Takedown Rifle",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "40"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "CZ28FLAME",
+      "name": "CZ-28 Flamestrike",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MISSDECOY",
+      "name": "Decoy Missile",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "DH17C",
+      "name": "DH-17c Short Carbine",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "39"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "DL7HBLASTPISTHVY",
+      "name": "DL-7h Heavy Blaster Pistol",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FLASHSTICK",
+      "name": "Drall Flashstick",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "98"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FDROIDDISABLER",
+      "name": "Droid Disabler",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "44"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ELECHARPOON",
+      "name": "Electromagnetic Harpoon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "249"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "263"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TOWCABLE",
+      "name": "Electromagnetic Tow Cable Launcher",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ENERGYLANCE",
+      "name": "Energy Lance",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "108"
+        },
+        {
+          "book": "Savage Spirits",
+          "page": "44"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINEFIREC",
+      "name": "Firecracker Mine",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FRAGGR",
+      "name": "Frag Grenade",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "165"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "178"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "170"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "CONCGREND",
+      "name": "G2 Concussion Grenade",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "46"
+        },
+        {
+          "book": "Knights of Fate",
+          "page": "44"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PULSEDRILL",
+      "name": "G9-GP Pulse Drill",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTCARBGEO",
+      "name": "Geonosian Blaster Carbine",
+      "sources": [
+        {
+          "book": "Long Arm of the Hutt",
+          "page": "33"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTRIFGEO",
+      "name": "Geonosian Blaster Rifle",
+      "sources": [
+        {
+          "book": "Long Arm of the Hutt",
+          "page": "33"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "GHOVOR22",
+      "name": "GHOVOR-22 Blaster Pistol",
+      "sources": [
+        {
+          "book": "Friends Like These",
+          "page": "47"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "GLOPGRND",
+      "name": "Glop Grenade",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "42"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TRACTOR213",
+      "name": "Grappler 213 Tactical Tractor Beam",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINEGRAV",
+      "name": "Gravity Mine",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTATAPULSE",
+      "name": "Greff-Timms ATA Pulse-Wave Blaster",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "100"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BEAMDRILHVY",
+      "name": "Heavy Beamdrill",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "106"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTCANHVY",
+      "name": "Heavy Blaster Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FLAKHVY",
+      "name": "Heavy Flak Cannon",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "49"
+        },
+        {
+          "book": "Lead by Example",
+          "page": "53"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "78"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IONHVY",
+      "name": "Heavy Ion Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LASERHVY",
+      "name": "Heavy Laser Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PROTTORPHVY",
+      "name": "Heavy Proton Torpedo Launcher",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "119"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TRACTHVY",
+      "name": "Heavy Tractor Beam",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TURBOHVY",
+      "name": "Heavy Turbolaser",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTLTHL27",
+      "name": "HL-27 Light Blaster Pistol",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "94"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "CMLHK",
+      "name": "Hunter Killer Concussion Missile Launcher",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "107"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IDX9IONSTUN",
+      "name": "IDX-9 Ion Stunner",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "42"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTION",
+      "name": "Ion Blaster",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "162"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "176"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINEION",
+      "name": "Ion Mine",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IONTORP",
+      "name": "Ion Torpedo",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IONTORPLAUNCHER",
+      "name": "Ion Torpedo Launcher",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "62"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MISSJAM",
+      "name": "Jammer Missile",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MISSJAMMINI",
+      "name": "Jammer Missile (Mini)",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "SLUGKD30",
+      "name": "KD-30 \"Dissuader\" Pistol",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "102"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "KNOCKMINE",
+      "name": "Knockout Mine",
+      "sources": [
+        {
+          "book": "Desperate Allies",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "HAMMER",
+      "name": "KS-23 Hammer",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "L7LIGHTPISTOL",
+      "name": "L7 Light Blaster Pistol",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LASCAN",
+      "name": "Laser Cannon",
+      "sources": [
+        {
+          "book": "Onslaught at Arda I",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTCANLT",
+      "name": "Light Blaster Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FLAKLT",
+      "name": "Light Flak Cannon",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "49"
+        },
+        {
+          "book": "Lead by Example",
+          "page": "53"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "78"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IONLT",
+      "name": "Light Ion Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LASERLT",
+      "name": "Light Laser Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "SUPPRESSCANNON",
+      "name": "Light Suppression Cannon",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TRACTLT",
+      "name": "Light Tractor Beam",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LTTRACTCOUPLE",
+      "name": "Light Tractor Beam Coupler",
+      "sources": [
+        {
+          "book": "Fly Casual",
+          "page": ""
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TURBOLT",
+      "name": "Light Turbolaser",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IONLONG",
+      "name": "Long-Barrelled Ion Cannon",
+      "sources": [
+        {
+          "book": "Lead by Example",
+          "page": "53"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LASERLONG",
+      "name": "Long-Nosed Laser Cannon",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "107"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MASSDRIVMSL",
+      "name": "Mass Driver Missile Launchers",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "70"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MASSDRIVERCANNON",
+      "name": "Mass-Driver Cannon",
+      "sources": [
+        {
+          "book": "Forged in Battle",
+          "page": "57"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FLAKMED",
+      "name": "Medium Flak Cannon",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "49"
+        },
+        {
+          "book": "Lead by Example",
+          "page": "53"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "78"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "IONMED",
+      "name": "Medium Ion Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LASERMED",
+      "name": "Medium Laser Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TRACTMED",
+      "name": "Medium Tractor Beam",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TURBOMED",
+      "name": "Medium Turbolaser",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "THERMDETMINI",
+      "name": "Mini Thermal Detonator",
+      "sources": [
+        {
+          "book": "Under a Black Sun",
+          "page": "36"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MISSILEPACKMINI",
+      "name": "Mini-Missile Pack",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINIROCKET",
+      "name": "Mini-Rocket Launcher",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "63"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINTORPLAUNCH",
+      "name": "Mini-Torpedo Launcher",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "107"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MISSILEPACK",
+      "name": "Missile Pack",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "CONCMISSILEMK10",
+      "name": "Mk.10 Concussion Missile",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "42"
+        },
+        {
+          "book": "Dangerous Covenants",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "HVYFRGGREND",
+      "name": "Mk.4 Heavy Frag Grenade",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "46"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINIMISSILETUBE",
+      "name": "MM-XT Mini-Missile Tube",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MODEL44BLASTPIST",
+      "name": "Model 44 Blaster Pistol",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MODEL57",
+      "name": "Model 57 \"Homesteader\" Hunting Rifle",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MODEL57DET",
+      "name": "Model 57 \"Homesteader\" Hunting Rifle (Detonator)",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MODEL77",
+      "name": "Model 77 Air Rifle",
+      "sources": [
+        {
+          "book": "Enter the Unknown",
+          "page": "39"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MODEL77",
+      "name": "Model 77 Air Rifle",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "FIVERSLUGPIST",
+      "name": "Model C \"Fiver\" Pistol",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MOLSTILETTO",
+      "name": "Molecular Stiletto",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MOLSTILETTO",
+      "name": "Molecular Stiletto",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "NIGHTBOW",
+      "name": "Nightsister Energy Bow",
+      "sources": [
+        {
+          "book": "Savage Spirits",
+          "page": "40"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PLASGREND",
+      "name": "NOVA40 Plasma Grenade",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "46"
+        },
+        {
+          "book": "Knights of Fate",
+          "page": "45"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "POCKPIS",
+      "name": "Pocket Blaster Pistol",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "96"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LASERPTDEF",
+      "name": "Point Defense Laser Cannon",
+      "sources": [
+        {
+          "book": "Age of Rebellion Beta Rulebook",
+          "page": "186"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PROTONBAY",
+      "name": "Proton Bomb Bay",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "52"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PROTONBOMB",
+      "name": "Proton Bomb Release Chute",
+      "sources": [
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "272"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PTL",
+      "name": "Proton Torpedo Launcher",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LASERQUAD",
+      "name": "Quad Laser Cannon",
+      "sources": [
+        {
+          "book": "Edge of the Empire Core Rulebook",
+          "page": "230"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "240"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "RIOTRIFLE",
+      "name": "R-88 Supressor Riot Rifle",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "40"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "REFCORTSTAFF",
+      "name": "Refined Cortosis Staff",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "173"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTPISK23",
+      "name": "Relby-K23 Blaster Pistol",
+      "sources": [
+        {
+          "book": "Jewel of Yavin",
+          "page": "12"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "REPIONCANNON",
+      "name": "Repeating Ion Cannon",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "63"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "RIOTSHIELD",
+      "name": "Riot Shield",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "42"
+        },
+        {
+          "book": "Knights of Fate",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "ROTREPBLASTCAN",
+      "name": "Rotary Repeating Blaster Cannon",
+      "sources": [
+        {
+          "book": "Onslaught at Arda I",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "SE14RBLASTLTREP",
+      "name": "SE-14r Light Repeating Blaster",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MINESEEK",
+      "name": "Seeker Mine",
+      "sources": [
+        {
+          "book": "No Disintegrations",
+          "page": "64"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "SLUGRIFSELSHARD",
+      "name": "Selonian Shard Shooter",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "97"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "LTSABERSHOTO",
+      "name": "Shoto",
+      "sources": [
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "177"
+        },
+        {
+          "book": "Rise of the Separatists",
+          "page": "54"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "SHUKUR05BLASTLTREP",
+      "name": "SHUKUR-05 Light Repeater",
+      "sources": [
+        {
+          "book": "Friends Like These",
+          "page": "49"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PLASMISSILESK44",
+      "name": "SK-44 Plasma Missile",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "42"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "PERSUADER",
+      "name": "Sorosuub \"Persuader\" Shock Prod",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "SPRAYRIF",
+      "name": "Spray Rifle",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "STOKHLI",
+      "name": "Stokhli Spray Stick",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "41"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "STUNBATON",
+      "name": "Stun Baton",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "STUNBATON",
+      "name": "Stun Baton",
+      "sources": [
+        {
+          "book": "Far Horizons",
+          "page": "43"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "STUNCLUB",
+      "name": "Stun Club",
+      "sources": [
+        {
+          "book": "Jewel of Yavin",
+          "page": "13"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "SVT300",
+      "name": "SVT-300 Stun Cloak",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "108"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TERMITETORP",
+      "name": "Termite Torpedo",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "63"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TERMITELAUNCH",
+      "name": "Termite Torpedo Launcher",
+      "sources": [
+        {
+          "book": "Fully Operational",
+          "page": "63"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "THERMCUTW",
+      "name": "Thermal Cutter",
+      "sources": [
+        {
+          "book": "Nexus of Power",
+          "page": "105"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "TORPLAUNCH",
+      "name": "Torpedo Launcher",
+      "sources": [
+        {
+          "book": "Strongholds of Resistance",
+          "page": "117"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTHOLDTT24",
+      "name": "TT24 Holdout Blaster",
+      "sources": [
+        {
+          "book": "Beyond the Rim",
+          "page": "26"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MISSUNGROCK",
+      "name": "Unguided Rocket",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "MISSUNGROCKMINI",
+      "name": "Unguided Rocket (Mini)",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "60"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "VIBROGLAIVE",
+      "name": "Vibro-Glaive",
+      "sources": [
+        {
+          "book": "Lords of Nal Hutta",
+          "page": "103"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "VL6",
+      "name": "VL-6 Warhead Launcher System",
+      "sources": [
+        {
+          "book": "Stay on Target",
+          "page": "61"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "VIBROGRTSWRDVX",
+      "name": "VX \"Czerhander\" Vibro-Greatsword",
+      "sources": [
+        {
+          "book": "Dangerous Covenants",
+          "page": "48"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "BLASTPISXL2",
+      "name": "XL-2 \"Flashfire\" Blaster Pistol",
+      "sources": [
+        {
+          "book": "Suns of Fortune",
+          "page": "95"
+        }
+      ]
+    },
+    {
+      "category": "Weapon",
+      "key": "Z6RIOT",
+      "name": "Z6 Riot Baton",
+      "sources": [
+        {
+          "book": "Disciples of Harmony",
+          "page": "44"
+        }
+      ]
+    }
+  ]
+}

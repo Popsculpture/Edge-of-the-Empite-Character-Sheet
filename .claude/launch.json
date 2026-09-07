@@ -3,8 +3,14 @@
   "configurations": [
     {
       "name": "sw-char-creator",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "7432", "--directory", "C:\\Users\\Popsc\\OneDrive\\Documents\\Edge of the Empire Character Sheet"],
+      "runtimeExecutable": "powershell.exe",
+      "runtimeArgs": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$root='C:\\Users\\Popsc\\OneDrive\\Documents\\Edge of the Empire Character Sheet';$rootFull=[IO.Path]::GetFullPath($root);$l=New-Object Net.HttpListener;$l.Prefixes.Add('http://localhost:7432/');$l.Start();Write-Host 'Serving SW char creator on http://localhost:7432 (caching off)';$types=@{'.html'='text/html';'.js'='text/javascript';'.css'='text/css';'.json'='application/json';'.svg'='image/svg+xml';'.png'='image/png';'.ico'='image/x-icon';'.otf'='font/otf';'.ttf'='font/ttf';'.woff'='font/woff';'.woff2'='font/woff2';'.jpg'='image/jpeg';'.jpeg'='image/jpeg';'.gif'='image/gif';'.webp'='image/webp';'.txt'='text/plain';'.md'='text/markdown';'.pdf'='application/pdf';'.map'='application/json'};while($l.IsListening){$ctx=$l.GetContext();$req=$ctx.Request;$res=$ctx.Response;$p=$req.Url.LocalPath;if($p -eq '/'){$p='/index.html'};$full=$null;try{$full=[IO.Path]::GetFullPath((Join-Path $root ($p.TrimStart('/'))))}catch{};if($full -and $full.StartsWith($rootFull) -and (Test-Path $full -PathType Leaf)){$b=[IO.File]::ReadAllBytes($full);$ext=[IO.Path]::GetExtension($full).ToLower();$ct=$types[$ext];if(-not $ct){$ct='application/octet-stream'};$res.ContentType=$ct;$res.Headers.Add('Cache-Control','no-store, no-cache, must-revalidate');$res.Headers.Add('Pragma','no-cache');$res.ContentLength64=$b.Length;$res.OutputStream.Write($b,0,$b.Length)}else{$res.StatusCode=404};$res.Close()}"
+      ],
       "port": 7432
     }
   ]
