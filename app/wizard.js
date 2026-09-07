@@ -5359,20 +5359,29 @@ const Wizard = (() => {
       }
     }, { passive: false });
 
+    // Both of these clear _axisLocked on the way out. touchstart's "abandon a
+    // gesture still in flight" branch keys off it being 'swipe', and it is only
+    // ever reset further down that same handler - after that branch has already
+    // run and after _touchActive has been computed. So a lock left behind by a
+    // finished gesture made the NEXT touchstart abandon a gesture that was not
+    // in flight, which set _swipeAnimating and therefore armed _touchActive to
+    // false: every second swipe was silently swallowed.
     stepContentEl.addEventListener('touchend', e => {
       if (!_touchActive) return;
       _touchActive = false;
-      if (_axisLocked !== 'swipe') return;
+      if (_axisLocked !== 'swipe') { _axisLocked = null; return; }
       const t = e.changedTouches[0];
       const dx = t.clientX - _touchStartX;
       const dir = dx < 0 ? 1 : dx > 0 ? -1 : 0;
       const neighbor = dir && playNeighborStep(dir);
       settleSwipe(dir || 1, !!neighbor && Math.abs(dx) >= _swipeThreshold);
+      _axisLocked = null;
     }, { passive: true });
 
     stepContentEl.addEventListener('touchcancel', () => {
       _touchActive = false;
       if (_axisLocked === 'swipe') settleSwipe(1, false);
+      _axisLocked = null;
     }, { passive: true });
     // Play mode's deposit/withdraw (credits) and add/remove (XP) controls.
     // Bound once on the persistent header bars; renderHeaderCredits/Xp only
