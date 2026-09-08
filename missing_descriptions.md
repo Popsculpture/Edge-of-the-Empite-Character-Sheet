@@ -10,11 +10,11 @@ Every weapon, armor, gear, and vehicle entry whose `description` field is empty.
 |---|---|
 | Weapon | 138 |
 | Armor | 22 |
-| Gear | 152 |
+| Gear | 151 |
 | Vehicle | 102 |
-| **Total items** | **414** |
+| **Total items** | **413** |
 
-487 citations across 36 sourcebooks. An item contributes one row per citation, so anything printed in two books, or on two pages of the same book, appears more than once.
+486 citations across 36 sourcebooks. An item contributes one row per citation, so anything printed in two books, or on two pages of the same book, appears more than once.
 
 ## By sourcebook
 
@@ -210,7 +210,7 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 261 | Vehicle | T-65B X-Wing Starfighter | `T65BXWING` |
 | 439 | Gear | Sanctuary Holocron | `HOLOCRONSANC` |
 
-### Enter the Unknown (32)
+### Enter the Unknown (31)
 
 | Page | Category | Item | Key |
 |---|---|---|---|
@@ -226,7 +226,6 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 48 | Gear | ECM-598 Medical Backpack | `MEDBCKPCK` |
 | 49 | Gear | Electric Perimeter Fence | `ELECFENCE` |
 | 49 | Gear | Portable Survival Shelter | `PORTSHELTER` |
-| 49 | Gear | Syntherope | `SYNTHEROPE` |
 | 49 | Gear | Syntherope | `SYNTHEROPE` |
 | 50 | Gear | Field Kitchen | `FLDKITCHEN` |
 | 50 | Gear | PED-21 Personal Distress Beacon | `DISTRESSBCN` |

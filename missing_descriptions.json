@@ -2,12 +2,12 @@
   "generated": "2026-09-07",
   "note": "Items across weapons.js/armor.js/gear.js/vehicles.js whose description field is empty. A weapon, armor or gear entry then shows a \"please see page N of BOOK\" message in place of the text; a vehicle shows no Description block at all. Excludes the 7 intentionally generic gear placeholders (Small Item, Large Item, etc.), which have no source to cite.",
   "summary": {
-    "items": 414,
-    "citations": 487,
+    "items": 413,
+    "citations": 486,
     "sourcebooks": 36,
     "by_category": {
       "Armor": 22,
-      "Gear": 152,
+      "Gear": 151,
       "Vehicle": 102,
       "Weapon": 138
     }
@@ -1768,17 +1768,6 @@
       "sources": [
         {
           "book": "Savage Spirits",
-          "page": "49"
-        }
-      ]
-    },
-    {
-      "category": "Gear",
-      "key": "SYNTHEROPE",
-      "name": "Syntherope",
-      "sources": [
-        {
-          "book": "Enter the Unknown",
           "page": "49"
         }
       ]
