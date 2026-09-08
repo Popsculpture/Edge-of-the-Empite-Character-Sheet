@@ -1,8 +1,8 @@
 # Missing Equipment & Vehicle Descriptions
 
-Generated 2026-07-09 from the live app data files (`weapons.js`, `armor.js`, `gear.js`, `vehicles.js`).
+Generated 2026-09-07 from the live app data files (`weapons.js`, `armor.js`, `gear.js`, `vehicles.js`).
 
-Every weapon, armor, gear, and vehicle entry whose `description` field is empty, meaning the sheet falls back to a "please see page N of BOOK" message instead of real text. Excludes the 7 intentionally generic gear placeholders (Small Item, Large Item, etc.), which have no source to cite.
+Every weapon, armor, gear, and vehicle entry whose `description` field is empty. A weapon, armor or gear entry then shows a "please see page N of BOOK" message in place of the text; a vehicle shows no Description block at all. Excludes the 7 intentionally generic gear placeholders (Small Item, Large Item, etc.), which have no source to cite.
 
 ## Summary
 
@@ -14,7 +14,7 @@ Every weapon, armor, gear, and vehicle entry whose `description` field is empty,
 | Vehicle | 102 |
 | **Total items** | **414** |
 
-487 citations across 36 sourcebooks. An item appears once per sourcebook it is printed in.
+487 citations across 36 sourcebooks. An item contributes one row per citation, so anything printed in two books, or on two pages of the same book, appears more than once.
 
 ## By sourcebook
 
@@ -62,9 +62,9 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 267 | Vehicle | T-65B X-Wing Starfighter | `T65BXWING` |
 | 268 | Vehicle | BTL-A4 Y-Wing Attack Starfighter | `BTLA4` |
 | 268 | Vehicle | BTL-S3 Y-Wing Attack Starfighter | `BTLS3` |
+| 272 | Weapon | Proton Bomb Release Chute | `PROTONBOMB` |
 | 272 | Vehicle | TIE/BR Boarding Shuttle | `TIEBR` |
 | 272 | Vehicle | TIE/SH VIP Shuttle | `TIESH` |
-| 272 | Weapon | Proton Bomb Release Chute | `PROTONBOMB` |
 | 273 | Vehicle | Sentinel-Class Landing Shuttle | `SENTSHUTTLE` |
 | 275 | Vehicle | YV-929 Armored Transport | `YV929` |
 | 276 | Vehicle | Consular-Class Light Assault Cruiser | `CONSCRUIS` |
@@ -161,8 +161,8 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 230 | Weapon | Quad Laser Cannon | `LASERQUAD` |
 | 248 | Vehicle | Airspeeder | `AIRSPEEDER` |
 | 248 | Vehicle | Incom T-16 Skyhopper | `T16SKYHOPPER` |
-| 249 | Vehicle | Incom T-47 Airspeeder | `T47AIRSPEEDER` |
 | 249 | Weapon | Electromagnetic Harpoon | `ELECHARPOON` |
+| 249 | Vehicle | Incom T-47 Airspeeder | `T47AIRSPEEDER` |
 | 250 | Vehicle | Aratech 74-Z Speeder Bike | `74ZSPEEDERBIKE` |
 | 250 | Vehicle | Mobquet Flare-S Swoop | `FLARESSWOOP` |
 | 251 | Vehicle | CMC Digger Crawler | `CMCDIGGER` |
@@ -256,8 +256,8 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 96 | Weapon | CR-2 Heavy Blaster Pistol | `BLASTPISHVYCR2` |
 | 96 | Weapon | Pocket Blaster Pistol | `POCKPIS` |
 | 97 | Gear | Explosive Tipped Arrow (Corellian Compound Bow) | `RELOADCOMPEXP` |
-| 97 | Gear | Stun Arrow (Corellian Compound Bow) | `RELOADCOMPSTUN` |
 | 97 | Weapon | Selonian Shard Shooter | `SLUGRIFSELSHARD` |
+| 97 | Gear | Stun Arrow (Corellian Compound Bow) | `RELOADCOMPSTUN` |
 | 98 | Weapon | Drall Flashstick | `FLASHSTICK` |
 | 100 | Gear | Pioneer Long-Range Hypertransceiver | `HYPERTRANSPIO` |
 | 100 | Gear | Remote DVI Activator (Short Range) | `ACTIVATORDVISHORT` |
@@ -378,27 +378,6 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 119 | Weapon | Cluster Bomb Launcher | `CLUSTERBOMB` |
 | 119 | Weapon | Heavy Proton Torpedo Launcher | `PROTTORPHVY` |
 
-### Savage Spirits (16)
-
-| Page | Category | Item | Key |
-|---|---|---|---|
-| 40 | Weapon | CR-8 Takedown Rifle | `CR8` |
-| 40 | Weapon | Nightsister Energy Bow | `NIGHTBOW` |
-| 41 | Gear | Broadhead Arrow (FS19 Compound Bow) | `FS19RELOADCOMPBROAD` |
-| 41 | Gear | Explosive Tipped Arrow (FS19 Compound Bow) | `FS19RELOADCOMPEXPL` |
-| 41 | Gear | Incendiary Arrow (FS19 Compound Bow) | `FS19RELOADCOMPINCEN` |
-| 41 | Gear | Net Arrow (FS19 Compound Bow) | `FS19RELOADCOMPNET` |
-| 41 | Gear | Stun Arrow (FS19 Compound Bow) | `FS19RELOADCOMPSTUN` |
-| 41 | Weapon | AO14 "Aranea" Net Gun | `NETGUN` |
-| 41 | Weapon | Model 57 "Homesteader" Hunting Rifle | `MODEL57` |
-| 41 | Weapon | Model 57 "Homesteader" Hunting Rifle (Detonator) | `MODEL57DET` |
-| 41 | Weapon | Model 77 Air Rifle | `MODEL77` |
-| 44 | Weapon | Energy Lance | `ENERGYLANCE` |
-| 47 | Gear | "Survivalist" Mess Kit | `SURVMESSKIT` |
-| 47 | Gear | FlashFire Camp Stove | `FLASHCAMPST` |
-| 49 | Gear | Starmapper Handheld NaviComputer | `MICROAXSTARMAP` |
-| 49 | Gear | Surveyer's Tools | `SURVEYTOOLS` |
-
 ### Disciples of Harmony (16)
 
 | Page | Category | Item | Key |
@@ -419,6 +398,27 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 54 | Gear | BD10-Series Assay Suport Droid | `DROIDBD10` |
 | 54 | Gear | BLO-Series Non-Lethal Combat Droid | `DROIDBLO` |
 | 63 | Vehicle | Consular-Class Cruiser's Salon Pod | `CONSSALONPOD` |
+
+### Savage Spirits (16)
+
+| Page | Category | Item | Key |
+|---|---|---|---|
+| 40 | Weapon | CR-8 Takedown Rifle | `CR8` |
+| 40 | Weapon | Nightsister Energy Bow | `NIGHTBOW` |
+| 41 | Weapon | AO14 "Aranea" Net Gun | `NETGUN` |
+| 41 | Gear | Broadhead Arrow (FS19 Compound Bow) | `FS19RELOADCOMPBROAD` |
+| 41 | Gear | Explosive Tipped Arrow (FS19 Compound Bow) | `FS19RELOADCOMPEXPL` |
+| 41 | Gear | Incendiary Arrow (FS19 Compound Bow) | `FS19RELOADCOMPINCEN` |
+| 41 | Weapon | Model 57 "Homesteader" Hunting Rifle | `MODEL57` |
+| 41 | Weapon | Model 57 "Homesteader" Hunting Rifle (Detonator) | `MODEL57DET` |
+| 41 | Weapon | Model 77 Air Rifle | `MODEL77` |
+| 41 | Gear | Net Arrow (FS19 Compound Bow) | `FS19RELOADCOMPNET` |
+| 41 | Gear | Stun Arrow (FS19 Compound Bow) | `FS19RELOADCOMPSTUN` |
+| 44 | Weapon | Energy Lance | `ENERGYLANCE` |
+| 47 | Gear | "Survivalist" Mess Kit | `SURVMESSKIT` |
+| 47 | Gear | FlashFire Camp Stove | `FLASHCAMPST` |
+| 49 | Gear | Starmapper Handheld NaviComputer | `MICROAXSTARMAP` |
+| 49 | Gear | Surveyer's Tools | `SURVEYTOOLS` |
 
 ### Lead by Example (14)
 
@@ -455,23 +455,7 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 59 | Vehicle | Gymsnor-4 Light Freighter | `GYMSNOR4` |
 | 59 | Vehicle | HWK-1000 Light Freighter | `HWK1000LTFREIGHT` |
 | 61 | Vehicle | Golan 1 Space Defense Platform | `GOLAN1SPACEDEF` |
-| _unknown_ | Weapon | Light Tractor Beam Coupler | `LTTRACTCOUPLE` |
-
-### Rise of the Separatists (11)
-
-| Page | Category | Item | Key |
-|---|---|---|---|
-| 54 | Weapon | Shoto | `LTSABERSHOTO` |
-| 56 | Armor | CF-9 Naval Flight Suit | `FLIGHTCF9` |
-| 59 | Gear | Jedi Multi-Tool | `JEDIMULTITOOL` |
-| 67 | Vehicle | LAAT/i Infantry Transport | `LAATI` |
-| 69 | Vehicle | AT-TE All Terrain Tactical Enforcer | `ATTE` |
-| 71 | Vehicle | Delta-7/7B Aethersprite Light Interceptor | `DELTA7STAR` |
-| 73 | Vehicle | Sheathipede-Class Transport Shuttle | `SHEATHIPEDE` |
-| 74 | Vehicle | Sheathipede-Class Spy Shuttle | `SHEATHIPEDESPY` |
-| 78 | Weapon | Heavy Flak Cannon | `FLAKHVY` |
-| 78 | Weapon | Light Flak Cannon | `FLAKLT` |
-| 78 | Weapon | Medium Flak Cannon | `FLAKMED` |
+| -- | Weapon | Light Tractor Beam Coupler | `LTTRACTCOUPLE` |
 
 ### Lords of Nal Hutta (11)
 
@@ -488,6 +472,22 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 115 | Vehicle | Seltiss-2 Caravel | `SELTISS2` |
 | 115 | Vehicle | TL-1200 Transport | `TL1200` |
 | 117 | Vehicle | Kossak-Class Frigate | `KOSSAKFRIG` |
+
+### Rise of the Separatists (11)
+
+| Page | Category | Item | Key |
+|---|---|---|---|
+| 54 | Weapon | Shoto | `LTSABERSHOTO` |
+| 56 | Armor | CF-9 Naval Flight Suit | `FLIGHTCF9` |
+| 59 | Gear | Jedi Multi-Tool | `JEDIMULTITOOL` |
+| 67 | Vehicle | LAAT/i Infantry Transport | `LAATI` |
+| 69 | Vehicle | AT-TE All Terrain Tactical Enforcer | `ATTE` |
+| 71 | Vehicle | Delta-7/7B Aethersprite Light Interceptor | `DELTA7STAR` |
+| 73 | Vehicle | Sheathipede-Class Transport Shuttle | `SHEATHIPEDE` |
+| 74 | Vehicle | Sheathipede-Class Spy Shuttle | `SHEATHIPEDESPY` |
+| 78 | Weapon | Heavy Flak Cannon | `FLAKHVY` |
+| 78 | Weapon | Light Flak Cannon | `FLAKLT` |
+| 78 | Weapon | Medium Flak Cannon | `FLAKMED` |
 
 ### Fully Operational (10)
 
@@ -533,19 +533,6 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 64 | Weapon | Ion Mine | `MINEION` |
 | 64 | Weapon | Seeker Mine | `MINESEEK` |
 
-### Special Modifications (8)
-
-| Page | Category | Item | Key |
-|---|---|---|---|
-| 48 | Armor | N-57 Armor | `N57` |
-| 51 | Gear | Tracing Console | `A212TRACECONS` |
-| 59 | Vehicle | UH-XH Heavy Work Platform | `UHXH` |
-| 60 | Vehicle | KRI-80 Portable Store | `KRI80` |
-| 61 | Vehicle | J-15 Rapid Service Speeder | `J15` |
-| 61 | Vehicle | TRL-03 SkyClaw | `TRL03` |
-| 62 | Vehicle | AD-1S Modular Multi-Role Starfighter | `AD1SMOD` |
-| 64 | Vehicle | L-2783 Deep Space Recovery Vessel | `L2783` |
-
 ### Nexus of Power (8)
 
 | Page | Category | Item | Key |
@@ -558,6 +545,19 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 110 | Gear | Crown of Verity | `TALISCROWNVER` |
 | 110 | Gear | Herder's Gauntlet | `TALISHERDGAUNT` |
 | 111 | Gear | Dram of Orphne | `TALISDRAMORPH` |
+
+### Special Modifications (8)
+
+| Page | Category | Item | Key |
+|---|---|---|---|
+| 48 | Armor | N-57 Armor | `N57` |
+| 51 | Gear | Tracing Console | `A212TRACECONS` |
+| 59 | Vehicle | UH-XH Heavy Work Platform | `UHXH` |
+| 60 | Vehicle | KRI-80 Portable Store | `KRI80` |
+| 61 | Vehicle | J-15 Rapid Service Speeder | `J15` |
+| 61 | Vehicle | TRL-03 SkyClaw | `TRL03` |
+| 62 | Vehicle | AD-1S Modular Multi-Role Starfighter | `AD1SMOD` |
+| 64 | Vehicle | L-2783 Deep Space Recovery Vessel | `L2783` |
 
 ### Beyond the Rim (7)
 
@@ -624,6 +624,14 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 61 | Vehicle | C-B7 "Interceptor" | `CB7INTCEPTOR` |
 | 88 | Vehicle | S-461-Series Scout Ship | `S461SCOUT` |
 
+### Age of Rebellion Beta Rulebook (3)
+
+| Page | Category | Item | Key |
+|---|---|---|---|
+| 186 | Vehicle | Immobilizer 418 Cruiser | `IMMOB418` |
+| 186 | Weapon | Point Defense Laser Cannon | `LASERPTDEF` |
+| 188 | Weapon | Assault Concussion Missile Launcher | `ACML` |
+
 ### Jewel of Yavin (3)
 
 | Page | Category | Item | Key |
@@ -640,13 +648,12 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | 33 | Weapon | Geonosian Blaster Carbine | `BLASTCARBGEO` |
 | 33 | Weapon | Geonosian Blaster Rifle | `BLASTRIFGEO` |
 
-### Age of Rebellion Beta Rulebook (3)
+### Chronicles of the Gatekeeper (2)
 
 | Page | Category | Item | Key |
 |---|---|---|---|
-| 186 | Vehicle | Immobilizer 418 Cruiser | `IMMOB418` |
-| 186 | Weapon | Point Defense Laser Cannon | `LASERPTDEF` |
-| 188 | Weapon | Assault Concussion Missile Launcher | `ACML` |
+| 19 | Gear | Suljo Warde's Holocron | `HOLOCRONWARDE` |
+| 23 | Gear | Bearsloth Antivenom (dose) | `BEARSLOTHANTIVENOM` |
 
 ### Desperate Allies (2)
 
@@ -654,13 +661,6 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 |---|---|---|---|
 | 45 | Weapon | Knockout Mine | `KNOCKMINE` |
 | 47 | Armor | Cargo Clothing | `CARGOCL` |
-
-### Chronicles of the Gatekeeper (2)
-
-| Page | Category | Item | Key |
-|---|---|---|---|
-| 19 | Gear | Suljo Warde's Holocron | `HOLOCRONWARDE` |
-| 23 | Gear | Bearsloth Antivenom (dose) | `BEARSLOTHANTIVENOM` |
 
 ### Onslaught at Arda I (2)
 
@@ -686,3 +686,4 @@ Grouped by book (most-cited first), sorted by page within each book, so you can 
 | Page | Category | Item | Key |
 |---|---|---|---|
 | 36 | Weapon | Mini Thermal Detonator | `THERMDETMINI` |
+

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-07-09",
-  "note": "Items across weapons.js/armor.js/gear.js/vehicles.js whose description field is empty (the app falls back to a page-reference message for these). Excludes the 7 intentionally generic gear placeholders (Small Item, Large Item, etc.), which have no source to cite.",
+  "generated": "2026-09-07",
+  "note": "Items across weapons.js/armor.js/gear.js/vehicles.js whose description field is empty. A weapon, armor or gear entry then shows a \"please see page N of BOOK\" message in place of the text; a vehicle shows no Description block at all. Excludes the 7 intentionally generic gear placeholders (Small Item, Large Item, etc.), which have no source to cite.",
   "summary": {
     "items": 414,
     "citations": 487,
@@ -56,12 +56,12 @@
           "page": "169"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "184"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "178"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "184"
         }
       ]
     },
@@ -596,12 +596,12 @@
           "page": "173"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "189"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "182"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "189"
         }
       ]
     },
@@ -615,12 +615,12 @@
           "page": "173"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "189"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "183"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "189"
         }
       ]
     },
@@ -634,12 +634,12 @@
           "page": "173"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "189"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "183"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "189"
         }
       ]
     },
@@ -1251,12 +1251,12 @@
       "name": "Mark 6  Combat Scanner",
       "sources": [
         {
-          "book": "Dangerous Covenants",
-          "page": "56"
-        },
-        {
           "book": "Knights of Fate",
           "page": "49"
+        },
+        {
+          "book": "Dangerous Covenants",
+          "page": "56"
         }
       ]
     },
@@ -1516,12 +1516,12 @@
           "page": "179"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "196"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "188"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "196"
         }
       ]
     },
@@ -1557,12 +1557,12 @@
           "page": "174"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "190"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "184"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "190"
         }
       ]
     },
@@ -1576,12 +1576,12 @@
           "page": "174"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "190"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "184"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "190"
         }
       ]
     },
@@ -1804,12 +1804,12 @@
           "page": "172"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "188"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "181"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "188"
         }
       ]
     },
@@ -1823,12 +1823,12 @@
           "page": "172"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "188"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "181"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "188"
         }
       ]
     },
@@ -1842,12 +1842,12 @@
           "page": "172"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "188"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "181"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "188"
         }
       ]
     },
@@ -2181,12 +2181,12 @@
           "page": "257"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "268"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "257"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "268"
         }
       ]
     },
@@ -2332,12 +2332,12 @@
       "name": "Delta-7/7B Aethersprite Light Interceptor",
       "sources": [
         {
-          "book": "Force and Destiny Core Rulebook",
-          "page": "258"
-        },
-        {
           "book": "Rise of the Separatists",
           "page": "71"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "258"
         }
       ]
     },
@@ -3056,12 +3056,12 @@
       "name": "T-65B X-Wing Starfighter",
       "sources": [
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "267"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "261"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "267"
         }
       ]
     },
@@ -3302,12 +3302,12 @@
       "name": "AO14 \"Aranea\" Net Gun",
       "sources": [
         {
-          "book": "Enter the Unknown",
-          "page": "42"
-        },
-        {
           "book": "Savage Spirits",
           "page": "41"
+        },
+        {
+          "book": "Enter the Unknown",
+          "page": "42"
         }
       ]
     },
@@ -3575,12 +3575,12 @@
       "name": "Energy Lance",
       "sources": [
         {
-          "book": "Strongholds of Resistance",
-          "page": "108"
-        },
-        {
           "book": "Savage Spirits",
           "page": "44"
+        },
+        {
+          "book": "Strongholds of Resistance",
+          "page": "108"
         }
       ]
     },
@@ -3605,12 +3605,12 @@
           "page": "165"
         },
         {
-          "book": "Age of Rebellion Core Rulebook",
-          "page": "178"
-        },
-        {
           "book": "Force and Destiny Core Rulebook",
           "page": "170"
+        },
+        {
+          "book": "Age of Rebellion Core Rulebook",
+          "page": "178"
         }
       ]
     },
@@ -3620,12 +3620,12 @@
       "name": "G2 Concussion Grenade",
       "sources": [
         {
-          "book": "Dangerous Covenants",
-          "page": "46"
-        },
-        {
           "book": "Knights of Fate",
           "page": "44"
+        },
+        {
+          "book": "Dangerous Covenants",
+          "page": "46"
         }
       ]
     },
@@ -4427,12 +4427,12 @@
       "name": "NOVA40 Plasma Grenade",
       "sources": [
         {
-          "book": "Dangerous Covenants",
-          "page": "46"
-        },
-        {
           "book": "Knights of Fate",
           "page": "45"
+        },
+        {
+          "book": "Dangerous Covenants",
+          "page": "46"
         }
       ]
     },
@@ -4619,12 +4619,12 @@
       "name": "Shoto",
       "sources": [
         {
-          "book": "Force and Destiny Core Rulebook",
-          "page": "177"
-        },
-        {
           "book": "Rise of the Separatists",
           "page": "54"
+        },
+        {
+          "book": "Force and Destiny Core Rulebook",
+          "page": "177"
         }
       ]
     },
