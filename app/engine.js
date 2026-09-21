@@ -1522,7 +1522,9 @@ const Engine = (() => {
     const rk = name => effCounts[name] || 0;
 
     // Dedication: +1 to a chosen characteristic per rank (capped at 6). Applied
-    // to an effective copy so it flows into thresholds, soak, and skill dice.
+    // to an effective copy so it flows into soak and skill dice. It does NOT
+    // flow into wound or strain threshold: those are set from the characteristic
+    // as it stood at character creation (see the thresholds below).
     const effChars = Object.assign({}, chars);
     const dedTotal  = rk('Dedication');
     // Each purchased Dedication box carries its own characteristic pick, keyed
@@ -1645,9 +1647,19 @@ const Engine = (() => {
       };
     });
 
+    // Thresholds read the creation-time characteristic (chars), not the
+    // effective one. Once the starting value is set, raising Brawn no longer
+    // raises wound threshold, and raising Willpower no longer raises strain
+    // threshold; both improve through talents such as Toughened and Grit
+    // instead (EotE Core p.31). Dedication and cybernetics
+    // are exactly such later increases. That includes cybernetics bought as
+    // starting gear: derived attributes are fixed at creation step 7 (p.94),
+    // before gear is bought at step 9 (p.97), and the cybernetics rules on
+    // p.173 make no exception. Soak is the opposite case: p.31 says increases
+    // to Brawn DO raise it, so soak keeps using effChars.
     return {
-      wound_threshold:  (species.wound_threshold  || 10) + (effChars[wtStat]  || 2) + woundBonus,
-      strain_threshold: (species.strain_threshold || 10) + (effChars[stStat] || 2) + strainBonus,
+      wound_threshold:  (species.wound_threshold  || 10) + (chars[wtStat]  || 2) + woundBonus,
+      strain_threshold: (species.strain_threshold || 10) + (chars[stStat] || 2) + strainBonus,
       soak:             (effChars.brawn || 1) + armorSoak + soakBonus + cyberSoak,
       defense_ranged:   armorDefense + armorDefRanged + defRBonus + wpnDefRanged + juryDef.ranged,
       defense_melee:    armorDefense + armorDefMelee  + defMBonus + wpnDefMelee  + juryDef.melee,
