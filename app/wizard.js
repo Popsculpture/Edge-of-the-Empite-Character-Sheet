@@ -5475,6 +5475,23 @@ const Wizard = (() => {
         return;
       }
     });
+    // Open or close one Talents & Abilities card. Sheet holds the open set, so
+    // a card stays open through the redraws the trackers trigger; the class
+    // and aria-expanded are flipped in place, so opening one redraws nothing.
+    function flipTalentCard(card) {
+      const open = Sheet.toggleCard(card.dataset.talentToggle);
+      card.classList.toggle('open', open);
+      card.setAttribute('aria-expanded', String(open));
+    }
+    // The cards are role="button", so Enter and Space work them from the
+    // keyboard. Space would otherwise scroll the page as well.
+    $('#step-content').addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const card = e.target.closest && e.target.closest('[data-talent-toggle]');
+      if (!card || card !== e.target) return;
+      e.preventDefault();
+      flipTalentCard(card);
+    });
     // Wound / strain trackers on the sheet (clamped to 0..threshold).
     $('#step-content').addEventListener('click', e => {
       // Tap an enhanced (green) stat value to reveal its "+N from talents" note.
@@ -5491,6 +5508,9 @@ const Wizard = (() => {
         if (card) card.classList.toggle('expanded');
         return;
       }
+      // Tap a Talents & Abilities card to show or hide its description.
+      const talentCard = e.target.closest('[data-talent-toggle]');
+      if (talentCard) { flipTalentCard(talentCard); return; }
       // Play mode's Contacts list: add a row, or remove one by id.
       if (e.target.closest('[data-act="add-contact"]')) { addContact(); return; }
       const rm = e.target.closest('[data-act="remove-contact"]');

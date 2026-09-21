@@ -221,9 +221,10 @@ const Sheet = (() => {
       const colon = a.indexOf(':');
       let name = (species ? species.name + ' Ability' : 'Species Ability'), desc = a;
       if (colon > 0 && colon < 40) { name = a.slice(0, colon).trim(); desc = a.slice(colon + 1).trim(); }
+      const tg = cardToggle('ability:' + name);
       return `
-        <div class="talent-card talent-card-species">
-          <div class="talent-name">${esc(name)}</div>
+        <div class="talent-card talent-card-species${tg.cls}"${tg.attrs}>
+          <div class="talent-name"><span>${esc(name)}</span>${CHEVRON}</div>
           <div class="talent-chips"><span class="talent-source">Species</span><span class="talent-type passive">Innate</span></div>
           <div class="talent-desc">${esc(desc)}</div>
         </div>`;
@@ -374,6 +375,30 @@ const Sheet = (() => {
   }
 
   // Panel listing species abilities + every purchased talent (rank, type, effect, text).
+  // Which Talents & Abilities cards are open. Every card starts collapsed to
+  // its name and chips; tapping one reveals the description. This is view
+  // state rather than character data, so it is never saved, and it lives out
+  // here rather than on the DOM because the sheet redraws itself on every
+  // wound, strain or Force tap: a card opened to read mid-fight would
+  // otherwise snap shut the moment the player marked a wound. Reloading the
+  // page starts everything collapsed again.
+  const _openCards = new Set();
+  function toggleCard(id) {
+    if (_openCards.has(id)) _openCards.delete(id); else _openCards.add(id);
+    return _openCards.has(id);
+  }
+  // A card's toggle attributes and its opening class. Keyed "talent:" or
+  // "ability:" so a species ability and a talent that happen to share a name
+  // still open independently.
+  function cardToggle(id) {
+    const open = _openCards.has(id);
+    return {
+      cls: open ? ' open' : '',
+      attrs: ` data-talent-toggle="${esc(id)}" role="button" tabindex="0" aria-expanded="${open}"`,
+    };
+  }
+  const CHEVRON = '<span class="talent-chevron" aria-hidden="true">&#9662;</span>';
+
   function talentsBlock(d, species) {
     const list = (d && d.talents) || [];
     const speciesCards = speciesAbilityCards(species);
@@ -390,9 +415,10 @@ const Sheet = (() => {
       const desc     = t.description
         ? `<div class="talent-desc">${esc(t.description)}</div>`
         : `<div class="talent-desc talent-desc-empty">No description on file.</div>`;
+      const tg = cardToggle('talent:' + t.name);
       return `
-        <div class="talent-card">
-          <div class="talent-name">${esc(t.name)}</div>
+        <div class="talent-card${tg.cls}"${tg.attrs}>
+          <div class="talent-name"><span>${esc(t.name)}</span>${CHEVRON}</div>
           <div class="talent-chips">${rankTag}${srcTag}${effectBadge(t.effect)}${boostBadge(t.boost)}${setbackBadge(t.setback)}${careerSkillBadge(t.careerSkills)}${choiceBadge(t.choices)}${typeTag}</div>
           ${desc}
         </div>`;
@@ -773,5 +799,5 @@ const Sheet = (() => {
     return ` data-tip-type="item" data-tip-name="${esc(cat + ':' + key)}"`;
   }
 
-  return { render, vehicleCardHtml };
+  return { render, vehicleCardHtml, toggleCard };
 })();

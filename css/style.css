@@ -1197,6 +1197,10 @@ body.swiping-tabs { overflow-x: hidden; }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 10px;
+  /* Each card sizes to itself. The grid default stretches every card in a row
+     to the tallest one, so opening one card would pad its collapsed
+     neighbours out with empty space. */
+  align-items: start;
 }
 .talent-card {
   background: var(--surface2);
@@ -1206,6 +1210,23 @@ body.swiping-tabs { overflow-x: hidden; }
 }
 .talent-card-species { border-left: 3px solid var(--accent); }
 .talent-name { font-weight: 700; color: var(--text); margin-bottom: 5px; }
+
+/* Collapsible cards: name and chips always show, the description only when
+   open. Scoped to [data-talent-toggle] so no other talent card loses its text. */
+.talent-card[data-talent-toggle] { cursor: pointer; transition: border-color 0.12s; }
+.talent-card[data-talent-toggle]:hover { border-color: var(--accent-border); }
+.talent-card[data-talent-toggle]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.talent-card[data-talent-toggle] .talent-name {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
+}
+.talent-chevron {
+  flex: none; font-size: 0.7em; color: var(--muted); transition: transform 0.15s;
+}
+.talent-card[data-talent-toggle]:not(.open) .talent-chevron { transform: rotate(-90deg); }
+.talent-card[data-talent-toggle]:not(.open) .talent-desc { display: none; }
+/* Nothing sits under the chips while collapsed, so drop their bottom gap. */
+.talent-card[data-talent-toggle]:not(.open) .talent-chips { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .talent-chevron { transition: none; } }
 .talent-chips { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
 .talent-chips:empty { display: none; }
 .talent-rank {
