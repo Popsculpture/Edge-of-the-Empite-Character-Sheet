@@ -447,7 +447,7 @@ const Sheet = (() => {
       const name = rec.nickname || it.name;
       return `
         <div class="sheet-eq-row">
-          <span class="sheet-eq-name">${esc(name)}${rec.nickname ? ` <em class="sheet-eq-model">(${esc(it.name)})</em>` : ''}</span>
+          <span class="sheet-eq-name"${itemTip('gear', rec.itemKey)}>${esc(name)}${rec.nickname ? ` <em class="sheet-eq-model">(${esc(it.name)})</em>` : ''}</span>
           <span class="sheet-eq-meta">${esc(TYPE_SINGULAR[it.type] || it.type || '')}${rec.notes ? ' &middot; ' + esc(rec.notes) : ''}</span>
         </div>`;
     }).join('');
@@ -474,7 +474,7 @@ const Sheet = (() => {
       return keys.map(k => {
         const it = Engine.getItem(cat, k);
         if (!it || Engine.isCompanionItem(cat, it)) return '';
-        return fmt(it, bag[k]);
+        return fmt(it, bag[k], k);
       }).join('');
     }
 
@@ -484,15 +484,15 @@ const Sheet = (() => {
         <span class="sheet-eq-meta">${esc(w.skill || '')} &middot; Dmg ${dmg(w)} &middot; Crit ${w.crit ?? '—'} &middot; ${esc(w.range || '')}${(w.qualities||[]).length ? ' &middot; ' + w.qualities.map(q => esc(q.name) + (q.count ? ' ' + q.count : '')).join(', ') : ''}</span>
       </div>`);
 
-    const aRows = lines('armor', (a, l) => `
+    const aRows = lines('armor', (a, l, k) => `
       <div class="sheet-eq-row">
-        <span class="sheet-eq-name">${esc(a.name)}${derived && derived.worn_armor === a.key ? ' <em class="sheet-eq-worn">(worn)</em>' : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
+        <span class="sheet-eq-name"${itemTip('armor', k)}>${esc(a.name)}${derived && derived.worn_armor === a.key ? ' <em class="sheet-eq-worn">(worn)</em>' : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
         <span class="sheet-eq-meta">Soak +${a.soak ?? 0} &middot; Defense +${a.defense ?? 0} &middot; Enc ${a.encumbrance ?? '—'}${(a.qualities || []).length ? ' &middot; ' + a.qualities.map(q => esc(q.name) + (q.count ? ' ' + q.count : '')).join(', ') : ''}</span>
       </div>`);
 
-    const gRows = lines('gear', (g, l) => `
+    const gRows = lines('gear', (g, l, k) => `
       <div class="sheet-eq-row">
-        <span class="sheet-eq-name">${esc(g.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.equip ? ' <em class="sheet-eq-worn">(worn)</em>' : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
+        <span class="sheet-eq-name"${itemTip('gear', k)}>${esc(g.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.equip ? ' <em class="sheet-eq-worn">(worn)</em>' : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
         <span class="sheet-eq-meta">${esc(g.type || '')}${g.encumbrance ? ' &middot; Enc ' + g.encumbrance : ''}</span>
       </div>`);
 
@@ -763,6 +763,14 @@ const Sheet = (() => {
   function qualChips(list) {
     const chips = (list || []).map(qualChip).join('');
     return chips || '<span class="wpn-none">None</span>';
+  }
+
+  // Attributes that make an item's name tappable for its description, through
+  // the same pop-out as qualities and skills. Carries "category:key" rather
+  // than the name, because names repeat across the catalogue and a customised
+  // item is an instance only its key identifies.
+  function itemTip(cat, key) {
+    return ` data-tip-type="item" data-tip-name="${esc(cat + ':' + key)}"`;
   }
 
   return { render, vehicleCardHtml };

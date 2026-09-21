@@ -869,6 +869,27 @@ const Wizard = (() => {
               <div class="tt-meta">Weapon Quality &bull; ${q.ranked ? 'Ranked' : 'Not Ranked'}</div>
               ${glyph ? `<div class="tt-body">${glyph}</div>` : ''}`;
     }
+    if (type === 'item') {
+      // data-tip-name carries "category:key". Resolved by key rather than by
+      // name because names are not unique across the catalogue, and because a
+      // customised weapon or suit is an instance whose key only the owner has.
+      const at = name.indexOf(':');
+      const cat = at > 0 ? name.slice(0, at) : '';
+      const key = at > 0 ? name.slice(at + 1) : name;
+      const it = cat ? Engine.getItem(cat, key) : null;
+      if (!it) return `<div class="tt-title">${esc(key)}</div>`;
+      const CAT = { weapon: 'Weapon', armor: 'Armor', gear: 'Gear' };
+      const meta = [CAT[cat], it.type].filter(Boolean).map(esc).join(' &bull; ');
+      const body = itemDescHtml(it);
+      // A page pointer is styled like a talent's, so it reads as "go and look"
+      // rather than as the item's own words.
+      const bodyHtml = !body
+        ? '<div class="tt-body tt-ref">No description or source recorded for this item.</div>'
+        : `<div class="tt-body${it.description ? '' : ' tt-ref'}">${body}</div>`;
+      return `<div class="tt-title">${esc(it.name)}${it.restricted ? ' <span class="r-badge">R</span>' : ''}</div>
+              ${meta ? `<div class="tt-meta">${meta}</div>` : ''}
+              ${bodyHtml}`;
+    }
     return `<div class="tt-title">${name}</div>`;
   }
 
@@ -3228,6 +3249,21 @@ const Wizard = (() => {
     return s.replace(/\[[A-Z]+\]/g, m => EQ_GLYPHS[m] !== undefined ? EQ_GLYPHS[m] : '');
   }
 
+  // What an item says about itself, as escaped HTML: its printed description,
+  // or failing that its short blurb and a pointer to the page it is printed on.
+  // About a third of the catalogue has no description yet, so the pointer is
+  // doing real work. Shared by the store's detail panel and the sheet's
+  // tap-a-name pop-out so the two can never disagree about an item.
+  function itemDescHtml(it) {
+    if (!it) return '';
+    if (it.description) return esc(it.description);
+    const srcTxt = (it.sources || []).length
+      ? 'Please see ' + it.sources.map(s => `page ${s.page} of the ${s.book}`).join(', ') + ' for details.'
+      : '';
+    return [it.short ? esc(glyphify(it.short)) : '', srcTxt ? esc(srcTxt) : '']
+      .filter(Boolean).join('<br><br>');
+  }
+
   const EQ_STORE = {
     weapon: { label: 'Weapons', list: () => SW.weapons || [] },
     armor:  { label: 'Armor',   list: () => SW.armor   || [] },
@@ -3684,13 +3720,7 @@ const Wizard = (() => {
       ? `<div class="eq-detail-quals">${it.qualities.map(q =>
           `<span class="qual-chip" data-tip-type="quality" data-tip-name="${esc(q.key)}">${esc(q.name)}${q.count ? ' ' + q.count : ''}</span>`).join('')}</div>`
       : '';
-    const srcTxt = (it.sources || []).length
-      ? 'Please see ' + it.sources.map(s => `page ${s.page} of the ${s.book}`).join(', ') + ' for details.'
-      : '';
-    const desc = it.description
-      ? esc(it.description)
-      : [it.short ? esc(glyphify(it.short)) : '', srcTxt ? esc(srcTxt) : '']
-          .filter(Boolean).join('<br><br>');
+    const desc = itemDescHtml(it);
     const owned = shownQty(cat, key);
 
     el.innerHTML = `

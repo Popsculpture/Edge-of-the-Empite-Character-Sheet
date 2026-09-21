@@ -2670,6 +2670,15 @@ body.on-craft #app { padding-bottom: 200px; }
 .sheet-eq-row { padding: 4px 0; border-bottom: 1px solid var(--border); }
 .sheet-eq-row:last-child { border-bottom: none; }
 .sheet-eq-name { display: block; font-size: 0.84rem; font-weight: 600; color: var(--text); }
+/* Tap an item's name for its description: the same faint dotted underline the
+   sheet's skill names use, so the two read as one kind of control. */
+.sheet-eq-name[data-tip-type] {
+  cursor: help;
+  text-decoration: underline dotted var(--border);
+  text-underline-offset: 3px;
+}
+/* Keep the underline on the name, off the (worn), (free) and model badges. */
+.sheet-eq-name[data-tip-type] em { display: inline-block; text-decoration: none; }
 .sheet-eq-meta { display: block; font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
 .sheet-eq-free { color: var(--success); font-style: normal; font-size: 0.7rem; }
 
