@@ -713,6 +713,36 @@ const Wizard = (() => {
   ];
 
   // ── Tooltip data ──────────────────────────────────────────────────────────
+  // What each characteristic and derived stat means, shown when its name is
+  // tapped on the sheet. Written in plain words from the Edge of the Empire
+  // Core Rulebook (the page cited on each), not copied from it, and holding
+  // only what those pages say. Keyed by the id the sheet puts in
+  // data-tip-name.
+  const STAT_DESCS = {
+    brawn:     { title: "Brawn", kind: "Characteristic", page: "16",
+      body: "How strong and physically tough your character is, and how well they can put that muscle to work. High Brawn means a sturdy body that rarely falls ill, and it drives skills like Athletics, Brawl, and Melee. It also feeds into your starting wound threshold, and your soak value is built on it." },
+    agility:   { title: "Agility", kind: "Characteristic", page: "15-16",
+      body: "How nimble and precise your character is: sure hands, good coordination between eye and hand, and control over their own body. High Agility means solid balance and flexibility. It drives physical skills like Coordination and is central to shooting, powering Ranged (Light) and Ranged (Heavy)." },
+    intellect: { title: "Intellect", kind: "Characteristic", page: "16",
+      body: "Book smarts and clear, logical thinking: how educated and mentally sharp your character is. A high Intellect lets you work out what data implies, call on facts and past experience, and plan far ahead while weighing where your choices will lead. It is the characteristic behind Astrogation, Computers, and all of the Knowledge skills, including Lore and Xenology." },
+    cunning:   { title: "Cunning", kind: "Characteristic", page: "16",
+      body: "Your wits and craftiness: how sly, clever, and inventive you are. Cunning characters read people and situations quickly and come up with plans on the fly. It is the characteristic behind mental skills like Deception, Perception, and Survival." },
+    willpower: { title: "Willpower", kind: "Characteristic", page: "16",
+      body: "Your inner resolve: mental toughness, self-discipline, and the strength of your convictions. With a strong will you keep a level head when things turn chaotic, hold up under stress and weariness, and can sway people of weaker resolve. It powers Coercion and Vigilance and helps set your starting strain threshold." },
+    presence:  { title: "Presence", kind: "Characteristic", page: "16",
+      body: "Your charisma, boldness, and self-assurance. With high Presence, heads turn when you walk in, you can get talking with almost anyone, and you find your footing fast in any social scene, which makes you well suited to lead. It underpins people skills such as Charm and Leadership." },
+    soak:      { title: "Soak", kind: "Derived stat", page: "31, 94, 205-206",
+      body: "How much of each hit you can absorb before it hurts you. Whenever you take damage, subtract your soak first and only what remains becomes wounds, and if an attack lands several hits, soak reduces each one. It starts equal to your Brawn and rises when Brawn does, and armor and some talents add more." },
+    wounds:    { title: "Wound Threshold", kind: "Derived stat", page: "31, 94, 215",
+      body: "How much physical harm you can take before you go down: each point of damage that gets past your soak counts as one wound. If your wounds rise above this number, you immediately suffer a Critical Injury and are knocked out until they drop back to it. It starts at your species' base value plus Brawn, then grows through talents such as Toughened, not by raising Brawn." },
+    strain:    { title: "Strain Threshold", kind: "Derived stat", page: "31, 94, 216",
+      body: "How much stress, fear, and stunning you can endure before you are overwhelmed. You can also take strain on purpose, most often two strain for an extra maneuver, but if your strain goes above this number you are incapacitated until it drops back to it. It starts at your species' base value plus Willpower, then grows through talents such as Grit, not by raising Willpower." },
+    defense:   { title: "Defense", kind: "Derived stat", page: "31, 206-207",
+      body: "How tough you are to land a hit on. Each point adds a setback die to attacks aimed at you: the first number covers Brawl and Melee attacks, the second covers Ranged and Gunnery attacks. Both start at zero and usually come from armor or cover, and some talents can raise one of them, but separate defense sources do not add together, so you use the best one that applies." },
+    force:     { title: "Force Rating", kind: "Force", page: "278-279",
+      body: "How many Force dice you can draw on. Activating a Force power means rolling that many Force dice, with each light side result giving a Force point to spend on its effects. Ongoing effects instead need dice committed to them, and committed dice sit out of your pool until you end the effect, which you can do as an incidental at the end of a later turn." },
+  };
+
   const SKILL_DESCS = {
     'Astrogation':           'Calculating hyperspace routes and plotting jumps. Use it to program a navicomputer, find faster or safer routes, avoid hazards like gravity wells and mass shadows, and recover when a jump goes wrong. Good rolls shave travel time; a bad one can strand you light-years off course.',
     'Athletics':             'Raw physical exertion: running, jumping, climbing, swimming, and lifting. Use it to scale a wall, leap a gap, sprint from danger, or hold on when the deck pitches. The catch-all for feats of strength and stamina that are not a straight fight.',
@@ -889,6 +919,14 @@ const Wizard = (() => {
       return `<div class="tt-title">${esc(it.name)}${it.restricted ? ' <span class="r-badge">R</span>' : ''}</div>
               ${meta ? `<div class="tt-meta">${meta}</div>` : ''}
               ${bodyHtml}`;
+    }
+    if (type === 'stat') {
+      const s = STAT_DESCS[name];
+      if (!s) return `<div class="tt-title">${esc(name)}</div>`;
+      const pp = /[,-]/.test(s.page) ? 'pp.' : 'p.';   // "p.16" but "pp.31, 94"
+      return `<div class="tt-title">${esc(s.title)}</div>
+              <div class="tt-meta">${esc(s.kind)} &bull; EotE Core ${pp}${esc(s.page)}</div>
+              <div class="tt-body">${esc(s.body)}</div>`;
     }
     return `<div class="tt-title">${name}</div>`;
   }

@@ -1183,6 +1183,21 @@ body.swiping-tabs { overflow-x: hidden; }
 .strip-cell-abbr { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 .strip-cell-char { font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1; margin: 4px 0; }
 .strip-cell-name { font-size: 0.65rem; color: var(--muted); }
+/* Tap a characteristic's or derived stat's name for what it means: the same
+   faint dotted underline as skill and equipment names. These labels are tiny,
+   so the padding widens the tap target and the matching negative margin keeps
+   the layout exactly where it was. */
+.strip-cell-name[data-tip-type],
+.derived-cell-label[data-tip-type] {
+  cursor: help;
+  text-decoration: underline dotted var(--border);
+  text-underline-offset: 3px;
+  padding: 3px 6px;
+  margin: -3px -6px;
+  border-radius: 4px;
+}
+.strip-cell-name[data-tip-type]:hover,
+.derived-cell-label[data-tip-type]:hover { color: var(--text); }
 
 /* Talent-enhanced value: green + tappable; its note is hidden until tapped. */
 .enh {

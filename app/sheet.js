@@ -70,7 +70,7 @@ const Sheet = (() => {
       <div class="strip-cell">
         <div class="strip-cell-abbr">${Engine.CHAR_ABBR[stat]}</div>
         <div class="strip-cell-char">${valHtml}</div>
-        <div class="strip-cell-name">${stat.charAt(0).toUpperCase() + stat.slice(1)}</div>
+        <div class="strip-cell-name" data-tip-type="stat" data-tip-name="${stat}">${stat.charAt(0).toUpperCase() + stat.slice(1)}</div>
         ${note}
       </div>`;
     }).join('');
@@ -92,9 +92,14 @@ const Sheet = (() => {
     // Mark a value (HTML) as talent-enhanced: green + tappable to toggle the note.
     const enh = (html, n) => n ? `<span class="enh" data-enhance>${html}</span>` : html;
 
+    // Tap a derived stat's label for what it means. Only the label is the
+    // trigger: the value beside it is already tappable (it reveals the
+    // "+N from talents" note), and the trackers have their own buttons.
+    const STAT_TIP = { 'Soak': 'soak', 'Wounds': 'wounds', 'Strain': 'strain',
+                       'Defense': 'defense', 'Force Pool': 'force' };
     const cell = (label, body, extra) => `
       <div class="derived-cell">
-        <div class="derived-cell-label">${label}</div>
+        <div class="derived-cell-label"${STAT_TIP[label] ? ` data-tip-type="stat" data-tip-name="${STAT_TIP[label]}"` : ''}>${label}</div>
         ${body}
         ${extra || ''}
       </div>`;
