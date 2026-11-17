@@ -1672,6 +1672,10 @@ body.on-craft #app { padding-bottom: 200px; }
 .dc-console.min .dc-inner { padding: 6px 24px 8px; }
 
 .dc-label { font-size: 0.72rem; color: var(--accent); font-weight: 700; letter-spacing: 0.04em; margin-bottom: 6px; min-height: 14px; }
+/* Names the gear lending this check a bonus, in the same cyan as the
+   "From gear" chip on the sheet. */
+.dc-gear-note { font-size: 0.7rem; color: #7fd3f7; margin: -3px 0 6px; line-height: 1.4; }
+.dc-console.min .dc-gear-note { display: none !important; }
 .dc-top { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .dc-pool { display: flex; gap: 10px; flex-wrap: wrap; flex: 1 1 auto; min-height: 46px; max-height: 110px; overflow-y: auto; align-items: center; }
 .dc-empty { color: var(--muted); font-size: 0.78rem; font-style: italic; }

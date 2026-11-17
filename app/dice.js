@@ -26,6 +26,10 @@ const Dice = (() => {
   // retinal tracker). Not a die, so it lives beside the pool and is added to
   // the tally when the pool is rolled.
   let autoAdv = 0;
+  // Bonuses gear is lending this check (an implant's rank or Advantage, a
+  // cybernetic characteristic), named so the player can see why the pool is
+  // what it is. Shown under the label while the check is in the tray.
+  let gearNote = '';
   // What kind of check seeded the pool: 'combat' (attack buttons), 'skill'
   // (sheet skill dice, with the skill name), or 'generic' (pool built by hand
   // in the tray). Drives which spend-your-results tips a roll offers.
@@ -146,6 +150,7 @@ const Dice = (() => {
       <button class="dc-collapse" data-dc="toggle">&#9662; Dice</button>
       <div class="dc-inner">
         <div class="dc-label" id="dc-label"></div>
+        <div class="dc-gear-note" id="dc-gear-note" style="display:none"></div>
         <div class="dc-top">
           <div class="dc-pool" id="dc-pool"></div>
           <div class="dc-diff" id="dc-diff">
@@ -189,10 +194,13 @@ const Dice = (() => {
     el.innerHTML = h;
     const lbl = document.getElementById('dc-label');
     if (lbl) lbl.textContent = labelText;
+    const gn = document.getElementById('dc-gear-note');
+    if (gn) { gn.textContent = gearNote ? 'From gear: ' + gearNote : ''; gn.style.display = gearNote ? '' : 'none'; }
   }
 
-  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill, boost, force, adv) {
+  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill, boost, force, adv, note) {
     autoAdv = Math.max(0, adv | 0);
+    gearNote = note || '';
     labelText = (label || '') + (autoAdv ? ` (+${autoAdv} automatic Advantage)` : '');
     // Remember what kind of check this is so the results can offer the right
     // spend options. A hand-built pool (no seeding button) stays generic.
@@ -229,6 +237,7 @@ const Dice = (() => {
     for (const k in pool) pool[k] = 0;
     labelText = '';
     autoAdv = 0;
+    gearNote = '';
     ctxType = 'generic';
     ctxSkill = '';
     ctxCraft = '';
@@ -414,7 +423,8 @@ const Dice = (() => {
       if (roller) {
         setPoolFromUpgrade(roller.dataset.diceLabel || '', +roller.dataset.diceAbility || 0, +roller.dataset.diceProf || 0, +roller.dataset.diceDifficulty || 0,
                            roller.dataset.diceContext || '', roller.dataset.diceSkill || '', +roller.dataset.diceBoost || 0,
-                           +roller.dataset.diceForce || 0, +roller.dataset.diceAdv || 0);
+                           +roller.dataset.diceForce || 0, +roller.dataset.diceAdv || 0,
+                           roller.dataset.diceNote || '');
         return;
       }
       const t = e.target.closest('[data-dc],[data-dc-die],[data-dc-diff]');

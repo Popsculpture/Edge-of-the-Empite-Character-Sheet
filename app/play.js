@@ -379,7 +379,7 @@ const Play = (() => {
             ${sourceTag}
             ${action}
           </div>
-          ${Sheet.vehicleCardHtml(entry, v, chars, ranks, d && d.skill_auto_advantage)}
+          ${Sheet.vehicleCardHtml(entry, v, chars, ranks, d)}
           <textarea class="veh-notes" placeholder="Ship name, backstory, modifications..." rows="2"
             data-pf-notes ${ref}>${esc(entry.notes || '')}</textarea>
         </div>`;

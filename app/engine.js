@@ -1398,6 +1398,15 @@ const Engine = (() => {
     let cyberInstalled = 0; // implants counted against the Brawn cap
     let cyberCapBonus = 0;  // biofeedback regulator
     const cyberAdv = {};    // skill key -> automatic advantage from installed implants
+    // Every bonus gear is handing the character right now, with the item it
+    // came from, so the sheet can list it and the dice tray can name it.
+    // Entries: { source, cat, key, kind, amount, char? skillKey? talent? }.
+    const gearBonuses = [];
+    // Weapons built into installed implants (repulsor fist, blaster arm),
+    // each resolved to a full weapon profile the sheet can draw as a card.
+    const implantWeapons = [];
+    const noteBonus = (item, cat, key, kind, amount, extra) =>
+      gearBonuses.push(Object.assign({ source: item.name, cat, key, kind, amount }, extra));
     for (const cat of ['weapon', 'armor', 'gear']) {
       const bag = owned[cat];
       for (const key of Object.keys(bag)) {
@@ -1416,9 +1425,15 @@ const Engine = (() => {
         // "Installed" is the line's equip flag: an implant bought but not yet fitted
         // sits in inventory doing nothing, the same as an unworn suit of armor.
         if (cat === 'gear' && isCybernetic(item) && line.equip) {
-          if (typeof item.soakMod === 'number') cyberSoak += item.soakMod;
+          if (typeof item.soakMod === 'number') {
+            cyberSoak += item.soakMod;
+            noteBonus(item, cat, key, 'soak', item.soakMod);
+          }
           if (item.charMod && (item.charModPair ? line.qty >= 2 : line.qty >= 1)) {
-            for (const ck of Object.keys(item.charMod)) cyberChar[ck] = (cyberChar[ck] || 0) + item.charMod[ck];
+            for (const ck of Object.keys(item.charMod)) {
+              cyberChar[ck] = (cyberChar[ck] || 0) + item.charMod[ck];
+              noteBonus(item, cat, key, 'char', item.charMod[ck], { char: ck });
+            }
           }
           // The rest of an implant's always-on effects, as its book prints
           // them: skill ranks (cybernetic eyes), talent ranks (adrenal
@@ -1426,9 +1441,27 @@ const Engine = (() => {
           // on given skills (the Q-22 retinal tracker). They feed the same
           // pipelines equipped gear already uses, so the sheet marks them as
           // coming from gear.
-          for (const [n, r] of Object.entries(item.grantsTalents || {})) gearTalents[n] = (gearTalents[n] || 0) + r;
-          for (const [n, r] of Object.entries(item.grantsSkills  || {})) gearSkills[n]  = (gearSkills[n]  || 0) + r;
-          for (const [k, n] of Object.entries(item.autoAdvantage || {})) cyberAdv[k] = (cyberAdv[k] || 0) + n;
+          for (const [n, r] of Object.entries(item.grantsTalents || {})) {
+            gearTalents[n] = (gearTalents[n] || 0) + r;
+            noteBonus(item, cat, key, 'talent', r, { talent: n });
+          }
+          for (const [n, r] of Object.entries(item.grantsSkills  || {})) {
+            gearSkills[n]  = (gearSkills[n]  || 0) + r;
+            noteBonus(item, cat, key, 'skill', r, { skillKey: nameToKey(n) });
+          }
+          for (const [k, n] of Object.entries(item.autoAdvantage || {})) {
+            cyberAdv[k] = (cyberAdv[k] || 0) + n;
+            noteBonus(item, cat, key, 'adv', n, { skillKey: k });
+          }
+          if (item.implantCapBonus) noteBonus(item, cat, key, 'cap', item.implantCapBonus);
+          if (item.implantWeapon) {
+            const iw = item.implantWeapon;
+            const base = iw.profile ? baseItem('weapon', iw.profile) : null;
+            implantWeapons.push(Object.assign({}, base || {}, iw, {
+              key: key, name: item.name, implant: true, profileName: base ? base.name : '',
+            }));
+            noteBonus(item, cat, key, 'weapon', 1, { profileName: base ? base.name : '' });
+          }
           // Toward the implant cap: one per implant, with cyberlegs counted
           // per pair since they are bought and fitted as one. A biofeedback
           // regulator does not count, and instead raises the cap by two; a
@@ -1449,8 +1482,14 @@ const Engine = (() => {
         // rank. They belong to the item, not the character, so they only count
         // while it is actually equipped, and they leave when it does.
         if ((cat === 'weapon' || cat === 'armor') && line.equip) {
-          for (const [n, r] of Object.entries(item.grantsTalents || {})) gearTalents[n] = (gearTalents[n] || 0) + r;
-          for (const [n, r] of Object.entries(item.grantsSkills  || {})) gearSkills[n]  = (gearSkills[n]  || 0) + r;
+          for (const [n, r] of Object.entries(item.grantsTalents || {})) {
+            gearTalents[n] = (gearTalents[n] || 0) + r;
+            noteBonus(item, cat, key, 'talent', r, { talent: n });
+          }
+          for (const [n, r] of Object.entries(item.grantsSkills  || {})) {
+            gearSkills[n]  = (gearSkills[n]  || 0) + r;
+            noteBonus(item, cat, key, 'skill', r, { skillKey: nameToKey(n) });
+          }
         }
       }
     }
@@ -1711,6 +1750,8 @@ const Engine = (() => {
       cyber_installed:  cyberInstalled,
       cyber_cap:        cyberCap,
       skill_auto_advantage: cyberAdv,
+      gear_bonuses:     gearBonuses,
+      implant_weapons:  implantWeapons,
       cyber_soak:       cyberSoak,
       armor_defense:    armorDefense,
       defense_weapon_melee:  wpnDefMelee,
