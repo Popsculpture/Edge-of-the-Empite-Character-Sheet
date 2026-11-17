@@ -1324,6 +1324,9 @@ body.swiping-tabs { overflow-x: hidden; }
 .skill-setback-set { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
 .die-boost rect { fill: #7fd3f7; stroke: #4aa8d8; stroke-width: 1; }
 .skill-boost-set { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
+/* Automatic advantage from an implant: a result rather than a die, so it is
+   the advantage symbol, sitting after the dice it is added to. */
+.skill-auto-adv { display: inline-flex; align-items: center; gap: 1px; margin-left: 4px; font-size: 1.05em; }
 .talent-source.gear { color: #7fd3f7; border-color: #7fd3f7; }
 /* Customization in the item bench that spends no hard points. */
 .att-jury    { border-left: 3px solid var(--accent, #f5c518); }

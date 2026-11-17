@@ -1396,6 +1396,8 @@ const Engine = (() => {
     let wpnDefMelee = 0, wpnDefRanged = 0, encThresholdBonus = 0, cyberSoak = 0;
     const cyberChar = {};   // characteristic -> flat bonus from installed cybernetics
     let cyberInstalled = 0; // implants counted against the Brawn cap
+    let cyberCapBonus = 0;  // biofeedback regulator
+    const cyberAdv = {};    // skill key -> automatic advantage from installed implants
     for (const cat of ['weapon', 'armor', 'gear']) {
       const bag = owned[cat];
       for (const key of Object.keys(bag)) {
@@ -1418,9 +1420,21 @@ const Engine = (() => {
           if (item.charMod && (item.charModPair ? line.qty >= 2 : line.qty >= 1)) {
             for (const ck of Object.keys(item.charMod)) cyberChar[ck] = (cyberChar[ck] || 0) + item.charMod[ck];
           }
+          // The rest of an implant's always-on effects, as its book prints
+          // them: skill ranks (cybernetic eyes), talent ranks (adrenal
+          // implant, cybernetic reflexes and others), and automatic advantage
+          // on given skills (the Q-22 retinal tracker). They feed the same
+          // pipelines equipped gear already uses, so the sheet marks them as
+          // coming from gear.
+          for (const [n, r] of Object.entries(item.grantsTalents || {})) gearTalents[n] = (gearTalents[n] || 0) + r;
+          for (const [n, r] of Object.entries(item.grantsSkills  || {})) gearSkills[n]  = (gearSkills[n]  || 0) + r;
+          for (const [k, n] of Object.entries(item.autoAdvantage || {})) cyberAdv[k] = (cyberAdv[k] || 0) + n;
           // Toward the implant cap: one per implant, with cyberlegs counted
-          // per pair since they are bought and fitted as one.
-          cyberInstalled += item.charModPair ? Math.ceil(line.qty / 2) : line.qty;
+          // per pair since they are bought and fitted as one. A biofeedback
+          // regulator does not count, and instead raises the cap by two; a
+          // character can only have one, so its bonus is taken once.
+          if (item.implantCapExempt) cyberCapBonus = Math.max(cyberCapBonus, item.implantCapBonus || 0);
+          else cyberInstalled += item.charModPair ? Math.ceil(line.qty / 2) : line.qty;
         }
         // A wielded weapon grants defense via its Defensive (melee) / Deflection (ranged)
         // qualities (EotE Core p.156). You benefit from the best of each, not the sum.
@@ -1567,9 +1581,9 @@ const Engine = (() => {
     const cyberCap = (() => {
       const text = (species.special_abilities || []).join(' ');
       const fixed = text.match(/cybernetic implant cap of (\d+) instead of/i);
-      if (fixed) return +fixed[1];
+      if (fixed) return +fixed[1] + cyberCapBonus;
       const plus = text.match(/cybernetic implant cap of (\d+) plus Brawn/i);
-      return (effChars.brawn || 0) + (plus ? +plus[1] : 0);
+      return (effChars.brawn || 0) + (plus ? +plus[1] : 0) + cyberCapBonus;
     })();
     // Cybernetic characteristic enhancements apply after Dedication and may raise a
     // characteristic to a maximum of 7 (one above the normal cap; EotE Core p.172).
@@ -1696,6 +1710,7 @@ const Engine = (() => {
       armor_soak:       armorSoak,
       cyber_installed:  cyberInstalled,
       cyber_cap:        cyberCap,
+      skill_auto_advantage: cyberAdv,
       cyber_soak:       cyberSoak,
       armor_defense:    armorDefense,
       defense_weapon_melee:  wpnDefMelee,

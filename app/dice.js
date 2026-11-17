@@ -22,6 +22,10 @@ const Dice = (() => {
 
   const pool = { boost: 0, ability: 0, proficiency: 0, setback: 0, difficulty: 0, challenge: 0, force: 0 };
   let labelText = '';
+  // Automatic advantage the seeding check carries (an implant like the Q-22
+  // retinal tracker). Not a die, so it lives beside the pool and is added to
+  // the tally when the pool is rolled.
+  let autoAdv = 0;
   // What kind of check seeded the pool: 'combat' (attack buttons), 'skill'
   // (sheet skill dice, with the skill name), or 'generic' (pool built by hand
   // in the tray). Drives which spend-your-results tips a roll offers.
@@ -187,8 +191,9 @@ const Dice = (() => {
     if (lbl) lbl.textContent = labelText;
   }
 
-  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill, boost, force) {
-    labelText = label || '';
+  function setPoolFromUpgrade(label, ability, prof, difficulty, context, skill, boost, force, adv) {
+    autoAdv = Math.max(0, adv | 0);
+    labelText = (label || '') + (autoAdv ? ` (+${autoAdv} automatic Advantage)` : '');
     // Remember what kind of check this is so the results can offer the right
     // spend options. A hand-built pool (no seeding button) stays generic.
     ctxCraft = '';
@@ -223,6 +228,7 @@ const Dice = (() => {
   function clearPool() {
     for (const k in pool) pool[k] = 0;
     labelText = '';
+    autoAdv = 0;
     ctxType = 'generic';
     ctxSkill = '';
     ctxCraft = '';
@@ -254,6 +260,7 @@ const Dice = (() => {
         perDie.push({ d, f });
       }
     });
+    tally.a += autoAdv;   // automatic results join the tally before cancelling
     renderResults(tally, perDie);
   }
 
@@ -407,7 +414,7 @@ const Dice = (() => {
       if (roller) {
         setPoolFromUpgrade(roller.dataset.diceLabel || '', +roller.dataset.diceAbility || 0, +roller.dataset.diceProf || 0, +roller.dataset.diceDifficulty || 0,
                            roller.dataset.diceContext || '', roller.dataset.diceSkill || '', +roller.dataset.diceBoost || 0,
-                           +roller.dataset.diceForce || 0);
+                           +roller.dataset.diceForce || 0, +roller.dataset.diceAdv || 0);
         return;
       }
       const t = e.target.closest('[data-dc],[data-dc-die],[data-dc-diff]');

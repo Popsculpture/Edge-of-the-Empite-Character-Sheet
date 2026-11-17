@@ -249,8 +249,14 @@ const Sheet = (() => {
   // Build the dice-pool glyphs for a characteristic value + skill rank.
   // addedBoost prepends that many boost dice and removedSetback appends that
   // many struck-out setback dice, both always-on talent benefits.
-  function dicePool(charVal, rank, removedSetback, addedBoost) {
+  function dicePool(charVal, rank, removedSetback, addedBoost, autoAdv) {
     const c = Math.max(0, Number(charVal) || 0);
+    const aa = Math.max(0, Number(autoAdv) || 0);
+    // Automatic advantage is a result, not a die, so it is drawn as the
+    // advantage symbol rather than as another square.
+    const advGlyphs = aa
+      ? `<span class="skill-auto-adv" title="Implant adds ${aa} automatic Advantage to this skill">${'<span class="es es-inline" style="color:#4fc0e8">a</span>'.repeat(aa)}</span>`
+      : '';
     const r = Math.max(0, Number(rank)    || 0);
     const rsb = Math.max(0, Number(removedSetback) || 0);
     const abo = Math.max(0, Number(addedBoost)     || 0);
@@ -261,14 +267,14 @@ const Sheet = (() => {
     const setbackGlyphs = rsb
       ? `<span class="skill-setback-set" title="Talent removes ${rsb} setback ${rsb === 1 ? 'die' : 'dice'} from this skill">${DIE_SETBACK_OUT.repeat(rsb)}</span>`
       : '';
-    if (total <= 0) return `<span class="skill-dice-none">&mdash;</span>${boostGlyphs}${setbackGlyphs}`;
+    if (total <= 0) return `<span class="skill-dice-none">&mdash;</span>${boostGlyphs}${setbackGlyphs}${advGlyphs}`;
     const yellow = Math.min(c, r);      // Proficiency dice
     const green  = total - yellow;      // Ability dice
     const parts = [];
     if (yellow) parts.push(`${yellow} Proficiency`);
     if (green)  parts.push(`${green} Ability`);
     const glyphs = DIE_PROF.repeat(yellow) + DIE_ABILITY.repeat(green);
-    return `<span class="skill-dice-set" title="${parts.join(', ')}">${glyphs}</span>${boostGlyphs}${setbackGlyphs}`;
+    return `<span class="skill-dice-set" title="${parts.join(', ')}">${glyphs}</span>${boostGlyphs}${setbackGlyphs}${advGlyphs}`;
   }
 
   function skillsBlock(derived, chars) {
@@ -279,6 +285,7 @@ const Sheet = (() => {
     const ranks      = derived.skill_ranks        || {};
     const setbackOut = derived.skill_setback_removed || {};
     const boostIn    = derived.skill_boost_added     || {};
+    const advIn      = derived.skill_auto_advantage  || {};
     const gearRanks  = derived.gear_skill_ranks      || {};
     const charOver   = derived.skill_char_overrides  || {};
     // Which talents named this skill, so the row can say so while you roll.
@@ -314,13 +321,15 @@ const Sheet = (() => {
         const c = Math.max(0, charVal), r = Math.max(0, rank);
         const prof = Math.min(c, r), abil = Math.max(c, r) - prof;   // dice pool for the roller
         const boost = boostIn[skill.key] || 0;
+        const adv   = advIn[skill.key] || 0;
         const seeds = [`${abil} ability`, `${prof} proficiency`];
         if (boost) seeds.push(`${boost} boost`);
+        if (adv) seeds.push(`${adv} automatic Advantage`);
         html += `
           <div class="sheet-skill-row${zebra}">
             <span class="sheet-skill-name" style="${nameCol}" data-tip-type="skill" data-tip-name="${esc(skill.name)}">${skill.name}<span class="sheet-skill-char${charOver[skill.key] ? ' swapped' : ''}"${charOver[skill.key] ? ` title="Rolled off ${esc(useChar)} instead of ${esc(skill.characteristic)}"` : ''}>${(charOver[skill.key] || skill.characteristic).slice(0,3).toUpperCase()}</span>${gearRanks[skill.key] ? `<span class="skill-from-gear" title="${gearRanks[skill.key]} rank(s) from equipped gear">+${gearRanks[skill.key]} gear</span>` : ''}${namedBy[skill.key] ? `<span class="skill-named-by" title="${esc(namedBy[skill.key].join(', '))}">${esc(namedBy[skill.key][0])}</span>` : ''}</span>
-            <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key], boost)}</div>
-            <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-boost="${boost}" data-dice-label="${esc(skill.name)} check" data-dice-context="skill" data-dice-skill="${esc(skill.name)}" title="Send ${seeds.join(' + ')} to the dice pool">&#127922;</button>
+            <div class="skill-dice">${dicePool(charVal, rank, setbackOut[skill.key], boost, adv)}</div>
+            <button class="skill-roll" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-boost="${boost}" data-dice-adv="${adv}" data-dice-label="${esc(skill.name)} check" data-dice-context="skill" data-dice-skill="${esc(skill.name)}" title="Send ${seeds.join(' + ')} to the dice pool">&#127922;</button>
           </div>`;
       }
     }
@@ -571,13 +580,14 @@ const Sheet = (() => {
       const charVal = sk ? (chars[sk.characteristic.toLowerCase()] || 0) : 0;
       const rk = sk ? (ranks[sk.key] || 0) : 0;
       const prof = Math.min(charVal, rk), abil = Math.max(charVal, rk) - prof;
+      const adv = sk ? (((derived && derived.skill_auto_advantage) || {})[sk.key] || 0) : 0;
       const quals = qualChips(w.qualities);
       const renamed = nick !== w.name ? `<span class="wpn-realname">${esc(w.name)}</span>` : '';
       return `
         <div class="wpn-card">
           <div class="wpn-head">
             <input class="wpn-name" data-wpn-key="${k}" value="${esc(nick)}" placeholder="${esc(w.name)}" title="Rename this weapon" spellcheck="false">
-            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="Attack: ${esc(w.name)}" data-dice-context="combat" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : w.skill || '?')}) to the dice pool">&#127922; attack</button>
+            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-adv="${adv}" data-dice-label="Attack: ${esc(w.name)}" data-dice-context="combat" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : w.skill || '?')}) to the dice pool">&#127922; attack</button>
           </div>
           ${renamed}
           <div class="wpn-grid">
@@ -613,6 +623,7 @@ const Sheet = (() => {
       const sameSkill = ia.sk && ib.sk && ia.sk.key === ib.sk.key;
       const penalty = sameSkill ? 1 : 2;   // +1 difficulty if same skill, +2 if different
       const usedSkill = (ia.rk <= ib.rk ? ia.sk : ib.sk) || ia.sk || ib.sk;
+      const dualAdv = usedSkill ? (((derived && derived.skill_auto_advantage) || {})[usedSkill.key] || 0) : 0;
       const wMeta = w => `${esc(w.skill || '—')} &middot; Dmg ${dmg(w)} &middot; Crit ${w.crit ?? '—'} &middot; ${esc(w.range || '—')}`;
       const wQuals = w => (w.qualities || []).length
         ? `<div class="dual-w-quals wpn-quals">${qualChips(w.qualities)}</div>` : '';
@@ -620,7 +631,7 @@ const Sheet = (() => {
         <div class="wpn-card wpn-card-dual">
           <div class="wpn-head">
             <span class="wpn-name-static dual-toggle" data-dual-toggle title="Tap to show / hide the two-weapon rules">&#9876; ${esc(wa.name)} + ${esc(wb.name)} <span class="dual-chevron">&#9662;</span></span>
-            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-difficulty="${penalty}" data-dice-label="Two-Weapon: ${esc(wa.name)} + ${esc(wb.name)}" data-dice-context="combat" title="Combined check: ${abil} ability + ${prof} proficiency + ${penalty} difficulty">&#127922; combined</button>
+            <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-difficulty="${penalty}" data-dice-adv="${dualAdv}" data-dice-label="Two-Weapon: ${esc(wa.name)} + ${esc(wb.name)}" data-dice-context="combat" title="Combined check: ${abil} ability + ${prof} proficiency + ${penalty} difficulty">&#127922; combined</button>
           </div>
           <div class="dual-rules">
             <p>Single combined check using your <b>lower</b> skill &amp; characteristic (<b>${esc(usedSkill ? usedSkill.name : '?')}</b>), at <b>+${penalty} difficulty</b> (${sameSkill ? 'same skill' : 'different skills'}). Set the target's range difficulty as usual.</p>
@@ -645,7 +656,8 @@ const Sheet = (() => {
   // One full vehicle stat card, shared by the Sheet's Fleet panel and the
   // Play-mode Fleet tab. entry is a fleet record {key, nickname, notes,
   // purchased}; chars/ranks feed the Gunnery attack buttons.
-  function vehicleCardHtml(entry, v, chars, ranks) {
+  function vehicleCardHtml(entry, v, chars, ranks, autoAdv) {
+    autoAdv = autoAdv || {};
     const cr = n => typeof n === 'number' ? n.toLocaleString('en-US') : '—';
     const vwMap = (SW.vehicleWeapons || []).reduce((m, w) => { m[w.key] = w; return m; }, {});
     const ARC_LABELS = { fore: 'Fore', aft: 'Aft', port: 'Port', starboard: 'Starboard', dorsal: 'Dorsal', ventral: 'Ventral' };
@@ -667,11 +679,12 @@ const Sheet = (() => {
         const cv = sk ? (chars[sk.characteristic.toLowerCase()] || 0) : 0;
         const rk = sk ? (ranks[sk.key] || 0) : 0;
         const prof = Math.min(cv, rk), abil = Math.max(cv, rk) - prof;
+        const adv = sk ? (autoAdv[sk.key] || 0) : 0;
         return `
           <div class="wpn-card wpn-card-veh">
             <div class="wpn-head">
               <span class="wpn-name-static">${esc(wd.name)}${count}</span>
-              <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-label="${esc(wd.name)} (${esc(v.name)})" data-dice-context="combat" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : 'Gunnery')}) to the dice pool">&#127922; attack</button>
+              <button class="wpn-attack" data-dice-ability="${abil}" data-dice-prof="${prof}" data-dice-adv="${adv}" data-dice-label="${esc(wd.name)} (${esc(v.name)})" data-dice-context="combat" title="Send ${abil} ability + ${prof} proficiency (${esc(sk ? sk.name : 'Gunnery')}) to the dice pool">&#127922; attack</button>
             </div>
             <div class="wpn-grid">
               <div class="wpn-field"><label>Skill</label><div class="wpn-val">${esc(sk ? sk.name : 'Gunnery')}</div></div>
@@ -748,7 +761,7 @@ const Sheet = (() => {
     const ranks = (derived && derived.skill_ranks) || {};
     const cards = fleet.map(entry => {
       const v = Engine.getVehicle(entry.key);
-      return v ? vehicleCardHtml(entry, v, chars, ranks) : '';
+      return v ? vehicleCardHtml(entry, v, chars, ranks, derived && derived.skill_auto_advantage) : '';
     }).join('');
 
     return `
