@@ -34,7 +34,7 @@ const Play = (() => {
   // carrying gear). Mirrors the wizard's creation-cart rule.
   function equippable(cat, item) {
     if (cat === 'weapon' || cat === 'armor') return true;
-    return cat === 'gear' && !!(item && item.equippable);
+    return cat === 'gear' && !!(item && (item.equippable || Engine.isCybernetic(item)));
   }
 
   function flagBoxes(cat, key, line, it) {
@@ -42,7 +42,9 @@ const Play = (() => {
       `<label class="cart-flag" title="${esc(title)}"><input type="checkbox" data-pg-act="${act}" data-cat="${cat}" data-key="${esc(key)}"${on ? ' checked' : ''}><span>${label}</span></label>`;
     return `
       ${equippable(cat, it)
-        ? flag('equip', 'E', 'Equipped (wielded / worn)', !!line.equip)
+        ? (Engine.isCybernetic(it)
+          ? flag('equip', 'I', 'Installed (fitted to the character; counts toward the implant cap)', !!line.equip)
+          : flag('equip', 'E', 'Equipped (wielded / worn)', !!line.equip))
         : '<span class="cart-flag cart-flag-na">&nbsp;</span>'}
       ${flag('carry', 'C', 'Carried (counts toward encumbrance)', line.carry !== false)}
       ${flag('show', 'S', 'Show on character sheet', line.show !== false)}`;
@@ -297,8 +299,10 @@ const Play = (() => {
           <a href="#" data-pg-goto="market">Market</a> to change that.</div>`}
         <div class="cart-totals">
           <div class="cart-total-row${encOver ? ' cart-warn' : ''}"><span>Encumbrance</span><strong>${d ? d.encumbrance : 0} / ${d ? d.encumbrance_threshold : 5}</strong></div>
+          ${d && d.cyber_installed ? `<div class="cart-total-row${d.cyber_installed > d.cyber_cap ? ' cart-warn' : ''}"><span>Implants</span><strong>${d.cyber_installed} / ${d.cyber_cap}</strong></div>` : ''}
         </div>
         ${encOver ? `<div class="cart-note cart-note-warn">Encumbered: +${encExcess} setback to all Brawn &amp; Agility checks${encExcess >= encBrawn && encBrawn > 0 ? '; you also lose your free maneuver each turn (maneuvers cost 2 strain).' : '.'}</div>` : ''}
+        ${d && d.cyber_installed > d.cyber_cap ? `<div class="cart-note cart-note-warn">Too many implants: ${d.cyber_installed} installed against a cap of ${d.cyber_cap}. A character can only have as many cybernetics installed as their Brawn rating (EotE Core p.173), so uninstall one or check with your GM.</div>` : ''}
         ${twoWeaponSection(state, owned.weapon)}
       </div>`;
 

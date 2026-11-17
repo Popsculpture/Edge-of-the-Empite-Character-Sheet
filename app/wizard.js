@@ -264,6 +264,9 @@ const Wizard = (() => {
     return {
       id: genId(),
       step: 0,
+      // Marks a save made after cybernetics gained an Installed toggle. See
+      // installOwnedCybernetics(); a save without it predates the toggle.
+      cyberInstallV1: true,
       game: null,
       mechanic: null,          // null = use the game line's native mechanic; or 'obligation' | 'duty' | 'morality'
       speciesKey: null,
@@ -419,6 +422,26 @@ const Wizard = (() => {
   // single tree. With several trees they become a map keyed by tree and tree
   // position, so a pick stays attached to the box that earned it no matter what
   // else is bought or dropped later.
+  // Before the Installed toggle, owning a cybernetic was enough for its bonus
+  // to apply. Saves from then are switched to Installed for every implant they
+  // own, once, so nobody's numbers change on load; from then on the toggle is
+  // the player's. `raw` is the parsed save as stored, checked before
+  // defaultState() fills in the marker, which is what tells old saves apart.
+  function installOwnedCybernetics(raw, s) {
+    if (!raw || raw.cyberInstallV1 || !s) return;
+    const merged = Engine.mergedEquipment(s).gear;
+    for (const key of Object.keys(merged)) {
+      if (!Engine.isCybernetic(Engine.getItem('gear', key))) continue;
+      const c = s.equipment && s.equipment.gear && s.equipment.gear[key];
+      const p = s.playEquipment && s.playEquipment.gear && s.playEquipment.gear[key];
+      // The play layer wins the merge whenever it carries the flag, so set
+      // it there if the line exists, and on the creation line too.
+      if (p) p.equip = true;
+      if (c) c.equip = true;
+    }
+    s.cyberInstallV1 = true;
+  }
+
   function migrateDedication(s) {
     if (!s) return;
     if (!Array.isArray(s.dedicationChoices)) {
@@ -481,7 +504,7 @@ const Wizard = (() => {
   function loadState() {
     try {
       const s = localStorage.getItem('sw_char_v1');
-      if (s) { state = Object.assign(defaultState(), JSON.parse(s)); repairState(state); migrateDetails(state); saveState(); }
+      if (s) { const raw = JSON.parse(s); state = Object.assign(defaultState(), raw); repairState(state); installOwnedCybernetics(raw, state); migrateDetails(state); saveState(); }
     } catch(e) {}
   }
 
@@ -3596,7 +3619,7 @@ const Wizard = (() => {
   // most gear (a comlink, a stimpack) has nothing to "wear".
   function equippableCat(cat, item) {
     if (cat === 'weapon' || cat === 'armor') return true;
-    return cat === 'gear' && !!(item && item.equippable);
+    return cat === 'gear' && !!(item && (item.equippable || Engine.isCybernetic(item)));
   }
 
   function weaponSkillOptions() {
@@ -3658,7 +3681,9 @@ const Wizard = (() => {
         }
         const flags = `
           ${equippableCat(cat, it)
-            ? `<label class="cart-flag" title="Equipped (wielded / worn)"><input type="checkbox" data-act="equip" data-cat="${cat}" data-key="${key}"${equip ? ' checked' : ''}><span>E</span></label>`
+            ? (Engine.isCybernetic(it)
+              ? `<label class="cart-flag" title="Installed (fitted to the character; counts toward the implant cap)"><input type="checkbox" data-act="equip" data-cat="${cat}" data-key="${key}"${equip ? ' checked' : ''}><span>I</span></label>`
+              : `<label class="cart-flag" title="Equipped (wielded / worn)"><input type="checkbox" data-act="equip" data-cat="${cat}" data-key="${key}"${equip ? ' checked' : ''}><span>E</span></label>`)
             : '<span class="cart-flag cart-flag-na">&nbsp;</span>'}
           <label class="cart-flag" title="Carried (counts toward encumbrance)"><input type="checkbox" data-act="carry" data-cat="${cat}" data-key="${key}"${carry ? ' checked' : ''}><span>C</span></label>
           <label class="cart-flag" title="Show on character sheet"><input type="checkbox" data-act="show" data-cat="${cat}" data-key="${key}"${show ? ' checked' : ''}><span>S</span></label>`;
@@ -3717,9 +3742,11 @@ const Wizard = (() => {
         <div class="cart-total-row"><span>Spent</span><strong>${d ? fmtCr(d.credits_spent) : 0} cr</strong></div>
         <div class="cart-total-row${d && d.credits_remaining < 0 ? ' cart-neg' : ''}"><span>Remaining</span><strong>${d ? fmtCr(d.credits_remaining) : 0} cr</strong></div>
         <div class="cart-total-row${encOver ? ' cart-warn' : ''}"><span>Encumbrance</span><strong>${d ? d.encumbrance : 0} / ${d ? d.encumbrance_threshold : 5}</strong></div>
+        ${d && d.cyber_installed ? `<div class="cart-total-row${d.cyber_installed > d.cyber_cap ? ' cart-warn' : ''}"><span>Implants</span><strong>${d.cyber_installed} / ${d.cyber_cap}</strong></div>` : ''}
       </div>
       ${restrictedOwned ? `<div class="cart-note">${restrictedOwned} restricted item${restrictedOwned > 1 ? 's' : ''} purchased &mdash; normally needs GM approval.</div>` : ''}
       ${encOver ? `<div class="cart-note cart-note-warn">Encumbered: +${encExcess} setback to all Brawn &amp; Agility checks${encExcess >= encBrawn && encBrawn > 0 ? '; you also lose your free maneuver each turn (maneuvers cost 2 strain).' : '.'}</div>` : ''}
+      ${d && d.cyber_installed > d.cyber_cap ? `<div class="cart-note cart-note-warn">Too many implants: ${d.cyber_installed} installed against a cap of ${d.cyber_cap}. A character can only have as many cybernetics installed as their Brawn rating (EotE Core p.173), so uninstall one or check with your GM.</div>` : ''}
       ${d && d.credits_remaining < 0 ? '<div class="cart-note cart-note-warn">You are over budget. Remove items or mark some as free.</div>' : ''}`;
   }
 
@@ -5190,6 +5217,7 @@ const Wizard = (() => {
     state = Object.assign(defaultState(), saved);
     state.id = id;
     repairState(state);
+    installOwnedCybernetics(saved, state);
     migrateDetails(state);
     state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
     ensurePlayStepValid();
@@ -5262,6 +5290,7 @@ const Wizard = (() => {
           state.id = genId();   // treat an imported character as a new roster entry
           // Repair structures that may be missing from older save files.
           repairState(state);
+          installOwnedCybernetics(incoming, state);
           migrateDetails(state);
           state.step = Math.max(0, Math.min(state.step | 0, STEPS.length - 1));
           ensurePlayStepValid();

@@ -523,7 +523,7 @@ const Sheet = (() => {
 
     const gRows = lines('gear', (g, l, k) => `
       <div class="sheet-eq-row">
-        <span class="sheet-eq-name"${itemTip('gear', k)}>${esc(g.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.equip ? ' <em class="sheet-eq-worn">(worn)</em>' : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
+        <span class="sheet-eq-name"${itemTip('gear', k)}>${esc(g.name)}${l.qty > 1 ? ` &times;${l.qty}` : ''}${l.equip ? ` <em class="sheet-eq-worn">(${Engine.isCybernetic(g) ? 'installed' : 'worn'})</em>` : ''}${l.free ? ' <em class="sheet-eq-free">(free)</em>' : ''}</span>
         <span class="sheet-eq-meta">${esc(g.type || '')}${g.encumbrance ? ' &middot; Enc ' + g.encumbrance : ''}</span>
       </div>`);
 

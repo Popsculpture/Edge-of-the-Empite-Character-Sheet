@@ -873,6 +873,12 @@ const Engine = (() => {
   function isCompanionItem(cat, item) {
     return cat === 'gear' && !!item && COMPANION_TYPES.has(item.type);
   }
+  // Cybernetic gear is "installed" rather than worn, through the line's equip
+  // flag. Every item the catalogue types as Cybernetics qualifies, so implants
+  // added to the data later get the toggle without a per-item flag.
+  function isCybernetic(item) {
+    return !!item && item.type === 'Cybernetics';
+  }
 
   // Merge one item line across the two layers. Elections supersede PER
   // PROPERTY: a play-line flag wins only where the play line actually has
@@ -1389,6 +1395,7 @@ const Engine = (() => {
     const gearTalents = {}, gearSkills = {};
     let wpnDefMelee = 0, wpnDefRanged = 0, encThresholdBonus = 0, cyberSoak = 0;
     const cyberChar = {};   // characteristic -> flat bonus from installed cybernetics
+    let cyberInstalled = 0; // implants counted against the Brawn cap
     for (const cat of ['weapon', 'armor', 'gear']) {
       const bag = owned[cat];
       for (const key of Object.keys(bag)) {
@@ -1404,11 +1411,16 @@ const Engine = (() => {
         // Installed cybernetics grant always-on flat bonuses (EotE Core p.172-174): a soak
         // bonus and/or a characteristic bonus. Applied once per implant (bonuses never stack
         // from owning multiples), and cyberlegs only count when a full pair is installed.
-        if (cat === 'gear') {
+        // "Installed" is the line's equip flag: an implant bought but not yet fitted
+        // sits in inventory doing nothing, the same as an unworn suit of armor.
+        if (cat === 'gear' && isCybernetic(item) && line.equip) {
           if (typeof item.soakMod === 'number') cyberSoak += item.soakMod;
           if (item.charMod && (item.charModPair ? line.qty >= 2 : line.qty >= 1)) {
             for (const ck of Object.keys(item.charMod)) cyberChar[ck] = (cyberChar[ck] || 0) + item.charMod[ck];
           }
+          // Toward the implant cap: one per implant, with cyberlegs counted
+          // per pair since they are bought and fitted as one.
+          cyberInstalled += item.charModPair ? Math.ceil(line.qty / 2) : line.qty;
         }
         // A wielded weapon grants defense via its Defensive (melee) / Deflection (ranged)
         // qualities (EotE Core p.156). You benefit from the best of each, not the sum.
@@ -1546,6 +1558,19 @@ const Engine = (() => {
       const applied = effChars[ck] - before;
       if (applied > 0) { charBonuses[ck] = (charBonuses[ck] || 0) + applied; charBonusSrc[ck] = 'Dedication'; }
     }
+    // Implant cap: a character may buy and install as many cybernetic
+    // enhancements and replacements as their Brawn rating (EotE Core p.173).
+    // Read here, after Dedication but before cybernetics apply, so an implant
+    // that raises Brawn cannot raise the very limit that allows it. Some
+    // species change the cap, and say so in their special abilities: droids
+    // use a flat 6, and one species adds a flat bonus to Brawn.
+    const cyberCap = (() => {
+      const text = (species.special_abilities || []).join(' ');
+      const fixed = text.match(/cybernetic implant cap of (\d+) instead of/i);
+      if (fixed) return +fixed[1];
+      const plus = text.match(/cybernetic implant cap of (\d+) plus Brawn/i);
+      return (effChars.brawn || 0) + (plus ? +plus[1] : 0);
+    })();
     // Cybernetic characteristic enhancements apply after Dedication and may raise a
     // characteristic to a maximum of 7 (one above the normal cap; EotE Core p.172).
     for (const ck of Object.keys(cyberChar)) {
@@ -1669,6 +1694,8 @@ const Engine = (() => {
       inert_talents:    inertTalents,
       force_available:  Math.max(0, forceRating - forceCommitted),
       armor_soak:       armorSoak,
+      cyber_installed:  cyberInstalled,
+      cyber_cap:        cyberCap,
       cyber_soak:       cyberSoak,
       armor_defense:    armorDefense,
       defense_weapon_melee:  wpnDefMelee,
@@ -1729,7 +1756,7 @@ const Engine = (() => {
     getSpecies, getCareer, getSpec, getSkill, getTalent,
     getWeapon, getArmor, getGear, getItem,
     getVehicle, getVehicleWeapon, getVehicleWeaponMap,
-    COMPANION_TYPES, isCompanionItem,
+    COMPANION_TYPES, isCompanionItem, isCybernetic,
     mergedLine, mergedEquipment, mergedFleet,
     talentEffect, purchasedTalentCounts, isForceTalent, forceTalentsOwned,
     careerSkillPickCount, careerSkillPickPool,
